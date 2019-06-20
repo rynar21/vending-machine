@@ -22,6 +22,7 @@ class m190620_063254_box extends Migration
           'box_id' => $this->primaryKey(),
           'box_code' => $this->integer(),
           'box_status' => $this->smallInteger()->notNull()->defaultValue(0),
+          'store_id' => $this->integer(),
       ]);
     }
 
