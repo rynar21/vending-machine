@@ -12,7 +12,11 @@ class m190620_063306_transaction extends Migration
      */
     public function safeUp()
     {
-
+      $this->createTable('transaction',[
+        'trans_id' => $this -> primaryKey(),
+        'tans_details' => $this->string(),
+        'date' => $this->DateTime()->notNull(),
+      ]);
     }
 
     /**
@@ -20,9 +24,9 @@ class m190620_063306_transaction extends Migration
      */
     public function safeDown()
     {
-        echo "m190620_063306_transaction cannot be reverted.\n";
-
-        return false;
+      $this->dropTable('transaction');
+        //echo "m190620_063306_transaction cannot be reverted.\n";
+      //  return false;
     }
 
     /*
