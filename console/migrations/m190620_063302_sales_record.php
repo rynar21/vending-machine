@@ -13,6 +13,14 @@ class m190620_063302_sales_record extends Migration
     public function safeUp()
     {
 
+      $this->createTable('sale_record', [
+  
+          'box_id' =>$this->integer()->notNull(),
+          'item_id' =>$this->integer()->notNull(),
+          'trans_id' =>$this->integer()->notNull(),
+          'status' =>$this->smallInteger()->notNull()->defaultValue(10),
+
+      ]);
     }
 
     /**
@@ -20,9 +28,7 @@ class m190620_063302_sales_record extends Migration
      */
     public function safeDown()
     {
-        echo "m190620_063302_sales_record cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('sale_record');
     }
 
     /*
