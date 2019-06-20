@@ -12,17 +12,21 @@ class m190620_063311_store extends Migration
      */
     public function safeUp()
     {
-
+      $this->createTable('store',[
+        'store_id'=>$this->primaryKey(),
+        'store_name'=>$this->string()->notNull(),
+        'store_description'=>$this->string(),
+      ]);
     }
-
+    
     /**
      * {@inheritdoc}
      */
     public function safeDown()
     {
-        echo "m190620_063311_store cannot be reverted.\n";
-
-        return false;
+      $this->dropTable('store');
+        //echo "m190620_063311_store cannot be reverted.\n";
+        //return false;
     }
 
     /*
