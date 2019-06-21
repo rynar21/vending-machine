@@ -3,22 +3,12 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Operator;
+use app\models\Box;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * OperatorController implements the CRUD actions for Operator model.
- */
-class OperatorController extends Controller
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -30,13 +20,13 @@ class OperatorController extends Controller
     }
 
     /**
-     * Lists all Operator models.
+     * Lists all Box models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Operator::find(),
+            'query' => Box::find(),
         ]);
 
         return $this->render('index', [
@@ -45,7 +35,7 @@ class OperatorController extends Controller
     }
 
     /**
-     * Displays a single Operator model.
+     * Displays a single Box model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,16 +48,16 @@ class OperatorController extends Controller
     }
 
     /**
-     * Creates a new Operator model.
+     * Creates a new Box model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Operator();
+        $model = new Box();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->operator_id]);
+            return $this->redirect(['view', 'id' => $model->box_id]);
         }
 
         return $this->render('create', [
@@ -76,7 +66,7 @@ class OperatorController extends Controller
     }
 
     /**
-     * Updates an existing Operator model.
+     * Updates an existing Box model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -87,7 +77,7 @@ class OperatorController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->operator_id]);
+            return $this->redirect(['view', 'id' => $model->box_id]);
         }
 
         return $this->render('update', [
@@ -96,7 +86,7 @@ class OperatorController extends Controller
     }
 
     /**
-     * Deletes an existing Operator model.
+     * Deletes an existing Box model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +100,15 @@ class OperatorController extends Controller
     }
 
     /**
-     * Finds the Operator model based on its primary key value.
+     * Finds the Box model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Operator the loaded model
+     * @return Box the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Operator::findOne($id)) !== null) {
+        if (($model = Box::findOne($id)) !== null) {
             return $model;
         }
 

@@ -6,15 +6,15 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Operators';
+$this->title = 'Items';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="operator-index">
+<div class="item-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Operator', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Item', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
@@ -23,8 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'operator_id',
-            'operator_name',
+            'id',
+            'name',
+            'price',
+            'box_id',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Operator;
+use app\models\Transaction;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * OperatorController implements the CRUD actions for Operator model.
+ * TransactionController implements the CRUD actions for Transaction model.
  */
-class OperatorController extends Controller
+class TransactionController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,13 +30,13 @@ class OperatorController extends Controller
     }
 
     /**
-     * Lists all Operator models.
+     * Lists all Transaction models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Operator::find(),
+            'query' => Transaction::find(),
         ]);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class OperatorController extends Controller
     }
 
     /**
-     * Displays a single Operator model.
+     * Displays a single Transaction model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,16 +58,16 @@ class OperatorController extends Controller
     }
 
     /**
-     * Creates a new Operator model.
+     * Creates a new Transaction model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Operator();
+        $model = new Transaction();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->operator_id]);
+            return $this->redirect(['view', 'id' => $model->trans_id]);
         }
 
         return $this->render('create', [
@@ -76,7 +76,7 @@ class OperatorController extends Controller
     }
 
     /**
-     * Updates an existing Operator model.
+     * Updates an existing Transaction model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -87,7 +87,7 @@ class OperatorController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->operator_id]);
+            return $this->redirect(['view', 'id' => $model->trans_id]);
         }
 
         return $this->render('update', [
@@ -96,7 +96,7 @@ class OperatorController extends Controller
     }
 
     /**
-     * Deletes an existing Operator model.
+     * Deletes an existing Transaction model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class OperatorController extends Controller
     }
 
     /**
-     * Finds the Operator model based on its primary key value.
+     * Finds the Transaction model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Operator the loaded model
+     * @return Transaction the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Operator::findOne($id)) !== null) {
+        if (($model = Transaction::findOne($id)) !== null) {
             return $model;
         }
 

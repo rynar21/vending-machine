@@ -4,13 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Operator */
+/* @var $model app\models\Box */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="operator-form">
+<div class="box-form">
 
     <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'box_code')->textInput() ?>
+
+    <?= $form->field($model, 'box_status')->textInput() ?>
+
+    <?= $form->field($model, 'store_id')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
