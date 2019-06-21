@@ -4,12 +4,12 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Box as BoxModel;
+use common\models\Box;
 
 /**
- * Box represents the model behind the search form of `common\models\Box`.
+ * BoxSearch represents the model behind the search form of `common\models\Box`.
  */
-class Box extends BoxModel
+class BoxSearch extends Box
 {
     /**
      * {@inheritdoc}
@@ -39,7 +39,7 @@ class Box extends BoxModel
      */
     public function search($params)
     {
-        $query = BoxModel::find();
+        $query = Box::find();
 
         // add conditions that should always apply here
 
