@@ -28,6 +28,7 @@ class Operator extends \yii\db\ActiveRecord
         return [
             [['operator_name'], 'required'],
             [['operator_name'], 'string', 'max' => 255],
+            [['operator_password'], 'string', 'max' => 255],
         ];
     }
 
@@ -39,6 +40,7 @@ class Operator extends \yii\db\ActiveRecord
         return [
             'operator_id' => 'Operator ID',
             'operator_name' => 'Operator Name',
+            'operator_password'=>'Operator Password',
         ];
     }
 }

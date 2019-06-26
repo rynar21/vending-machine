@@ -73,13 +73,14 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
-
+        if ($model->load(Yii::$app->request->post()) && $model->login())
+        {
+            return 'sss';
+        }
+        else
+        {
+            $model->operator_password = '';
             return $this->render('login', [
                 'model' => $model,
             ]);
@@ -88,13 +89,11 @@ class SiteController extends Controller
 
     /**
      * Logout action.
-     *
      * @return string
      */
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 }
