@@ -62,7 +62,7 @@ $this->title = 'My Yii Application';
             <?php foreach ($item_model->getModels() as $abc):?>
 
                     <li>
-                       <a href="<? 'payment?id='.$abc->id ?>" class="thumbnail">
+                       <a href="payment?id=<? $abc->id ?>" class="thumbnail">
                         <div class="libox">image</div>
                          <br/>
                        <div class="libox-down">
