@@ -13,10 +13,8 @@ $this->title = 'My Yii Application';
 ?>
 <!-- <div class="col-lg-12" style=" background-color:#CDC5BF; height:50px;  margin-top:0px;" ></div> -->
 <div class="site-index">
-
   <br/>
     <!-- <div class="jumbotron"></div> -->
-
     <!-- <div class="body-content"></div> -->
     <div class="row">
       <div class="col-lg-12 col-md-12 container-fluid "  >
@@ -54,15 +52,11 @@ $this->title = 'My Yii Application';
  </div>
 <div class="row">
   <div class="col-lg-10 col-md-10 hiiil" >
-
       <div class="jkk">
-
         <ul>
-
             <?php foreach ($item_model->getModels() as $abc):?>
-
                     <li>
-                       <a href="payment?id=<? $abc->id ?>" class="thumbnail">
+                       <a href="payment?id=<?= $abc->id ?>" class="thumbnail">
                         <div class="libox">image</div>
                          <br/>
                        <div class="libox-down">
@@ -70,9 +64,7 @@ $this->title = 'My Yii Application';
                        </div>
                        </a>
                     </li>
-
           <?php endforeach ?>
-
        </ul>
       </div>
   </div>
