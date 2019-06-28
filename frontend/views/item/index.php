@@ -59,7 +59,7 @@ $this->title = 'My Yii Application';
 
         <ul>
 
-            <?php foreach ($dataProvider->getModels() as $abc):?>
+            <?php foreach ($item_model->getModels() as $abc):?>
 
                     <li>
                        <a href="<? 'payment?id='.$abc->id ?>" class="thumbnail">
