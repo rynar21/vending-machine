@@ -27,10 +27,10 @@ $this->title = 'My Yii Application';
 
             <div class="sous">
 
-              <?php $form = ActiveForm::begin([ 'action' => ['index'], 'method' => 'get', ]);  ?>
+              <?php $form = ActiveForm::begin([ 'action' => ['index'], 'method' => 'get',]);  ?>
                 <div class="form-group">
                 <?= $form->field($searchModel, 'name')->textInput()->label('')  ?>
-                    <?= Html::submitButton('Search', ['class' => 'btn btn-primary pull-right']) ?>
+                    <?= Html::submitButton('Search', ['class' => 'btn btn-primary pull-right sousuo ']) ?>
                 </div>
               <?php ActiveForm::end(); ?>
 
@@ -83,6 +83,11 @@ $this->title = 'My Yii Application';
 </div>
 
 <style >
+.sousuo{
+  background-color: #AAAAAA;
+  border: solid 0px;
+  
+}
 a.thumbnail:hover{
   border-color: #7FFFD4;
   color:#8B8970;
