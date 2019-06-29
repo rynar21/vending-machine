@@ -80,6 +80,7 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
+
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login())
         {
@@ -87,11 +88,12 @@ class SiteController extends Controller
         }
         else
         {
-            $model->password = '';
+            $model->password = ''; // prevent password from auto filling
             return $this->render('login', [
                 'model' => $model,
             ]);
         }
+
     }
 
     /**
