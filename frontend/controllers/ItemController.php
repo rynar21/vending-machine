@@ -46,12 +46,28 @@ class ItemController extends Controller
         ]);
     }
 
+    public function actionOk($id)
+    {
+        $item = Item::findOne($id);
+        $model = new SaleRecord();
+        $model->item_id= $id;
+        $model->box_id= $id;
+        $model->trans_id= $id;
+        $model->save();
+        // echo '<pre>';
+        // print_r($model->errors);
+
+    }
     /**
      * Display details of a single item.
      * @return mixed
      */
     public function actionPayment($id)
     {
+        $model = new SaleRecord();
+        // $model->item_id =$id . uniqid();
+        // $model->store_description = "this is a auto generated";
+        $model->save();
         $searchModel = new ItemSearch();
         $item_model = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -60,6 +76,7 @@ class ItemController extends Controller
               'item_model' => $item_model,
               'model' => $this->findModel($id),
         ]);
+
     }
 
     /**
