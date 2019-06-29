@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Operator */
 
-$this->title = 'Update Operator: ' . $model->operator_id;
+$this->title = 'Update Operator: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Operators', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->operator_id, 'url' => ['view', 'id' => $model->operator_id]];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="operator-update">
