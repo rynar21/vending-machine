@@ -29,6 +29,7 @@ class Box extends \yii\db\ActiveRecord
     {
         return [
             [['box_code', 'box_status', 'store_id'], 'integer'],
+            [['box_code'], 'required'],
         ];
     }
 
@@ -43,5 +44,14 @@ class Box extends \yii\db\ActiveRecord
             'box_status' => 'Box Status',
             'store_id' => 'Store ID',
         ];
+    }
+
+    public function getStores()
+    {
+      return $this->hasOne(Store::className(), ['store_id'=>'store_id']);
+    }
+    public function getItems()
+    {
+      return $this->hasOne(Item::className(), ['box_id'=>'box_id']);
     }
 }

@@ -8,6 +8,7 @@ use backend\models\StoreSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * StoreController implements the CRUD actions for Store model.
@@ -64,11 +65,13 @@ class StoreController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        // return $this->render('view', [
+        //     'model' => $this->findModel($id),
+        // ]);
+        return $this->redirect(array('box/home','id' => $id));
     }
 
     /**
