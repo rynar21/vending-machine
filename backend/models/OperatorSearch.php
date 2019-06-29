@@ -18,9 +18,8 @@ class OperatorSearch extends Operator
 
     {
         return [
-            [['operator_id'], 'integer'],
+            [['id'], 'integer'],
             [['operator_name'], 'safe'],
-            [['operator_password'], 'safe'],
         ];
     }
 
@@ -60,11 +59,12 @@ class OperatorSearch extends Operator
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'operator_id' => $this->operator_id,
+            'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'operator_password', $this->operator_password]);
+        $query->andFilterWhere(['like', 'operator_name', $this->operator_name]);
 
         return $dataProvider;
     }
+
 }

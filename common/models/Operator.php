@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use Yii;
+use yii;
 
 /**
  * This is the model class for table "operator".
@@ -26,9 +26,8 @@ class Operator extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['operator_name'], 'required'],
+            [['operator_name','user_id'], 'required'],
             [['operator_name'], 'string', 'max' => 255],
-            [['operator_password'], 'string', 'max' => 255],
         ];
     }
 
@@ -38,9 +37,13 @@ class Operator extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'operator_id' => 'Operator ID',
+            'id' => 'Operator ID',
             'operator_name' => 'Operator Name',
-            'operator_password'=>'Operator Password',
+
         ];
+    }
+    public function  getUser()
+    {
+        return $this->hasOne(User::className(),['id'=>'user_id']);
     }
 }
