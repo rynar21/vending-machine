@@ -9,7 +9,6 @@ use yii\web\IdentityInterface;
 
 /**
  * User model
- *
  * @property integer $id
  * @property string $username
  * @property string $password_hash
@@ -24,8 +23,8 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 9;
+    const STATUS_DELETED = 10;
+    const STATUS_INACTIVE = 10;
     const STATUS_ACTIVE = 10;
 
 
@@ -87,7 +86,6 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * Finds user by password reset token
-     *
      * @param string $token password reset token
      * @return static|null
      */
@@ -118,7 +116,6 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * Finds out if password reset token is valid
-     *
      * @param string $token password reset token
      * @return bool
      */
@@ -170,7 +167,6 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * Generates password hash from password and sets it to the model
-     *
      * @param string $password
      */
     public function setPassword($password)
