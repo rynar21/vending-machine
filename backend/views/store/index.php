@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\StoreSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-md-12">
                 <p class="pull-right">
-                    <a class="btn btn-success" href="/vending-machine/backend/web/store/create">Create Store</a>            </p>
+                    <a class="btn btn-success" href="/vending-machine/backend/web/store/create">Create Store</a></p>
             </div>
         </div>
         <br class="row">
@@ -35,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="store-search">
 
         <form id="w0" action="/vending-machine/backend/web/store/index" method="get">
-
         <div class="form-group field-storesearch-store_name">
     <label class="control-label" for="storesearch-store_name">Store Name</label>
     <input type="text" id="storesearch-store_name" class="form-control" name="StoreSearch[store_name]">
@@ -71,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
           <?php foreach ($dataProvider->query->all() as $select): ?>
             <div class="col-lg-3">
               <br/>
-              <a>
+              <a href="<?=Url::base()?>/box/home?id=<?=$select->store_id?>">
                  <div class="btn btn-primary text-center"  style=" width:200px;">
                    <?= $select->store_name ?>
                  </div>
