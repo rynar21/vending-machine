@@ -15,9 +15,8 @@ class LoginForm extends Model
 
     private $_user;
 
-
     /**
-     * {@inheritdoc}
+     * @return array the validation rules.
      */
     public function rules()
     {
@@ -56,7 +55,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
-        
+
         return false;
     }
 
@@ -66,7 +65,11 @@ class LoginForm extends Model
      */
     protected function getUser()
     {
+<<<<<<< HEAD
+        if ($this->_user == null) {
+=======
         if ($this->_user === null) {
+>>>>>>> 4f0dc8da317eee14c2ac19d8a10bfede04a3e616
             $this->_user = User::findByUsername($this->username);
         }
 

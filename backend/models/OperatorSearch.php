@@ -14,10 +14,11 @@ class OperatorSearch extends Operator
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules()//规则
+
     {
         return [
-            [['operator_id'], 'integer'],
+            [['id'], 'integer'],
             [['operator_name'], 'safe'],
         ];
     }
@@ -58,11 +59,12 @@ class OperatorSearch extends Operator
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'operator_id' => $this->operator_id,
+            'id' => $this->id,
         ]);
 
         $query->andFilterWhere(['like', 'operator_name', $this->operator_name]);
 
         return $dataProvider;
     }
+
 }

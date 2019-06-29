@@ -13,9 +13,9 @@ class m190620_063249_operator extends Migration
     public function safeUp()
     {
         $this->createTable('operator', [
-            'operator_id' => $this->primaryKey(),
+            'id' => $this->primaryKey(),
+            'user_id' => $this->integer(),
             'operator_name' => $this->string()->notNull(),
-            'operator_password' => $this->string()->notNull(),
         ]);
     }
 

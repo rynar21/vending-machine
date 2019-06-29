@@ -33,6 +33,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
+
         return '{{%user}}';
     }
 
@@ -201,5 +202,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function  getUser()
+    {
+        return $this->hasOne(User::className(),['user_id'=>'id']);
     }
 }
