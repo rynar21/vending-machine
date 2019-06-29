@@ -8,11 +8,10 @@ use yii\data\BaseDataProvider;
 
 
 /* @var $this yii\web\View */
-
 $this->title = 'My Yii Application';
 ?>
 <!-- <div class="col-lg-12" style=" background-color:#CDC5BF; height:50px;  margin-top:0px;" ></div> -->
-<div class="site-index">
+<div class="item-index">
 
   <br/>
     <!-- <div class="jumbotron"></div> -->
@@ -20,50 +19,47 @@ $this->title = 'My Yii Application';
     <!-- <div class="body-content"></div> -->
     <div class="row">
       <div class="col-lg-12 col-md-12 container-fluid "  >
-        <nav class="navbar navbar-default opl" style=" background-image: linear-gradient(90deg,transparent, #5f5d46, transparent); border: 0;" class="simple"/>
+        <nav class="navbar navbar-default opl" style="
+            background-image: linear-gradient(90deg,transparent, #5f5d46, transparent);
+            border: 0;" class="simple"/>
         <div class="container-fluid">
           <div class="navbar-header ">
+
             <div class="sous">
-              <?php $form = ActiveForm::begin([ 'action' => ['index'], 'method' => 'get', ]);  ?>
+
+              <?php $form = ActiveForm::begin([ 'action' => ['index'], 'method' => 'get',]);  ?>
                 <div class="form-group">
                 <?= $form->field($searchModel, 'name')->textInput()->label('')  ?>
-                    <?= Html::submitButton('Search', ['class' => 'btn btn-primary pull-right']) ?>
+                    <?= Html::submitButton('Search', ['class' => 'btn btn-primary pull-right sousuo ']) ?>
                 </div>
               <?php ActiveForm::end(); ?>
+
             </div>
           </div>
         </div>
       </nav>
+        <!-- <form class="row iky">
+          <input type="text" class="col-lg-offset-9 col-lg-3 col-md-offset-3 col-md-3" style="background-color:#F5F5DC; height:40px; margin-left:70%; margin-top:5px;" />
+        </form> -->
+
     </div>
  </div>
   <div class="row">
-      <div class="col-lg-11 col-md-11 hil" >
-      </div>
+      <div class="col-lg-11 col-md-11 hil"  ></div>
   </div>
-
-  <div class="row break">
-    <h4>FEATURED</h4>
-  </div>
-
-  <div class="row outer_box">
-      <?php foreach ($item_model->query->all() as $item): ?>
-          <div class="col-md-3 product">
-              <a href="payment?id=<?=$item->id?>" class="thumbnail">
-                <div class="product_image">image</div>
-                <br/>
-                <div class="product_name">
-                  <?= $item->name ?>
-                </div>
-              </a>
-          </div>
-      <?php endforeach ?>
-  </div>
-
-<!-- <div class="row">
+ <div class="row">
+    <div class="col-lg-10 col-md-10 hiil" >
+    </div>
+ </div>
+<div class="row">
   <div class="col-lg-10 col-md-10 hiiil" >
+
       <div class="jkk">
+
         <ul>
-            <?php /*foreach ($item_model->getModels() as $abc):?>
+
+            <?php foreach ($item_model->getModels() as $abc):?>
+
                     <li>
                        <a href="payment?id=<?= $abc->id ?>" class="thumbnail">
                         <div class="libox">image</div>
@@ -73,61 +69,64 @@ $this->title = 'My Yii Application';
                        </div>
                        </a>
                     </li>
-          <?php endforeach*/ ?>
+
+          <?php endforeach ?>
+
        </ul>
       </div>
   </div>
-</div> -->
+</div>
+
+  <!-- <canvas id="canvas" width="500" height="500" >cccc</canvas> -->
+
 
 </div>
 
-<style>
-.image{
-  margin: 0 auto;
-  background-color:#EEE5DE;
-  text-align: center;
-  line-height: 220px;
-  height: 200px; width:250px;
+<style >
+.sousuo{
+  background-color: #AAAAAA;
+  border: solid 0px;
+  
 }
-
-.break{
-    background-color:#DCDCDC;
-    height:40px;
-    background-image: linear-gradient(90deg,transparent, #CDB7B5, transparent);
-    border: 0;
-    box-shadow:0px 1px 3px #2B2B2B;
-    padding: 5px 0px 2px 10px;
-    margin: 20px 0;
-    text-align: center;
-}
-
-.product{
-    height: 150px;
-    width: 19%;
-    margin: 30px 40px;
-    text-align: center;
-}
-
-.product_name{
-    margin-top: -10px;
-    font-weight: bold;
-    text-align:center;
-}
-
-.thumbnail{
-    border-radius: 0px 0px 0px 0px;
-    color:#575757;
-    border: solid 0px;
-}
-
 a.thumbnail:hover{
   border-color: #7FFFD4;
   color:#8B8970;
   box-shadow:2px 2px 4px #2B2B2B;
   border:0px solid ;
 }
-
-.product_image{
+.pull-right{
+  margin-top: 20px;
+}
+.form-group{
+  float: left;
+}
+.sous{
+  margin-top: -14px;
+  /* width: 30%;*/
+}
+.jkk b{
+font-size:19px;
+}
+.libox-down{
+margin-top: -10px;
+}
+.jkk li{
+    float: left;
+    height: 150px;
+    width: 19%;
+    background-color: #FAEBD7;
+    border: 0px  solid ;
+    margin-top: 50px;
+    margin-left: 40px;
+    text-align: center;
+    list-style-type:none;
+}
+.jkk a{border-radius: 0px 0px 0px 0px;
+    text-decoration : none;
+    color:#575757;
+    border: solid 0px;
+}
+.libox{
   height: 100px;
   width: 80%;
   margin: 0 auto;
@@ -136,45 +135,17 @@ a.thumbnail:hover{
   text-align: center ;
   line-height: 100px;
 }
-
-.outer_box{
-  background-color:#F7F7F7;
-  margin: 25px 5px;
-}
-
-a.thumbnail:hover{
-  border-color: #7FFFD4;
-  color:#8B8970;
-  box-shadow:2px 2px 4px #2B2B2B;
-  border:0px solid ;
-}
-
-.pull-right{
-  margin-top: 20px;
-}
-
-.form-group{
-  float: left;
-}
-
-.sous{
-  margin-top: -14px;
-  /* width: 30%;*/
-}
-
 .opl{
   background-color:#CDC5BF;
    height:50px;
-  /* margin-top:20px;*/
+  /* margin-top:20px; */
 }
-
  .hil{
   background-color:#E6E6FA;
   height:300px;
   margin-left: 3.45%;
   box-shadow:2px 5px 5px #2B2B2B;
 }
-
 .hiil{
  background-color:#DCDCDC;
  height:40px;
