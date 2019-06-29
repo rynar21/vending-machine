@@ -47,4 +47,9 @@ class Item extends \yii\db\ActiveRecord
             'box_id' => 'Box ID',
         ];
     }
+
+    public function getRecord()
+    {
+      return $this->hasOne(SaleRecord::className(), ['item_id'=>'id']);
+    }
 }

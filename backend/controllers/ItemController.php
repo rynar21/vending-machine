@@ -1,13 +1,16 @@
 <?php
-
 namespace backend\controllers;
 
 use Yii;
+use common\models\Store;
 use common\models\Item;
+use common\models\Box;
+use common\models\SaleRecord;
 use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * ItemController implements the CRUD actions for Item model.
@@ -37,10 +40,48 @@ class ItemController extends Controller
     {
         $searchModel = new ItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider2 = new ActiveDataProvider([
+            'query' => SaleRecord::find(),
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'dataProvider2' => $dataProvider2,
+        ]);
+    }
+
+    public function actionHome()
+    {
+        // Create an instance of class Item
+        $item_model = new Item();
+        // Modify data within database
+        if ($item_model->load(Yii::$app->request->post()) && $item_model->save())
+        {
+            return $this->redirect(['view', 'id' => $item_model->id]);
+        }
+        // Import data from class Item
+        $item_data = new ActiveDataProvider([
+            'query' => Item::find(),
+        ]);
+        // Import data from class SaleRecord
+        $record_data = new ActiveDataProvider([
+            'query' => SaleRecord::find(),
+        ]);
+        $box_data = new ActiveDataProvider([
+            'query' => box::find(),
+        ]);
+        $store_data = new ActiveDataProvider([
+            'query' => Store::find(),
+        ]);
+
+        // Display '@home.php' with data
+        return $this->render('home', [
+            'item_model' => $item_model,
+            'item_data' => $item_data,
+            'record_data' => $record_data,
+            'store_data' => $store_data,
+            'box_data' => $box_data,
         ]);
     }
 
@@ -65,7 +106,6 @@ class ItemController extends Controller
     public function actionCreate()
     {
         $model = new Item();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -84,14 +124,17 @@ class ItemController extends Controller
      */
     public function actionUpdate($id)
     {
+        $dataProvider2 = new ActiveDataProvider([
+            'query' => box::find(),
+        ]);
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'dataProvider2' => $dataProvider2,
         ]);
     }
 

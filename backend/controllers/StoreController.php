@@ -45,6 +45,20 @@ class StoreController extends Controller
     }
 
     /**
+     * Lists all Store models.
+     * @return mixed
+     */
+    public function actionSelect()
+    {
+        $searchModel = new StoreSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('select', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    /**
      * Displays a single Store model.
      * @param integer $id
      * @return mixed
