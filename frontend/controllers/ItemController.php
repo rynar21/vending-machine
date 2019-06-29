@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Item;
+use common\models\SaleRecord;
 use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -65,8 +66,10 @@ class ItemController extends Controller
      * Lists all Item models.
      * @return mixed
      */
-    public function actionResult()
+    public function actionResult($id)
     {
+        $model2 = new SaleRecord();
+        $model2->save();
         $searchModel = new ItemSearch();
         $item_model = $searchModel->search(Yii::$app->request->queryParams);
 

@@ -29,7 +29,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => 'Vending Machine',
         'brandUrl' => '/item/index',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
