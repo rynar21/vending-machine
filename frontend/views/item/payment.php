@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
       </div>
     </div>
   </div>
-    <div class="row break" style="">
+    <div class="row break">
       <h4>FEATURED</h4>
     </div>
 
@@ -42,9 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
       <div class="col-lg-10 col-md-10 hiiil" >
           <div class="jkk">
             <ul>
-                <?php foreach ($item_model->getModels() as $abc):?>
+                <?php foreach ($item_model->query->limit(4)->all() as $abc):?>
                         <li>
-                           <a href="payment?id=<? $abc->id ?>" class="thumbnail">
+                           <a href="payment?id=<?= $abc->id?>" class="thumbnail">
                             <div class="libox">image</div>
                              <br/>
                            <div class="libox-down">
