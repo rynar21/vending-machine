@@ -29,12 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-2" style="font-size: 30px;">
           <b>RM </b> <?= $model->price ?>
         </div>
-        <?= Html::a('Pay', ['result'], ['class' => 'btn btn-success col-md-1']) ?>
+        <?= Html::a('Pay', ['result?id='.$model->id], ['class' => 'btn btn-success col-md-1']) ?>
         <div class="col-md-1"></div>
       </div>
     </div>
   </div>
-    <div class="row break" style="">
+    <div class="row break">
       <h4>FEATURED</h4>
     </div>
 
@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <ul>
                 <?php foreach ($item_model->getModels() as $abc):?>
                         <li>
-                           <a href="payment?id=<? $abc->id ?>" class="thumbnail">
+                           <a href="payment?id=<?= $abc->id?>" class="thumbnail">
                             <div class="libox">image</div>
                              <br/>
                            <div class="libox-down">

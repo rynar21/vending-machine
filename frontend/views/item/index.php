@@ -118,6 +118,7 @@ margin-top: -10px;
     background-color: #FAEBD7;
     border: 0px  solid ;
     margin-top: 50px;
+    margin-bottom:50px;
     margin-left: 40px;
     text-align: center;
     list-style-type:none;
