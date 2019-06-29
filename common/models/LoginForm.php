@@ -15,6 +15,9 @@ class LoginForm extends Model
 
     private $_user;
 
+    /**
+     * @return array the validation rules.
+     */
     public function rules()
     {
         return [
