@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 $this->title = 'Boxes';
 $this->params['breadcrumbs'][] = $this->title;
@@ -13,7 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 .button {
-
   margin:10px;
   text-align: center;
   cursor: pointer;
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
           <?php endif ?>
       <?php endforeach?>
       <?= $i ?>
-      
+
     </div>
     <?= Html::a('+', ['create'], ['class' => 'col-lg-1 col-md-1 btn btn-success']) ?>
     <div class="">
@@ -62,14 +62,13 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="col-lg-1 col-md-1"></div>
   </div>
-
+  <br/>
   <div class="row">
       <div class="col-md-3"><h3>Current Box(es):</h3></div>
       <div class="col-md-7"></div>
-
-      <div class="col-md-2 btn btn-danger" >
+      <a class="col-md-2 btn btn-danger" href="<?=Url::base()?>/item/home">
           Modify Item
-      </div>
+      </a>
   </div>
 
 
