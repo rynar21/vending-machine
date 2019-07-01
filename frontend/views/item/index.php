@@ -68,7 +68,7 @@ $this->title = 'My Yii Application';
                        </div>
                        </a>
                     </li>
-
+<b/>
           <?php endforeach ?>
 
        </ul>
