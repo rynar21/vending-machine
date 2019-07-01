@@ -65,11 +65,9 @@ class LoginForm extends Model
      */
     protected function getUser()
     {
-<<<<<<< HEAD
-        if ($this->_user == null) {
-=======
         if ($this->_user === null) {
->>>>>>> 4f0dc8da317eee14c2ac19d8a10bfede04a3e616
+
+
             $this->_user = User::findByUsername($this->username);
         }
 
