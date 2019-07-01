@@ -79,7 +79,7 @@ $this->title = 'My Yii Application';
   <!-- <canvas id="canvas" width="500" height="500" >cccc</canvas> -->
 <a>1111</a>
 
-
+1
 </div>
 
 <style >
