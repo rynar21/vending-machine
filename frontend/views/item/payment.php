@@ -48,8 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <a href="index" type="button" class="btn btn-primary ">ok</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <a href="index" type="button" class="btn btn-primary ">Confirm</a>
         </div>
       </div>
     </div>
