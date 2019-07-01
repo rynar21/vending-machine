@@ -81,7 +81,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login())
         {
             //return $this->goBack();
-            return $this->redirect(Url::to(['site/index']));
+            return $this->redirect(Url::to(['store/index']));
         }
         else
         {
