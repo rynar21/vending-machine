@@ -3,6 +3,7 @@ namespace common\models;
 
 use Yii;
 use yii\base\Model;
+use common\models\Operator;
 
 /**
  * Login form
@@ -43,6 +44,9 @@ class LoginForm extends Model
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
+            if (!Operator::find()->where(['user_id' => $user->id])->one()) {
+                $this->addError($attribute, 'Operational privileges are insufficient.');
+            }
         }
     }
 
@@ -66,8 +70,6 @@ class LoginForm extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-
-
             $this->_user = User::findByUsername($this->username);
         }
 

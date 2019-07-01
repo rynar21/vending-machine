@@ -52,6 +52,9 @@ class OperatorController extends Controller
      */
     public function actionView($id)
     {
+        $operator = $this->findModel($id);
+        $user = $operator->user;
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
