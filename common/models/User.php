@@ -206,6 +206,6 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function  getUser()
     {
-        return $this->hasOne(User::className(),['user_id'=>'id']);
+        return $this->hasOne(Operator::className(),['id'=>'user_id']);
     }
 }
