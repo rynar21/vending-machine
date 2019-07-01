@@ -78,6 +78,7 @@ $this->title = 'My Yii Application';
 
   <!-- <canvas id="canvas" width="500" height="500" >cccc</canvas> -->
 <a>AAAAAA</a>
+<a>bbbb</a>
 
 </div>
 
