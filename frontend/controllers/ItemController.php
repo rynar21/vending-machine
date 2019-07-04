@@ -45,7 +45,17 @@ class ItemController extends Controller
 
         ]);
     }
+    public function actionPayding($id)
+    {
+        $searchModel = new ItemSearch();
+        $item_model = $searchModel->search(Yii::$app->request->queryParams);
 
+        return $this->render('payding', [
+            'searchModel' => $searchModel,
+            'item_model' => $item_model,
+            'model' => $this->findModel($id),
+        ]);
+    }
     public function actionIphone($id)
     {
         $searchModel = new ItemSearch();
