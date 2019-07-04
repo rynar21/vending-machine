@@ -59,6 +59,7 @@ $this->title = 'My Yii Application';
           </div>
         </div>
       </div>
+    <div class="container">
         <div class="row">
           <div class="col-sm-12">
           <h3 class="font-weight-bold lead text-center" style="font-size: x-large; color:rgba(99,99,99,0.7);">
@@ -67,11 +68,130 @@ $this->title = 'My Yii Application';
           </h3>
           </div>
         </div>
+    </div>
+    <div class="container">
         <div class="row">
 			<div class="col-sm-12 text-center">
-			     <h1 class="ont-weight-bold section-heading text-uppercase" style="color:rgba(65,80,255)">Solutions</h1>
-						<!-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> -->
+			     <h2 class="section-heading text-uppercase text-info font-weight-bold"style="font-size:300%;">Solutions</h2>
 			</div>
+            <div class="container">
+                <div class="vending row">
+                <div class="col-md-2 col-sm-2"></div>
+                    <a href="solution-vendcanteen.html">
+            			<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4 text-center " style="background-image:url(../web/img/vendcanteen.png); background-size:cover; height:75vh; margin-left:-0.1vw;">
+            				<!-- Feature box -->
+            				<div class="feature boxed">
+        						<div class="fbox-over" style=" position: absolute; bottom: 0%">
+        							<h3 class="title">VendCanteen
+            							</h3>
+                							<div class="fbox-content">
+                								<p>End-to-end hot fresh food sales for Caterers with guaranteed daily minimums.</p>
+    							                 </div>
+                            						</div>
+                    				                    </div>
+                                			                 </div>
+                                                         </a>
+                                                    <a href="solution-vendcanteen.html">
+                                            			<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4 text-center " style="background-image:url(../web/img/kfb.jpeg.jpg); background-size:cover; height:75vh; margin-left:0.1vw;">
+                                            				<!-- Feature box -->
+                                            				<div class="feature boxed">
+                						                       <div class="fbox-over" style=" position: absolute; bottom: 0%">
+            							                    <h3 class="title">VendCanteen
+                							            </h3>
+                    							    <div class="fbox-content">
+                								<p>POPStation for your food- e-commerce platform with food delivery lockers.</p>
+                							</div>
+                						</div>
+                				    </div>
+                				<!-- End Feature box -->
+                			</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
 		</div>
+        <div class="container">
+            <div class="row">
+    			<div class="col-sm-12 text-center">
+    			     <h2 class="section-heading text-uppercase text-info font-weight-bold"style="font-size:300%;">Products</h2>
+    			</div>
+                <div class="container">
+                    <div class="vending row">
+                    <div class="col-md-2 col-sm-2"></div>
+                        <a href="solution-vendcanteen.html">
+                			<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4 text-center " style="background-image:url(../web/img/payment_service.png); background-size:cover; height:75vh;margin-left:-0.1vw;">
+                				<!-- Feature box -->
+                				<div class="feature boxed">
+            						<div class="fbox-over" style=" position: absolute; bottom: 0%">
+            							<h3 class="title">Self-Payment Kiosks
+                							</h3>
+                    							<div class="fbox-content">
+                    								<p>Automate your cash handling.</p>
+        							                 </div>
+                                						</div>
+                        				                    </div>
+                                    			                 </div>
+                                                             </a>
+                                                        <a href="solution-vendcanteen.html">
+                                                			<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4 text-center " style="background-image:url(../web/img/vending_oven.png); background-size:cover; height:75vh;margin-left:0.1vw;">
+                                                				<!-- Feature box -->
+                                                				<div class="feature boxed">
+                    						                       <div class="fbox-over" style=" position: absolute; bottom: 0%">
+                							                    <h3 class="title">Vending Oven
+                    							            </h3>
+                        							    <div class="fbox-content">
+                    								<p>Heated vending machine for instant dispensing of hot fresh food with no microwaving.</p>
+                    							</div>
+                    						</div>
+                    				    </div>
+                    				<!-- End Feature box -->
+                    			</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    		</div>
+            <div class="container">
+                <div class="row">
+        			<div class="col-sm-12 text-center">
+        			     <h2 class="section-heading text-uppercase text-info font-weight-bold"style="font-size:300%;">Others</h2>
+        			</div>
+            <div class="container">
+                <div class="vending row">
+                <div class="col-md-2 col-sm-2"></div>
+                    <a href="solution-vendcanteen.html">
+            			<div class="col-md-3 col-sm-3 col-xs-12 col-lg-3 text-center " style="background-image:url(../web/img/engineering.jpg); background-size:cover; height:75vh;margin-left:-0.1vw;">
+            				<!-- Feature box -->
+            				<div class="feature boxed">
+        						<div class="fbox-over" style=" position: absolute; bottom: 0%">
+        							<h3 class="title">Engineering
+            							</h3>
+                							<div class="fbox-content">
+                								<p>Engineering...</p>
+    							                 </div>
+                            						</div>
+                    				                    </div>
+                                			                 </div>
+                                                         </a>
+                                                    <a href="solution-vendcanteen.html">
+                                            			<div class="col-md-5 col-sm-5 col-xs-12 col-lg-5 text-center " style="background-image:url(../web/img/industrial_locker.jpg); background-size:cover; height:75vh;margin-left:0.1vw;">
+                                            				<!-- Feature box -->
+                                            				<div class="feature boxed">
+                						                       <div class="fbox-over" style=" position: absolute; bottom: 0%">
+            							                    <h3 class="title">Industrial Locker
+                							            </h3>
+                    							    <div class="fbox-content">
+                								<p>Industrial Locker...</p>
+                							</div>
+                						</div>
+                				    </div>
+                				<!-- End Feature box -->
+                			</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+		</div>
+        
     </div>
 </div>
