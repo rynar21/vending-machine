@@ -11,46 +11,48 @@ use yii\data\BaseDataProvider;
 $this->title = 'My Yii Application';
 ?>
 
-<div class="item-index">
+<div class="item-index" style=" border:1px solid red;">
+
+  <div class="body-content">
+
     <div class="row">
-        <div class="col-sm-4 col-lg-4 " >
-        </div>
-        <div class=" col-sm-4 col-lg-4 text-center container  " >
-            <h1 style=" word-break:break-all;">Payment</h1>
-        </div>
-        <div class=" col-sm-4 col-lg-4 " >
+        <div class="col-sm-offset-2 col-sm-10" style=" font-size:35px;">
+            <h>payment</h>
         </div>
     </div>
 
-    <div class="row" style="margin-top:15px;">
-        <!-- <div class=" col-xs-3 col-sm-3 col-lg-3 " style="border:1px solid blue;  height:30px;">
-        </div> -->
-        <div class="col-sm-offset-3 col-sm-6 text-center" >
-
-                <div style="width:300px;height:300px; border:1px solid red;margin:0  auto; line-height:200px;"><h1 >img</h1></div>
-
-
-        </div>
-
-    <!-- <div class=" col-xs-3 col-sm-3 col-lg-3" style="border:1px solid blue; height:30px;"> -->
-    </div>
-
-    <div class="row" style="margin-top:35px;" >
-        <div class="col-sm-offset-3 col-sm-6 text-center" style="font-size:30px;"  >
-            <b>worter</b>
-            <hr style="margin-top:0px;  border: 2px solid; background-color:black;"/ >
+    <div class="row">
+        <div class="col-sm-12" style=" border:1px solid red; height:50px;">
+            <hr />
         </div>
     </div>
-    <div class="row" style="margin-top:15px;" >
-        <div class="col-sm-offset-3 col-sm-6 text-center" style="font-size:30px;"  >
-            <b style="color:red;">RM 5</b>
-            <hr style="margin-top:0px; border: 2px solid; background-color: black;"/ >
+
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-4 " style=" border:1px solid red; height:240px;">
+            <div  class="top"  style=" border:1px solid red; height:140px;">
+                <div class=" pull-left " style=" border:1px solid blue; height:140px ;width:30%;">
+                    <img src="../web/img/kele.jpg" class="img-responsive center-block"></img>
+                </div>
+                <div class="  pull-left " style=" border:1px solid blue; height:140px;width:70%;">
+                    Pesdah Ssdajs Mysdajsd Csdbashd Osdsb.
+                </div>
+            </div>
+                <hr/>
+            <div class="col-sm-12 buttom" style=" border:1px solid green; height:50px;margin-top:5px;">
+            </div>
         </div>
     </div>
-    <div class="row" style="margin-top:30px;" >
-        <div class="col-sm-offset-3 col-sm-6 text-center"  >
-            <button type="button" class="btn btn-success">Success</button><br/>
-            <button type="button" class="btn btn-danger" style="margin-top:10px;">Danger</button>
+
+    <div class="row " >
+        <div class="col-sm-offset-4 col-sm-4 text-center" style="margin-top:20px;">
+            <button type="button" class="btn btn-primary" style=" width:100%;height:40px;">Pay</button>
+              <br/>
+               <br/>
+            <button type="button" class="btn btn-primary" style=" width:100%;height:40px; background-color:#FFFFFF; color:black;">Cancel</button>
         </div>
     </div>
+
+
+
+   </div>
  </div>
