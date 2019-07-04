@@ -19,6 +19,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/c0c5b7856c.js"></script>
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -37,8 +38,14 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/item/index']],
-        ['label' => 'Solutions', 'url' => ['/item/index']],
-        ['label' => 'Products', 'url' => ['/item/index']],
+        ['label' => 'Solutions', 'items' => [
+            ['label' => 'Vend Canteen', 'url' => ['/item/index']],
+            ['label' => 'Konbi Food Box','url' => ['/item/index']],
+            ]],
+        ['label' => 'Products', 'items' => [
+            ['label' => 'Self Payment Kiosks', 'url' => ['/item/index']],
+            ['label' => 'Vending Oven', 'url' => ['/item/index']],
+            ]],
         ['label' => 'email', 'url' => ['/item/index']],
         ['label' => 'phone', 'url' => ['/item/index']],
     ];
