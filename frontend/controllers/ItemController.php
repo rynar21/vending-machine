@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
 /**
  * ItemController implements the CRUD actions for Item model.
  */
@@ -49,13 +50,18 @@ class ItemController extends Controller
     {
         $searchModel = new ItemSearch();
         $item_model = $searchModel->search(Yii::$app->request->queryParams);
+        $model = new Item();
+        $model2 = new SaleRecord();
 
         return $this->render('payding', [
             'searchModel' => $searchModel,
             'item_model' => $item_model,
             'model' => $this->findModel($id),
+            'model2' => $this->findModel2($id),
         ]);
     }
+
+
     public function actionIphone($id)
     {
         $searchModel = new ItemSearch();
@@ -79,7 +85,6 @@ class ItemController extends Controller
         $model->save();
         // echo '<pre>';
         // print_r($model->errors);
-
     }
     /**
      * Display details of a single item.
@@ -131,6 +136,14 @@ class ItemController extends Controller
         if (($model = Item::findOne($id)) !== null)
         {
             return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    protected function findModel2($id)
+    {
+        if (($model = SaleRecord::findOne($id)) !== null)
+        {
+            return $model->status;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }

@@ -55,9 +55,12 @@ $this->title = 'My Yii Application';
     <div class="row " >
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
             <!-- <button type="button" class="btn btn-primary" style=" width:100%;height:40px;background-color:#1C86EE;border:0px solid;">Pay</button> -->
-            <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;">
-              Pay
-          </button>
+
+            <a href="payding?id=<?= $model->id ?>">
+                <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;">
+                  Pay
+                </button>
+            </a>
               <br/>
               <br/>
             <a href="index">
@@ -69,7 +72,7 @@ $this->title = 'My Yii Application';
         </div>
     </div>
 
-        
+
 
    </div>
  </div>
