@@ -251,10 +251,74 @@ $this->title = 'My Yii Application';
 					</div>
                 </div>
             </div>
-            <div class="container">
-                <div class="row">
-
+        <div class="container-fluid">
+            <div class="row col-sm-12">
+                <div class="col-lg-12 text-center">
+					<h2 class="section-heading text-uppercase">Projects</h2>
+					<!-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> -->
+					<br />
+				</div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/polar01.jpg" target="_blank">
+                     <img src="../web/img/polar01.jpg" alt="Lights" style="width:100%">
+                  </a>
+                  <div class="caption">
+                    <p>Polar01</p>
+                  </div>
+                 </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/polar02.jpg" target="_blank">
+                     <img src="../web/img/polar02.jpg" alt="Nature" style="width:100%">
+                    </a>
+                    <div class="caption">
+                      <p>Polar02</p>
+                    </div>
+                 </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/polar03.jpg" target="_blank">
+                     <img src="../web/img/polar03.jpg" alt="Fjords" style="width:100%">
+                   </a>
+                   <div class="caption">
+                     <p>Polar03</p>
+                   </div>
+                 </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/ymca.jpg" target="_blank">
+                     <img src="../web/img/ymca.jpg" alt="Lights" style="width:100%">
+                  </a>
+                  <div class="caption">
+                    <p>Polar01</p>
+                  </div>
+                 </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/sats.jpg" target="_blank">
+                     <img src="../web/img/sats.jpg" alt="Nature" style="width:100%">
+                    </a>
+                    <div class="caption">
+                      <p>Polar02</p>
+                    </div>
+                 </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/freshbox2.jpg" target="_blank">
+                     <img src="../web/img/freshbox2.jpg" alt="Fjords" style="width:100%">
+                   </a>
+                   <div class="caption">
+                     <p>Polar03</p>
+                   </div>
+                 </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
