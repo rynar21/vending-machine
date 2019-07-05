@@ -61,6 +61,20 @@ class ItemController extends Controller
         ]);
     }
 
+    public function actionRecord($id)
+    {
+        $searchModel = new ItemSearch();
+        $item_model = $searchModel->search(Yii::$app->request->queryParams);
+        $model = new Item();
+        $model2 = new SaleRecord();
+
+        return $this->render('record', [
+            'searchModel' => $searchModel,
+            'item_model' => $item_model,
+            'model' => $this->findModel($id),
+            'model2' => $this->findModel2($id),
+        ]);
+    }
 
     public function actionIphone($id)
     {
@@ -143,7 +157,7 @@ class ItemController extends Controller
     {
         if (($model = SaleRecord::findOne($id)) !== null)
         {
-            return $model->status;
+            return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }

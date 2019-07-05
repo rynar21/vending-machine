@@ -11,7 +11,7 @@ use yii\helpers\Url;
 $this->title = 'My Yii Application';
 ?>
 
-<div class="item-index" style=" border:0px solid red;" >
+<div class="item-record" style=" border:0px solid red;" >
   <div class="body-content">
 
     <div class="row">
@@ -23,6 +23,12 @@ $this->title = 'My Yii Application';
     <div class="row">
         <div class="col-sm-12" >
             <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-offset-2 col-sm-10" style="color:#737363;"  >
+            <h4 >Please collect your purchased item.</h4>
         </div>
     </div>
 
@@ -52,23 +58,31 @@ $this->title = 'My Yii Application';
 
  <br/> <br/>
 
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 " style="border:0px solid red;">
+            <h5>Transaction No:</h5>
+            <h4><?=$model2->id ?></h4>
+            <h5>Order Time:</h5>
+            <h4>
+            <?php date_default_timezone_set('PRC'); ?>
+            <?php  echo date('Y-m-d h:i:s', time());?>
+            </h4>
+        </div>
+    </div>
     <div class="row " >
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
             <!-- <button type="button" class="btn btn-primary" style=" width:100%;height:40px;background-color:#1C86EE;border:0px solid;">Pay</button> -->
 
-                 <br/><br/>
-            <a href="payding?id=<?= $model->id ?>">
+            <a href="#">
                 <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;">
-                    Pay
+                  Done
                 </button>
-                     <?= Html::a('hasdjhags',['item/ok?id='.$model->id])?>
             </a>
-
               <br/>
               <br/>
-            <a href="index">
+            <a href="payment">
                 <button type="button" class="btn btn-primary"  style=" width:100%;height:40px; background-color:#FFFFFF; color:black;">
-                    Cancel
+                    Print Receipt
                 </button>
             </a>
 
@@ -91,14 +105,3 @@ $this->title = 'My Yii Application';
     }
 
 </style>
-<script>
-$('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('whatever') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
-})
-</script>
