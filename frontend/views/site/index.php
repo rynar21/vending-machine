@@ -23,7 +23,6 @@ $this->title = 'My Yii Application';
     <div class="item active">
       <img src="../web/img/home1.jpg" alt="...">
       <div class="carousel-caption">
-        ...
       </div>
     </div>
     <div class="item">
@@ -35,13 +34,11 @@ $this->title = 'My Yii Application';
     <div class="item">
       <img src="../web/img/konbini_vending_oven_medium.jpg" alt="...">
       <div class="carousel-caption">
-        ...
       </div>
     </div>
     <div class="item">
       <img src="../web/img/banner04.jpeg" alt="...">
       <div class="carousel-caption">
-        ...
       </div>
     </div>
   </div>
@@ -78,7 +75,7 @@ $this->title = 'My Yii Application';
                 <div class="row">
                     <div class="col-sm-4 col-sm-offset-2">
                         <a href="#">
-                            <img src="../web/img/vendcanteen.png" class="img-responsive">
+                            <img src="../web/img/vendcanteen.jpg" class="img-responsive">
                             <div class="fbox-over" style=" position: absolute; bottom: 0%">
                                 <h3 class="title">VendCanteen
                                     </h3>
@@ -175,7 +172,7 @@ $this->title = 'My Yii Application';
         <div class="container">
 				<div class="row">
 					<div class="col-sm-12 text-center">
-						<h2 class="section-heading text-uppercase text-info font-weight-bold"style="font-size:300%;">Our Clients</h2>
+						<h2 class="section-heading text-uppercase text-info font-weight-bold"style="font-size:xx-large;">Our Clients</h2>
 						<!-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> -->
 					</div>
 				</div>
@@ -254,6 +251,74 @@ $this->title = 'My Yii Application';
 					</div>
                 </div>
             </div>
-
+        <div class="container-fluid">
+            <div class="row col-sm-12">
+                <div class="col-lg-12 text-center">
+					<h2 class="section-heading text-uppercase">Projects</h2>
+					<!-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> -->
+					<br />
+				</div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/polar01.jpg" target="_blank">
+                     <img src="../web/img/polar01.jpg" alt="Lights" style="width:100%">
+                  </a>
+                  <div class="caption">
+                    <p>Polar01</p>
+                  </div>
+                 </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/polar02.jpg" target="_blank">
+                     <img src="../web/img/polar02.jpg" alt="Nature" style="width:100%">
+                    </a>
+                    <div class="caption">
+                      <p>Polar02</p>
+                    </div>
+                 </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/polar03.jpg" target="_blank">
+                     <img src="../web/img/polar03.jpg" alt="Fjords" style="width:100%">
+                   </a>
+                   <div class="caption">
+                     <p>Polar03</p>
+                   </div>
+                 </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/ymca.jpg" target="_blank">
+                     <img src="../web/img/ymca.jpg" alt="Lights" style="width:100%">
+                  </a>
+                  <div class="caption">
+                    <p>Polar01</p>
+                  </div>
+                 </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/sats.jpg" target="_blank">
+                     <img src="../web/img/sats.jpg" alt="Nature" style="width:100%">
+                    </a>
+                    <div class="caption">
+                      <p>Polar02</p>
+                    </div>
+                 </div>
+                </div>
+                <div class="col-sm-4 col-lg-4 text-center">
+                 <div class="thumbnail">
+                   <a href="../web/img/freshbox2.jpg" target="_blank">
+                     <img src="../web/img/freshbox2.jpg" alt="Fjords" style="width:100%">
+                   </a>
+                   <div class="caption">
+                     <p>Polar03</p>
+                   </div>
+                 </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
