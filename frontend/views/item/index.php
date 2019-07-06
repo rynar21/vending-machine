@@ -60,7 +60,7 @@ $this->title = 'My Yii Application';
             <?php foreach ($item_model->getModels() as $abc):?>
 
                     <li>
-                       <a href="payment?id=<?= $abc->id ?>" class="thumbnail">
+                       <a href="iphone?id=<?= $abc->id ?>" class="thumbnail">
                         <div class="libox">image</div>
                          <br/>
                        <div class="libox-down">
@@ -68,7 +68,7 @@ $this->title = 'My Yii Application';
                        </div>
                        </a>
                     </li>
-
+<b/>
           <?php endforeach ?>
 
        </ul>
@@ -77,6 +77,7 @@ $this->title = 'My Yii Application';
 </div>
 
   <!-- <canvas id="canvas" width="500" height="500" >cccc</canvas> -->
+<a>1111</a>
 
 
 </div>
