@@ -80,7 +80,7 @@ $this->title = 'My Yii Application';
             </a>
               <br/>
               <br/>
-            <a href="payment">
+            <a href="index">
                 <button type="button" class="btn btn-primary"  style=" width:100%;height:40px; background-color:#FFFFFF; color:black;">
                     Print Receipt
                 </button>
