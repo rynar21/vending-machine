@@ -297,7 +297,7 @@ $this->title = 'My Yii Application';
                          <img src="../web/img/ymca.jpg" alt="Lights" style="width:100%">
                       </a>
                       <div class="caption">
-                        <p>Polar01</p>
+                        <p>YMCA01</p>
                       </div>
                      </div>
                     </div>
@@ -307,7 +307,7 @@ $this->title = 'My Yii Application';
                          <img src="../web/img/sats.jpg" alt="Nature" style="width:100%">
                         </a>
                         <div class="caption">
-                          <p>Polar02</p>
+                          <p>SATS01</p>
                         </div>
                      </div>
                     </div>
@@ -317,7 +317,7 @@ $this->title = 'My Yii Application';
                          <img src="../web/img/freshbox2.jpg" alt="Fjords" style="width:100%">
                        </a>
                            <div class="caption">
-                             <p>Polar03</p>
+                             <p>FreshBox01</p>
                            </div>
                          </div>
                      </div>
