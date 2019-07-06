@@ -47,10 +47,6 @@ a.thumbnail:hover{
   margin: 25px 5px;
 }
 
-.carousel-inner>.item {
-    height: 200px;
-}
-
 .wrap {
     min-height: 100%;
     height: auto;

@@ -22,24 +22,15 @@ $this->title = 'My Yii Application';
   <div class="carousel-inner" role="listbox">
     <div class="item active">
       <img src="../web/img/home1.jpg" alt="...">
-      <div class="carousel-caption">
-      </div>
     </div>
     <div class="item">
       <img src="../web/img/trade_show.jpg" alt="...">
-      <div class="carousel-caption">
-        ...
-      </div>
     </div>
     <div class="item">
       <img src="../web/img/konbini_vending_oven_medium.jpg" alt="...">
-      <div class="carousel-caption">
-      </div>
     </div>
     <div class="item">
       <img src="../web/img/banner04.jpeg" alt="...">
-      <div class="carousel-caption">
-      </div>
     </div>
   </div>
 

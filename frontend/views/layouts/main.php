@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use yii\helpers\BaseUrl;
 
 AppAsset::register($this);
 ?>
@@ -23,6 +24,13 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <style>
+    .myclass>img{
+        height: 20px;
+        width: 20px;
+        position: absolute;
+    }
+    </style>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -30,7 +38,8 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandimag' => 'Vending Machine',
+        'brandLabel' =>  '<img src="../web/img/logo.png" class="img-responsive"/>Vending Machine',
+        'brandOptions' => ['class' => 'myclass'], //options of the brand
         'brandUrl' => '/item/index',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -38,6 +47,17 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/item/index']],
+        ['label' => 'Solutions', 'items' => [
+            ['label' => 'Vend Canteen', 'url' => ['/item/index']],
+            ['label' => 'Konbi Food Box','url' => ['/item/index']],
+            ]],
+        ['label' => 'Products', 'items' => [
+            ['label' => 'Self Payment Kiosks', 'url' => ['/item/index']],
+            ['label' => 'Vending Oven', 'url' => ['/item/index']],
+            ]],
+        ['label' => 'email', 'url' => ['/item/index']],
+        ['label' => 'phone', 'url' => ['/item/index']],
+    ];
     if (Yii::$app->user->isGuest) {
         //$menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         //$menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
