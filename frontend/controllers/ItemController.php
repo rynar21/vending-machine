@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
 /**
  * ItemController implements the CRUD actions for Item model.
  */
@@ -45,6 +46,57 @@ class ItemController extends Controller
 
         ]);
     }
+    public function actionPayding($id)
+    {
+        $searchModel = new ItemSearch();
+        $item_model = $searchModel->search(Yii::$app->request->queryParams);
+        $model = new Item();
+        $model2 = new SaleRecord();
+
+
+        $item = Item::findOne($id);
+        $model = new SaleRecord();
+        $model->item_id= $id;
+        $model->box_id= $id;
+        $model->trans_id= $id;
+        $model->save();
+        
+        return $this->render('payding', [
+            'searchModel' => $searchModel,
+            'item_model' => $item_model,
+            'model' => $this->findModel($id),
+            'model2' => $this->findModel2($id),
+        ]);
+
+    }
+
+    public function actionRecord($id)
+    {
+        $searchModel = new ItemSearch();
+        $item_model = $searchModel->search(Yii::$app->request->queryParams);
+        $model = new Item();
+        $model2 = new SaleRecord();
+
+        return $this->render('record', [
+            'searchModel' => $searchModel,
+            'item_model' => $item_model,
+            'model' => $this->findModel($id),
+            'model2' => $this->findModel2($id),
+        ]);
+    }
+
+    public function actionIphone($id)
+    {
+        $searchModel = new ItemSearch();
+        $item_model = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('iphone', [
+            'searchModel' => $searchModel,
+            'item_model' => $item_model,
+            'model' => $this->findModel($id),
+
+        ]);
+    }
 
     public function actionOk($id)
     {
@@ -54,9 +106,13 @@ class ItemController extends Controller
         $model->box_id= $id;
         $model->trans_id= $id;
         $model->save();
+
+
+
+
+
         // echo '<pre>';
         // print_r($model->errors);
-
     }
     /**
      * Display details of a single item.
@@ -106,6 +162,14 @@ class ItemController extends Controller
     protected function findModel($id)
     {
         if (($model = Item::findOne($id)) !== null)
+        {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    protected function findModel2($id)
+    {
+        if (($model = SaleRecord::findOne($id)) !== null)
         {
             return $model;
         }
