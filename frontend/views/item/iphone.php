@@ -57,12 +57,8 @@ $this->title = 'My Yii Application';
             <!-- <button type="button" class="btn btn-primary" style=" width:100%;height:40px;background-color:#1C86EE;border:0px solid;">Pay</button> -->
 
                  <br/><br/>
-            <a href="payding?id=<?= $model->id ?>">
-                <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;">
-                    Pay
-                </button>
-                     <?= Html::a('hasdjhags',['item/ok?id='.$model->id])?>
-            </a>
+
+                 <?= Html::a('Pay',['item/payding', 'id' => $model->id],['class'=>"btn btn-primary pay"])?>
 
               <br/>
               <br/>
@@ -89,7 +85,13 @@ $this->title = 'My Yii Application';
         -10px 0px 10px green,  /*右边阴影*/
         0px 0px 20px #CDCDB4;" /*下边阴影*/ */
     }
-
+    .pay{
+        width:100%;
+        height:40px;
+        background-color:#1C86EE;
+        border:0px solid;
+        line-height: 30px;
+    }
 </style>
 <script>
 $('#exampleModal').on('show.bs.modal', function (event) {

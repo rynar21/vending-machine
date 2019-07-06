@@ -53,12 +53,21 @@ class ItemController extends Controller
         $model = new Item();
         $model2 = new SaleRecord();
 
+
+        $item = Item::findOne($id);
+        $model = new SaleRecord();
+        $model->item_id= $id;
+        $model->box_id= $id;
+        $model->trans_id= $id;
+        $model->save();
+        
         return $this->render('payding', [
             'searchModel' => $searchModel,
             'item_model' => $item_model,
             'model' => $this->findModel($id),
             'model2' => $this->findModel2($id),
         ]);
+
     }
 
     public function actionRecord($id)
@@ -97,6 +106,11 @@ class ItemController extends Controller
         $model->box_id= $id;
         $model->trans_id= $id;
         $model->save();
+
+
+
+
+
         // echo '<pre>';
         // print_r($model->errors);
     }
