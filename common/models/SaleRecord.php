@@ -15,6 +15,9 @@ use Yii;
  */
 class SaleRecord extends \yii\db\ActiveRecord
 {
+    const STATUS_PENDING = 9;
+    const STATUS_SUCCESS = 10;
+    const STATUS_FAILED = 0;
     /**
      * {@inheritdoc}
      */

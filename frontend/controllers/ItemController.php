@@ -3,12 +3,19 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\Store;
+use common\models\Box;
 use common\models\Item;
 use common\models\SaleRecord;
+use backend\models\BoxSearch;
 use backend\models\ItemSearch;
+use backend\models\SaleRecordSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
+use yii\data\BaseDataProvider;
+
 
 /**
  * ItemController implements the CRUD actions for Item model.
@@ -34,6 +41,50 @@ class ItemController extends Controller
      * Lists all Item models.
      * @return mixed
      */
+    public function actionHome($id)
+    {
+      $box_model = new BoxSearch();
+      $box_data = $box_model->search(Yii::$app->request->queryParams);
+      $item_model = new ItemSearch();
+      $item_data = $item_model->search(Yii::$app->request->queryParams);
+      $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
+
+      return $this->render('home', [
+          'store_model' => $this->findModelStore($id),
+          'item_model' => $item_model,
+          'item_data' => $item_data,
+          'box_model' => $box_model,
+          'box_data' => $box_data,
+          'id' => $id,
+      ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Lists all Item models.
+     * @return mixed
+     */
     public function actionIndex()
     {
         $searchModel = new ItemSearch();
@@ -46,6 +97,31 @@ class ItemController extends Controller
         ]);
     }
 
+    /**
+     * Lists all Item models.
+     * @return mixed
+     */
+    public function actionIndex2()
+    {
+        $searchModel = new ItemSearch();
+        $item_model = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index2', [
+            'searchModel' => $searchModel,
+            'item_model' => $item_model,
+        ]);
+    }
+
+    public function actionResults()
+    {
+        $searchModel = new ItemSearch();
+        $item_model = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('result_s', [
+            'searchModel' => $searchModel,
+            'item_model' => $item_model,
+        ]);
+    }
+
+
     public function actionOk($id)
     {
         $item = Item::findOne($id);
@@ -56,8 +132,8 @@ class ItemController extends Controller
         $model->save();
         // echo '<pre>';
         // print_r($model->errors);
-
     }
+
     /**
      * Display details of a single item.
      * @return mixed
@@ -105,10 +181,20 @@ class ItemController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Item::findOne($id)) !== null)
+        if (($item_model = Item::findOne($id)) !== null)
         {
-            return $model;
+            return $item_model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    protected function findModelStore($id)
+    {
+        if (($store_model = Store::findOne($id)) !== null)
+        {
+            return $store_model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
 }
