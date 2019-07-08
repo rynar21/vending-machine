@@ -47,16 +47,6 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/item/index']],
-        ['label' => 'Solutions', 'items' => [
-            ['label' => 'Vend Canteen', 'url' => ['/item/index']],
-            ['label' => 'Konbi Food Box','url' => ['/item/index']],
-            ]],
-        ['label' => 'Products', 'items' => [
-            ['label' => 'Self Payment Kiosks', 'url' => ['/item/index']],
-            ['label' => 'Vending Oven', 'url' => ['/item/index']],
-            ]],
-        ['label' => 'email', 'url' => ['/item/index']],
-        ['label' => 'phone', 'url' => ['/item/index']],
     ];
     if (Yii::$app->user->isGuest) {
         //$menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
