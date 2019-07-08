@@ -50,7 +50,7 @@ $this->title = 'My Yii Application';
             </div>
 
             <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
-                <b style="font-size:25px; color:green;">RM <?= $model->price ?>.00</b>
+                <b style="font-size:25px; color:green;">RM <?= number_format($model->price,2) ?></b>
             </div>
 
       </div>
@@ -73,14 +73,14 @@ $this->title = 'My Yii Application';
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
             <!-- <button type="button" class="btn btn-primary" style=" width:100%;height:40px;background-color:#1C86EE;border:0px solid;">Pay</button> -->
 
-            <a href="#">
+            <a  href="home?id=<?= $model3->store_id ?>">
                 <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;">
                   Done
                 </button>
             </a>
               <br/>
               <br/>
-            <a href="home">
+            <a href="#">
                 <button type="button" class="btn btn-primary"  style=" width:100%;height:40px; background-color:#FFFFFF; color:black;">
                     Print Receipt
                 </button>

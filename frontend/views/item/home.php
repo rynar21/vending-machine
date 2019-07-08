@@ -49,7 +49,7 @@ use yii\widgets\ActiveForm;
                     <?php if(($id == ($box->store_id)) && ($box->box_id == $item->box_id)): ?>
                       <div class="col-lg-4 col-sm-6 col-xs-6 box_row">
                         <div class="box_item">
-                          <a href="#">
+                          <a  href="iphone?id=<?= $item->id ?>">
                             <div class="item_image">
                                 <img src="<?= Url::base()?>/mel-img/pepsi.jpg" class="img-responsive"/>
                             </div>
@@ -90,19 +90,19 @@ use yii\widgets\ActiveForm;
 
 .box_item{
   width: 100%;
-  height: 40%;
+  height: 20vh;
   margin: 0 auto;
   box-shadow:2px 0px 10px #CDCDB4;
 }
 
 .item_image{
-  height: 25vh;
+  height: 15vh;
   width: auto;
   border: 0px solid black;
 }
 
 .item_image>img{
-  height: 85%;
+  height: 95%;
   padding-top: 15px;
   margin: 0 auto;
   z-index:-1;
