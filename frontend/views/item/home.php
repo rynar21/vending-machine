@@ -73,7 +73,7 @@ use yii\widgets\ActiveForm;
 }
 
 .box_row{
-  margin-top: 15px;
+  margin: 10px 0px;
 }
 
 .box_item_1{
@@ -93,6 +93,7 @@ use yii\widgets\ActiveForm;
   height: 20vh;
   margin: 0 auto;
   box-shadow:2px 0px 10px #CDCDB4;
+  border: 0px solid red;
 }
 
 .item_image{

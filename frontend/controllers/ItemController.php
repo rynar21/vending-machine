@@ -107,13 +107,15 @@ class ItemController extends Controller
         $item_model = $searchModel->search(Yii::$app->request->queryParams);
         $model = new Item();
         $model2 = new SaleRecord();
-        $model3 = new Box();
+        $model3 = new Store();
+        $store_model1 = new ActiveDataProvider(['query'=> Box::find(),]);
         return $this->render('record', [
             'searchModel' => $searchModel,
             'item_model' => $item_model,
             'model' => $this->findModel($id),
             'model2' => $this->findModel2($id),
-            'model3'=> $this->findModel3($id),
+            //'model3'=> $this->findModel3($id),
+            'store_model1' => $store_model1,
         ]);
     }
 
@@ -237,7 +239,7 @@ class ItemController extends Controller
 
     protected function findModel3($id)
     {
-        if (($model3 = Box::findOne($id)) !== null)
+        if (($model3 = Store::findOne($id)) !== null)
         {
             return $model3;
         }

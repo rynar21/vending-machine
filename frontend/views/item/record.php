@@ -73,7 +73,7 @@ $this->title = 'My Yii Application';
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
             <!-- <button type="button" class="btn btn-primary" style=" width:100%;height:40px;background-color:#1C86EE;border:0px solid;">Pay</button> -->
 
-            <a  href="home?id=<?= $model3->store_id ?>">
+            <a  href="home?id=1">
                 <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;">
                   Done
                 </button>
