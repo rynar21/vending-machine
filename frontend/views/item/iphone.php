@@ -1,5 +1,6 @@
 <?php
 
+//use yii\helpers\HtmlPurifier;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
@@ -35,7 +36,8 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class=" pull-left text-left " style=" border:0px solid blue; height:140px;width:70%; ">
                     <br/>
-                    <p><?= $model->name ?></p>
+                    <p><?= Html::encode($model->name) ?></p>
+
                 </div>
             </div>
 
@@ -44,7 +46,7 @@ $this->title = 'My Yii Application';
             </div>
 
             <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
-                <b style="font-size:25px; color:green;">RM <?= $model->price ?>.00</b>
+                <b style="font-size:25px; color:green;">RM <?= number_format($model->price,2) ?></b>
             </div>
 
       </div>
@@ -58,8 +60,8 @@ $this->title = 'My Yii Application';
 
                  <br/><br/>
 
-                 <?= Html::a('Pay',['item/payding', 'id' => $model->id],['class'=>"btn btn-primary pay"])?>
-
+                 <?= Html::a('Pay',['item/ok', 'id' => $model->id],['class'=>"btn btn-primary pay"])?>
+                
               <br/>
               <br/>
             <a href="index">
