@@ -107,12 +107,12 @@ class ItemController extends Controller
         $model2 = new SaleRecord();
 
 
-        $item = Item::findOne($id);
-        $model = new SaleRecord();
-        $model->item_id= $id;
-        $model->box_id= $id;
-        $model->trans_id= $id;
-        $model->save();
+        // $item = Item::findOne($id);
+        // $model = new SaleRecord();
+        // $model->item_id= $id;
+        // $model->box_id= $id;
+        // $model->trans_id= $id;
+        // $model->save();
 
         return $this->render('payding', [
             'searchModel' => $searchModel,
@@ -184,7 +184,7 @@ class ItemController extends Controller
         $model->box_id= $id;
         $model->trans_id= $id;
         $model->save();
-
+        return $this->redirect(['payding', 'id' => $id]);
 
 
 
