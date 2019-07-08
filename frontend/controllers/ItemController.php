@@ -45,8 +45,10 @@ class ItemController extends Controller
     {
       $box_model = new BoxSearch();
       $box_data = $box_model->search(Yii::$app->request->queryParams);
+
       $item_model = new ItemSearch();
       $item_data = $item_model->search(Yii::$app->request->queryParams);
+
       $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
 
       return $this->render('home', [
