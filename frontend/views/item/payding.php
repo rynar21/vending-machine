@@ -38,12 +38,12 @@ $this->title = 'My Yii Application';
                     <p><?= $model->name ?></p>
                 </div>
             </div>
-                <div   class=" col-sm-12 col-lg-12">
-                    <hr style=" border:1px #D4D4D4 solid; background-color:#D4D4D4;"/>
-                </div>
-                <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
-                    <b style="font-size:25px; color:green;">RM <?= number_format($model->price,2) ?></b>
-                </div>
+            <div   class=" col-sm-12 col-lg-12">
+                <hr style=" border:1px #D4D4D4 solid; background-color:#D4D4D4;"/>
+            </div>
+            <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
+                <b style="font-size:25px; color:green;">RM <?= number_format($model->price,2) ?></b>
+            </div>
       </div>
    </div>
 
@@ -74,7 +74,7 @@ $this->title = 'My Yii Application';
                 ?>
                     <!-- <button type="button" class="btn btn-primary" style=" width:100%;height:40px;background-color:#1C86EE;border:0px solid;">Pay</button> -->
                         <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;"
-                            data-toggle="modal" data-target=<?php  echo $str ?> data-whatever="@mdo">
+                            data-toggle="modal" data-target=<?php echo $str;?> data-whatever="@mdo">
                             Next
                         </button>
                     <br/>
@@ -92,7 +92,7 @@ $this->title = 'My Yii Application';
                   <div class="modal-dialog" role="document">
                       <div class="modal-content col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style=" border:0px solid ;">
                            <br/>
-                              <img src="<?= Url::base()?>/img/logo.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
+                              <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
 
                         <br/>
                             <h style="color:red;"> Please follow the steps listed to make payment successfully.</h>
@@ -120,7 +120,7 @@ $this->title = 'My Yii Application';
                   <div class="modal-dialog" role="document">
                     <div class="modal-content col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style=" border:0px solid ;">
                          <br/>
-                            <img src="<?= Url::base()?>/img/logo.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
+                            <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
 
                       <br/>
                           <h style="color:green;">Thank you for using our service. Please proceed to end this session.</h>
