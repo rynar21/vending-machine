@@ -47,7 +47,7 @@ use yii\widgets\ActiveForm;
               <?php foreach($item_data->getModels() as $item): ?>
                   <!-- 如果盒子ID等于商品ID -->
                     <?php if(($id == ($box->store_id)) && ($box->box_id == $item->box_id)): ?>
-                      <div class="col-lg-4 col-sm-6 col-xs-6 box_row">
+                      <div class="col-lg-4 col-sm-6 col-xs-6 box_row" style="padding: 0 5px;">
                         <div class="box_item">
                           <a  href="iphone?id=<?= $item->id ?>">
                             <div class="item_image">
@@ -73,7 +73,7 @@ use yii\widgets\ActiveForm;
 }
 
 .box_row{
-  margin: 15px 0px;
+  margin-top: 15px;
 }
 
 .box_item_1{
