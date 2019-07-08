@@ -14,6 +14,9 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\Store;
+use yii\data\ActiveDataProvider;
+
 
 /**
  * Site controller
@@ -117,9 +120,10 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionContact()
+    public function actionContact($id)
     {
         $model = new ContactForm();
+        $model3 = new ActiveDataProvider(['query'=> store::find(),]);
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
@@ -131,8 +135,17 @@ class SiteController extends Controller
         } else {
             return $this->render('contact', [
                 'model' => $model,
+                'model3' => $this->findModel3($id),
             ]);
         }
+    }
+
+    protected function findModel3($id)
+    {
+        if (($model3 = Store::findOne($id)) !== null) {
+            return $model3;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     /**
