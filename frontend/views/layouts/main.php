@@ -71,10 +71,9 @@ AppAsset::register($this);
 </div>
 
 <footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+    <div class="container" style="position:relative;">
+        <a href="#" style=" position: absolute; right:8vw">about</a>
+        <a href="#" style=" position: absolute; right:1vw">container</a>
     </div>
 </footer>
 
