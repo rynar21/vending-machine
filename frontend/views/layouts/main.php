@@ -24,13 +24,6 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <style>
-    .myclass>img{
-        height: 20px;
-        width: 20px;
-        position: absolute;
-    }
-    </style>
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -38,7 +31,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' =>  '<img src="../web/img/logo.png" class="img-responsive"/>Vending Machine',
+        'brandLabel' =>  '<img src="../web/img/logo.png"/>',
         'brandOptions' => ['class' => 'myclass'], //options of the brand
         'brandUrl' => '/item/index',
         'options' => [
