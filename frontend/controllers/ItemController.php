@@ -190,6 +190,15 @@ class ItemController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    protected function findModel2($id)
+    {
+        if (($model = SaleRecord::findOne($id)) !== null)
+        {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
     protected function findModelStore($id)
     {
         if (($store_model = Store::findOne($id)) !== null)
