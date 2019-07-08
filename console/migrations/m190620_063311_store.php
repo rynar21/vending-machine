@@ -16,9 +16,10 @@ class m190620_063311_store extends Migration
         'store_id'=>$this->primaryKey(),
         'store_name'=>$this->string()->notNull(),
         'store_description'=>$this->string(),
+        'store_contact'=>$this->integer()->notNull(),
       ]);
     }
-    
+
     /**
      * {@inheritdoc}
      */

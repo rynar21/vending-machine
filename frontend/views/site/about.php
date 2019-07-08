@@ -15,17 +15,18 @@ $this->title = 'About';
   text-align: justify;
   text-justify: inter-word;
 } */
-
-#map {
-  height: 400px;  /* The height is 400 pixels */
-  width: 100%;  /* The width is the width of the web page */
+ .carousel-inner>.item {
+     height: 25vh;
+ }
+ .carousel-inner {
+     height: 22vh;
  }
 
 </style>
 
 <div class="container-fluid">
 
-  <div class="container-fuild animated fadeInRight">
+  <div class="container-fuild">
       <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
@@ -73,11 +74,7 @@ $this->title = 'About';
       </div>
   </div>
   <br>
-  <!--About title with background image -->
-  <!-- <div class="site-about jumbotron" style="background-image: url(../../../image/bg7.jpg); background-size: cover； ">
-    <h1>About Us</h1>
-    <p>"This is line for vision & Mission. You may modify the following file to customize its content"</p>
-  </div> -->
+
 
   <div class="container-fluid animated fadeInRight">
       <div class="col-sm-6">
@@ -91,12 +88,7 @@ $this->title = 'About';
           fringilla dolor ac, lobortis erat. Phasellus ac fermentum tortor.
           Nulla facilisi. Vivamus dignissim placerat faucibus.
         </p>
-        <!-- <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum
-          libero metus, et vestibulum neque convallis eget. Sed in enim viverra,
-          fringilla dolor ac, lobortis erat. Phasellus ac fermentum tortor.
-          Nulla facilisi. Vivamus dignissim placerat faucibus.
-        </p> -->
+
       </div>
     </div>
 
@@ -115,6 +107,37 @@ $this->title = 'About';
         <img src="../../../image/bg4.jpg" class="img-responsive" alt="Responsive image">
       </div>
     </div>
+    <div class="container-fluid animated fadeInRight">
+        <div class="col-sm-6">
+          <img src="../../../image/bg5.jpg" class="img-responsive" alt="Responsive image">
+        </div>
+        <div class="col-sm-6">
+          <h2>Our Expertise</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum
+            libero metus, et vestibulum neque convallis eget. Sed in enim viverra,
+            fringilla dolor ac, lobortis erat. Phasellus ac fermentum tortor.
+            Nulla facilisi. Vivamus dignissim placerat faucibus.
+          </p>
+
+        </div>
+      </div>
+
+      <div class="container-fluid animated fadeInRight">
+        <div class="col-sm-6">
+          <h2>Our Social Responsibility</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum
+            libero metus, et vestibulum neque convallis eget. Sed in enim viverra,
+            fringilla dolor ac, lobortis erat. Phasellus ac fermentum tortor.
+            Nulla facilisi. Vivamus dignissim placerat faucibus.
+          </p>
+        </div>
+
+        <div class="col-sm-6 text-center">
+          <img src="../../../image/bg4.jpg" class="img-responsive" alt="Responsive image">
+        </div>
+      </div>
 
 
     <div class="container-fluid p-3 mb-2 bg-success text-white animated fadeInUp">
@@ -122,23 +145,6 @@ $this->title = 'About';
         <h1>Location</h1>
       </div>
       <div class="col-sm-4">
-        <!-- <div id="map"></div>
-    <script>
-    // Initialize and add the map
-    function initMap() {
-      // The location of Uluru
-      var uluru = {lat: -25.344, lng: 131.036};
-      // The map, centered at Uluru
-      var map = new google.maps.Map(
-          document.getElementById('map'), {zoom: 4, center: uluru});
-      // The marker, positioned at Uluru
-      var marker = new google.maps.Marker({position: uluru, map: map});
-    }
-    </script>
-
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
-    </script> -->
         <h3>Simpang Branch</h3>
         <p>Lorem ipsum dolor sit amet,</p>
         <p>tulibero metus,</p>
@@ -176,3 +182,34 @@ $this->title = 'About';
     </div>
 
 </div>
+
+<!--About title with background image -->
+<!-- <div class="site-about jumbotron" style="background-image: url(../../../image/bg7.jpg); background-size: cover； ">
+  <h1>About Us</h1>
+  <p>"This is line for vision & Mission. You may modify the following file to customize its content"</p>
+</div> -->
+
+<!-- Show google map on website FAIL-->
+<!-- <style>
+#map {
+  height: 400px;  /* The height is 400 pixels */
+  width: 100%;  /* The width is the width of the web page */
+ }
+ </style> -->
+<!-- <div id="map"></div>
+<script>
+// Initialize and add the map
+function initMap() {
+// The location of Uluru
+var uluru = {lat: -25.344, lng: 131.036};
+// The map, centered at Uluru
+var map = new google.maps.Map(
+  document.getElementById('map'), {zoom: 4, center: uluru});
+// The marker, positioned at Uluru
+var marker = new google.maps.Marker({position: uluru, map: map});
+}
+</script>
+
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+</script> -->
