@@ -33,7 +33,7 @@ AppAsset::register($this);
     NavBar::begin([
         'brandLabel' =>  '<img src="../web/img/logo.png"/>',
         'brandOptions' => ['class' => 'myclass'], //options of the brand
-        'brandUrl' => '/item/index',
+        'brandUrl' => '/site/index',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],

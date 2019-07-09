@@ -55,7 +55,7 @@ $this->title = 'My Yii Application';
             </div>
         </div>
             <div class="container-fluid">
-                <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:5px;">
+                <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:10px; margin-top:15px;">
                     <div class="row">
                         <div class="text-center">
                             <h2 class=" text-uppercase text-info font-weight-bold"style="font-size:xx-large;">stores</h2>
@@ -75,43 +75,64 @@ $this->title = 'My Yii Application';
                             <div class="col-sm-4 col-lg-4"style="position:relative;">
                                 <div class="thumbnail font-weight-bold text-center" style="font-size:x-large;">
                                     <?= $store->store_name ?>
-                                    <img src="../web/img/baishi.jpg"/>
+                                    <img src="../web/img/baishi.jpg"/ style="with:100px;height:150px;">
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
             </div>
-            <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:10px; margin-top:15px;">
                 <div class="row">
                     <div class="text-center">
                         <h2 class=" text-uppercase text-info font-weight-bold"style="font-size:xx-large;">products</h2>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2 col-md-4 col-lg-4">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
         				<div class="thumbnail text-center" >
-        					<img class="img-responsive" src="../web/img/baishi.jpg" alt="">
+        					<img class="img-responsive" src="../web/img/baishi.jpg" alt=""style="with:100px;height:150px;">
         					<h4>cola</h4>
         					<!-- <p class="text-muted">Client 01</p> -->
         				</div>
         			</div>
-        			<div class="col-sm-2 col-md-4 col-lg-4">
+        			<div class="col-sm-4 col-md-4 col-lg-4">
         				<div class="thumbnail text-center" >
-        					<img class="img-responsive" src="../web/img/kele.jpg" alt="">
+        					<img class="img-responsive" src="../web/img/kele.jpg" alt=""style="with:100px;height:150px;">
         					<h4>cola</h4>
         					<!-- <p class="text-muted">Client 02</p> -->
         				</div>
         			</div>
-        			<div class="col-sm-2 col-md-4 col-lg-4">
+        			<div class="col-sm-4 col-md-4 col-lg-4">
         				<div class="thumbnail text-center" >
-        					<img class="img-responsive" src="../web/img/baishi.jpg" alt="">
+        					<img class="img-responsive" src="../web/img/baishi.jpg" alt=""style="with:100px;height:150px;">
         					<h4>cola</h4>
         					<!-- <p class="text-muted">Client 03</p> -->
         				</div>
         			</div>
         		</div>
             </div>
-        <div class="container"></div>
+        </div>
+        <div class="container-fluid">
+            <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:10px; margin-top:15px;">
+                <div class="row">
+                    <div class="text-center">
+                        <h2 class=" text-uppercase text-info font-weight-bold"style="font-size:xx-large;">steps</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <img class="img-responsive img-rounded" src="../web/img/fmj.jpg"/ style="border-radius:10px;">
+                    </div>
+                    <div class="col-sm-6 text-justify">
+                        <p>1.Support WeChat, Alipay, Jingdong wallet, banknotes, coins payment and coins change function.</p>
+                        <p>2.Supporting a powerful cloud service management platform, you can query every vending machine sales information, operation status, fault alarm anytime and anywhere through the network.</p>
+                        <p>3.It can also sell a variety of snacks, drinks and other products, which have a wide range of applications and high economic returns.</p>
+                        <p>4.Fuselage Material: All-steel structure, strong and durable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
