@@ -17,6 +17,7 @@ class m190620_063257_item extends Migration
         'name'=>$this->string()->notNull(),
         'price'=>$this->float(10,2)->notNull(),
         'box_id'=>$this->integer()->notNull(),
+        'created_date'=>$this->DateTime()->notNull(),
       ]);
     }
 
