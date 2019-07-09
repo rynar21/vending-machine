@@ -20,8 +20,8 @@ class m190621_100127_sales_record extends Migration
           'item_id' =>$this->integer()->notNull(),
           'trans_id' =>$this->integer()->notNull(),
           'status' =>$this->smallInteger()->notNull()->defaultValue(9),
-          'store_created_date'=>$this->DateTime()->notNull(),
-          'store_updated_date'=>$this->DateTime()->notNull(),
+          'created_date'=>$this->string()->notNull(),
+          'updated_date'=>$this->string()->notNull(),
       ]);
 
     }
