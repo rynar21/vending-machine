@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-md-12">
                 <p class="pull-right">
-                    <a class="btn btn-success" href="/vending-machine/backend/web/store/create">Create Store</a></p>
+                  <?= Html::a('Create Store', ['create'], ['class' => 'btn btn-success']) ?></p>
             </div>
         </div>
         <br class="row">
