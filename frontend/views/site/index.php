@@ -24,7 +24,7 @@ $this->title = 'My Yii Application';
                             <img class="img-responsive" src="../web/img/home1.jpg" alt="...">
                         </div>
                         <div class="item">
-                            <img class="img-responsive" src="../web/img/trade_show.jpg" alt="...">
+                            <img class="img-responsive" src="../web/img/show.jpg" alt="...">
                         </div>
                         <div class="item">
                             <img class="img-responsive" src="../web/img/konbini_vending_oven_medium.jpg" alt="...">
