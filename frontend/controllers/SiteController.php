@@ -51,12 +51,6 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
         ];
     }
 
