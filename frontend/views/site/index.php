@@ -74,7 +74,7 @@ $this->title = 'My Yii Application';
                             <div class="col-sm-4 col-lg-4"style="position:relative;">
                                 <div class="thumbnail font-weight-bold text-center" style="font-size:x-large;">
                                     <?= $store->store_name ?>
-                                    <img src="../web/img/baishi.jpg" style="width:130px; height:150px;"/>
+                                    <img src="<?= $store->store_image ?>" style="width:130px; height:150px;"/>
                                 </div>
                             </div>
                         <?php endforeach; ?>

@@ -33,14 +33,13 @@ AppAsset::register($this);
     NavBar::begin([
         'brandLabel' =>  '<img src="../web/img/logo.png"/>',
         'brandOptions' => ['class' => 'myclass'], //options of the brand
-        'brandUrl' => '/site/index',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/item/index']],
-    ];
+    // $menuItems = [
+    //     ['label' => 'Home', 'url' => ['/item/index']],
+    // ];
     if (Yii::$app->user->isGuest) {
         //$menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         //$menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
@@ -54,10 +53,10 @@ AppAsset::register($this);
             . Html::endForm()
             . '</li>';
     }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
+    // echo Nav::widget([
+    //     'options' => ['class' => 'navbar-nav navbar-right'],
+    //     'items' => $menuItems,
+    // ]);
     NavBar::end();
     ?>
 
