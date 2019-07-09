@@ -28,7 +28,7 @@ class Store extends \yii\db\ActiveRecord
     {
         return [
             [['store_name'], 'required'],
-            [['store_name', 'store_description'], 'string', 'max' => 255,'required'],
+            [['store_name', 'store_description'], 'string', 'max' => 255],
         ];
     }
 
