@@ -21,8 +21,10 @@ class m190620_063254_box extends Migration
       $this->createTable('box', [
           'box_id' => $this->primaryKey(),
           'box_code' => $this->integer(),
-          'box_status' => $this->smallInteger()->notNull()->defaultValue(0),
+          'box_status' => $this->smallInteger()->notNull()->defaultValue(2),
           'store_id' => $this->integer(),
+          'box_created_date'=>$this->DateTime()->notNull(),
+          'box_updated_date'=>$this->DateTime()->notNull(),
       ]);
     }
 
