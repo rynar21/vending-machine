@@ -74,7 +74,7 @@ $this->title = 'My Yii Application';
                 ?>
                     <!-- <button type="button" class="btn btn-primary" style=" width:100%;height:40px;background-color:#1C86EE;border:0px solid;">Pay</button> -->
                         <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;"
-                            data-toggle="modal" data-target=<?php echo $str;?> data-whatever="@mdo">
+                            data-toggle="modal" data-target=<?php echo $str;?>>
                             Next
                         </button>
                     <br/>
@@ -164,14 +164,3 @@ $this->title = 'My Yii Application';
 }
 
 </style>
-<script>
-$('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('whatever') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
-})
-</script>

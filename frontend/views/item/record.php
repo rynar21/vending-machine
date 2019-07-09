@@ -65,7 +65,7 @@ $this->title = 'My Yii Application';
             <h5>Order Time:</h5>
             <h4>
             <?php date_default_timezone_set('PRC'); ?>
-            <?php  echo date('Y-m-d h:i:s', time());?>
+            <?php  echo date('Y-m-d H:i:s', time());?>
             </h4>
         </div>
     </div>

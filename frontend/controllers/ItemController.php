@@ -128,89 +128,53 @@ class ItemController extends Controller
             'searchModel' => $searchModel,
             'item_model' => $item_model,
             'model' => $this->findModel($id),
-
         ]);
     }
 
-    /**
-     * Lists all Item models.
-     * @return mixed
-     */
-    public function actionIndex2()
+    public function actionCannot()
     {
-        $searchModel = new ItemSearch();
+
         $item_model = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('index2', [
-            'searchModel' => $searchModel,
+
+        return $this->render('home', [
+            'id' => $id,
             'item_model' => $item_model,
+
         ]);
     }
 
-    public function actionResults()
-    {
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('result_s', [
-            'searchModel' => $searchModel,
-            'item_model' => $item_model,
-        ]);
-    }
 
 
     public function actionOk($id)
     {
+
         $item = Item::findOne($id);
-        $model = new SaleRecord();
-        $model->item_id= $id;
-        $model->box_id= $id;
-        $model->trans_id= $id;
-        $model->save();
-        return $this->redirect(['payding', 'id' => $id]);
+        if ($item) {
+            $record = SaleRecord::find()->where(['item_id' => $id, 'status' => [9, 10]])->all();
 
+            if ($record) {
+                echo "this item cannot be purchase, either is under purchase, or has been purchased";
+                
+                return $this->render('cannot', [
+                    '$model' => $item,
+                ]);
+            }
 
+            else {
+                $record = new SaleRecord();
+                $record->item_id= $id;
+                $record->box_id= $id;
+                $record->trans_id= $id;
+                $record->save();
+                return $this->redirect(['payding', 'id' => $id]);
+            }
 
-
+        }
         // echo '<pre>';
         // print_r($model->errors);
     }
 
-    /**
-     * Display details of a single item.
-     * @return mixed
-     */
-    public function actionPayment($id)
-    {
-        $model = new SaleRecord();
-        // $model->item_id =$id . uniqid();
-        // $model->store_description = "this is a auto generated";
-        $model->save();
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('payment', [
-              'searchModel' => $searchModel,
-              'item_model' => $item_model,
-              'model' => $this->findModel($id),
-        ]);
-
-    }
-
-    /**
-     * Lists all Item models.
-     * @return mixed
-     */
-    public function actionResult($id)
-    {
-        $model2 = new SaleRecord();
-        $model2->save();
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('result', [
-            'searchModel' => $searchModel,
-            'item_model' => $item_model,
-        ]);
-    }
 
     /**
      * Finds the Item model based on its primary key value.
@@ -230,7 +194,7 @@ class ItemController extends Controller
 
     protected function findModel2($id)
     {
-        if (($model = SaleRecord::findOne($id)) !== null)
+        if (($model = SaleRecord::findOne(['item_id' => $id])) !== null)
         {
             return $model;
         }
