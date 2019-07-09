@@ -3,8 +3,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\db\Query;
 use yii\data\BaseDataProvider;
-use yii\widgets\ActiveForm;
-use common\models\Store;
+use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -55,7 +54,7 @@ $this->title = 'My Yii Application';
             </div>
         </div>
             <div class="container-fluid">
-                <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:10px; margin-top:15px;">
+                <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:5px; margin-top:15px; box-shadow:3px 3px 7px #333333;">
                     <div class="row">
                         <div class="text-center">
                             <h2 class=" text-uppercase text-info font-weight-bold"style="font-size:xx-large;">stores</h2>
@@ -75,47 +74,47 @@ $this->title = 'My Yii Application';
                             <div class="col-sm-4 col-lg-4"style="position:relative;">
                                 <div class="thumbnail font-weight-bold text-center" style="font-size:x-large;">
                                     <?= $store->store_name ?>
-                                    <img src="../web/img/baishi.jpg"/ style="with:100px;height:150px;">
+                                    <img src="../web/img/baishi.jpg" style="width:130px; height:150px;"/>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
             </div>
-        <div class="container-fluid">
-            <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:10px; margin-top:15px;">
-                <div class="row">
-                    <div class="text-center">
-                        <h2 class=" text-uppercase text-info font-weight-bold"style="font-size:xx-large;">products</h2>
+            <div class="container-fluid">
+                <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:5px; margin-top:15px; box-shadow:3px 3px 7px #333333;">
+                    <div class="row">
+                        <div class="text-center">
+                            <h2 class=" text-uppercase text-info font-weight-bold"style="font-size:xx-large;">products</h2>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+            				<div class="thumbnail text-center" >
+            					<img class="img-responsive" src="../web/img/baishi.jpg" alt=""style="width:130px; height:150px;">
+            					<h4>cola</h4>
+            					<!-- <p class="text-muted">Client 01</p> -->
+            				</div>
+            			</div>
+            			<div class="col-sm-4 col-md-4 col-lg-4">
+            				<div class="thumbnail text-center" >
+            					<img class="img-responsive" src="../web/img/kele.jpg" alt=""style="width:130px; height:150px;">
+            					<h4>cola</h4>
+            					<!-- <p class="text-muted">Client 02</p> -->
+            				</div>
+            			</div>
+            			<div class="col-sm-4 col-md-4 col-lg-4">
+            				<div class="thumbnail text-center" >
+            					<img class="img-responsive" src="../web/img/baishi.jpg" alt=""style="width:130px; height:150px;">
+            					<h4>cola</h4>
+            					<!-- <p class="text-muted">Client 03</p> -->
+            				</div>
+            			</div>
+            		</div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-4 col-md-4 col-lg-4">
-        				<div class="thumbnail text-center" >
-        					<img class="img-responsive" src="../web/img/baishi.jpg" alt=""style="with:100px;height:150px;">
-        					<h4>cola</h4>
-        					<!-- <p class="text-muted">Client 01</p> -->
-        				</div>
-        			</div>
-        			<div class="col-sm-4 col-md-4 col-lg-4">
-        				<div class="thumbnail text-center" >
-        					<img class="img-responsive" src="../web/img/kele.jpg" alt=""style="with:100px;height:150px;">
-        					<h4>cola</h4>
-        					<!-- <p class="text-muted">Client 02</p> -->
-        				</div>
-        			</div>
-        			<div class="col-sm-4 col-md-4 col-lg-4">
-        				<div class="thumbnail text-center" >
-        					<img class="img-responsive" src="../web/img/baishi.jpg" alt=""style="with:100px;height:150px;">
-        					<h4>cola</h4>
-        					<!-- <p class="text-muted">Client 03</p> -->
-        				</div>
-        			</div>
-        		</div>
             </div>
-        </div>
         <div class="container-fluid">
-            <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:10px; margin-top:15px;">
+            <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:5px;margin-top:15px; box-shadow:3px 3px 7px #333333;">
                 <div class="row">
                     <div class="text-center">
                         <h2 class=" text-uppercase text-info font-weight-bold"style="font-size:xx-large;">steps</h2>
@@ -123,13 +122,36 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <img class="img-responsive img-rounded" src="../web/img/fmj.jpg"/ style="border-radius:10px;">
+                        <img class="img-responsive img-rounded" src="../web/img/fmj.jpg"/ style="border-radius:10px; margin-bottom:20px;">
                     </div>
                     <div class="col-sm-6 text-justify">
-                        <p>1.Support WeChat, Alipay, Jingdong wallet, banknotes, coins payment and coins change function.</p>
-                        <p>2.Supporting a powerful cloud service management platform, you can query every vending machine sales information, operation status, fault alarm anytime and anywhere through the network.</p>
-                        <p>3.It can also sell a variety of snacks, drinks and other products, which have a wide range of applications and high economic returns.</p>
-                        <p>4.Fuselage Material: All-steel structure, strong and durable.</p>
+                        <p>1.It is designed according to international MDB standard and conforms to international DEX standard. It can support all kinds of international general standard peripherals</p>
+                        <p>2.Support bank card, network, electronic wallet, paper money, coins and other payment functions as well as coin change.</p>
+                        <p>3.Supporting a powerful cloud service management platform, you can query every vending machine sales information, operation status, fault alarm anytime and anywhere through the network.</p>
+                        <p>4.It can sell many kinds of snacks and drinks at the same time. The product has a wide range of applications and high economic benefits.</p>
+                        <p>5.Microcomputer control system has intelligent data query, statistics, accounting, fault self-diagnosis and other management functions.</p>
+                        <p>6.The size of commodity channel can be changed at any time, flexibly adapted to various commodities of different sizes.</p>
+                        <p>7.It has power-down protection function and memory function.</p>
+                        <p>8.Standard photoelectric delivery detection system.</p>
+                        <p>9.Leakage protection function.</p>
+                        <p>9.Fuselage Material: All-steel structure explosion-proof, dust-proof, waterproof and durable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:5px;margin-top:15px; box-shadow:3px 3px 7px #333333;">
+                <div class="row">
+                    <div class="text-center">
+                        <h2 class=" text-uppercase text-info font-weight-bold"style="font-size:xx-large;">join us</h2>
+                        <div class="brief">We have a number of after-sales service outlets and technology research and development bases throughout the country to provide professional and timely services to local customers.</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-offset-4 col-sm-4 text-center">
+                        <b style="font-size: 2.5em;line-height: 1;color: #ff6c00;">400-635-9995</b>
+                        <p style="font-size: 1.33em;">E-mail :tcn@mail.tcnvending.com</p>
+
                     </div>
                 </div>
             </div>
