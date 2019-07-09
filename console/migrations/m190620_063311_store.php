@@ -17,6 +17,7 @@ class m190620_063311_store extends Migration
         'store_name'=>$this->string()->notNull(),
         'store_description'=>$this->string(),
         'store_contact'=>$this->integer()->notNull(),
+        'store_image'=>$this->string()->notNull(),
       ]);
     }
 
