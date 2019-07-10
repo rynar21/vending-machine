@@ -41,7 +41,7 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class=" pull-left text-left " style=" border:0px solid blue; height:140px;width:70%; ">
                     <br/>
-                    <p><?= $model->name ?></p>
+                    <p><?= Html::encode($model->name) ?></p>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@ $this->title = 'My Yii Application';
             </div>
 
             <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
-                <b style="font-size:25px; color:green;">RM <?= number_format($model->price,2) ?></b>
+                <b style="font-size:25px; color:green;">RM <?= number_format(Html::encode($model->price),2) ?></b>
             </div>
 
       </div>
@@ -61,7 +61,7 @@ $this->title = 'My Yii Application';
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 " style="border:0px solid red;">
             <h5>Transaction No:</h5>
-            <h4><?=$model2->id ?></h4>
+            <h4><?= Html::encode($model2->id) ?></h4>
             <h5>Order Time:</h5>
             <h4>
             <?php date_default_timezone_set('PRC'); ?>
@@ -80,7 +80,7 @@ $this->title = 'My Yii Application';
             </a>
               <br/>
               <br/>
-            <a href="#">
+            <a href="<?= Url::to(['item/record', 'id' => $model->id]) ?>">
                 <button type="button" class="btn btn-primary"  style=" width:100%;height:40px; background-color:#FFFFFF; color:black;">
                     Print Receipt
                 </button>

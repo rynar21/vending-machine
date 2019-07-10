@@ -35,14 +35,14 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class=" pull-left text-left " style=" border:0px solid blue; height:140px;width:70%; ">
                     <br/>
-                    <p><?= $model->name ?></p>
+                    <p><?= Html::encode($model->name) ?></p>
                 </div>
             </div>
             <div   class=" col-sm-12 col-lg-12">
                 <hr style=" border:1px #D4D4D4 solid; background-color:#D4D4D4;"/>
             </div>
             <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
-                <b style="font-size:25px; color:green;">RM <?= number_format($model->price,2) ?></b>
+                <b style="font-size:25px; color:green;">RM  <?= number_format(Html::encode($model->price),2) ?></b>
             </div>
       </div>
    </div>

@@ -46,7 +46,7 @@ $this->title = 'My Yii Application';
             </div>
 
             <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
-                <b style="font-size:25px; color:green;">RM <?= number_format($model->price,2) ?></b>
+                <b style="font-size:25px; color:green;">RM  <?= number_format(Html::encode($model->price),2) ?></b>
             </div>
 
       </div>
@@ -61,7 +61,7 @@ $this->title = 'My Yii Application';
                  <br/><br/>
 
                  <?= Html::a('Pay',['item/ok', 'id' => $model->id],['class'=>"btn btn-primary pay"])?>
-                
+
               <br/>
               <br/>
             <a href="index">
