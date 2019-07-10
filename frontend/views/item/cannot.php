@@ -32,7 +32,7 @@ $this->title = 'My Yii Application';
                        <br/>
                         <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
 
-                            <a href="<?= Url::to(['item/home', 'id' => 1]) ?>">
+                            <a href="<?= Url::to(['item/cannot','id'=>$model->id]) ?>">
                                 <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8"  class="btn btn-default"
                                 style="font-size:25px;font-weight:bold;">
                                   Return

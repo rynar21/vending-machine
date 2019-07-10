@@ -7,6 +7,7 @@ use common\models\Store;
 use common\models\Box;
 use common\models\Item;
 use common\models\SaleRecord;
+use backend\models\StoreSearch;
 use backend\models\BoxSearch;
 use backend\models\ItemSearch;
 use backend\models\SaleRecordSearch;
@@ -131,16 +132,59 @@ class ItemController extends Controller
         ]);
     }
 
-    public function actionCannot()
+    public function actionCannot($id)
     {
+        $box_model = new BoxSearch();
+        $box_data = $box_model->search(Yii::$app->request->queryParams);
 
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
+        $item_model = new ItemSearch();
+        $item_data = $item_model->search(Yii::$app->request->queryParams);
 
-        return $this->render('home', [
-            'id' => $id,
-            'item_model' => $item_model,
-
+        $item = new ActiveDataProvider([
+            'query' => Item::find(),
         ]);
+        $box = new ActiveDataProvider([
+            'query' => Box::find(),
+        ]);
+        $store = new ActiveDataProvider([
+            'query' => Store::find(),
+        ]);
+        foreach($item->query->all() as $item)
+        {
+            if($item->id == $id){
+                foreach($box->query->all() as $box)
+                {
+                    if ($box->box_id == $item->box_id) {
+                        return $this->render('home', [
+                            'id' => $box->store_id,
+                            'store_model'=> $this->findModelStore($box->store_id),
+                            'item_model' => $item_model,
+                            'item_data' => $item_data,
+                            'box_model' => $box_model,
+                            'box_data' => $box_data,
+                        ]);
+                    }
+                }
+            }
+        }
+        // $searchModel = new ItemSearch();
+        // $item_model = $searchModel->search(Yii::$app->request->queryParams);
+        //
+        // $searchModel2 = new StoreSearch();
+        // $store = $searchModel2->search(Yii::$app->request->queryParams);
+        //
+        // $item = Item::find()->where(['id'=>$id])->all(); // Item -> box_id
+        // $store = Box::find()->where(['box_id'=>$item->box_id])->all(); // Box -> store_id
+        //
+        // echo $store->store_id;
+        // if () {
+        //     if () {
+        //         return $this->render('home', [
+        //             'id' => $store->id,
+        //             'item_model' => $item_model,
+        //         ]);
+        //     }
+        // }
     }
 
 
@@ -151,15 +195,14 @@ class ItemController extends Controller
         $item = Item::findOne($id);
         if ($item) {
             $record = SaleRecord::find()->where(['item_id' => $id, 'status' => [9, 10]])->all();
-
             if ($record) {
                 echo "this item cannot be purchase, either is under purchase, or has been purchased";
-                
+                $item_model=new Item();
                 return $this->render('cannot', [
-                    '$model' => $item,
+                    'model' => $item,
+
                 ]);
             }
-
             else {
                 $record = new SaleRecord();
                 $record->item_id= $id;
@@ -168,7 +211,6 @@ class ItemController extends Controller
                 $record->save();
                 return $this->redirect(['payding', 'id' => $id]);
             }
-
         }
         // echo '<pre>';
         // print_r($model->errors);
@@ -219,4 +261,12 @@ class ItemController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    protected function findModelBox($id)
+    {
+        if (($store_box = Box::findOne($id)) !== null)
+        {
+            return $model_box;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
 }

@@ -117,25 +117,22 @@ $this->title = 'My Yii Application';
 
              <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo">ok</button> -->
                 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style=" border:0px solid ;">
-                         <br/>
+                   <div class="modal-dialog" role="document">
+                      <div class="modal-content col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style=" border:0px solid ;">
+                                    <br/>
                             <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
-
-                      <br/>
+                                    <br/>
                           <h style="color:green;">Thank you for using our service. Please proceed to end this session.</h>
-                     <br/>
-                     <br/>
-                      <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
-
-                          <a href="record?id=<?= $model->id ?>">
-                              <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style="font-size:25px;font-weight:bold;">
-                                Next
-                            </div>
-                        </a>
+                                 <br/><br/>
+                          <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
+                              <a   href="<?= Url::to(['item/record', 'id' => $model->id]) ?>">
+                                  <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style="font-size:25px;font-weight:bold;">
+                                    Next
+                                </div>
+                            </a>
+                          </div>
                       </div>
-                    </div>
-                  </div>
+                   </div>
                 </div>
         </div>
     </div>
