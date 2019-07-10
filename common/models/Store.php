@@ -29,6 +29,7 @@ class Store extends \yii\db\ActiveRecord
         return [
             [['store_name'], 'required'],
             [['store_name', 'store_description'], 'string', 'max' => 255],
+            [['store_contact'],'integer'],
         ];
     }
 
@@ -41,6 +42,7 @@ class Store extends \yii\db\ActiveRecord
             'store_id' => 'Store ID',
             'store_name' => 'Store Name',
             'store_description' => 'Store Description',
+            'store_contact' => 'Store Contact',
         ];
     }
 }
