@@ -23,8 +23,8 @@ class m190620_063254_box extends Migration
           'box_code' => $this->integer(),
           'box_status' => $this->smallInteger()->notNull()->defaultValue(2),
           'store_id' => $this->integer(),
-          'box_created_date'=>$this->DateTime()->notNull(),
-          'box_updated_date'=>$this->DateTime()->notNull(),
+          'created_date' => $this->integer()->notNull(),
+          'updated_date' => $this->integer()->notNull(),
       ]);
     }
 
@@ -37,19 +37,4 @@ class m190620_063254_box extends Migration
         // echo "m190620_063254_box cannot be reverted.\n";
         // return false;
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m190620_063254_box cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

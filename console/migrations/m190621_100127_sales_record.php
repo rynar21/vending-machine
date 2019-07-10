@@ -20,8 +20,8 @@ class m190621_100127_sales_record extends Migration
           'item_id' =>$this->integer()->notNull(),
           'trans_id' =>$this->integer()->notNull(),
           'status' =>$this->smallInteger()->notNull()->defaultValue(9),
-          'store_created_date'=>$this->DateTime()->notNull(),
-          'store_updated_date'=>$this->DateTime()->notNull(),
+          'created_date' => $this->integer()->notNull(),
+          'updated_date' => $this->integer()->notNull(),
       ]);
 
     }
@@ -42,19 +42,4 @@ class m190621_100127_sales_record extends Migration
 
           ]);
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m190621_100127_sales_record cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }
