@@ -68,12 +68,24 @@ class OperatorController extends Controller
     public function actionCreate()
     {
         $model = new Operator();
-
         if ($model->load(Yii::$app->request->post()) ) {
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
+
+        // $request = Yii::$app->request;
+        //
+        // if ($data = $request->post('Operator')) {
+        //     $model = new Operator();
+        //     $model->operator_name = $data['operator_name'];
+        //     $model->user_id = $data['user_id'];
+        //     if ($model->validate()) {
+        //         if ($model->save()) {
+        //             return $this->redirect(['view', 'id' => $model->id]);
+        //         }
+        //     }
+        // }
 
         return $this->render('create', [
             'model' => $model,
