@@ -12,7 +12,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\data\BaseDataProvider;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * BoxController implements the CRUD actions for Box model.
@@ -25,7 +24,6 @@ class BoxController extends Controller
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -69,9 +67,7 @@ class BoxController extends Controller
     {
       $searchModel = new BoxSearch();
       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-      $model2 = new Box();
       $store_model = new ActiveDataProvider(['query'=> store::find(),]);
-      $model4 = new Item();
       $item_model = new ActiveDataProvider(['query' => Item::find(),]);
 
       return $this->render('index', [
