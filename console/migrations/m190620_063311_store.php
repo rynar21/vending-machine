@@ -13,12 +13,12 @@ class m190620_063311_store extends Migration
     public function safeUp()
     {
       $this->createTable('store',[
-        'store_id'=>$this->primaryKey(),
-        'store_name'=>$this->string()->notNull(),
-        'store_address'=>$this->string()->notNull(),
-        'store_contact'=>$this->string()->notNull(),
-        'created_date' => $this->integer()->notNull(),
-        'updated_date' => $this->integer()->notNull(),
+        'id'=>$this->primaryKey(),
+        'name'=>$this->string()->notNull(),
+        'address'=>$this->string()->notNull(),
+        'contact'=>$this->string()->notNull(),
+        'created_at' => $this->integer()->notNull(),
+        'updated_at' => $this->integer()->notNull(),
       ]);
     }
 
