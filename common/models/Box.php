@@ -1,9 +1,8 @@
 <?php
-
 namespace common\models;
-use yii\behaviors\TimestampBehavior;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "box".
