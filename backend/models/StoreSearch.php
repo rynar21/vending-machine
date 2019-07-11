@@ -17,8 +17,8 @@ class StoreSearch extends Store
     public function rules()
     {
         return [
-            [['store_id', 'store_contact'], 'integer'],
-            [['store_name', 'store_address'], 'safe'],
+            [['id', 'contact'], 'integer'],
+            [['name', 'address'], 'safe'],
         ];
     }
 
@@ -54,12 +54,12 @@ class StoreSearch extends Store
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'store_id' => $this->store_id,
-            'store_contact' => $this->store_contact,
+            'id' => $this->id,
+            'contact' => $this->contact,
         ]);
 
-        $query->andFilterWhere(['like', 'store_name', $this->store_name])
-            ->andFilterWhere(['like', 'store_address', $this->store_address]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
     }

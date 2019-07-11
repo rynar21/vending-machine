@@ -67,12 +67,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
 
         <div class="hyu">
-          <?php foreach ($dataProvider->query->all() as $select): ?>
+          <?php foreach ($dataProvider->query->all() as $store): ?>
             <div class="col-lg-3">
               <br/>
-              <a href="<?=Url::base()?>/box/home?id=<?=$select->store_id?>">
+              <a href="<?=Url::base()?>/box/home?id=<?=$store->id?>">
                  <div class="btn btn-primary text-center"  style=" width:200px;">
-                   <?= $select->store_name ?>
+                   <?= $store->name ?>
                  </div>
               </a>
             </div>

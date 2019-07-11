@@ -3,13 +3,18 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+
 
 /**
  * This is the model class for table "store".
  *
- * @property int $store_id
- * @property string $store_name
- * @property string $store_description
+ * @property int $id
+ * @property string $name
+ * @property string $address
+ * @property int $contact
+ * @property string $created_at
+ * @property string $updated_at
  */
 class Store extends \yii\db\ActiveRecord
 {
@@ -24,12 +29,33 @@ class Store extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
-            [['store_name'], 'required'],
-            [['store_name', 'store_description'], 'string', 'max' => 255,'required'],
+            [['name', 'address', 'contact'], 'required'],
+            [['contact'], 'integer'],
+            //[['store_contact'], 'validateContact'],
+            //[['store_contact'],  'match', 'pattern'=>'/^[a-z]\w*$/i'],
+            //[['store_contact'],  'match', 'pattern'=>'/^[\d]{10}$'],
+            [['name', 'address'], 'string', 'max' => 255],
         ];
+    }
+
+    public function validateContact($attribute, $params, $validator)
+    {
+        if ($this->$attribute != '012') {
+          $this->addError($attribute, 'Must be 012');
+        }
     }
 
     /**
@@ -38,9 +64,10 @@ class Store extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'store_id' => 'Store ID',
-            'store_name' => 'Store Name',
-            'store_description' => 'Store Description',
+            'id' => 'Store ID',
+            'name' => 'Store Name',
+            'address' => 'Store Address',
+            'contact' => 'Store Contact',
         ];
     }
 }
