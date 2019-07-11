@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->store_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->store_id], [
-            'class' => 'btn btn-default btn-sm',
+            'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
@@ -31,8 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'store_id',
             'store_name',
-            'store_description',
+            'store_address',
+            'store_contact',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
+
+    <?= Yii::$app->formatter->asDateTime($model->created_at) ?>
 
 </div>
