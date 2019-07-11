@@ -58,7 +58,7 @@ $this->title = 'Contact';
               </div>
               <div class="row">
                 Contact Number<br>
-                <h4>+0<?= $model3->store_contact ?></h4><br>
+                <h4>+6<?= $model3->store_contact ?></h4><br>
               </div>
 
             </div>

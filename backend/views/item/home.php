@@ -21,7 +21,7 @@ use app\assets\AppAsset;
                 font-weight: bold; border: 2px solid black; padding: 15px 25px; width: 140px;">
                 <?= $item->name?>
                 <div style="font-size: 10px; font-style:italic;">
-                  <?= 'Box ID '.$item->box_id.'<br>'?>
+                  <?= 'Box ID '.$item->id.'<br>'?>
                   <?php foreach($box_data->query->all() as $box)
                   {
                     if($item->box_id === $box->box_id)

@@ -3,13 +3,15 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "transaction".
  *
- * @property int $trans_id
- * @property string $tans_details
- * @property string $date
+ * @property int $id
+ * @property string $details
+ * @property int $created_at
+ * @property int $updated_at
  */
 class Transaction extends \yii\db\ActiveRecord
 {
@@ -27,9 +29,19 @@ class Transaction extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date'], 'required'],
-            [['date'], 'safe'],
-            [['tans_details'], 'string', 'max' => 255],
+            // [['created_at', 'updated_at'], 'required'],
+            // [['created_at', 'updated_at'], 'integer'],
+            [['details'], 'string', 'max' => 255],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
         ];
     }
 
@@ -39,9 +51,10 @@ class Transaction extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'trans_id' => 'Trans ID',
-            'tans_details' => 'Tans Details',
-            'date' => 'Date',
+            'id' => 'ID',
+            'details' => 'Details',
+            'created_at' => 'Created Time',
+            'updated_at' => 'Updated Time',
         ];
     }
 }

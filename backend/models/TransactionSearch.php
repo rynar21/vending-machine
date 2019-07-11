@@ -17,8 +17,8 @@ class TransactionSearch extends Transaction
     public function rules()
     {
         return [
-            [['trans_id'], 'integer'],
-            [['tans_details', 'date'], 'safe'],
+            [['id'], 'integer'],
+            [['details'], 'safe'],
         ];
     }
 
@@ -58,11 +58,12 @@ class TransactionSearch extends Transaction
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'trans_id' => $this->trans_id,
-            'date' => $this->date,
+            'id' => $this->id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'tans_details', $this->tans_details]);
+        $query->andFilterWhere(['like', 'details', $this->details]);
 
         return $dataProvider;
     }
