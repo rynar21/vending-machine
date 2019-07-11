@@ -71,10 +71,14 @@ class ItemController extends Controller
     {
         $searchModel = new ItemSearch();
         $item_model = $searchModel->search(Yii::$app->request->queryParams);
+        $item_store = new StoreSearch();
+        $store = $item_store->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'item_model' => $item_model,
+            'item_store'=>$item_store,
+            'item'=>$store,
 
         ]);
     }
@@ -120,6 +124,25 @@ class ItemController extends Controller
         ]);
     }
 
+    // public function actionTest()
+    // {
+    //     $model = Item::findone(1);
+    //     echo "<pre>";
+    //     print_r ($model->store);
+    // }
+
+    // public function actionResult()
+    // {
+    //     $searchModel = new ItemSearch();
+    //     $item_model = $searchModel->search(Yii::$app->request->queryParams);
+    //
+    //     return $this->render('result', [
+    //         'searchModel' => $searchModel,
+    //         'item_model' => $item_model,
+    //         'model' => $this->findModel(1),
+    //     ]);
+    // }
+
     public function actionIphone($id)
     {
         $searchModel = new ItemSearch();
@@ -136,10 +159,8 @@ class ItemController extends Controller
     {
         $box_model = new BoxSearch();
         $box_data = $box_model->search(Yii::$app->request->queryParams);
-
         $item_model = new ItemSearch();
         $item_data = $item_model->search(Yii::$app->request->queryParams);
-
         $item = new ActiveDataProvider([
             'query' => Item::find(),
         ]);
@@ -167,24 +188,19 @@ class ItemController extends Controller
                 }
             }
         }
-        // $searchModel = new ItemSearch();
-        // $item_model = $searchModel->search(Yii::$app->request->queryParams);
+
+        // $model = Item::findOne($id);
+        // echo "<pre>";
         //
-        // $searchModel2 = new StoreSearch();
-        // $store = $searchModel2->search(Yii::$app->request->queryParams);
+        // return $this->render('home', [
+        //     'id' => $model->store->id,
+        //     'store_model'=> $this->findModelStore($model->store->id),
+        // 'item_model' => $item_model,
+        //  'item_data' => $item_data,
+        // 'box_model' => $box_model,
+        // 'box_data' => $box_data,
         //
-        // $item = Item::find()->where(['id'=>$id])->all(); // Item -> box_id
-        // $store = Box::find()->where(['box_id'=>$item->box_id])->all(); // Box -> store_id
-        //
-        // echo $store->store_id;
-        // if () {
-        //     if () {
-        //         return $this->render('home', [
-        //             'id' => $store->id,
-        //             'item_model' => $item_model,
-        //         ]);
-        //     }
-        // }
+        // ]);
     }
 
 

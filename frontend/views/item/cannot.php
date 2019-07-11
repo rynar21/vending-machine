@@ -25,11 +25,10 @@ $this->title = 'My Yii Application';
                       <div class="modal-content col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style=" border:0px solid ;">
                            <br/>
                               <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
-
                         <br/>
                             <h style="color:red;"> Please follow the steps listed to make payment successfully.</h>
                        <br/>
-                       <br/>
+                     <br/>
                         <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
 
                             <a href="<?= Url::to(['item/cannot','id'=>$model->id]) ?>">
@@ -37,7 +36,7 @@ $this->title = 'My Yii Application';
                                 style="font-size:25px;font-weight:bold;">
                                   Return
                               </div>
-                          </a>
+                           </a>
                         </div>
                       </div>
                 </div>
@@ -53,13 +52,11 @@ $this->title = 'My Yii Application';
                          <br/>
                             <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
 
-                      <br/>
+                       <br/>
                           <h style="color:green;">Eroor.........</h>
                      <br/>
-                     <br/>
-                      <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
-
-
+                  <br/>
+                    <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
                       </div>
                     </div>
                   </div>

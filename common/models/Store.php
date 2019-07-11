@@ -43,4 +43,9 @@ class Store extends \yii\db\ActiveRecord
             'store_description' => 'Store Description',
         ];
     }
+
+    public function getItem()
+    {
+        return $this->hasOne(Item::className(),['id'=>'item_id']);
+    }
 }

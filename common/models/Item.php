@@ -52,4 +52,14 @@ class Item extends \yii\db\ActiveRecord
     {
       return $this->hasOne(SaleRecord::className(), ['item_id'=>'id']);
     }
+
+    public function getBox()
+    {
+        return $this->hasOne(Box::className(), ['box_id' => 'box_id']);
+    }
+
+    public function getStore()
+    {
+        return $this->hasOne(Store::className(), ['store_id' => 'box_id'])->via('box');
+    }
 }

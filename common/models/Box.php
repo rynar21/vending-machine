@@ -50,6 +50,7 @@ class Box extends \yii\db\ActiveRecord
     {
       return $this->hasOne(Store::className(), ['store_id'=>'store_id']);
     }
+
     public function getItems()
     {
       return $this->hasOne(Item::className(), ['box_id'=>'box_id']);

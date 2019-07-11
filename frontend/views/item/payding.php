@@ -27,27 +27,25 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="row">
-        <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 zz"  >
-            <div  class="top"  >
-                <div class=" pull-left " style=" height:110px ;width:30%; border:0px solid red;margin-top:15px;margin-left:-2%;">
-                    <!-- <img src="/img/kele.jpg" class="img-responsive center-block"  height="140px" width="30%"/> -->
-                    <img src="<?= Url::base()?>/kele.jpg" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
+          <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 zz"  >
+                <div  class="top"  >
+                    <div class=" pull-left " style=" height:110px ;width:30%; border:0px solid red;margin-top:15px;margin-left:-2%;">
+                        <img src="<?= Url::base()?>/kele.jpg" class="img-responsive center-block" style="max-height:100%;max-width:100%;" /></div>
+                            <div class=" pull-left text-left " style=" border:0px solid blue; height:140px;width:70%; ">
+                        <br/>
+                     <p><?= Html::encode($model->name) ?></p>
+                  </div>
                 </div>
-                <div class=" pull-left text-left " style=" border:0px solid blue; height:140px;width:70%; ">
-                    <br/>
-                    <p><?= Html::encode($model->name) ?></p>
+                     <div   class=" col-sm-12 col-lg-12">
+                         <hr style=" border:1px #D4D4D4 solid; background-color:#D4D4D4;"/>
+                        </div>
+                     <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
+                    <b style="font-size:25px; color:green;">RM  <?= number_format(Html::encode($model->price),2) ?></b>
                 </div>
-            </div>
-            <div   class=" col-sm-12 col-lg-12">
-                <hr style=" border:1px #D4D4D4 solid; background-color:#D4D4D4;"/>
-            </div>
-            <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
-                <b style="font-size:25px; color:green;">RM  <?= number_format(Html::encode($model->price),2) ?></b>
-            </div>
-      </div>
-   </div>
-
- <br/> <br/>
+             </div>
+        </div>
+      <br/>
+ <br/>
 
 
     <div class="row">
@@ -72,9 +70,8 @@ $this->title = 'My Yii Application';
                              $str="#exampleModal";
                             }
                 ?>
-                    <!-- <button type="button" class="btn btn-primary" style=" width:100%;height:40px;background-color:#1C86EE;border:0px solid;">Pay</button> -->
                         <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;"
-                            data-toggle="modal" data-target=<?php echo $str;?>>
+                                data-toggle="modal" data-target=<?php echo $str;?>>
                             Next
                         </button>
                     <br/>
@@ -93,13 +90,11 @@ $this->title = 'My Yii Application';
                       <div class="modal-content col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style=" border:0px solid ;">
                            <br/>
                               <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
-
-                        <br/>
+                         <br/>
                             <h style="color:red;"> Please follow the steps listed to make payment successfully.</h>
                        <br/>
-                       <br/>
+                      <br/>
                         <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
-
                             <a>
                                 <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8"  class="btn btn-default" data-dismiss="modal"
                                 style="font-size:25px;font-weight:bold;">
@@ -119,15 +114,16 @@ $this->title = 'My Yii Application';
                 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
                    <div class="modal-dialog" role="document">
                       <div class="modal-content col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style=" border:0px solid ;">
-                                    <br/>
+                         <br/>
                             <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
-                                    <br/>
-                          <h style="color:green;">Thank you for using our service. Please proceed to end this session.</h>
-                                 <br/><br/>
+                                <br/>
+                                    <h style="color:green;">Thank you for using our service. Please proceed to end this session.</h>
+                                 <br/>
+                             <br/>
                           <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
                               <a   href="<?= Url::to(['item/record', 'id' => $model->id]) ?>">
                                   <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style="font-size:25px;font-weight:bold;">
-                                    Next
+                                      Next
                                 </div>
                             </a>
                           </div>
