@@ -10,7 +10,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * StoreController implements the CRUD actions for Store model.
@@ -23,7 +22,6 @@ class StoreController extends Controller
     public function behaviors()
     {
         return [
-          TimestampBehavior::className(),
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -71,7 +69,7 @@ class StoreController extends Controller
     {
         $model = new Store();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->store_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('create', [
             'model' => $model,
@@ -89,7 +87,7 @@ class StoreController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->store_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('update', [
             'model' => $model,
