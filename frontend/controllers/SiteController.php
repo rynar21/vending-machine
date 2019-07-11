@@ -79,12 +79,12 @@ class SiteController extends Controller
     {
         $searchModel = new StoreSearch();
         $store_model = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'store_model' => $store_model,
+            'store_model' =>$store_model,
         ]);
     }
+
 
     /**
      * Logs in a user.

@@ -69,7 +69,6 @@ $this->title = 'My Yii Application';
                             // }
                             // print_r($arr);
                         ?>
-
                         <?php foreach($store_model->getModels() as $store):?>
                             <div class="col-sm-4 col-lg-4"style="position:relative;">
                                 <div class="thumbnail font-weight-bold text-center" style="font-size:x-large;">

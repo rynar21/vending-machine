@@ -11,6 +11,9 @@ use common\models\Store;
  */
 class StoreSearch extends Store
 {
+
+    public $store_contact;
+
     /**
      * {@inheritdoc}
      */
@@ -19,9 +22,13 @@ class StoreSearch extends Store
         return [
             [['store_id'], 'integer'],
             [['store_name', 'store_description'], 'safe'],
+
+            ['store_contact', 'required'],
+            ['store_contact','match','pattern'=>'/^1[0-9]{10}$/','message'=>'{attribute}必须为1开头的11位纯数字'],
+            ['store_contact', 'string', 'min'=>11,'max' => 11],
+            ['store_contact', 'unique', 'targetClass' => '\common\models\User', 'message' => '该手机号码已经被占用.'],
         ];
     }
-
     /**
      * {@inheritdoc}
      */

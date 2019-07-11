@@ -31,7 +31,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' =>  '<img src="../web/img/logo.png"/>',
+        'brandLabel' =>  Html::img('@web/../web/img/logo.png'),
         'brandOptions' => ['class' => 'myclass'], //options of the brand
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
