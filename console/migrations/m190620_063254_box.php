@@ -19,12 +19,13 @@ class m190620_063254_box extends Migration
       //   $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
       // }
       $this->createTable('box', [
-          'box_id' => $this->primaryKey(),
-          'box_code' => $this->integer(),
-          'box_status' => $this->smallInteger()->notNull()->defaultValue(2),
+          'id' => $this->primaryKey(),
+          'code' => $this->integer(),
+          'status' => $this->smallInteger()->notNull()->defaultValue(2),
+          'created_at' => $this->integer()->notNull(),
+          'updated_at' => $this->integer()->notNull(),
           'store_id' => $this->integer(),
-          'box_created_date'=>$this->DateTime()->notNull(),
-          'box_updated_date'=>$this->DateTime()->notNull(),
+          'item_id' => $this->integer(),
       ]);
     }
 
@@ -37,19 +38,4 @@ class m190620_063254_box extends Migration
         // echo "m190620_063254_box cannot be reverted.\n";
         // return false;
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m190620_063254_box cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

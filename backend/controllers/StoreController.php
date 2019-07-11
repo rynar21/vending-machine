@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Store;
+use common\models\Transaction;
 use backend\models\StoreSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -46,32 +47,17 @@ class StoreController extends Controller
     }
 
     /**
-     * Lists all Store models.
-     * @return mixed
-     */
-    public function actionSelect()
-    {
-        $searchModel = new StoreSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('select', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-    /**
      * Displays a single Store model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-
     public function actionView($id)
     {
-        // return $this->render('view', [
-        //     'model' => $this->findModel($id),
-        // ]);
-        return $this->redirect(array('box/home','id' => $id));
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+        //return $this->redirect(array('box/home','id' => $id));
     }
 
     /**
@@ -82,11 +68,9 @@ class StoreController extends Controller
     public function actionCreate()
     {
         $model = new Store();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->store_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -102,11 +86,9 @@ class StoreController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->store_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -122,7 +104,6 @@ class StoreController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -138,7 +119,6 @@ class StoreController extends Controller
         if (($model = Store::findOne($id)) !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

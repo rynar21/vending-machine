@@ -13,13 +13,12 @@ class m190620_063311_store extends Migration
     public function safeUp()
     {
       $this->createTable('store',[
-        'store_id'=>$this->primaryKey(),
-        'store_name'=>$this->string()->notNull(),
-        'store_address'=>$this->string()->notNull(),
-        'store_contact'=>$this->integer()->notNull(),
-        'store_image'=>$this->string()->notNull(),
-        'created_date'=>$this->string()->notNull(),
-        'updated_date'=>$this->string()->notNull(),
+        'id'=>$this->primaryKey(),
+        'name'=>$this->string()->notNull(),
+        'address'=>$this->string()->notNull(),
+        'contact'=>$this->string()->notNull(),
+        'created_at' => $this->integer()->notNull(),
+        'updated_at' => $this->integer()->notNull(),
       ]);
     }
 
@@ -32,19 +31,4 @@ class m190620_063311_store extends Migration
         //echo "m190620_063311_store cannot be reverted.\n";
         //return false;
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m190620_063311_store cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }
