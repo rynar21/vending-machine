@@ -30,19 +30,4 @@ class m190620_063257_item extends Migration
     {
         $this->dropTable('item');
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m190620_063257_item cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

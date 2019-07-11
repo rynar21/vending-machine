@@ -15,11 +15,17 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'store_id') ?>
+    <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'store_name') ?>
+    <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'store_description') ?>
+    <?= $form->field($model, 'address') ?>
+
+    <?= $form->field($model, 'contact') ?>
+
+    <?= $form->field($model, 'created_at') ?>
+
+    <?php // echo $form->field($model, 'store_updated_date') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

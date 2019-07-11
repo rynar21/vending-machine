@@ -1,8 +1,8 @@
 <?php
-
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "box".
@@ -11,9 +11,19 @@ use Yii;
  * @property int $box_code
  * @property int $box_status
  * @property int $store_id
+
  */
 class Box extends \yii\db\ActiveRecord
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
     /**
      * {@inheritdoc}
      */
@@ -28,8 +38,8 @@ class Box extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['box_code', 'box_status', 'store_id'], 'integer'],
-            [['box_code'], 'required'],
+            [['code', 'store_id', 'item_id'], 'integer'],
+            [['code'], 'required'],
         ];
     }
 
@@ -39,19 +49,21 @@ class Box extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'box_id' => 'Box ID',
-            'box_code' => 'Box Code',
-            'box_status' => 'Box Status',
+            'id' => 'Box ID',
+            'code' => 'Box Code',
+            'status' => 'Box Status',
             'store_id' => 'Store ID',
+            'item_id' => 'Item ID',
         ];
     }
 
-    public function getStores()
-    {
-      return $this->hasOne(Store::className(), ['store_id'=>'store_id']);
-    }
-    public function getItems()
-    {
-      return $this->hasOne(Item::className(), ['box_id'=>'box_id']);
-    }
+    // public function getStore()
+    // {
+    //   return $this->hasOne(Store::className(), ['store_id'=>'id']);
+    // }
+    //
+    // public function getItem()
+    // {
+    //   return $this->hasOne(Item::className(), ['id'=>'box_id']);
+    // }
 }

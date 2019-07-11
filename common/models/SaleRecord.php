@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "sale_record".
@@ -18,6 +19,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     const STATUS_PENDING = 9;
     const STATUS_SUCCESS = 10;
     const STATUS_FAILED = 0;
+
     /**
      * {@inheritdoc}
      */
@@ -29,11 +31,21 @@ class SaleRecord extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
             [['box_id', 'item_id', 'trans_id'], 'required'],
-            [['box_id', 'item_id', 'trans_id', 'status'], 'integer'],
+            [['box_id', 'item_id', 'trans_id'], 'integer'],
         ];
     }
 

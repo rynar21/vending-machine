@@ -37,47 +37,34 @@ class BoxController extends Controller
      * Lists all Box models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id)
+    {
+      $searchModel = new BoxSearch();
+      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+      $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
+      $item_model = new ActiveDataProvider(['query' => Item::find(),]);
+
+      return $this->render('index', [
+          'searchModel' => $searchModel,
+          'dataProvider' => $dataProvider,
+          'store_model' => $this->findModel3($id),
+          'item_model' => $item_model,
+      ]);
+    }
+
+    /**
+     * Lists all Box models.
+     * @return mixed
+     */
+    public function actionIndex2()
     {
         $searchModel2 = new BoxSearch();
         $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        return $this->render('index2', [
             'searchModel2' => $searchModel2,
             'dataProvider2' => $dataProvider2,
         ]);
-    }
-
-    // public function actionBox()
-    // {
-    //     $searchModel = new BoxSearch();
-    //     $dataProvider2 =new ActiveDataProvider([
-    //
-    //       'query' => box::find(),
-    //     ])
-    //
-    //     return $this->render('index', [
-    //
-    //         'dataProvider2' => $dataProvider2,
-    //     ]);
-    // }
-
-
-    public function actionHome($id)
-    {
-      $searchModel = new BoxSearch();
-      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-      $model2 = new Box();
-      $model3 = new ActiveDataProvider(['query'=> store::find(),]);
-      $model4 = new Item();
-      $model5 = new ActiveDataProvider(['query' => item::find(),]);
-
-      return $this->render('home', [
-          'searchModel' => $searchModel,
-          'dataProvider' => $dataProvider,
-          'model3' => $this->findModel3($id),
-          'model5' => $model5,
-      ]);
     }
 
     /**
@@ -105,7 +92,7 @@ class BoxController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save())
         {
-            return $this->redirect(['view', 'id' => $model->box_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -125,7 +112,7 @@ class BoxController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->box_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [

@@ -11,17 +11,24 @@ use common\models\Store;
  */
 class StoreSearch extends Store
 {
+
+    public $store_contact;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['store_id'], 'integer'],
-            [['store_name', 'store_description'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'store_description'], 'safe'],
+
+            ['contact', 'required'],
+            ['contact','match','pattern'=>'/^1[0-9]{10}$/','message'=>'{attribute}必须为1开头的11位纯数字'],
+            ['contact', 'string', 'min'=>11,'max' => 11],
+            ['contact', 'unique', 'targetClass' => '\common\models\User', 'message' => '该手机号码已经被占用.'],
         ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -33,17 +40,13 @@ class StoreSearch extends Store
 
     /**
      * Creates data provider instance with search query applied
-     *
      * @param array $params
-     *
      * @return ActiveDataProvider
      */
     public function search($params)
     {
         $query = Store::find();
-
         // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -58,11 +61,12 @@ class StoreSearch extends Store
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'store_id' => $this->store_id,
+            'id' => $this->id,
+            'contact' => $this->contact,
         ]);
 
-        $query->andFilterWhere(['like', 'store_name', $this->store_name])
-            ->andFilterWhere(['like', 'store_description', $this->store_description]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
     }

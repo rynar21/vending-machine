@@ -31,16 +31,15 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' =>  '<img src="../web/img/logo.png"/>',
+        'brandLabel' =>  Html::img('@web/../web/img/logo.png'),
         'brandOptions' => ['class' => 'myclass'], //options of the brand
-        'brandUrl' => '/item/index',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/item/index']],
-    ];
+    // $menuItems = [
+    //     ['label' => 'Home', 'url' => ['/item/index']],
+    // ];
     if (Yii::$app->user->isGuest) {
         //$menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         //$menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
@@ -54,10 +53,10 @@ AppAsset::register($this);
             . Html::endForm()
             . '</li>';
     }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
+    // echo Nav::widget([
+    //     'options' => ['class' => 'navbar-nav navbar-right'],
+    //     'items' => $menuItems,
+    // ]);
     NavBar::end();
     ?>
 
@@ -73,7 +72,7 @@ AppAsset::register($this);
 <footer class="footer">
     <div class="container" style="position:relative;">
         <a href="#" style=" position: absolute; right:8vw">about</a>
-        <a href="#" style=" position: absolute; right:0.5vw">container</a>
+        <a href="#" style=" position: absolute; right:1.5vw">container</a>
     </div>
 </footer>
 
