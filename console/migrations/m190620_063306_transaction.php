@@ -13,9 +13,10 @@ class m190620_063306_transaction extends Migration
     public function safeUp()
     {
       $this->createTable('transaction',[
-        'trans_id' => $this -> primaryKey(),
-        'tans_details' => $this->string(),
-        'date' => $this->DateTime()->notNull(),
+        'id' => $this -> primaryKey(),
+        'details' => $this->string(),
+        'created_at' => $this->integer()->notNull(),
+        'updated_at' => $this->integer()->notNull(),
       ]);
     }
 
