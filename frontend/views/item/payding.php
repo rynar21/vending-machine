@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use yii\db\Query;
 use yii\data\BaseDataProvider;
 use yii\helpers\Url;
+use common\models\SaleRecord;
 
 /* @var $this yii\web\View */
 $this->title = 'My Yii Application';
@@ -63,17 +64,28 @@ $this->title = 'My Yii Application';
 
                 <?php
                     $str='';
-                        if($model2->status == 10){
+                        if($record = SaleRecord::find()->where(['item_id' =>$model->id, 'status' => [8,9,10]])->all()){
+                            //chenggong
                              $str="#exampleModal2";
+                              // SaleRecord::updateAll(['status' => 10], ['item_id' =>$model->id]);
+                                  // SaleRecord::updateAll(['status' => 8], ['item_id' =>$model->id]);
                         }
+                        // if ($record = SaleRecord::find()->where(['item_id' =>$model->id, 'status' => 10])->all()) {
+                        //     // code...
+                        //      $str="#exampleModal2";
+                        // }
                         else {
+                            // code...
+                            //shibai
                              $str="#exampleModal";
+                              // SaleRecord::updateAll(['status' => 8], ['status'=> [0,10]]);
                             }
                 ?>
                         <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;"
                                 data-toggle="modal" data-target=<?php echo $str;?>>
                             Next
                         </button>
+
                     <br/>
                   <br/>
 
@@ -124,6 +136,9 @@ $this->title = 'My Yii Application';
                               <a   href="<?= Url::to(['item/record', 'id' => $model->id]) ?>">
                                   <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style="font-size:25px;font-weight:bold;">
                                       Next
+                                      <?php
+                                      // SaleRecord::updateAll(['status' => 10], ['status'=> 9]);
+                                      ?>
                                 </div>
                             </a>
                           </div>

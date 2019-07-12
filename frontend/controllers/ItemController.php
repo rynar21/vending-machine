@@ -131,17 +131,7 @@ class ItemController extends Controller
     //     print_r ($model->store);
     // }
 
-    // public function actionResult()
-    // {
-    //     $searchModel = new ItemSearch();
-    //     $item_model = $searchModel->search(Yii::$app->request->queryParams);
-    //
-    //     return $this->render('result', [
-    //         'searchModel' => $searchModel,
-    //         'item_model' => $item_model,
-    //         'model' => $this->findModel(1),
-    //     ]);
-    // }
+
 
     public function actionIphone($id)
     {
@@ -189,18 +179,7 @@ class ItemController extends Controller
             }
         }
 
-        // $model = Item::findOne($id);
-        // echo "<pre>";
-        //
-        // return $this->render('home', [
-        //     'id' => $model->store->id,
-        //     'store_model'=> $this->findModelStore($model->store->id),
-        // 'item_model' => $item_model,
-        //  'item_data' => $item_data,
-        // 'box_model' => $box_model,
-        // 'box_data' => $box_data,
-        //
-        // ]);
+
     }
 
 
@@ -210,20 +189,24 @@ class ItemController extends Controller
 
         $item = Item::findOne($id);
         if ($item) {
-            $record = SaleRecord::find()->where(['item_id' => $id, 'status' => [9, 10]])->all();
-            if ($record) {
-                echo "this item cannot be purchase, either is under purchase, or has been purchased";
+
+            if ($record = SaleRecord::find()->where(['item_id' =>$item->id, 'status' => [9, 10]])->all()) {
+                // echo "this item cannot be purchase, either is under purchase, or has been purchased";
                 $item_model=new Item();
                 return $this->render('cannot', [
                     'model' => $item,
-
                 ]);
+            }
+            if ($record = SaleRecord::find()->where(['item_id' =>$item->id, 'status' =>8 ])->all()) {
+                 SaleRecord::updateAll(['status' => 10], ['item_id' =>$id]);
+                 return $this->redirect(['payding', 'id' => $id]);
             }
             else {
                 $record = new SaleRecord();
                 $record->item_id= $id;
                 $record->box_id= $id;
                 $record->trans_id= $id;
+                $record->status=9;
                 $record->save();
                 return $this->redirect(['payding', 'id' => $id]);
             }
@@ -232,7 +215,14 @@ class ItemController extends Controller
         // print_r($model->errors);
     }
 
-
+    // public function actionUpd()
+    // {
+    //     $param = Article::findOne(1);
+    //
+    //     $param->id = 1;
+    //     $param->username= '老乡吃不上饭';
+    //     $param->save();
+    // }
 
     /**
      * Finds the Item model based on its primary key value.

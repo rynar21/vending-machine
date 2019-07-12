@@ -69,7 +69,7 @@ $this->title = 'My Yii Application';
         </div>
     </div>
 
-
+     <?php  ?>
 
    </div>
  </div>

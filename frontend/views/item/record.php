@@ -73,7 +73,7 @@ $this->title = 'My Yii Application';
                   </a>
                 <br/>
               <br/>
-            <a href="<?= Url::to(['item/record', 'id' => $model->id]) ?>">
+            <a href="#">
                 <button type="button" class="btn btn-primary"  style=" width:100%;height:40px; background-color:#FFFFFF; color:black;">
                     Print Receipt
                 </button>
