@@ -25,7 +25,6 @@ class m190620_063254_box extends Migration
           'created_at' => $this->integer()->notNull(),
           'updated_at' => $this->integer()->notNull(),
           'store_id' => $this->integer(),
-          'item_id' => $this->integer(),
       ]);
     }
 
