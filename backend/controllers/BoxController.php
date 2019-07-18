@@ -12,7 +12,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\data\BaseDataProvider;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * BoxController implements the CRUD actions for Box model.
@@ -25,7 +24,6 @@ class BoxController extends Controller
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -33,6 +31,25 @@ class BoxController extends Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * Lists all Box models.
+     * @return mixed
+     */
+    public function actionIndex($id)
+    {
+      $searchModel = new BoxSearch();
+      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+      $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
+      $item_model = new ActiveDataProvider(['query' => Item::find(),]);
+
+      return $this->render('index', [
+          'searchModel' => $searchModel,
+          'dataProvider' => $dataProvider,
+          'store_model' => $this->findModel3($id),
+          'item_model' => $item_model,
+      ]);
     }
 
     /**
@@ -48,38 +65,6 @@ class BoxController extends Controller
             'searchModel2' => $searchModel2,
             'dataProvider2' => $dataProvider2,
         ]);
-    }
-
-    // public function actionBox()
-    // {
-    //     $searchModel = new BoxSearch();
-    //     $dataProvider2 =new ActiveDataProvider([
-    //
-    //       'query' => box::find(),
-    //     ])
-    //
-    //     return $this->render('index', [
-    //
-    //         'dataProvider2' => $dataProvider2,
-    //     ]);
-    // }
-
-
-    public function actionIndex($id)
-    {
-      $searchModel = new BoxSearch();
-      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-      $model2 = new Box();
-      $store_model = new ActiveDataProvider(['query'=> store::find(),]);
-      $model4 = new Item();
-      $item_model = new ActiveDataProvider(['query' => Item::find(),]);
-
-      return $this->render('index', [
-          'searchModel' => $searchModel,
-          'dataProvider' => $dataProvider,
-          'store_model' => $this->findModel3($id),
-          'item_model' => $item_model,
-      ]);
     }
 
     /**

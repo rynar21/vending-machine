@@ -17,7 +17,7 @@ class BoxSearch extends Box
     public function rules()
     {
         return [
-            [['id', 'code', 'store_id', 'item_id'], 'integer'],
+            [['id', 'code', 'status', 'store_id', 'item_id'], 'integer'],
         ];
     }
 

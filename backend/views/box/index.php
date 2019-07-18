@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
   width: 100%;
 }
 
-
 .button {
   margin:10px;
   text-align: center;

@@ -16,6 +16,7 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\Store;
 use backend\models\StoreSearch;
+use yii\data\ActiveDataProvider;
 
 
 /**
