@@ -22,11 +22,6 @@ class StoreSearch extends Store
         return [
             [['id'], 'integer'],
             [['name', 'store_description'], 'safe'],
-
-            ['contact', 'required'],
-            ['contact','match','pattern'=>'/^1[0-9]{10}$/','message'=>'{attribute}必须为1开头的11位纯数字'],
-            ['contact', 'string', 'min'=>11,'max' => 11],
-            ['contact', 'unique', 'targetClass' => '\common\models\User', 'message' => '该手机号码已经被占用.'],
         ];
     }
     /**
