@@ -15,6 +15,9 @@ use yii\behaviors\TimestampBehavior;
  */
 class Item extends \yii\db\ActiveRecord
 {
+  const STATUS_ACTIVE = 10;
+  const STATUS_SOLD = 9;
+
     /**
      * {@inheritdoc}
      */
@@ -34,6 +37,7 @@ class Item extends \yii\db\ActiveRecord
             [['box_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['store_id'], 'integer'],
+            [['image'], 'default', 'value' => ''],
         ];
     }
 
@@ -46,7 +50,7 @@ class Item extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
-    
+
     /**
      * {@inheritdoc}
      */

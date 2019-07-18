@@ -37,9 +37,10 @@ class BoxController extends Controller
      * Lists all Box models.
      * @return mixed
      */
-    public function actionIndex($id)
+    public function actionIndex($id=null)
     {
       $searchModel = new BoxSearch();
+      $searchModel->store_id = $id;
       $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
       $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
       $item_model = new ActiveDataProvider(['query' => Item::find(),]);
@@ -56,9 +57,10 @@ class BoxController extends Controller
      * Lists all Box models.
      * @return mixed
      */
-    public function actionIndex2()
+    public function actionIndex2($id)
     {
         $searchModel2 = new BoxSearch();
+        $searchModel2->store_id = $id;
         $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams);
 
         return $this->render('index2', [

@@ -70,9 +70,9 @@ $this->params['breadcrumbs'][] = $this->title;
           <?php foreach ($dataProvider->query->all() as $store): ?>
             <div class="col-lg-3">
               <br/>
-              <a href="<?=Url::base()?>/box/index?id=<?=$store->id?>">
-                 <div class="btn btn-primary text-center"  style=" width:200px;">
-                   <?= $store->name ?>
+              <?= Html::a($store->name, ['_list', 'id'=>$store->id],  ['class' => 'btn btn-default'])   ?>
+                 <!-- <div class="btn btn-primary text-center"  style=" width:200px;"> -->
+
                  </div>
               </a>
             </div>

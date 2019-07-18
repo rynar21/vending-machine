@@ -20,7 +20,7 @@ class m190620_063254_box extends Migration
       // }
       $this->createTable('box', [
           'id' => $this->primaryKey(),
-          'code' => $this->integer(),
+          'code' => $this->string(),
           'status' => $this->smallInteger()->notNull()->defaultValue(2),
           'created_at' => $this->integer()->notNull(),
           'updated_at' => $this->integer()->notNull(),

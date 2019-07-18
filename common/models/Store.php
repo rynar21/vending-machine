@@ -48,6 +48,7 @@ class Store extends \yii\db\ActiveRecord
             //[['store_contact'],  'match', 'pattern'=>'/^[a-z]\w*$/i'],
             //[['store_contact'],  'match', 'pattern'=>'/^[\d]{10}$'],
             [['name', 'address'], 'string', 'max' => 255],
+            [['image'], 'default', 'value' => ''],
         ];
     }
 

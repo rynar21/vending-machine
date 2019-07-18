@@ -4,12 +4,15 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Store;
+use common\models\box;
 use common\models\Transaction;
 use backend\models\StoreSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
+use backend\models\BoxSearch;
+use yii\data\ActiveDataProvider;
 
 /**
  * StoreController implements the CRUD actions for Store model.
@@ -44,6 +47,21 @@ class StoreController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionList()
+    {
+      // $searchModel = new BoxSearch();
+      // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+      // $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
+      // $item_model = new ActiveDataProvider(['query' => Item::find(),]);
+
+      return $this->render('_list', [
+          // 'searchModel' => $searchModel,
+          // 'dataProvider' => $dataProvider,
+          // 'store_model' => $this->findModel3($id),
+          // 'item_model' => $item_model,
+      ]);
     }
 
     /**
@@ -118,6 +136,14 @@ class StoreController extends Controller
     {
         if (($model = Store::findOne($id)) !== null) {
             return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function findModel3($id)
+    {
+        if (($model3 = Store::findOne($id)) !== null) {
+            return $model3;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
