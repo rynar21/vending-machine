@@ -19,7 +19,7 @@ class OperatorSearch extends Operator
     {
         return [
             [['id'], 'integer'],
-            [['operator_name'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 

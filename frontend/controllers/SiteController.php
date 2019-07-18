@@ -85,6 +85,7 @@ class SiteController extends Controller
         ]);
     }
 
+
     /**
      * Logs in a user.
      *

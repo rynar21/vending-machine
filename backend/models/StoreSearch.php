@@ -62,6 +62,7 @@ class StoreSearch extends Store
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'name' => $this->name,
             'contact' => $this->contact,
         ]);
 
