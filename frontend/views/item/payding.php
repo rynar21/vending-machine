@@ -63,12 +63,23 @@ $this->title = 'My Yii Application';
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
 
                 <?php
+                    $name='';
                     $str='';
-                        if($record = SaleRecord::find()->where(['item_id' =>$model->id, 'status' => [8,9,10]])->all()){
+                        if($record = SaleRecord::find()->where(['item_id' =>$model->id, 'status' => [9]])->all()){
                             //chenggong
-                             $str="#exampleModal2";
-                              // SaleRecord::updateAll(['status' => 10], ['item_id' =>$model->id]);
-                                  // SaleRecord::updateAll(['status' => 8], ['item_id' =>$model->id]);
+                             
+
+
+                             if (SaleRecord::updateAll(['status' => 10], ['item_id' =>$model->id]))
+                             {
+                                  $str="#exampleModal2";
+                                  // if ( SaleRecord::updateAll(['status' => 8], ['item_id' =>$model->id]))
+                                  //  {
+                                  //      $str="#exampleModal2";
+                                  // }
+                             }
+
+
                         }
                         // if ($record = SaleRecord::find()->where(['item_id' =>$model->id, 'status' => 10])->all()) {
                         //     // code...
@@ -147,6 +158,9 @@ $this->title = 'My Yii Application';
                 </div>
         </div>
     </div>
+
+
+
 
    </div>
  </div>
