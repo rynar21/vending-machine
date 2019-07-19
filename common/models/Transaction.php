@@ -57,4 +57,39 @@ class Transaction extends \yii\db\ActiveRecord
             'updated_at' => 'Updated Time',
         ];
     }
+
+    public function getItem()
+    {
+        return $this->hasOne(Item::className(), ['id' => 'item_id']);
+    }
+
+    public function pending()
+    {
+        $this->updateAttributes([
+            'status' => static::STATUS_PENDING,
+        ]);
+        $this->item->updateAttributes([
+            'status' => Item::STATUS_LOCKED,
+        ]);
+    }
+
+    public function success()
+    {
+        $this->updateAttributes([
+            'status' => static::STATUS_SUCCESS,
+        ]);
+        $this->item->updateAttributes([
+            'status' => Item::STATUS_SOLD,
+        ]);
+    }
+
+    public function failed()
+    {
+        $this->updateAttributes([
+            'status' => static::STATUS_FAILED,
+        ]);
+        $this->item->updateAttributes([
+            'status' => Item::STATUS_ACTIVE,
+        ]);
+    }
 }

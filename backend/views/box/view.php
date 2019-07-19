@@ -24,6 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+
+        <?= Html::a('Create Item', ['item/create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -36,5 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'item_id',
         ],
     ]) ?>
+
+
 
 </div>

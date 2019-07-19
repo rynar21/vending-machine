@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
     <!-- 显示店名 -->
     <div class="row">
       <h2 class="col-lg-12 col-sm-12" style="margin-bottom:0px;">
-        <?= $store_model->store_name ?>
+        <?= $store_model->name ?>
       </h2>
     </div>
     <hr/>
@@ -24,7 +24,6 @@ use yii\widgets\ActiveForm;
                                                       -> textInput(['placeholder' => "Please enter your item name"])
                                                       -> label(false) ?>
             </div>
-
             <div class="col-sm-4 col-xs-4" style="border:0px solid blue;">
               <?= Html::submitButton('Search', ['class' => 'btn btn-primary form-group search_btn']) ?>
             </div>
@@ -39,23 +38,32 @@ use yii\widgets\ActiveForm;
 
     <div class="row" style="border: 0px solid blue;">
       <div class="col-lg-12 col-sm-12" style="border: 0px solid red;">
+
         <!-- 寻找所有的盒子数据 -->
-        <?php foreach($box_data->getModels() as $box): ?>
+        <?php foreach ($box_data->getModels() as $box): ?>
           <!-- 寻找该店里所有的盒子 -->
-          <?php if ($id == ($box->store_id) && ($box->box_status != 0)):?>
+          <?php if ($id === ($box->store_id) && ($box->box_status !== 0)):?>
+
               <!-- 如果有，查看盒子里的产品 -->
               <?php foreach($item_data->getModels() as $item): ?>
                   <!-- 如果盒子ID等于商品ID -->
                     <?php if(($id == ($box->store_id)) && ($box->box_id == $item->box_id)): ?>
-                      <div class="col-lg-4 col-sm-6 col-xs-6 box_row" style="padding: 0 5px;">
-                        <div class="box_item">
-                          <a  href="iphone?id=<?= $item->id ?>">
-                            <div class="item_image">
-                                <img src="<?= Url::base()?>/mel-img/pepsi.jpg" class="img-responsive"/>
-                            </div>
-                            <div class="text-center item_name" style=" ">
-                              <?= $item->name ?>
-                            </div>
+
+                      <!-- SaleRecord -->
+                      <?php foreach($record_data->query->all() as $record): ?>
+                          <?php if($item->id != $record->item_id ):?>
+                              <div class="col-lg-4 col-sm-6 col-xs-6 box_row" style="padding: 0px 5px;">
+                                <div class="box_item">
+                                  <a href="iphone?id=<?= $item->id ?>">
+                                    <div class="item_image">
+                                        <img src="<?= Url::base()?>/mel-img/pepsi.jpg" class="img-responsive"/>
+                                    </div>
+                                    <div class="text-center item_name">
+                                      <?= $item->name ?>
+                                    </div>
+                                      <?= $record->status ?>
+                                <?php endif;?>
+                            <?php endforeach; ?>
                           </a>
                         </div>
                       </div>
@@ -85,8 +93,6 @@ use yii\widgets\ActiveForm;
 .box_item>a{
   text-decoration: none;
 }
-
-
 
 .box_item{
   width: 100%;

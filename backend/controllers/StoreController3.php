@@ -4,12 +4,11 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Store;
-use common\models\Transaction;
 use backend\models\StoreSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Url;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * StoreController implements the CRUD actions for Store model.
@@ -22,6 +21,7 @@ class StoreController extends Controller
     public function behaviors()
     {
         return [
+            TimestampBehavior::className(),
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -40,7 +40,7 @@ class StoreController extends Controller
         $searchModel = new StoreSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index2', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -57,7 +57,6 @@ class StoreController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-        //return $this->redirect(array('box/home','id' => $id));
     }
 
     /**
@@ -67,13 +66,30 @@ class StoreController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Store();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+      $model = new Store();
+
+      if ($model->load(Yii::$app->request->post()) && $model->save())
+      {
+          return $this->redirect(['view', 'id' => $model->store_id]);
+      }
+
+      return $this->render('create', [
+          'model' => $model,
+      ]);
+
+        // $model = new Store();
+        // if ($model->load(Yii::$app->request->post()) ) {
+        //   if ($model->store_contact == '012') {
+        //     die('do not use 012');
+        //   }
+        //   if ($model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->store_id]);
+        //   }
+        // }
+        //
+        // return $this->render('create', [
+        //     'model' => $model,
+        // ]);
     }
 
     /**
@@ -86,9 +102,11 @@ class StoreController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->store_id]);
         }
+
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -104,6 +122,7 @@ class StoreController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
 
@@ -119,6 +138,7 @@ class StoreController extends Controller
         if (($model = Store::findOne($id)) !== null) {
             return $model;
         }
+
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

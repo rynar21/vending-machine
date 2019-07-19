@@ -1,5 +1,4 @@
 <?php
-
 namespace frontend\controllers;
 
 use Yii;
@@ -15,8 +14,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\data\BaseDataProvider;
-
-
 
 /**
  * ItemController implements the CRUD actions for Item model.
@@ -44,61 +41,53 @@ class ItemController extends Controller
      */
     public function actionHome($id)
     {
-      $box_model = new BoxSearch();
-      $box_data = $box_model->search(Yii::$app->request->queryParams);
-
       $item_model = new ItemSearch();
       $item_data = $item_model->search(Yii::$app->request->queryParams);
 
-      $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
+      $store_data = new ActiveDataProvider(['query'=> Store::find(),]);
+      $box_data = new ActiveDataProvider(['query'=> Box::find(),]);
+      $record_data = new ActiveDataProvider(['query'=> SaleRecord::find(),]);
 
       return $this->render('home', [
           'store_model' => $this->findModelStore($id),
           'item_model' => $item_model,
           'item_data' => $item_data,
-          'box_model' => $box_model,
+          'store_data' => $store_data,
           'box_data' => $box_data,
+          'record_data' => $record_data,
           'id' => $id,
       ]);
     }
 
-    /**
-     * Lists all Item models.
-     * @return mixed
-     */
-    public function actionIndex()
+
+    public function actionIphone($id)
     {
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'item_model' => $item_model,
-
-        ]);
+          $model = new ActiveDataProvider(['query'=> Item::find(),]);
+          return $this->render('iphone', [
+              'model' => $this->findModel($id),
+          ]);
     }
+
+    public function actionOk($id)
+    {
+          $model = new ActiveDataProvider(['query'=> SaleRecord::find(),]);
+          $model->item_id= $id;
+          $model->box_id= $id;
+          $model->trans_id= $id;
+          $model->save();
+          return $this->redirect(['payding', 'id'=>$id]);
+    }
+
     public function actionPayding($id)
     {
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
         $model = new Item();
         $model2 = new SaleRecord();
 
-
-        // $item = Item::findOne($id);
-        // $model = new SaleRecord();
-        // $model->item_id= $id;
-        // $model->box_id= $id;
-        // $model->trans_id= $id;
-        // $model->save();
-
         return $this->render('payding', [
-            'searchModel' => $searchModel,
-            'item_model' => $item_model,
             'model' => $this->findModel($id),
             'model2' => $this->findModel2($id),
-        ]);
 
+        ]);
     }
 
     public function actionRecord($id)
@@ -106,119 +95,18 @@ class ItemController extends Controller
         $searchModel = new ItemSearch();
         $item_model = $searchModel->search(Yii::$app->request->queryParams);
         $model = new Item();
-        $model2 = new SaleRecord();
-        $model3 = new Store();
-        $store_model1 = new ActiveDataProvider(['query'=> Box::find(),]);
+        $model2 = $this->findModel2($id);
+        $model3 = new Box();
         return $this->render('record', [
             'searchModel' => $searchModel,
             'item_model' => $item_model,
             'model' => $this->findModel($id),
-            'model2' => $this->findModel2($id),
-            //'model3'=> $this->findModel3($id),
-            'store_model1' => $store_model1,
+            'model2' => $model2,
+            'model3'=> $this->findModel3($id),
         ]);
     }
 
-    public function actionIphone($id)
-    {
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('iphone', [
-            'searchModel' => $searchModel,
-            'item_model' => $item_model,
-            'model' => $this->findModel($id),
-
-        ]);
-    }
-
-    /**
-     * Lists all Item models.
-     * @return mixed
-     */
-    public function actionIndex2()
-    {
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('index2', [
-            'searchModel' => $searchModel,
-            'item_model' => $item_model,
-        ]);
-    }
-
-    public function actionResults()
-    {
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('result_s', [
-            'searchModel' => $searchModel,
-            'item_model' => $item_model,
-        ]);
-    }
-
-
-    public function actionOk($id)
-    {
-        $item = Item::findOne($id);
-        $model = new SaleRecord();
-        $model->item_id= $id;
-        $model->box_id= $id;
-        $model->trans_id= $id;
-        $model->save();
-        return $this->redirect(['payding', 'id' => $id]);
-
-
-
-
-        // echo '<pre>';
-        // print_r($model->errors);
-    }
-
-    /**
-     * Display details of a single item.
-     * @return mixed
-     */
-    public function actionPayment($id)
-    {
-        $model = new SaleRecord();
-        // $model->item_id =$id . uniqid();
-        // $model->store_description = "this is a auto generated";
-        $model->save();
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('payment', [
-              'searchModel' => $searchModel,
-              'item_model' => $item_model,
-              'model' => $this->findModel($id),
-        ]);
-
-    }
-
-    /**
-     * Lists all Item models.
-     * @return mixed
-     */
-    public function actionResult($id)
-    {
-        $model2 = new SaleRecord();
-        $model2->save();
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('result', [
-            'searchModel' => $searchModel,
-            'item_model' => $item_model,
-        ]);
-    }
-
-    /**
-     * Finds the Item model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Item the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+    /* Find Model Item*/
     protected function findModel($id)
     {
         if (($item_model = Item::findOne($id)) !== null)
@@ -228,6 +116,7 @@ class ItemController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /* Find Model SaleRecord */
     protected function findModel2($id)
     {
         if (($model = SaleRecord::findOne($id)) !== null)
@@ -237,15 +126,17 @@ class ItemController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /* Find Model Box*/
     protected function findModel3($id)
     {
-        if (($model3 = Store::findOne($id)) !== null)
+        if (($model3 = Box::findOne($id)) !== null)
         {
             return $model3;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /* Find Model Store */
     protected function findModelStore($id)
     {
         if (($store_model = Store::findOne($id)) !== null)
@@ -255,4 +146,22 @@ class ItemController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+
+    public function actionTransactionSuccess($id)
+    {
+        $model = Transaction::findOne($id);
+        $model->success();
+    }
+
+    public function actionTransactionFailed($id)
+    {
+        $model = Transaction::findOne($id);
+        $model->failed();
+    }
+
+    public function actionTransactionPending($id)
+    {
+        $model = Transaction::findOne($id);
+        $model->pending();
+    }
 }

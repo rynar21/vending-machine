@@ -11,17 +11,15 @@ use yii\widgets\ActiveForm;
 <div class="item-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
-      <div class="col-md-4">
-        <?= $form->field($model, 'box_id')->textInput() ?>
-        <?= $form->field($model, 'store_id')->textInput() ?>
-      </div>
-      <div class="col-md-8">
+      <div class="col-sm-12">
         <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>
         <div class="row">
-          <div class="col-md-12"><b>Item Price</b></div>
+          <div class="col-md-12">
+              <b>Item Price</b>
+          </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-12">
               <p style="font-size: 18px; margin-top: 5px; font-weight: bold;"> RM </p>
               <?= $form->field($model, 'price')->textInput()->label('') ?>
             </div>
