@@ -38,7 +38,7 @@ class Box extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'store_id', 'item_id'], 'integer'],
+            [['code', 'store_id'], 'integer'],
             [['code'], 'required'],
         ];
     }

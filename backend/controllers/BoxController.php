@@ -37,33 +37,33 @@ class BoxController extends Controller
      * Lists all Box models.
      * @return mixed
      */
-    public function actionIndex($id=null)
-    {
-      $searchModel = new BoxSearch();
-      $searchModel->store_id = $id;
-      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-      $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
-      $item_model = new ActiveDataProvider(['query' => Item::find(),]);
-
-      return $this->render('index', [
-          'searchModel' => $searchModel,
-          'dataProvider' => $dataProvider,
-          'store_model' => $this->findModel3($id),
-          'item_model' => $item_model,
-      ]);
-    }
+    // public function actionIndex($id=null)
+    // {
+    //   $searchModel = new BoxSearch();
+    //   $searchModel->store_id = $id;
+    //   $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    //   $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
+    //   $item_model = new ActiveDataProvider(['query' => Item::find(),]);
+    //
+    //   return $this->render('index', [
+    //       'searchModel' => $searchModel,
+    //       'dataProvider' => $dataProvider,
+    //       'store_model' => $this->findModel3($id),
+    //       'item_model' => $item_model,
+    //   ]);
+    // }
 
     /**
      * Lists all Box models.
      * @return mixed
      */
-    public function actionIndex2($id)
+    public function actionIndex($id)
     {
         $searchModel2 = new BoxSearch();
         $searchModel2->store_id = $id;
         $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams);
 
-        return $this->render('index2', [
+        return $this->render('index', [
             'searchModel2' => $searchModel2,
             'dataProvider2' => $dataProvider2,
         ]);
@@ -88,10 +88,10 @@ class BoxController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new Box();
-
+        $model->store_id= $id;
         if ($model->load(Yii::$app->request->post()) && $model->save())
         {
             return $this->redirect(['view', 'id' => $model->id]);

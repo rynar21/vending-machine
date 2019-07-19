@@ -38,6 +38,8 @@ class Item extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 255],
             [['store_id'], 'integer'],
             [['image'], 'default', 'value' => ''],
+            [['status'], 'default', 'value' => self::STATUS_ACTIVE],
+
         ];
     }
 
@@ -71,5 +73,10 @@ class Item extends \yii\db\ActiveRecord
     public function getRecord()
     {
       return $this->hasOne(SaleRecord::className(), ['item_id'=>'id']);
+    }
+
+    public function getBox()
+    {
+      return $this->hasOne(Box::className(), ['id'=>'box_id']);
     }
 }

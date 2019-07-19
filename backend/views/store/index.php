@@ -65,16 +65,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <div class="row">
-
         <div class="hyu">
           <?php foreach ($dataProvider->query->all() as $store): ?>
             <div class="col-lg-3">
               <br/>
-              <?= Html::a($store->name, ['_list', 'id'=>$store->id],  ['class' => 'btn btn-default'])   ?>
+              <?= Html::a($store->name, ['view', 'id'=>$store->id],  ['class' => 'btn btn-primary'])   ?>
                  <!-- <div class="btn btn-primary text-center"  style=" width:200px;"> -->
-
-                 </div>
-              </a>
+                 <!-- </div> -->
+              <!-- </a> -->
             </div>
           <?php endforeach; ?>
 

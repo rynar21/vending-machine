@@ -17,7 +17,7 @@ class BoxSearch extends Box
     public function rules()
     {
         return [
-            [['id', 'code', 'status', 'store_id', 'item_id'], 'integer'],
+            [['id', 'code', 'status', 'store_id'], 'integer'],
         ];
     }
 
@@ -61,7 +61,7 @@ class BoxSearch extends Box
             'code' => $this->code,
             'status' => $this->status,
             'store_id' => $this->store_id,
-            'item_id' => $this->item_id,
+
         ]);
 
         return $dataProvider;
