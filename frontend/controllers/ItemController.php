@@ -96,6 +96,7 @@ class ItemController extends Controller
         $item_model = $searchModel->search(Yii::$app->request->queryParams);
         $model = new Item();
         $model2 = $this->findModel2($id);
+        $model2->success();
         $model3 = new Box();
         return $this->render('record', [
             'searchModel' => $searchModel,
