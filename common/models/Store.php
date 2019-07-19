@@ -70,4 +70,9 @@ class Store extends \yii\db\ActiveRecord
             'contact' => 'Store Contact',
         ];
     }
+
+    public function getItem()
+    {
+        return $this->hasOne(Item::className(),['id'=>'item_id']);
+    }
 }

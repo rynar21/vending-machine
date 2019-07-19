@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use yii\db\Query;
 use yii\data\BaseDataProvider;
 use yii\helpers\Url;
+use common\models\SaleRecord;
 
 /* @var $this yii\web\View */
 $this->title = 'My Yii Application';
@@ -27,27 +28,25 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="row">
-        <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 zz"  >
-            <div  class="top"  >
-                <div class=" pull-left " style=" height:110px ;width:30%; border:0px solid red;margin-top:15px;margin-left:-2%;">
-                    <!-- <img src="/img/kele.jpg" class="img-responsive center-block"  height="140px" width="30%"/> -->
-                    <img src="<?= Url::base()?>/kele.jpg" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
+          <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 zz"  >
+                <div  class="top"  >
+                    <div class=" pull-left " style=" height:110px ;width:30%; border:0px solid red;margin-top:15px;margin-left:-2%;">
+                        <img src="<?= Url::base()?>/kele.jpg" class="img-responsive center-block" style="max-height:100%;max-width:100%;" /></div>
+                            <div class=" pull-left text-left " style=" border:0px solid blue; height:140px;width:70%; ">
+                        <br/>
+                     <p><?= Html::encode($model->name) ?></p>
+                  </div>
                 </div>
-                <div class=" pull-left text-left " style=" border:0px solid blue; height:140px;width:70%; ">
-                    <br/>
-                    <p><?= $model->name ?></p>
+                     <div   class=" col-sm-12 col-lg-12">
+                         <hr style=" border:1px #D4D4D4 solid; background-color:#D4D4D4;"/>
+                        </div>
+                     <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
+                    <b style="font-size:25px; color:green;">RM  <?= number_format(Html::encode($model->price),2) ?></b>
                 </div>
-            </div>
-            <div   class=" col-sm-12 col-lg-12">
-                <hr style=" border:1px #D4D4D4 solid; background-color:#D4D4D4;"/>
-            </div>
-            <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
-                <b style="font-size:25px; color:green;">RM <?= number_format($model->price,2) ?></b>
-            </div>
-      </div>
-   </div>
-
- <br/> <br/>
+             </div>
+        </div>
+      <br/>
+ <br/>
 
 
     <div class="row">
@@ -64,19 +63,40 @@ $this->title = 'My Yii Application';
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
 
                 <?php
+                    $name='';
                     $str='';
-                        if($model2->status == 10){
-                             $str="#exampleModal2";
+                        if($record = SaleRecord::find()->where(['item_id' =>$model->id, 'status' => [9]])->all()){
+                            //chenggong
+                             
+
+
+                             if (SaleRecord::updateAll(['status' => 10], ['item_id' =>$model->id]))
+                             {
+                                  $str="#exampleModal2";
+                                  // if ( SaleRecord::updateAll(['status' => 8], ['item_id' =>$model->id]))
+                                  //  {
+                                  //      $str="#exampleModal2";
+                                  // }
+                             }
+
+
                         }
+                        // if ($record = SaleRecord::find()->where(['item_id' =>$model->id, 'status' => 10])->all()) {
+                        //     // code...
+                        //      $str="#exampleModal2";
+                        // }
                         else {
+                            // code...
+                            //shibai
                              $str="#exampleModal";
+                              // SaleRecord::updateAll(['status' => 8], ['status'=> [0,10]]);
                             }
                 ?>
-                    <!-- <button type="button" class="btn btn-primary" style=" width:100%;height:40px;background-color:#1C86EE;border:0px solid;">Pay</button> -->
                         <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;"
-                            data-toggle="modal" data-target=<?php echo $str;?> data-whatever="@mdo">
+                                data-toggle="modal" data-target=<?php echo $str;?>>
                             Next
                         </button>
+
                     <br/>
                   <br/>
 
@@ -93,13 +113,11 @@ $this->title = 'My Yii Application';
                       <div class="modal-content col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style=" border:0px solid ;">
                            <br/>
                               <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
-
-                        <br/>
+                         <br/>
                             <h style="color:red;"> Please follow the steps listed to make payment successfully.</h>
                        <br/>
-                       <br/>
+                      <br/>
                         <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
-
                             <a>
                                 <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8"  class="btn btn-default" data-dismiss="modal"
                                 style="font-size:25px;font-weight:bold;">
@@ -117,28 +135,32 @@ $this->title = 'My Yii Application';
 
              <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo">ok</button> -->
                 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style=" border:0px solid ;">
+                   <div class="modal-dialog" role="document">
+                      <div class="modal-content col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style=" border:0px solid ;">
                          <br/>
                             <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
-
-                      <br/>
-                          <h style="color:green;">Thank you for using our service. Please proceed to end this session.</h>
-                     <br/>
-                     <br/>
-                      <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
-
-                          <a href="record?id=<?= $model->id ?>">
-                              <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style="font-size:25px;font-weight:bold;">
-                                Next
-                            </div>
-                        </a>
+                                <br/>
+                                    <h style="color:green;">Thank you for using our service. Please proceed to end this session.</h>
+                                 <br/>
+                             <br/>
+                          <div class=" modal-footer"  style="width:100%; border-top:1px solid black;">
+                              <a   href="<?= Url::to(['item/record', 'id' => $model->id]) ?>">
+                                  <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style="font-size:25px;font-weight:bold;">
+                                      Next
+                                      <?php
+                                      // SaleRecord::updateAll(['status' => 10], ['status'=> 9]);
+                                      ?>
+                                </div>
+                            </a>
+                          </div>
                       </div>
-                    </div>
-                  </div>
+                   </div>
                 </div>
         </div>
     </div>
+
+
+
 
    </div>
  </div>
@@ -164,14 +186,3 @@ $this->title = 'My Yii Application';
 }
 
 </style>
-<script>
-$('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('whatever') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
-})
-</script>
