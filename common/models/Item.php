@@ -15,11 +15,13 @@ use yii\behaviors\TimestampBehavior;
  */
 class Item extends \yii\db\ActiveRecord
 {
-    const STATUS_AVAILABLE = 1;
-    const STATUS_UNAVAILABLE = 2;
-    const STATUS_PENDING = 9;
-    const STATUS_SUCCESS = 10;
-    const STATUS_FAILED = 0;
+    const STATUS_DEFAULT = 0;
+    // SaleRecord::STATUS_FAILED
+    const STATUS_AVAILABLE = 8;
+    // SaleRecord::STATUS_PENDING
+    const STATUS_LOCKED = 9;
+    // SaleRecord::STATUS_SUCCESS
+    const STATUS_SOLD = 10;
 
     /**
      * {@inheritdoc}
@@ -38,7 +40,7 @@ class Item extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -48,7 +50,7 @@ class Item extends \yii\db\ActiveRecord
             [['name', 'price', 'box_id'], 'required'],
             [['price'], 'number'],
             [['image'], 'default', 'value' => ''],
-            [['status'], 'default', 'value' => '1'],
+            [['status'], 'default', 'value' => self::STATUS_DEFAULT],
             [['box_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['store_id'], 'integer'],

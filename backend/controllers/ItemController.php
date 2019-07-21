@@ -51,40 +51,6 @@ class ItemController extends Controller
         ]);
     }
 
-    public function actionHome()
-    {
-        // Create an instance of class Item
-        $item_model = new Item();
-        // Modify data within database
-        if ($item_model->load(Yii::$app->request->post()) && $item_model->save())
-        {
-            return $this->redirect(['view', 'id' => $item_model->id]);
-        }
-        // Import data from class Item
-        $item_data = new ActiveDataProvider([
-            'query' => Item::find(),
-        ]);
-        // Import data from class SaleRecord
-        $record_data = new ActiveDataProvider([
-            'query' => SaleRecord::find(),
-        ]);
-        $box_data = new ActiveDataProvider([
-            'query' => box::find(),
-        ]);
-        $store_data = new ActiveDataProvider([
-            'query' => Store::find(),
-        ]);
-
-        // Display '@home.php' with data
-        return $this->render('home', [
-            'item_model' => $item_model,
-            'item_data' => $item_data,
-            'record_data' => $record_data,
-            'store_data' => $store_data,
-            'box_data' => $box_data,
-        ]);
-    }
-
     /**
      * Displays a single Item model.
      * @param integer $id

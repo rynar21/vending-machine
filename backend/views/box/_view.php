@@ -3,19 +3,16 @@
 
 use yii\helpers\Html;
 ?>
-<div class="thumbnail">
-    <?php echo "Box: ".$model->code; ?>
-    <hr>
-    <?php
-        if ($model->item) {
-            echo ($model->item->name);
-        }
-
-    ?>
-    <?php if ($model->status == $model::STATUS_AVAILABLE): ?>
-        <div>GOT ITEM</div>
+<div class="thumbnail text-center" style="border:1px solid black;">
+    <p>
+        <?php echo "Box: ".$model->code; ?>
+    </p>
+    <!-- -->
+    <?php if ($model->item): ?>
+            <p><?php  echo ($model->item->name); ?></p>
+            <?= Html::a('Modify Item', ['item/update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     <?php else: ?>
-        <div>NO ITEM</div>
-        <?= Html::a('Add Item', ['item/create', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
-    <?php endif ?>
+            <p> Out of Stock </p>
+            <?= Html::a('Add Item', ['item/create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?php endif;?>
 </div>

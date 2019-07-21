@@ -26,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
 
         <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
-
     </p>
 
     <?= DetailView::widget([
@@ -47,4 +46,5 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=$this->render('/box/_list', [
       'model' => $model,
     ]) ?>
+    
 </div>

@@ -15,9 +15,7 @@ use yii\behaviors\TimestampBehavior;
  */
 class Box extends \yii\db\ActiveRecord
 {
-    const STATUS_AVAILABLE = 1;
-    const STATUS_UNAVAILABLE = 2;
-
+    
     /**
      * {@inheritdoc}
      */
@@ -41,7 +39,7 @@ class Box extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'store_id', 'item_id'], 'integer'],
+            [['code', 'store_id'], 'integer'],
             [['code'], 'required'],
         ];
     }
@@ -56,7 +54,6 @@ class Box extends \yii\db\ActiveRecord
             'code' => 'Box Code',
             'status' => 'Box Status',
             'store_id' => 'Store ID',
-            'item_id' => 'Item ID',
         ];
     }
 
