@@ -1,5 +1,8 @@
 <?php
-
+/*
+    By: Melissa Ho
+    21/07/2019
+*/
 namespace common\models;
 
 use Yii;
@@ -7,11 +10,14 @@ use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "item".
- *
  * @property int $id
  * @property string $name
  * @property double $price
  * @property int $box_id
+ * @property int $store_id
+ * @property smallint $status
+ * @property int $created_at
+ * @property int $updated_at
  */
 class Item extends \yii\db\ActiveRecord
 {
@@ -24,19 +30,13 @@ class Item extends \yii\db\ActiveRecord
     // 产品 交易成功
     const STATUS_SOLD = 10; // SaleRecord::STATUS_SUCCESS
 
-    /**
-     * 连接数据库的表 ：item
-     * {@inheritdoc}
-     */
+    // 连接数据库的表 ：item
     public static function tableName()
     {
         return 'item';
     }
 
-    /**
-     * YII 自带时间值 功能
-     * {@inheritdoc}
-     */
+    // YII 自带时间值 功能
     public function behaviors()
     {
         return [
@@ -44,9 +44,7 @@ class Item extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // 定义 属性
     public function rules()
     {
         return [
@@ -60,9 +58,7 @@ class Item extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // 标注 属性 名称
     public function attributeLabels()
     {
         return [
@@ -75,12 +71,13 @@ class Item extends \yii\db\ActiveRecord
             'store_id'=> 'Store ID'
         ];
     }
-
+    // 搜索 对应产品的 盒子
     public function getBox()
     {
       return $this->hasOne(Box::className(), ['id' => 'box_id']);
     }
 
+    // 打印状态为文字
     public function getStatusText()
     {
         switch ($this->status) {
@@ -103,14 +100,10 @@ class Item extends \yii\db\ActiveRecord
         return $text;
     }
 
+    // 打印 价格格式
     public function getPricing()
     {
         $num = number_format($this->price, 2);
         return 'RM '.$num;
-    }
-
-    public function getActiveItem()
-    {
-        Item::find()->where(['status' => self::STATUS_DEFAULT, self::STATUS_AVAILABLE]);
     }
 }
