@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'price',
+            ['attribute'=> 'status', 'value' => 'statusText'],
             'created_at:datetime',
             'updated_at:datetime',
             'box_id',

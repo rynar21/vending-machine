@@ -10,9 +10,10 @@ use yii\helpers\Html;
     <!-- -->
     <?php if ($model->item): ?>
             <p><?php  echo ($model->item->name); ?></p>
-            <?= Html::a('Modify Item', ['item/update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Modify Item', ['item/update', 'id' => $model->item->id], ['class' => 'btn btn-primary']) ?>
+
     <?php else: ?>
             <p> Out of Stock </p>
-            <?= Html::a('Add Item', ['item/create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Add Item', ['item/create', 'id' => $model->item->id], ['class' => 'btn btn-primary']) ?>
     <?php endif;?>
 </div>

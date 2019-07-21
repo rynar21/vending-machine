@@ -2,10 +2,7 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Store;
 use common\models\Item;
-use common\models\Box;
-use common\models\SaleRecord;
 use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -38,16 +35,16 @@ class ItemController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ItemSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider2 = new ActiveDataProvider([
+        $Item_searchModel = new ItemSearch();
+        $Item_dataProvider = $Item_searchModel->search(Yii::$app->request->queryParams);
+        $Record_dataProvider = new ActiveDataProvider([
             'query' => SaleRecord::find(),
         ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'dataProvider2' => $dataProvider2,
+            'searchModel' => $Item_searchModel,
+            'dataProvider' => $Item_dataProvider,
+            'dataProvider2' => $Record_dataProvider,
         ]);
     }
 
@@ -60,7 +57,7 @@ class ItemController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findItemModel($id),
         ]);
     }
 
@@ -93,17 +90,19 @@ class ItemController extends Controller
      */
     public function actionUpdate($id)
     {
-        $dataProvider2 = new ActiveDataProvider([
-            'query' => box::find(),
+        $item_model = $this->findItemModel($id);
+        $model = new ActiveDataProvider([
+            'query'=> Item::find()
+            ->where(['status'=> [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($item_model->box->store_id)]),
         ]);
-        $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+        if ($item_model->load(Yii::$app->request->post()) && $item_model->save()) {
+            return $this->redirect(['view', 'id' => $item_model->id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
-            'dataProvider2' => $dataProvider2,
+            'model2' => $model,
+            'model' => $item_model,
         ]);
     }
 
@@ -128,12 +127,11 @@ class ItemController extends Controller
      * @return Item the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findItemModel($id)
     {
-        if (($model = Item::findOne($id)) !== null) {
-            return $model;
+        if (($item_model = Item::findOne($id)) !== null) {
+            return $item_model;
         }
-
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
