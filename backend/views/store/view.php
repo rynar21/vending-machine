@@ -45,13 +45,13 @@ $this->params['breadcrumbs'][] = $this->title;
   //  ]) ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
             'code',
             'status',
-            'store_id',
+            // 'store_id',
             'item.id',
             'created_at:datetime',
             'updated_at:datetime',
@@ -59,9 +59,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-    <?php foreach($dataProvider->getModels() as $box): ?>
+    <div class="containter">
 
-    <?php endforeach?>
+    </div>
 
 
 
