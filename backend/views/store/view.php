@@ -24,6 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+
+        <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -38,6 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <?= Yii::$app->formatter->asDateTime($model->created_at) ?>
+    <!-- PHP: 展示时间 -->
+    <?php //echo Yii::$app->formatter->asDateTime($model->created_at); ?>
 
+    <?=$this->render('/box/_list', [
+      'model' => $model,
+    ]) ?>
+    
 </div>

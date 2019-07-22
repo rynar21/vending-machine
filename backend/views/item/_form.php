@@ -6,42 +6,71 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\Item */
 /* @var $form yii\widgets\ActiveForm */
+
+// $model: use common/models/Item
 ?>
 
 <div class="item-form">
+
     <?php $form = ActiveForm::begin(); ?>
+    <div class="row f_label">
+        <div class="col-sm-1">
+            Box ID:
+        </div>
+        <?= $model->box_id ?>
+    </div>
+
+    <div class="row f_label">
+        <div class="col-sm-1">
+            Store ID:
+        </div>
+        <?= $model->store_id ?>
+    </div>
+
     <div class="row">
-      <div class="col-md-4">
-        <?= $form->field($model, 'box_id')->textInput() ?>
-        <?= $form->field($model, 'store_id')->textInput() ?>
-      </div>
-      <div class="col-md-8">
-        <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>
-        <div class="row">
-          <div class="col-md-12"><b>Item Price</b></div>
+        <div class="col-sm-12">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-              <p style="font-size: 18px; margin-top: 5px; font-weight: bold;"> RM </p>
+    </div>
+
+    <div class="row">
+         <div class="col-sm-12">
+              <b>Item Price</b>
+          </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <p style="font-size: 18px; margin-top: 5px; font-weight: bold;"> RM </p>
               <?= $form->field($model, 'price')->textInput()->label('') ?>
-            </div>
         </div>
-      </div>
     </div>
 
     <div class="row form-group">
-      <div class="col-md-1">
+      <div class="col-sm-1 col-xs-3">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
       </div>
-      <div class="col-md-1">
-      <?= Html::a('Cancel', ['box/index'], ['class' => 'btn btn-danger']) ?>
+
+      <div class="col-sm-1 col-xs-3">
+          <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
       </div>
-      <div class="col-md-10"></div>
+
     </div>
     <?php ActiveForm::end(); ?>
 </div>
 
 <style>
+.f_label{
+    margin: 10px 0px;
+    font-size: 15px;
+    color: #808080;
+}
+
+.f_label > .col-sm-1{
+    padding: 0px;
+    font-weight: bold;
+}
+
 #item-price{
   width:320px;
   margin-left: 40px;
