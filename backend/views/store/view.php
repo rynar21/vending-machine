@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Store */
@@ -16,11 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Update Store', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete Store', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Are you sure you want to delete this Store?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,18 +30,39 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
+
+
+    <?php //DetailView::widget([
+        // 'model' => $model,
+        // 'attributes' => [
+        //     'id',
+        //     'name',
+        //     'address',
+        //     'contact',
+        //     'created_at:datetime',
+        //     'updated_at:datetime',
+        // ],
+  //  ]) ?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
             'id',
-            'name',
-            'address',
-            'contact',
+            'code',
+            'status',
+            'store_id',
+            'item.id',
             'created_at:datetime',
             'updated_at:datetime',
+            ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]) ?>
+    ]); ?>
 
-    <?php //Yii::$app->formatter->asDateTime($model->created_at) ?>
+    <?php foreach($dataProvider->getModels() as $box): ?>
+
+    <?php endforeach?>
+
+
 
 </div>

@@ -57,15 +57,6 @@ class Box extends \yii\db\ActiveRecord
         ];
     }
 
-    // public function getStore()
-    // {
-    //   return $this->hasOne(Store::className(), ['store_id'=>'id']);
-    // }
-    //
-    // public function getItem()
-    // {
-    //   return $this->hasOne(Item::className(), ['id'=>'box_id']);
-    // }
     public function getItem()
     {
       return Item::find()->where([
@@ -73,7 +64,14 @@ class Box extends \yii\db\ActiveRecord
         'status' => Item::STATUS_ACTIVE,
         ]);
     }
-    public function getItems(){
+
+    public function getItems()
+    {
       return $this->hasMany(Item::className(),['box_id'=>'id']);
+    }
+
+    Public function getStore()
+    {
+      return $this->hasOne(Store::className(),['id'=>'store_id']);
     }
 }

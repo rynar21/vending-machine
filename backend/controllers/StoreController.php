@@ -72,8 +72,14 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
+      $searchModel = new BoxSearch();
+      $searchModel->store_id = $id;
+      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
         //return $this->redirect(array('box/home','id' => $id));
     }
@@ -140,11 +146,4 @@ class StoreController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    protected function findModel3($id)
-    {
-        if (($model3 = Store::findOne($id)) !== null) {
-            return $model3;
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
 }

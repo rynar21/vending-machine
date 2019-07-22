@@ -59,13 +59,13 @@ class BoxController extends Controller
      */
     public function actionIndex($id)
     {
-        $searchModel2 = new BoxSearch();
-        $searchModel2->store_id = $id;
-        $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams);
+        $searchModel = new BoxSearch();
+        $searchModel->store_id = $id;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel2' => $searchModel2,
-            'dataProvider2' => $dataProvider2,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -77,8 +77,9 @@ class BoxController extends Controller
      */
     public function actionView($id)
     {
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findBoxModel($id),
         ]);
     }
 
@@ -143,7 +144,7 @@ class BoxController extends Controller
      * @return Box the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findBoxModel($id)
     {
         if (($model = Box::findOne($id)) !== null) {
             return $model;
