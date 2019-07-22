@@ -20,9 +20,6 @@ use yii\data\BaseDataProvider;
  */
 class ItemController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
@@ -37,26 +34,18 @@ class ItemController extends Controller
 
     /**
      * Lists all Item models.
-     * @return mixed
      */
     public function actionHome($id)
     {
-      $item_model = new ItemSearch();
-      $item_data = $item_model->search(Yii::$app->request->queryParams);
+        $item_searchModel = new ItemSearch();
+        $item_dataProvider = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
 
-      $store_data = new ActiveDataProvider(['query'=> Store::find(),]);
-      $box_data = new ActiveDataProvider(['query'=> Box::find(),]);
-      $record_data = new ActiveDataProvider(['query'=> SaleRecord::find(),]);
-
-      return $this->render('home', [
-          'store_model' => $this->findModelStore($id),
-          'item_model' => $item_model,
-          'item_data' => $item_data,
-          'store_data' => $store_data,
-          'box_data' => $box_data,
-          'record_data' => $record_data,
-          'id' => $id,
-      ]);
+          return $this->render('home', [
+              'store_model' => $this->findStoreModel($id),
+              'id' => $id,
+              'item_searchModel' => $item_searchModel,
+              'item_dataProvider' => $item_dataProvider,
+          ]);
     }
 
 
@@ -64,7 +53,7 @@ class ItemController extends Controller
     {
           $model = new ActiveDataProvider(['query'=> Item::find(),]);
           return $this->render('iphone', [
-              'model' => $this->findModel($id),
+              'model' => $this->findItemModel($id),
           ]);
     }
 
@@ -84,8 +73,8 @@ class ItemController extends Controller
         $model2 = new SaleRecord();
 
         return $this->render('payding', [
-            'model' => $this->findModel($id),
-            'model2' => $this->findModel2($id),
+            'model' => $this->findItemModel($id),
+            'model2' => $this->findSaleRecordModel($id),
 
         ]);
     }
@@ -101,14 +90,14 @@ class ItemController extends Controller
         return $this->render('record', [
             'searchModel' => $searchModel,
             'item_model' => $item_model,
-            'model' => $this->findModel($id),
+            'model' => $this->findItemModel($id),
             'model2' => $model2,
-            'model3'=> $this->findModel3($id),
+            'model3'=> $this->findBoxModel($id),
         ]);
     }
 
     /* Find Model Item*/
-    protected function findModel($id)
+    protected function findItemModel($id)
     {
         if (($item_model = Item::findOne($id)) !== null)
         {
@@ -118,7 +107,7 @@ class ItemController extends Controller
     }
 
     /* Find Model SaleRecord */
-    protected function findModel2($id)
+    protected function findSaleRecordModel($id)
     {
         if (($model = SaleRecord::findOne($id)) !== null)
         {
@@ -128,7 +117,7 @@ class ItemController extends Controller
     }
 
     /* Find Model Box*/
-    protected function findModel3($id)
+    protected function findBoxModel($id)
     {
         if (($model3 = Box::findOne($id)) !== null)
         {
@@ -138,7 +127,7 @@ class ItemController extends Controller
     }
 
     /* Find Model Store */
-    protected function findModelStore($id)
+    protected function findStoreModel($id)
     {
         if (($store_model = Store::findOne($id)) !== null)
         {

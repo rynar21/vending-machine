@@ -30,11 +30,11 @@ class ItemController extends Controller
     public function actionIndex()
     {
         $item_searchModel = new ItemSearch();
-        $item_dataProvider = $Item_searchModel->search(Yii::$app->request->queryParams);
+        $item_dataProvider = $item_searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'item_searchModel' => $Item_searchModel,
-            'item_dataProvider' => $Item_dataProvider,
+            'item_searchModel' => $item_searchModel,
+            'item_dataProvider' => $item_dataProvider,
         ]);
     }
 

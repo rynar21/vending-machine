@@ -11,6 +11,8 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="item-form">
+
+    <?php $form = ActiveForm::begin(); ?>
     <div class="row f_label">
         <div class="col-sm-1">
             Box ID:
@@ -25,7 +27,6 @@ use yii\widgets\ActiveForm;
         <?= $model->store_id ?>
     </div>
 
-    <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-sm-12">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>
@@ -51,7 +52,7 @@ use yii\widgets\ActiveForm;
       </div>
 
       <div class="col-sm-1 col-xs-3">
-      <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
+          <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
       </div>
 
     </div>

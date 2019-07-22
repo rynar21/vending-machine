@@ -106,4 +106,5 @@ class Item extends \yii\db\ActiveRecord
         $num = number_format($this->price, 2);
         return 'RM '.$num;
     }
+
 }

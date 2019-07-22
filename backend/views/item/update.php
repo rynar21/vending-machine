@@ -29,7 +29,9 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <!-- 显示还没成功购买的产品 -->
     <div class="row">
-        <h3 class="col-sm-12"> Available Items </h3>
+        <h3 class="col-sm-12">
+            Available Items 
+        </h3>
     </div>
 
     <?= GridView::widget([

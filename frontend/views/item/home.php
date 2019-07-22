@@ -1,77 +1,70 @@
 <?php
-use yii\data\ActiveDataProvider;
-use yii\data\BaseDataProvider;
+use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
 use yii\widgets\ActiveForm;
+/*$store_model = common/models/Store
+$item_searchModel = backend/models/ItemSearch
+
+*/
+
 
 ?>
 
 <div class="item-home container">
     <!-- 显示店名 -->
     <div class="row">
-      <h2 class="col-lg-12 col-sm-12" style="margin-bottom:0px;">
-        <?= $store_model->name ?>
-      </h2>
+          <h2 class="col-lg-12 col-sm-12" style="margin-bottom:0px;">
+              <?= $store_model->name ?>
+          </h2>
     </div>
     <hr/>
 
+    <!-- 搜索产品 -->
     <div class="row">
         <?php $form = ActiveForm::begin(['id'=> $id, 'action' => ['home', 'id' => $id], 'method' => 'get',]); ?>
             <div class="col-sm-8 col-xs-8">
-                <?= $form->field($item_model, 'name') -> input('name')
-                                                      -> textInput(['placeholder' => "Please enter your item name"])
-                                                      -> label(false) ?>
+                <?= $form->field($item_searchModel, 'name')
+                        -> input('name')
+                        -> textInput(['placeholder' => "Please enter your item name"])
+                        -> label(false) ?>
             </div>
-            <div class="col-sm-4 col-xs-4" style="border:0px solid blue;">
+            <div class="col-sm-4 col-xs-4">
               <?= Html::submitButton('Search', ['class' => 'btn btn-primary form-group search_btn']) ?>
             </div>
         <?php ActiveForm::end(); ?>
     </div>
+    <hr style="margin-top:0px;"/>
 
+    <!-- 产品内容 -->
     <div class="row">
           <div class="col-sm-12" style="color: #6A6A6A; ">
                 Select Item to Purchase:
           </div>
     </div>
 
-    <div class="row" style="border: 0px solid blue;">
-      <div class="col-lg-12 col-sm-12" style="border: 0px solid red;">
-
-        <!-- 寻找所有的盒子数据 -->
-        <?php foreach ($box_data->getModels() as $box): ?>
-          <!-- 寻找该店里所有的盒子 -->
-          <?php if ($id === ($box->store_id) && ($box->box_status !== 0)):?>
-
-              <!-- 如果有，查看盒子里的产品 -->
-              <?php foreach($item_data->getModels() as $item): ?>
-                  <!-- 如果盒子ID等于商品ID -->
-                    <?php if(($id == ($box->store_id)) && ($box->box_id == $item->box_id)): ?>
-
-                      <!-- SaleRecord -->
-                      <?php foreach($record_data->query->all() as $record): ?>
-                          <?php if($item->id != $record->item_id ):?>
-                              <div class="col-lg-4 col-sm-6 col-xs-6 box_row" style="padding: 0px 5px;">
-                                <div class="box_item">
-                                  <a href="iphone?id=<?= $item->id ?>">
-                                    <div class="item_image">
-                                        <img src="<?= Url::base()?>/mel-img/pepsi.jpg" class="img-responsive"/>
-                                    </div>
-                                    <div class="text-center item_name">
-                                      <?= $item->name ?>
-                                    </div>
-                                      <?= $record->status ?>
-                                <?php endif;?>
-                            <?php endforeach; ?>
-                          </a>
-                        </div>
-                      </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-          <?php endif; ?>
-      <?php endforeach; ?>
-      </div>
+    <!-- 展示所有收购的产品 -->
+    <div class="row " style="border: 0px solid blue;">
+      <div class="col-sm-12" style="border: 0px solid red;">
+          <!-- 产品 输入 -->
+          <?php foreach($item_dataProvider->query->all() as $items): ?>
+                <div class="col-sm-3 col-xs-6 box_row" style="border:0px solid green;">
+                     <!-- 产品 显示框 -->
+                    <div class="box_item thumbnail text-center">
+                        <a href="<?= Url::base()?>/item/iphone?id=<?= $items->id ?>">
+                            <!-- 产品：图片 显示框 -->
+                            <div class="item_image">
+                                <img src="<?= Url::base()?>/mel-img/pepsi.jpg">
+                            </div>
+                            <!-- 产品：名字 显示框 -->
+                            <div class="item_name">
+                                <?= $items->name ?>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+          <?php endforeach; ?>
+       </div>
     </div>
 </div>
 
@@ -84,6 +77,14 @@ use yii\widgets\ActiveForm;
   margin: 10px 0px;
 }
 
+.box_item{
+  width: 100%;
+  height: 20vh;
+  margin: 0 auto;
+  box-shadow:2px 0px 10px #CDCDB4;
+  border: 0px solid red;
+}
+
 .box_item_1{
   width: 23vw;
   margin: 0 auto;
@@ -91,15 +92,7 @@ use yii\widgets\ActiveForm;
 }
 
 .box_item>a{
-  text-decoration: none;
-}
-
-.box_item{
-  width: 100%;
-  height: 20vh;
-  margin: 0 auto;
-  box-shadow:2px 0px 10px #CDCDB4;
-  border: 0px solid red;
+    text-decoration: none;
 }
 
 .item_image{
@@ -116,9 +109,9 @@ use yii\widgets\ActiveForm;
 }
 
 .item_name{
-  height: 3vh;
-  width: auto;
-  color: black;
-  border: 0px solid black;
+    height: 3vh;
+    width: auto;
+    color: black;
+    border: 0px solid black;
 }
 </style>

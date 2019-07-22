@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="item-create">
     <!-- 页面标题 -->
     <div class="row">
-        <h1>
+        <h1 class="col-sm-12">
             <?= Html::encode($this->title) ?>
         </h1>
     </div>
@@ -25,12 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
+
     <hr />
 
     <!-- 显示 还没购买成功的 产品 -->
     <div class="row">
         <h3 class="col-sm-12"> Available Items </h3>
     </div>
+
     <?= GridView::widget([
         'dataProvider' => $item_dataProvider,
         'columns' => [

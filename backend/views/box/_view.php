@@ -3,6 +3,7 @@
 
 use yii\helpers\Html;
 use common\models\Item;
+$item_model = new Item();
 ?>
 <div class="thumbnail text-center" style="border:1px solid black;">
     <p>
@@ -12,6 +13,7 @@ use common\models\Item;
     <?php if ($model->item): ?>
             <!-- 如果有产品，显示产品 -->
             <p><?php  echo ($model->item->name); ?></p>
+            <?php echo $item_model->status; ?>
             <?= Html::a('Modify Item', ['item/update', 'id' => $model->item->id], ['class' => 'btn btn-primary']) ?>
 
     <?php else: ?>
