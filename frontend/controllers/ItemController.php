@@ -6,6 +6,7 @@ use common\models\Store;
 use common\models\Box;
 use common\models\Item;
 use common\models\SaleRecord;
+use backend\models\StoreSearch;
 use backend\models\BoxSearch;
 use backend\models\ItemSearch;
 use backend\models\SaleRecordSearch;
@@ -163,7 +164,7 @@ class ItemController extends Controller
         }
     }
 
-    // 购买 成功
+    // 接受 IoT 返回的状态来判断
     public function actionOk($id)
     {
         $item = Item::findOne($id);
