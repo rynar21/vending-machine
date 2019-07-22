@@ -74,7 +74,8 @@ class Store extends \yii\db\ActiveRecord
     public function getItem()
     {
         return $this->hasOne(Item::className(),['id'=>'item_id']);
-
+    }
+    
     public function getBoxes()
     {
       return $this->hasMany(Box::className(), ['store_id' => 'id']);
