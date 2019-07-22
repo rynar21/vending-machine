@@ -61,7 +61,6 @@ class BoxSearch extends Box
             'code' => $this->code,
             'status' => $this->status,
             'store_id' => $this->store_id,
-
         ]);
 
         return $dataProvider;

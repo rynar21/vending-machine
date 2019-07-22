@@ -44,20 +44,21 @@ class Store extends \yii\db\ActiveRecord
         return [
             [['name', 'address', 'contact'], 'required'],
             [['contact'], 'integer'],
-            //[['store_contact'], 'validateContact'],
-            //[['store_contact'],  'match', 'pattern'=>'/^[a-z]\w*$/i'],
-            //[['store_contact'],  'match', 'pattern'=>'/^[\d]{10}$'],
+            //[['contact'], 'validateContact'],
+            //[['contact'],  'match', 'pattern'=>'/^[a-z]\w*$/i'],
+            //[['contact'],  'match', 'pattern'=>'/^[\d]{10}$'],
+            [['image'], 'default', 'value' => ''],
             [['name', 'address'], 'string', 'max' => 255],
             [['image'], 'default', 'value' => ''],
         ];
     }
 
-    public function validateContact($attribute, $params, $validator)
-    {
-        if ($this->$attribute != '012') {
-          $this->addError($attribute, 'Must be 012');
-        }
-    }
+    // public function validateContact($attribute, $params, $validator)
+    // {
+    //     if ($this->$attribute != '012') {
+    //       $this->addError($attribute, 'Must be 012');
+    //     }
+    // }
 
     /**
      * {@inheritdoc}
@@ -70,5 +71,19 @@ class Store extends \yii\db\ActiveRecord
             'address' => 'Store Address',
             'contact' => 'Store Contact',
         ];
+    }
+    public function getItem()
+    {
+        return $this->hasOne(Item::className(),['id'=>'item_id']);
+    }
+    
+    public function getBoxes()
+    {
+      return $this->hasMany(Box::className(), ['store_id' => 'id']);
+    }
+
+    public function getBoxes_count()
+    {
+        return $this->getBoxes()->count();
     }
 }

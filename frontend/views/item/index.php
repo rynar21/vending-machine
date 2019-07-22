@@ -73,6 +73,10 @@ $this->title = 'My Yii Application';
 
        </ul>
       </div>
+
+
+     
+
   </div>
 </div>
 

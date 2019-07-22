@@ -83,7 +83,6 @@ class BoxController extends Controller
         ]);
     }
 
-
     /**
      * Creates a new Box model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -165,7 +164,12 @@ class BoxController extends Controller
     {
       if (($model5 = Item::findOne($id)) !== null) {
         return $model5;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
-    throw new NotFoundHttpException('The requested page does not exist.');
+
+    public function actionTest()
+    {
+        return $this->render('_list');
     }
 }

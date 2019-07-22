@@ -18,7 +18,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'contact')->textInput() ?>
 
-
     <div class="form-group">
         <?= Html::submitButton('Save', ['store/try', 'class' => 'btn btn-success']) ?>
     </div>

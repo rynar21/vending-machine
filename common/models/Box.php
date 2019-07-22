@@ -15,6 +15,7 @@ use yii\behaviors\TimestampBehavior;
  */
 class Box extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -53,10 +54,19 @@ class Box extends \yii\db\ActiveRecord
             'code' => 'Box Code',
             'status' => 'Box Status',
             'store_id' => 'Store ID',
-            'item_id' => 'Item ID',
         ];
     }
 
+    public function getStore()
+    {
+      return $this->hasOne(Store::className(), ['id'=>'store_id']);
+    }
+
+
+    public function getActiveItem()
+    {
+        return Item::find()->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
+    }
     public function getItem()
     {
       return Item::find()->where([
@@ -73,5 +83,4 @@ class Box extends \yii\db\ActiveRecord
     Public function getStore()
     {
       return $this->hasOne(Store::className(),['id'=>'store_id']);
-    }
 }
