@@ -1,14 +1,17 @@
 <?php
-use Yii;
+/*
+    By: Melissa Ho
+    22/07/2019
+*/
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-/*$store_model = common/models/Store
+
+/*
+$store_model = common/models/Store
 $item_searchModel = backend/models/ItemSearch
-
+$item_dataProvider = $item_searchModel->search();
 */
-
-
 ?>
 
 <div class="item-home container">
@@ -48,7 +51,7 @@ $item_searchModel = backend/models/ItemSearch
       <div class="col-sm-12" style="border: 0px solid red;">
           <!-- 产品 输入 -->
           <?php foreach($item_dataProvider->query->all() as $items): ?>
-                <div class="col-sm-3 col-xs-6 box_row" style="border:0px solid green;">
+                <div class="col-sm-3 col-xs-6 box_row" style="border:0px solid green; padding:5px 7px;">
                      <!-- 产品 显示框 -->
                     <div class="box_item thumbnail text-center">
                         <a href="<?= Url::base()?>/item/iphone?id=<?= $items->id ?>">
