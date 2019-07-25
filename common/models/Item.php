@@ -80,22 +80,23 @@ class Item extends \yii\db\ActiveRecord
     // 打印状态为文字
     public function getStatusText()
     {
-        switch ($this->status) {
-        case self::STATUS_DEFAULT:
-            $text = "Available";
-            break;
-        case self::STATUS_AVAILABLE:
-            $text = "Available";
-            break;
-        case self::STATUS_LOCKED:
-            $text = "On Hold";
-            break;
-        case self::STATUS_SOLD:
-            $text = "Sold";
-            break;
-        default:
-            $text = "(Undefined)";
-            break;
+        switch ($this->status)
+        {
+            case self::STATUS_DEFAULT:
+                $text = "Available";
+                break;
+            case self::STATUS_AVAILABLE:
+                $text = "Available";
+                break;
+            case self::STATUS_LOCKED:
+                $text = "On Hold";
+                break;
+            case self::STATUS_SOLD:
+                $text = "Sold";
+                break;
+            default:
+                $text = "(Undefined)";
+                break;
         }
         return $text;
     }
