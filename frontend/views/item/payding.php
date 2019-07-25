@@ -67,7 +67,7 @@ $this->title = 'My Yii Application';
                     $str='';
                         if($record = SaleRecord::find()->where(['item_id' =>$model->id, 'status' => [9]])->all()){
                             //chenggong
-                             
+
 
 
                              if (SaleRecord::updateAll(['status' => 10], ['item_id' =>$model->id]))

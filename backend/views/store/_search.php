@@ -15,21 +15,14 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
-
+    <!-- 查询条件 -->
     <?= $form->field($model, 'name') ?>
-
     <?= $form->field($model, 'address') ?>
-
     <?= $form->field($model, 'contact') ?>
-
-    <?= $form->field($model, 'created_at') ?>
-
-    <?php // echo $form->field($model, 'store_updated_date') ?>
-
+    
+    <!-- 查询按钮 -->
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -73,8 +73,8 @@ $this->title = 'My Yii Application';
                         <?php foreach($store_model->getModels() as $store):?>
                             <div class="col-sm-4 col-lg-4"style="position:relative;">
                                 <div class="thumbnail font-weight-bold text-center" style="font-size:x-large;">
-                                    <?= $store->store_name ?>
-                                    <img src="<?= $store->store_image ?>" style="width:130px; height:150px;"/>
+                                    <?= $store->name ?>
+                                    <img src="<?= $store->image ?>" style="width:130px; height:150px;"/>
                                 </div>
                             </div>
                         <?php endforeach; ?>
