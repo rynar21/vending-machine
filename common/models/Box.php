@@ -57,30 +57,26 @@ class Box extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getStore()
-    {
-      return $this->hasOne(Store::className(), ['id'=>'store_id']);
-    }
-
-
     public function getActiveItem()
     {
         return Item::find()->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
     }
+
+    // public function getItem()
+    // {
+    //     Item::find()->where([
+    //     'box_id' => $this->id,
+    //     'status' => Item::STATUS_AVAILABLE
+    //     ]);
+    // }
+
     public function getItem()
     {
-      return Item::find()->where([
-        'box_id' => $this->id,
-        'status' => Item::STATUS_ACTIVE,
-        ]);
+      return $this->hasOne(Item::className(),['box_id'=>'id']);
     }
 
-    public function getItems()
-    {
-      return $this->hasMany(Item::className(),['box_id'=>'id']);
-    }
-
-    Public function getStore()
+    public function getStore()
     {
       return $this->hasOne(Store::className(),['id'=>'store_id']);
+    }
 }

@@ -34,10 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="store-search">
 
-        <form id="w0" action="/vending-machine/backend/web/store/index" method="get">
-        <div class="form-group field-storesearch-store_name">
-    <label class="control-label" for="storesearch-store_name">Store Name</label>
-    <input type="text" id="storesearch-store_name" class="form-control" name="StoreSearch[store_name]">
+        <form id="w0" action="<?= Url::base() ?>/store/index" method="get">
+        <div class="form-group field-storesearch-name">
+    <label class="control-label" for="storesearch-name">Store Name</label>
+    <input type="text" id="storesearch-name" class="form-control" name="StoreSearch[name]">
 
     <div class="help-block"></div>
     </div>

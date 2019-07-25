@@ -4,7 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Store;
-use common\models\box;
+use common\models\Box;
+use common\models\Item;
 use common\models\Transaction;
 use backend\models\StoreSearch;
 use yii\web\Controller;
@@ -49,21 +50,6 @@ class StoreController extends Controller
         ]);
     }
 
-    public function actionList()
-    {
-      // $searchModel = new BoxSearch();
-      // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-      // $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
-      // $item_model = new ActiveDataProvider(['query' => Item::find(),]);
-
-      return $this->render('_list', [
-          // 'searchModel' => $searchModel,
-          // 'dataProvider' => $dataProvider,
-          // 'store_model' => $this->findModel3($id),
-          // 'item_model' => $item_model,
-      ]);
-    }
-
     /**
      * Displays a single Store model.
      * @param integer $id
@@ -72,14 +58,14 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
-      $searchModel = new BoxSearch();
-      $searchModel->store_id = $id;
-      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+      $box_searchModel = new BoxSearch();
+      //$box_searchModel->store_id = $id;
+      $box_dataProvider = $box_searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            // 'box_searchModel' => $box_searchModel,
+            // 'box_dataProvider' => $box_dataProvider,
         ]);
         //return $this->redirect(array('box/home','id' => $id));
     }

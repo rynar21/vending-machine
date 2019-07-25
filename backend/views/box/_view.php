@@ -12,7 +12,7 @@ $item_model = new Item();
     <!-- 判断 产品是否存在 -->
     <?php if ($model->item): ?>
             <!-- 如果有产品，显示产品 -->
-            <p><?php  echo ($model->item->name); ?></p>
+            <p><?php echo ($model->item->name); ?></p>
             <?php echo $item_model->status; ?>
             <?= Html::a('Modify Item', ['item/update', 'id' => $model->item->id], ['class' => 'btn btn-primary']) ?>
 

@@ -71,11 +71,7 @@ class Item extends \yii\db\ActiveRecord
             'store_id'=> 'Store ID'
         ];
     }
-    // 搜索 对应产品的 盒子
-    public function getBox()
-    {
-      return $this->hasOne(Box::className(), ['id' => 'box_id']);
-    }
+
 
     // 打印状态为文字
     public function getStatusText()
@@ -107,14 +103,14 @@ class Item extends \yii\db\ActiveRecord
         return 'RM '.$num;
     }
 
-
     public function getStore()
     {
         return $this->hasOne(Store::className(), ['store_id' => 'box_id'])->via('box');
     }
 
+    // 搜索 对应产品的 盒子
     public function getBox()
     {
-      return $this->hasOne(Box::className(), ['id'=>'box_id']);
+      return $this->hasOne(Box::className(), ['id' => 'box_id']);
     }
 }
