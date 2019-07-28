@@ -17,9 +17,7 @@ use yii\widgets\ActiveForm;
 
     <!-- 查询条件 -->
     <?= $form->field($model, 'name') ?>
-    <?= $form->field($model, 'address') ?>
-    <?= $form->field($model, 'contact') ?>
-    
+
     <!-- 查询按钮 -->
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

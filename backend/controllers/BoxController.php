@@ -34,38 +34,35 @@ class BoxController extends Controller
     }
 
     /**
-     * Lists all Box models.
-     * @return mixed
+     * Lists all Box models. @return mixed
      */
-    // public function actionIndex($id=null)
-    // {
-    //   $searchModel = new BoxSearch();
-    //   $searchModel->store_id = $id;
-    //   $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-    //   $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
-    //   $item_model = new ActiveDataProvider(['query' => Item::find(),]);
-    //
-    //   return $this->render('index', [
-    //       'searchModel' => $searchModel,
-    //       'dataProvider' => $dataProvider,
-    //       'store_model' => $this->findModel3($id),
-    //       'item_model' => $item_model,
-    //   ]);
-    // }
+    public function actionIndex($id)
+    {
+          $searchModel = new BoxSearch();
+          $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+          $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
+          $item_model = new ActiveDataProvider(['query' => Item::find(),]);
+
+          return $this->render('index', [
+              'searchModel' => $searchModel,
+              'dataProvider' => $dataProvider,
+              'store_model' => $this->findStoreModel($id),
+              'item_model' => $item_model,
+          ]);
+    }
 
     /**
      * Lists all Box models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex2()
     {
-        $searchModel = new BoxSearch();
-      //  $searchModel->store_id = $id;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel2 = new BoxSearch();
+        $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        return $this->render('index2', [
+            'searchModel2' => $searchModel2,
+            'dataProvider2' => $dataProvider2,
         ]);
     }
 
@@ -77,9 +74,8 @@ class BoxController extends Controller
      */
     public function actionView($id)
     {
-
         return $this->render('view', [
-            'model' => $this->findBoxModel($id),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -91,7 +87,8 @@ class BoxController extends Controller
     public function actionCreate($id)
     {
         $model = new Box();
-        $model->store_id= $id;
+        $model->store_id = $id;
+
         if ($model->load(Yii::$app->request->post()) && $model->save())
         {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -132,7 +129,6 @@ class BoxController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -143,7 +139,7 @@ class BoxController extends Controller
      * @return Box the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findBoxModel($id)
+    protected function findModel($id)
     {
         if (($model = Box::findOne($id)) !== null) {
             return $model;
@@ -152,7 +148,7 @@ class BoxController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    protected function findModel3($id)
+    protected function findStoreModel($id)
     {
         if (($model3 = Store::findOne($id)) !== null) {
             return $model3;
@@ -160,7 +156,7 @@ class BoxController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    protected function findModel5($id)
+    protected function findItemModel($id)
     {
       if (($model5 = Item::findOne($id)) !== null) {
         return $model5;

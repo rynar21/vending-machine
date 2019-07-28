@@ -15,16 +15,6 @@ use yii\behaviors\TimestampBehavior;
  */
 class Box extends \yii\db\ActiveRecord
 {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
-    }
     /**
      * {@inheritdoc}
      */
@@ -44,6 +34,14 @@ class Box extends \yii\db\ActiveRecord
         ];
     }
 
+    // YII: 自带
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -57,26 +55,18 @@ class Box extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getActiveItem()
+    public function getStore()
     {
-        return Item::find()->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
+      return $this->hasOne(Store::className(), ['id'=>'store_id']);
     }
-
-    // public function getItem()
-    // {
-    //     Item::find()->where([
-    //     'box_id' => $this->id,
-    //     'status' => Item::STATUS_AVAILABLE
-    //     ]);
-    // }
 
     public function getItem()
     {
-      return $this->hasOne(Item::className(),['box_id'=>'id']);
+      return $this->hasOne(Item::className(), ['box_id'=>'id']);
     }
 
-    public function getStore()
+    public function getActiveItem()
     {
-      return $this->hasOne(Store::className(),['id'=>'store_id']);
+        return Item::find()->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
     }
 }
