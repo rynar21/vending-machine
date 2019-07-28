@@ -6,7 +6,7 @@ use common\models\Store;
 /*
     1. Views > store > view.php
     2. Views > box > _list.php
-    3. Views > box > _view.php 
+    3. Views > box > _view.php
 */
 ?>
 

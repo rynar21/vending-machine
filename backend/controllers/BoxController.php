@@ -88,10 +88,11 @@ class BoxController extends Controller
     {
         $model = new Box();
         $model->store_id = $id;
+        $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save())
         {
-            return $this->redirect(['view', 'id' => $model->id]);
+           return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -144,7 +145,6 @@ class BoxController extends Controller
         if (($model = Box::findOne($id)) !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 

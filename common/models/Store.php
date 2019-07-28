@@ -81,9 +81,9 @@ class Store extends \yii\db\ActiveRecord
     {
       return $this->hasMany(Box::className(), ['store_id' => 'id']);
     }
-
-    public function getBoxes_count()
-    {
-        return $this->getBoxes()->count();
-    }
+    //
+    // public function getBoxes_count()
+    // {
+    //     return $this->getBoxes()->count();
+    // }
 }

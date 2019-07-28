@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <?= GridView::widget([
-        'dataProvider' => $item_dataProvider,
+        'dataProvider' => $dataProvider,
         'columns' => [
             'store_id',
             'box.code',

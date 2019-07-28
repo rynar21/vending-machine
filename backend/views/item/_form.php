@@ -13,49 +13,53 @@ use yii\widgets\ActiveForm;
 <div class="item-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    <div class="row f_label">
-        <div class="col-sm-1">
-            Box ID:
+        <!-- 盒子 ID -->
+        <div class="row f_label">
+            <div class="col-sm-1">
+                Box ID:
+            </div>
+            <?= $model->box_id ?>
         </div>
-        <?= $model->box_id ?>
-    </div>
 
-    <div class="row f_label">
-        <div class="col-sm-1">
-            Store ID:
+        <!-- 商店 ID -->
+        <div class="row f_label">
+            <div class="col-sm-1">
+                Store ID:
+            </div>
+            <?= $model->store_id ?>
         </div>
-        <?= $model->store_id ?>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>
+        <!-- 产品名称 -->
+        <div class="row">
+            <div class="col-sm-12">
+                <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-         <div class="col-sm-12">
-              <b>Item Price</b>
-          </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <p style="font-size: 18px; margin-top: 5px; font-weight: bold;"> RM </p>
-              <?= $form->field($model, 'price')->textInput()->label('') ?>
+        <!-- 产品价格 -->
+        <div class="row">
+             <div class="col-sm-12">
+                  <b>Item Price</b>
+              </div>
+              <div class="col-sm-12">
+                    <p style="font-size: 18px; margin-top: 5px; font-weight: bold;">
+                        RM
+                    </p>
+                      <?= $form->field($model, 'price')->textInput()->label('') ?>
+              </div>
         </div>
-    </div>
 
-    <div class="row form-group">
-      <div class="col-sm-1 col-xs-3">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-      </div>
+        <!-- 提交表格按钮 -->
+        <div class="row form-group">
+              <div class="col-sm-1 col-xs-3">
+                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+              </div>
 
-      <div class="col-sm-1 col-xs-3">
-          <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
-      </div>
+              <div class="col-sm-1 col-xs-3">
+                  <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
+              </div>
+        </div>
 
-    </div>
     <?php ActiveForm::end(); ?>
 </div>
 

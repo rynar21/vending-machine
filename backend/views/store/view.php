@@ -45,10 +45,10 @@ $this->params['breadcrumbs'][] = $this->title;
      ]); ?>
 
     <hr/>
-
     <!-- PHP: 展示时间 -->
     <?php //echo Yii::$app->formatter->asDateTime($model->created_at); ?>
 
+    <!-- 显示商店拥有的盒子 -->
     <div class="row">
         <h3 class="col-sm-12">
             Available Boxes

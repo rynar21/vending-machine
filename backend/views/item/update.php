@@ -30,12 +30,12 @@ $this->params['breadcrumbs'][] = 'Update';
     <!-- 显示还没成功购买的产品 -->
     <div class="row">
         <h3 class="col-sm-12">
-            Available Items 
+            Available Items
         </h3>
     </div>
 
     <?= GridView::widget([
-        'dataProvider' => $item_dataProvider,
+        'dataProvider' => $dataProvider,
         'columns' => [
             'store_id',
             'box.code',

@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 
-        <?= Html::a('Create Item', ['item/create', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Create Item', ['item/create', 'id' => $model->id], ['class' => 'btn btn-success pull-right']) ?>
     </p>
 
     <?= DetailView::widget([

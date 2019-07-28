@@ -55,19 +55,25 @@ class Box extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getStore()
+    public function getBoxes_count()
     {
-      return $this->hasOne(Store::className(), ['id'=>'store_id']);
+        return Box::find()->where(['store_id'=> $id])->count();
     }
 
     public function getItem()
     {
-      return $this->hasOne(Item::className(), ['box_id'=>'id']);
+        return $this->hasOne(Item::className(), ['box_id'=>'id'])
+        ->orderBy(['id' => SORT_DESC])
+        ->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
+        ->limit(1);
     }
 
     public function getItems()
     {
-      return $this->hasMany(Item::className(), ['box_id'=>'id']);
+        return $this->hasMany(Item::className(), ['box_id'=>'id'])
+        ->orderBy(['id' => SORT_DESC])
+        ->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
+        ->limit(1);
     }
 
     public function getActiveItem()
