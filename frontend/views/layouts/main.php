@@ -71,8 +71,8 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container" style="position:relative;">
-        <a href="#" style=" position: absolute; right:8vw">about</a>
-        <a href="#" style=" position: absolute; right:1.5vw">container</a>
+        <a href="site/about" style=" position: absolute; right:8vw">About Us</a>
+        <a href="site/contact" style=" position: absolute; right:1.5vw">Contact Us</a>
     </div>
 </footer>
 

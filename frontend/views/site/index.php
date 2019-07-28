@@ -152,7 +152,7 @@ $this->title = 'My Yii Application';
                         <b style="font-size: 2.5em;line-height: 1;color: #ff6c00;">400-635-9995</b>
                         <p style="font-size: 1.33em;">E-mail :tcn@mail.tcnvending.com</p>
                         <?php $form = ActiveForm::begin(['id' => 'form-index']); ?>
-                            <?= $form->field($searchModel, 'store_contact')->textInput(['autofocus' => true]) ?>
+                            <?= $form->field($searchModel, 'contact')->textInput(['autofocus' => true]) ?>
                             <div class="form-group">
                                 <?= Html::submitButton('join', ['class' => 'btn btn-primary', 'name' => 'join-button']) ?>
                             </div>
