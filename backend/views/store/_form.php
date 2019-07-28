@@ -15,11 +15,16 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'address')->textInput() ?>
     <?= $form->field($model, 'contact')->textInput() ?>
-    
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['store/try', 'class' => 'btn btn-success']) ?>
+
+    <!-- 信息提交 -->
+    <div class="row form-group">
+          <div class="col-sm-1 col-xs-3">
+                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+          </div>
+          <div class="col-sm-1 col-xs-3">
+                <?= Html::a('Cancel', ['/store/index'], ['class' => 'btn btn-danger']) ?>
+         </div>
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>

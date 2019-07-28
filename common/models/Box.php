@@ -65,6 +65,11 @@ class Box extends \yii\db\ActiveRecord
       return $this->hasOne(Item::className(), ['box_id'=>'id']);
     }
 
+    public function getItems()
+    {
+      return $this->hasMany(Item::className(), ['box_id'=>'id']);
+    }
+
     public function getActiveItem()
     {
         return Item::find()->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
