@@ -69,7 +69,7 @@ class ItemController extends Controller
     {
         $searchModel = new ItemSearch();
         $item_model = $searchModel->search(Yii::$app->request->queryParams);
-        
+
         $record_model = new SaleRecord();
             // $item = Item::findOne($id);
             // $model = new SaleRecord();
@@ -88,19 +88,10 @@ class ItemController extends Controller
     //购买结果页面
     public function actionRecord($id)
     {
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
-        $model = new Item();
-        $model2 = new SaleRecord();
-        $model3 = new Store();
-        $store_model1 = new ActiveDataProvider(['query'=> Box::find(),]);
+        $item_model = Item::findOne($id);
         return $this->render('record', [
-            'searchModel' => $searchModel,
             'item_model' => $item_model,
-            'model' => $this->findItemModel($id),
-            'model2' => $this->findSaleRecordModel($id),
-            //'model3'=> $this->findModel3($id),
-            'store_model1' => $store_model1,
+            'record_model' => $this->findSaleRecordModel($id),
         ]);
     }
 
@@ -113,57 +104,58 @@ class ItemController extends Controller
     }
 
     // 购买失败 -》 返回主页
-    public function actionCannot($id)
-    {
-        $box_model = new BoxSearch();
-        $box_data = $box_model->search(Yii::$app->request->queryParams);
-
-        $item_model = new ItemSearch();
-        $item_data = $item_model->search(Yii::$app->request->queryParams);
-
-        $item = new ActiveDataProvider([
-            'query' => Item::find(),
-        ]);
-        $box = new ActiveDataProvider([
-            'query' => Box::find(),
-        ]);
-        $store = new ActiveDataProvider([
-            'query' => Store::find(),
-        ]);
-
-        $item_searchModel = new ItemSearch();
-        $item_dataProvider = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
-        foreach($item->query->all() as $item)
-        {
-            if($item->id == $id)
-            {
-                foreach($box->query->all() as $box)
-                {
-                    if ($box->id == $item->box_id)
-                    {
-                        return $this->render('home', [
-                            'id' => $box->store_id,
-                            'store_model'=> $this->findStoreModel($box->store_id),
-                            'item_searchModel' => $item_searchModel,
-                            'item_dataProvider' => $item_dataProvider,
-                        ]);
-                    }
-                }
-            }
-        }
-    }
+    // public function actionCannot($id)
+    // {
+    //     $item_model = Item::findOne($id);
+    //     $item = new ActiveDataProvider([
+    //         'query' => Item::find(),
+    //     ]);
+    //     // $box = new ActiveDataProvider([
+    //     //     'query' => Box::find(),
+    //     // ]);
+    //
+    //     $store = new ActiveDataProvider([
+    //         'query' => Store::find(),
+    //     ]);
+    //
+    //     $item_searchModel = new ItemSearch();
+    //     $item_dataProvider = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
+    //
+    //     return $this->render('home', [
+    //         'id' => $item_model->store_id,
+    //         'store_model'=> Store::find()->where(['store_id'=> $item_model->store_id]),
+    //         'item_searchModel' => $item_searchModel,
+    //         'item_dataProvider' => $item_dataProvider,
+    //         'model' => $item_model,
+    //     ]);
+    //
+    //     // foreach($item->query->all() as $item)
+    //     // {
+    //     //     if($item->id == $id)
+    //     //     {
+    //     //         foreach($box->query->all() as $box)
+    //     //         {
+    //     //             if ($box->id == $item->box_id)
+    //     //             {
+    //     //
+    //     //             }
+    //     //         }
+    //     //     }
+    //     // }
+    // }
 
     // 接受 IoT 返回的状态来判断
     public function actionOk($id)
     {
         $item = Item::findOne($id);
+        $item_model = new Item();
+
         if ($item)
         {
             if ($record = SaleRecord::find()->where(['item_id' =>$item->id, 'status' => [SaleRecord::STATUS_PENDING, SaleRecord::STATUS_SUCCESS]])->all())
             {
                 // echo "this item cannot be purchase, either is under purchase, or has been purchased";
-                $item_model = new Item();
-                return $this->render('cannot', [ 'model' => $item_model, ]);
+                return $this->render('cannot', [ 'model' => $item, ]);
             }
 
             if ($record = SaleRecord::find()->where(['item_id' =>$item->id, 'status' =>SaleRecord::STATUS_FAILED])->all())
