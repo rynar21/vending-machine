@@ -59,13 +59,18 @@ class Box extends \yii\db\ActiveRecord
     }
     public function getStatusText()
     {
-      switch ($this->status)
-      {
-          case self::BOX_STATUS_AVAILABLE:
-              $text = "Available";
-              break;
-      }
-      return $text;
+        if($this->status)
+        {
+            if($this->item)
+            {
+                $text = "Available";
+            }
+            else
+            {
+                $text = "Not Available";
+            }
+        }
+        return $text;
     }
 
     public function getBoxes_count()
