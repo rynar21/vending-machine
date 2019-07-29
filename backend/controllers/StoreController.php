@@ -58,14 +58,14 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
-      // $box_searchModel = new BoxSearch();
-      //$box_searchModel->store_id = $id;
-      // $box_dataProvider = $box_searchModel->search(Yii::$app->request->queryParams);
+      $box_searchModel = new BoxSearch();
+      $box_searchModel->store_id = $id;
+      $box_dataProvider = $box_searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('view', [
             'model' => $this->findModel($id),
-            // 'box_searchModel' => $box_searchModel,
-            // 'box_dataProvider' => $box_dataProvider,
+            'box_searchModel' => $box_searchModel,
+            'box_dataProvider' => $box_dataProvider,
         ]);
     }
 
