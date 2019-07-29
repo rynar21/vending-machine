@@ -18,7 +18,7 @@ class SaleRecord extends \yii\db\ActiveRecord
 {
     const STATUS_PENDING = 9;    //购买中
     const STATUS_SUCCESS = 10;   //购买成功
-    const STATUS_FAILED = 0，8;  //购买失败
+    const STATUS_FAILED = 0;  //购买失败
     /**
      * {@inheritdoc}
      */
