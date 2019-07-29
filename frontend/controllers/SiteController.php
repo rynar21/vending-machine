@@ -24,6 +24,7 @@ use yii\data\ActiveDataProvider;
  */
 class SiteController extends Controller
 {
+    public $layout = 'main_dev';
     /**
      * {@inheritdoc}
      */
