@@ -15,6 +15,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Box extends \yii\db\ActiveRecord
 {
+  //盒子状态
+  const BOX_STATUS_AVAILABLE = 2;
     /**
      * {@inheritdoc}
      */
@@ -31,6 +33,7 @@ class Box extends \yii\db\ActiveRecord
         return [
             [['code', 'store_id'], 'integer'],
             [['code'], 'required'],
+            [['status'], 'default', 'value' => self::BOX_STATUS_AVAILABLE],
         ];
     }
 
@@ -53,6 +56,16 @@ class Box extends \yii\db\ActiveRecord
             'status' => 'Box Status',
             'store_id' => 'Store ID',
         ];
+    }
+    public function getStatusText()
+    {
+      switch ($this->status)
+      {
+          case self::BOX_STATUS_AVAILABLE:
+              $text = "Available";
+              break;
+      }
+      return $text;
     }
 
     public function getBoxes_count()

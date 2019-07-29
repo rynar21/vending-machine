@@ -44,6 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
           ],
      ]); ?>
 
+
+
     <hr/>
     <!-- PHP: 展示时间 -->
     <?php //echo Yii::$app->formatter->asDateTime($model->created_at); ?>
@@ -52,11 +54,27 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <h3 class="col-sm-12">
             Available Boxes
+
         </h3>
+
     </div>
+    <?= GridView::widget([
+        'dataProvider' => $box_dataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'id',
+            'code',
+            ['attribute'=> 'status','value' => 'statusText'],
+            //'store_id',
+            'item.name',
+            'created_at:datetime',
+            'updated_at:datetime',
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 
     <div class="col-sm-12">
-        <?php echo $this->render('/box/_list', [ 'model' => $model, ]); ?>
+        <?php //echo $this->render('/box/_list', [ 'model' => $model, ]); ?>
     </div>
 
 </div>
