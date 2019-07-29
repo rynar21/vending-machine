@@ -102,7 +102,7 @@ class BoxController extends Controller
         $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
         if ($model->save())
         {
-           return $this->redirect(['view', 'id' => $model->id]);
+           return $this->redirect(['store/view', 'id' => $model->store_id]);
         }
     }
 
