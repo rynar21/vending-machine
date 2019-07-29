@@ -19,8 +19,12 @@ class StoreSearch extends Store
     {
         return [
             [['id'], 'integer'],
+<<<<<<< HEAD
             [['name', 'address'], 'safe'],
             ['contact', 'number'],
+=======
+            [['name', 'store_description'], 'safe'],
+>>>>>>> pcl-login
         ];
     }
 
@@ -55,10 +59,22 @@ class StoreSearch extends Store
         }
 
         // grid filtering conditions
+<<<<<<< HEAD
         $query->andFilterWhere(['id' => $this->id,'contact' => $this->contact,])
             ->andFilterWhere(['like', 'name', $this->name,])
             ->andFilterWhere(['like', 'address', $this->address,]);
         
+=======
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'name' => $this->name,
+            'contact' => $this->contact,
+        ]);
+
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'address', $this->address]);
+
+>>>>>>> pcl-login
         return $dataProvider;
     }
 }
