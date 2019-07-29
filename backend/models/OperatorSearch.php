@@ -19,7 +19,7 @@ class OperatorSearch extends Operator
     {
         return [
             [['id'], 'integer'],
-            [['name'], 'safe'],
+            [['operator_name'], 'safe'],
         ];
     }
 
@@ -62,7 +62,7 @@ class OperatorSearch extends Operator
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'operator_name', $this->operator_name]);
 
         return $dataProvider;
     }

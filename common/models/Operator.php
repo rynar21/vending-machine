@@ -26,8 +26,8 @@ class Operator extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name','user_id'], 'required'],
-            [['name'], 'string', 'max' => 255],
+            [['operator_name','user_id'], 'required'],
+            [['operator_name'], 'string', 'max' => 255],
         ];
     }
 
@@ -38,7 +38,7 @@ class Operator extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'Operator ID',
-            'name' => 'Operator Name',
+            'operator_name' => 'Operator Name',
 
         ];
     }

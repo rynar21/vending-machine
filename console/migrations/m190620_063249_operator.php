@@ -15,7 +15,7 @@ class m190620_063249_operator extends Migration
         $this->createTable('operator', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
-            'name' => $this->string()->notNull(),
+            'operator_name' => $this->string()->notNull(),
         ]);
     }
 

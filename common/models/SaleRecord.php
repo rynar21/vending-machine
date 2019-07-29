@@ -16,16 +16,10 @@ use yii\behaviors\TimestampBehavior;
  */
 class SaleRecord extends \yii\db\ActiveRecord
 {
-<<<<<<< HEAD
     const STATUS_PENDING = 9;
     const STATUS_SUCCESS = 10;
     const STATUS_FAILED = 8;
 
-=======
-    const STATUS_PENDING = 9;    //购买中
-    const STATUS_SUCCESS = 10;   //购买成功
-    const STATUS_FAILED = 0;  //购买失败
->>>>>>> pcl-login
     /**
      * {@inheritdoc}
      */
