@@ -47,28 +47,36 @@ $item_dataProvider = $item_searchModel->search();
     </div>
 
     <!-- 展示所有收购的产品 -->
-    <div class="row " style="border: 0px solid blue;">
-      <div class="col-sm-12" style="border: 0px solid red;">
-          <!-- 产品 输入 -->
-          <?php foreach($item_dataProvider->query->all() as $items): ?>
-                <div class="col-sm-3 col-xs-6 box_row" style="border:0px solid green; padding:5px 7px;">
-                     <!-- 产品 显示框 -->
-                    <div class="box_item thumbnail text-center">
-                        <a href="<?= Url::base()?>/item/iphone?id=<?= $items->id ?>">
-                            <!-- 产品：图片 显示框 -->
-                            <div class="item_image">
-                                <img src="<?= Url::base()?>/mel-img/pepsi.jpg">
+    <?php if(!empty($item_dataProvider->getModels())):?>
+            <div class="row " style="border: 0px solid blue;">
+                <div class="col-sm-12" style="border: 0px solid red;">
+                      <!-- 产品 输入 -->
+                      <?php foreach($item_dataProvider->query->all() as $items): ?>
+                            <div class="col-sm-3 col-xs-6 box_row" style="border:0px solid green; padding:5px 7px;">
+                                 <!-- 产品 显示框 -->
+                                <div class="box_item thumbnail text-center">
+                                    <a href="<?= Url::base()?>/item/iphone?id=<?= $items->id ?>">
+                                        <!-- 产品：图片 显示框 -->
+                                        <div class="item_image">
+                                            <img src="<?= Url::base()?>/mel-img/pepsi.jpg">
+                                        </div>
+                                        <!-- 产品：名字 显示框 -->
+                                        <div class="item_name">
+                                            <?= $items->name ?>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                            <!-- 产品：名字 显示框 -->
-                            <div class="item_name">
-                                <?= $items->name ?>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-          <?php endforeach; ?>
-       </div>
-    </div>
+                      <?php endforeach; ?>
+                  </div>
+               </div>
+      <?php else:?>
+          <div class="row " style="border: 0px solid blue;">
+              <div class="col-sm-12" style="border: 0px solid red;">
+                  NO RESULT FOUND
+              </div>
+           </div>
+    <?php endif;?>
 </div>
 
 <style>

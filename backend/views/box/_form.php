@@ -18,12 +18,14 @@ use yii\widgets\ActiveForm;
 
         <div class="row form-group">
               <div class="col-sm-1 col-xs-3">
-                    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Save', ['box/save', 'id'=> $model->store_id], ['class' => 'btn btn-success']) ?>
               </div>
               <div class="col-sm-1 col-xs-3">
                     <?= Html::a('Cancel', ['store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
              </div>
         </div>
+
+
 
     <?php ActiveForm::end(); ?>
 

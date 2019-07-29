@@ -90,14 +90,20 @@ class BoxController extends Controller
         $model->store_id = $id;
         $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save())
-        {
-           return $this->redirect(['view', 'id' => $model->id]);
-        }
-
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionSave($id)
+    {
+        $model = new Box();
+        $model->store_id = $id;
+        $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
+        if ($model->save())
+        {
+           return $this->redirect(['view', 'id' => $model->id]);
+        }
     }
 
     /**

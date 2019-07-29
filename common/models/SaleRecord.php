@@ -18,7 +18,7 @@ class SaleRecord extends \yii\db\ActiveRecord
 {
     const STATUS_PENDING = 9;
     const STATUS_SUCCESS = 10;
-    const STATUS_FAILED = 0;
+    const STATUS_FAILED = 8;
 
     /**
      * {@inheritdoc}
@@ -44,7 +44,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['box_id', 'item_id', 'trans_id'], 'required'],
+            [['box_id', 'item_id'], 'required'],
             [['box_id', 'item_id', 'trans_id'], 'integer'],
         ];
     }
@@ -61,5 +61,35 @@ class SaleRecord extends \yii\db\ActiveRecord
             'trans_id' => 'Trans ID',
             'status' => 'Status',
         ];
+    }
+
+    public function pending()
+    {
+        $this->updateAttributes([
+            'status' => static::STATUS_PENDING,
+        ]);
+        $this->item->updateAttributes([
+            'status' => Item::STATUS_LOCKED,
+        ]);
+    }
+
+    public function success()
+    {
+        $this->updateAttributes([
+            'status' => static::STATUS_SUCCESS,
+        ]);
+        $this->item->updateAttributes([
+            'status' => Item::STATUS_SOLD,
+        ]);
+    }
+
+    public function failed()
+    {
+        $this->updateAttributes([
+            'status' => static::STATUS_FAILED,
+        ]);
+        $this->item->updateAttributes([
+            'status' => Item::STATUS_ACTIVE,
+        ]);
     }
 }

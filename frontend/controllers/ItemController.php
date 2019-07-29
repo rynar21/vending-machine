@@ -69,8 +69,8 @@ class ItemController extends Controller
     {
         $searchModel = new ItemSearch();
         $item_model = $searchModel->search(Yii::$app->request->queryParams);
-        $model = new Item();
-        $model2 = new SaleRecord();
+        
+        $record_model = new SaleRecord();
             // $item = Item::findOne($id);
             // $model = new SaleRecord();
             // $model->item_id= $id;
@@ -80,7 +80,7 @@ class ItemController extends Controller
         return $this->render('payding', [
             'searchModel' => $searchModel,
             'item_model' => $item_model,
-            'model' => $this->findItemModel($id),
+            'model' => Item::findOne($id),
             'model2' => $this->findSaleRecordModel($id),
         ]);
     }
@@ -104,22 +104,11 @@ class ItemController extends Controller
         ]);
     }
 
-        // public function actionTest()
-        // {
-        //     $model = Item::findone(1);
-        //     echo "<pre>";
-        //     print_r ($model->store);
-        // }
-
     // 产品信息 （购买前）
     public function actionIphone($id)
     {
-        $searchModel = new ItemSearch();
-        $item_model = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('iphone', [
-            'searchModel' => $searchModel,
-            'item_model' => $item_model,
-            'model' => $this->findItemModel($id),
+            'model' => Item::findOne($id),
         ]);
     }
 
@@ -170,44 +159,31 @@ class ItemController extends Controller
         $item = Item::findOne($id);
         if ($item)
         {
-            if ($record = SaleRecord::find()->where(['item_id' =>$item->id, 'status' => [9, 10]])->all())
+            if ($record = SaleRecord::find()->where(['item_id' =>$item->id, 'status' => [SaleRecord::STATUS_PENDING, SaleRecord::STATUS_SUCCESS]])->all())
             {
                 // echo "this item cannot be purchase, either is under purchase, or has been purchased";
-                $item_model=new Item();
-                return $this->render('cannot', [
-                    'model' => $item,
-                ]);
+                $item_model = new Item();
+                return $this->render('cannot', [ 'model' => $item_model, ]);
             }
 
-            if ($record = SaleRecord::find()->where(['item_id' =>$item->id, 'status' =>8 ])->all())
+            if ($record = SaleRecord::find()->where(['item_id' =>$item->id, 'status' =>SaleRecord::STATUS_FAILED])->all())
             {
-                SaleRecord::updateAll(['status' => 10], ['item_id' =>$id]);
+                //SaleRecord::updateAll(['status' => SaleRecord::STATUS_SUCCESS], ['item_id' =>$id]);
                 return $this->redirect(['payding', 'id' => $id]);
             }
             else
             {
                 $record = new SaleRecord();
-                $record->store_id= $id;
                 $record->item_id= $id;
-                $record->box_id= $id;
+                $record->store_id= $item->store_id;
+                $record->box_id= $item->box_id;
                 $record->trans_id= $id;
                 $record->status=9;
                 $record->save();
                 return $this->redirect(['payding', 'id' => $id]);
             }
         }
-            // echo '<pre>';
-            // print_r($model->errors);
     }
-
-    // public function actionUpd()
-    // {
-    //     $param = Article::findOne(1);
-    //
-    //     $param->id = 1;
-    //     $param->username= '老乡吃不上饭';
-    //     $param->save();
-    // }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
