@@ -63,11 +63,11 @@ class Box extends \yii\db\ActiveRecord
         {
             if($this->item)
             {
-                $text = "Available";
+                $text = "Available"; // 盒子包含产品
             }
             else
             {
-                $text = "Not Available";
+                $text = "Not Available"; // 盒子为空
             }
         }
         return $text;
@@ -97,5 +97,17 @@ class Box extends \yii\db\ActiveRecord
     public function getActiveItem()
     {
         return Item::find()->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
+    }
+
+    public function getAction()
+    {
+        if ($this->item)
+        {
+            return Html::a('Modify Item', ['item/update', 'id' => $item->id], ['class' => 'btn btn-primary']);
+        }
+        else
+        {
+            return Html::a('Add Item', ['item/create', 'id' => $model->id], ['class' => 'btn btn-primary']);
+        }
     }
 }
