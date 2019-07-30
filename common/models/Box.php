@@ -15,6 +15,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Box extends \yii\db\ActiveRecord
 {
+  //盒子状态
+  const BOX_STATUS_AVAILABLE = 2;
     /**
      * {@inheritdoc}
      */
@@ -31,6 +33,7 @@ class Box extends \yii\db\ActiveRecord
         return [
             [['code', 'store_id'], 'integer'],
             [['code'], 'required'],
+            [['status'], 'default', 'value' => self::BOX_STATUS_AVAILABLE],
         ];
     }
 
@@ -53,6 +56,21 @@ class Box extends \yii\db\ActiveRecord
             'status' => 'Box Status',
             'store_id' => 'Store ID',
         ];
+    }
+    public function getStatusText()
+    {
+        if($this->status)
+        {
+            if($this->item)
+            {
+                $text = "Available"; // 盒子包含产品
+            }
+            else
+            {
+                $text = "Not Available"; // 盒子为空
+            }
+        }
+        return $text;
     }
 
     public function getBoxes_count()
@@ -79,5 +97,17 @@ class Box extends \yii\db\ActiveRecord
     public function getActiveItem()
     {
         return Item::find()->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
+    }
+
+    public function getAction()
+    {
+        if ($this->item)
+        {
+            return Html::a('Modify Item', ['item/update', 'id' => $item->id], ['class' => 'btn btn-primary']);
+        }
+        else
+        {
+            return Html::a('Add Item', ['item/create', 'id' => $model->id], ['class' => 'btn btn-primary']);
+        }
     }
 }

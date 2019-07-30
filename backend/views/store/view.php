@@ -56,7 +56,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="col-sm-12">
-        <?php echo $this->render('/box/_list', [ 'model' => $model, ]); ?>
+        <?php echo $this->render('/box/_list', [
+            'model' => $model,
+        ]); ?>
     </div>
 
 </div>
