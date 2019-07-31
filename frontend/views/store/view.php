@@ -13,30 +13,59 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="store-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+        <?= Html::encode($this->title) ?>
+    </h1>
+    <?php echo $this->render('/item/_search', [
+        'model' => $searchModel,
+    ]); ?>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
+    <hr/>
+
+    <?= $this->render('/box/_list', [
+            'model' => $model,
         ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'address',
-            'contact',
-            'image',
-            'created_at',
-            'updated_at',
-        ],
-    ]) ?>
 
 </div>
+
+<style>
+.box_row{
+  margin: 10px 0px;
+}
+
+.box_item{
+  width: 100%;
+  margin: 0 auto;
+  box-shadow:2px 0px 10px #CDCDB4;
+}
+
+.box_item_1{
+  width: 23vw;
+  margin: 0 auto;
+  box-shadow:2px 0px 10px #CDCDB4;
+}
+
+.box_item>a{
+    text-decoration: none;
+}
+
+.item_image{
+  height: 15vh;
+  width: auto;
+  border: 0px solid black;
+}
+
+.item_image>img{
+  height: 95%;
+  padding-top: 15px;
+  margin: 0 auto;
+  z-index:-1;
+}
+
+.item_name{
+    height: 3vh;
+    width: auto;
+    color: black;
+    border: 0px solid black;
+}
+</style>

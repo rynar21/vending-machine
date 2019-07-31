@@ -52,21 +52,6 @@ class BoxController extends Controller
     }
 
     /**
-     * Lists all Box models.
-     * @return mixed
-     */
-    public function actionIndex2()
-    {
-        $searchModel2 = new BoxSearch();
-        $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams);
-
-        return $this->render('index2', [
-            'searchModel2' => $searchModel2,
-            'dataProvider2' => $dataProvider2,
-        ]);
-    }
-
-    /**
      * Displays a single Box model.
      * @param integer $id
      * @return mixed
@@ -170,8 +155,8 @@ class BoxController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionTest()
+    public function actionTry()
     {
-        return $this->render('_list');
+        return $this->render('try');
     }
 }

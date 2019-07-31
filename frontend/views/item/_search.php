@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="item-search">
 
-    <?php $form = ActiveForm::begin([
+    <?php /*$form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
@@ -21,23 +21,22 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'price') ?>
 
-    <?= $form->field($model, 'image') ?>
-
-    <?= $form->field($model, 'status') ?>
-
-    <?php // echo $form->field($model, 'created_at') ?>
-
-    <?php // echo $form->field($model, 'updated_at') ?>
-
-    <?php // echo $form->field($model, 'box_id') ?>
-
-    <?php // echo $form->field($model, 'store_id') ?>
-
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); */?>
 
+    <?php $form = ActiveForm::begin(['action' => ['view', 'id'=> $model->store_id], 'method' => 'get',]); ?>
+        <div class="col-sm-8 col-xs-8">
+            <?= $form->field($model, 'name')
+                    -> input('name')
+                    -> textInput(['placeholder' => "Please enter your item name"])
+                    -> label(false) ?>
+        </div>
+        <div class="col-sm-4 col-xs-4">
+          <?= Html::submitButton('Search', ['class' => 'btn btn-primary form-group search_btn']) ?>
+        </div>
+    <?php ActiveForm::end(); ?>
 </div>

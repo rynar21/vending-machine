@@ -3,6 +3,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "box".
@@ -17,6 +18,7 @@ class Box extends \yii\db\ActiveRecord
 {
   //盒子状态
   const BOX_STATUS_AVAILABLE = 2;
+  const BOX_STATUS_NOT_AVAILABLE = 1;
     /**
      * {@inheritdoc}
      */
@@ -64,10 +66,14 @@ class Box extends \yii\db\ActiveRecord
             if($this->item)
             {
                 $text = "Available"; // 盒子包含产品
+                $this->status = self::BOX_STATUS_NOT_AVAILABLE;
+                $this->update();
             }
             else
             {
                 $text = "Not Available"; // 盒子为空
+                $this->status = self::BOX_STATUS_AVAILABLE;
+                $this->update();
             }
         }
         return $text;
@@ -82,7 +88,7 @@ class Box extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Item::className(), ['box_id'=>'id'])
         ->orderBy(['id' => SORT_DESC])
-        ->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
+        ->where(['status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
         ->limit(1);
     }
 
@@ -90,24 +96,24 @@ class Box extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Item::className(), ['box_id'=>'id'])
         ->orderBy(['id' => SORT_DESC])
-        ->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
+        ->where(['status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
         ->limit(1);
     }
 
     public function getActiveItem()
     {
-        return Item::find()->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
+        return Item::find()->where(['status' => [ Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
     }
 
     public function getAction()
     {
         if ($this->item)
         {
-            return Html::a('Modify Item', ['item/update', 'id' => $item->id], ['class' => 'btn btn-primary']);
+            return Html::a('Modify Item', ['/item/update', 'id' => $this->item->id], ['class' => 'btn btn-success']);
         }
         else
         {
-            return Html::a('Add Item', ['item/create', 'id' => $model->id], ['class' => 'btn btn-primary']);
+            return Html::a('Add Item', ['item/create', 'id' => $this->id], ['class' => 'btn btn-primary']);
         }
     }
 }
