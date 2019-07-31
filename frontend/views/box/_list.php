@@ -1,5 +1,7 @@
 <?php
 use common\models\Store;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 // $model = Store::findOne(1);
 /*
@@ -9,12 +11,16 @@ use common\models\Store;
 */
 ?>
 
-<div class="row" style="border:1px solid black;">
-    <?php foreach($model->boxes as $box): ?>
-              <div class="col-md-3 button">
-                  <?= $this->render('_view', [
+
+<div class="row " style="border: 0px solid blue;">
+    <div class="col-sm-12" style="border: 0px solid red;">
+          <!-- 产品 输入 -->
+          <?php foreach($model->boxes as $box): ?>
+              <?php if ($box->status == $box::BOX_STATUS_NOT_AVAILABLE): ?>
+                  <?= $this->render('/box/_view', [
                       'model' => $box,
                   ]) ?>
-              </div>
-    <?php endforeach ?>
+                <?php endif ?>
+          <?php endforeach; ?>
+      </div>
 </div>
