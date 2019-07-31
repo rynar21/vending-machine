@@ -1,5 +1,6 @@
 <?php
 use common\models\Store;
+use common\models\Item;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
@@ -17,9 +18,11 @@ use yii\helpers\Html;
           <!-- 产品 输入 -->
           <?php foreach($model->boxes as $box): ?>
               <?php if ($box->status == $box::BOX_STATUS_NOT_AVAILABLE): ?>
-                  <?= $this->render('/box/_view', [
-                      'model' => $box,
-                  ]) ?>
+
+                          <?= $this->render('/box/_view', [
+                              'model' => $box,
+                          ]) ?>
+        
                 <?php endif ?>
           <?php endforeach; ?>
       </div>

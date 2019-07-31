@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Store;
+use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,8 +37,14 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
+        $item_searchModel = new ItemSearch();
+        $item_dataProvider = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'id' => $id,
+            'searchModel' => $item_searchModel,
+            'item_dataProvider' => $item_dataProvider,
         ]);
     }
 

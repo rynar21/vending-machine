@@ -21,10 +21,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Item extends \yii\db\ActiveRecord
 {
-    // 产品添加 初始值
-    const STATUS_DEFAULT = 0;
-    // 产品 交易失败
-    const STATUS_AVAILABLE = 8; // SaleRecord::STATUS_FAILED
+    // 产品添加 初始值 & 交易失败
+    const STATUS_AVAILABLE = 0; // SaleRecord::STATUS_FAILED
     // 产品 购买当中
     const STATUS_LOCKED = 9; // SaleRecord::STATUS_PENDING
     // 产品 交易成功
@@ -54,7 +52,7 @@ class Item extends \yii\db\ActiveRecord
             [['box_id'], 'integer'],
             [['store_id'], 'integer'],
             [['image'], 'default', 'value' => ''],
-            [['status'], 'default', 'value' => self::STATUS_DEFAULT],
+            [['status'], 'default', 'value' => self::STATUS_AVAILABLE],
         ];
     }
 
@@ -78,9 +76,6 @@ class Item extends \yii\db\ActiveRecord
     {
         switch ($this->status)
         {
-            case self::STATUS_DEFAULT:
-                $text = "Available";
-                break;
             case self::STATUS_AVAILABLE:
                 $text = "Available";
                 break;

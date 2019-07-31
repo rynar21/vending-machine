@@ -71,7 +71,7 @@ class ItemSearch extends Item
         $query = Item::find();
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
-            'query' => $query->where(['status'=> [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE],'store_id'=> $id]),
+            'query' => $query->where(['status'=> [Item::STATUS_AVAILABLE],'store_id'=> $id]),
         ]);
         $this->load($params);
         if (!$this->validate()) {

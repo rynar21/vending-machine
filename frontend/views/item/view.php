@@ -55,13 +55,18 @@ $this->title = 'My Yii Application';
 
         <div class="row " >
             <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
-                <!-- <button type="button" class="btn btn-primary" style=" width:100%;height:40px;background-color:#1C86EE;border:0px solid;">Pay</button> -->
                 <br/> <br/>
-                <?= Html::a('Pay',['item/ok', 'id' => $model->id],['class'=>"btn btn-primary pay"])?>
-                <br/>
-                <br/>
+                <?php if($model->status === $model::STATUS_AVAILABLE):?>
+                    <?= Html::a('Pay',['/sale-record/create', 'id' => $model->id],['class'=>"btn btn-primary pay"])?>
+                    <br/><br/>
+                <?php else: ?>
+                    <a class="btn pay_failed" disabled="disabled">Pay</a>
+                    <h5 class="text-left" style="margin:0px; color:red;"><?= '*Item is currently being purchased.' ?></h5>
+                    <br/>
+                <?php endif; ?>
+
                 <a href="<?= Url::base()?>/store/view?id=<?= $model->store_id?>">
-                    <button type="button" class="btn btn-primary"  style=" width:100%;height:40px; background-color:#FFFFFF; color:black;">
+                    <button type="button" class="btn btn-primary"  style="width:100%; height:40px; background-color:#FFFFFF; color:black;">
                         Cancel
                     </button>
                 </a>
@@ -75,10 +80,12 @@ $this->title = 'My Yii Application';
     .zz{
         border: 1px solid #FFFFFF;
         box-shadow:0px 0px 20px #CDCDB4;
-        /* box-shadow: -10px 0px 10px #FFFFFF,   /*左边阴影*/
-        0px 0px 20px #CDCDB4,  /*上边阴影*/
-        -10px 0px 10px green,  /*右边阴影*/
-        0px 0px 20px #CDCDB4;" /*下边阴影*/ */
+        /*
+        box-shadow: -10px 0px 10px #FFFFFF,   //左边阴影
+        0px 0px 20px #CDCDB4,  //上边阴影
+        -10px 0px 10px green,  //右边阴影
+        0px 0px 20px #CDCDB4; //下边阴影
+        */
     }
     .pay{
         width:100%;
@@ -86,6 +93,17 @@ $this->title = 'My Yii Application';
         background-color:#1C86EE;
         border:0px solid;
         line-height: 30px;
+    }
+    .pay_failed{
+        width:100%;
+        height:40px;
+        color: white;
+        background-color: #909090;
+        border:0px solid;
+        line-height: 30px;
+    }
+    .pay_failed a:hover{
+        text-decoration: none;
     }
 </style>
 <script>

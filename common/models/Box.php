@@ -88,7 +88,7 @@ class Box extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Item::className(), ['box_id'=>'id'])
         ->orderBy(['id' => SORT_DESC])
-        ->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
+        ->where(['status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
         ->limit(1);
     }
 
@@ -96,13 +96,13 @@ class Box extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Item::className(), ['box_id'=>'id'])
         ->orderBy(['id' => SORT_DESC])
-        ->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
+        ->where(['status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
         ->limit(1);
     }
 
     public function getActiveItem()
     {
-        return Item::find()->where(['status' => [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
+        return Item::find()->where(['status' => [ Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
     }
 
     public function getAction()
