@@ -2,8 +2,7 @@
 
 //use yii\helpers\HtmlPurifier;
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\widgets\ActiveForm;
+
 use yii\db\Query;
 use yii\data\BaseDataProvider;
 use yii\helpers\Url;
@@ -12,7 +11,7 @@ use yii\helpers\Url;
 $this->title = 'My Yii Application';
 ?>
 
-<div class="item-index" style=" border:0px solid red;" >
+<div class="item-view">
 
     <div class="body-content">
 
@@ -53,7 +52,7 @@ $this->title = 'My Yii Application';
 
        <br/> <br/>
 
-        <div class="row " >
+        <div class="row" >
             <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
                 <br/> <br/>
                 <?php if($model->status === $model::STATUS_AVAILABLE):?>
