@@ -63,6 +63,11 @@ class Transaction extends \yii\db\ActiveRecord
         return $this->hasOne(Item::className(), ['id' => 'item_id']);
     }
 
+    public function getBox()
+    {
+        return $this->hasOne(Box::className(), ['id' => 'box_id']);
+    }
+
     public function pending()
     {
         $this->updateAttributes([
@@ -80,6 +85,9 @@ class Transaction extends \yii\db\ActiveRecord
         ]);
         $this->item->updateAttributes([
             'status' => Item::STATUS_SOLD,
+        ]);
+        $this->box->updateAttributes([
+            'status' => Box::BOX_STATUS_AVAILABLE,
         ]);
     }
 

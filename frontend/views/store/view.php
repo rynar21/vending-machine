@@ -7,14 +7,11 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Store */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Stores', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="store-view">
 
     <h1>
-        <?= Html::encode($this->title) ?>
+        <?= $model->name ?>
     </h1>
     <?php echo $this->render('/item/_search', [
         'model' => $searchModel,

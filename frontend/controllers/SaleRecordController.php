@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\Box;
 use common\models\Item;
 use common\models\SaleRecord;
 use frontend\models\SaleRecordSearch;
@@ -15,35 +16,6 @@ use yii\filters\VerbFilter;
  */
 class SaleRecordController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * Lists all SaleRecord models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new SaleRecordSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * Displays a single SaleRecord model.
@@ -53,8 +25,10 @@ class SaleRecordController extends Controller
      */
     public function actionView($id)
     {
+        $model = SaleRecord::findOne(['item_id' => $id]);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'item_model' => Item::findOne($id),
+            'model' => $model,
         ]);
     }
 
@@ -67,69 +41,65 @@ class SaleRecordController extends Controller
     {
         $item_model = Item::findOne($id);
         $model = new SaleRecord();
-        $model->item_id = $id;
-        $model->box_id = 1;
-        $model->store_id = 1;
-        $model->status = $model::STATUS_PENDING;
-        $model->save();
-
-        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        //     return $this->redirect(['view', 'id' => $model->id]);
-        // }
-        //
-        
-        return $this->render('create', [
-            'model' => $item_model,
-        ]);
-    }
-
-    /**
-     * Updates an existing SaleRecord model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(empty(SaleRecord::findOne(['item_id' => $id])))
+        {
+            $model->item_id = $id;
+            $model->box_id = $item_model->box_id;
+            $model->store_id = $item_model->store_id;
+            $model->status = $model::STATUS_PENDING;
+            $model->save();
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $item_model,
+            'id' => $id,
         ]);
     }
 
-    /**
-     * Deletes an existing SaleRecord model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
+    public function actionCheck($id)
     {
-        $this->findModel($id)->delete();
+        if ($model = SaleRecord::findOne(['item_id' => $id]))
+        {
+            switch($model->status)
+            {
+                case $model::STATUS_PENDING:
+                $item_model = Item::findOne($id);
+                $item_model->status = Item::STATUS_LOCKED;
+                $item_model->save();
+                return $this->render('pending', [
+                    'model' => $model,
+                ]);
+                break;
 
-        return $this->redirect(['index']);
-    }
+                case $model::STATUS_SUCCESS:
+                $item_model = Item::findOne($id);
+                $item_model->status = Item::STATUS_SOLD;
+                $item_model->save();
+                $box_model = Box::findOne(['id' => $model->box_id]);
+                $box_model->status = Box::BOX_STATUS_AVAILABLE;
+                $box_model->save();
+                //SaleRecord::model()->success();
+                return $this->render('success', [
+                    'model' => $model,
+                ]);
+                break;
 
-    /**
-     * Finds the SaleRecord model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return SaleRecord the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = SaleRecord::findOne($id)) !== null) {
-            return $model;
+                case $model::STATUS_FAILED:
+                $item_model = Item::findOne($id);
+                $item_model->status = Item::STATUS_AVAILABLE;
+                $item_model->save();
+                return $this->render('failed', [
+                    'model' => $model,
+                ]);
+                break;
+
+                default:
+                throw new NotFoundHttpException('Undefined model status.');
+                break;
+            }
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        else {
+            throw new NotFoundHttpException('The requested model does not exist.');
+        }
     }
 }
