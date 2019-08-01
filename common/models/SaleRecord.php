@@ -45,6 +45,7 @@ class SaleRecord extends \yii\db\ActiveRecord
         return [
             [['box_id', 'item_id'], 'required'],
             [['box_id', 'item_id', 'trans_id'], 'integer'],
+            [['trans_id'], 'default', 'value' => ''],
         ];
     }
 

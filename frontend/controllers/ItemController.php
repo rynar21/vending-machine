@@ -4,10 +4,12 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Item;
+use common\models\SaleRecord;
 use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * ItemController implements the CRUD actions for Item model.

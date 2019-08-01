@@ -42,7 +42,7 @@ $this->title = 'My Yii Application';
                              <hr style=" border:1px #D4D4D4 solid; background-color:#D4D4D4;"/>
                             </div>
                          <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
-                        <b style="font-size:25px; color:green;">RM  <?= number_format($model->price, 2) ?></b>
+                        <b style="font-size:25px; color:green;">RM <?= number_format($model->price, 2)?></b>
                     </div>
                  </div>
             </div>
@@ -59,9 +59,11 @@ $this->title = 'My Yii Application';
                </div>
            </div>
 
-               <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".<?= $str ?>">
-                   Next
-               </button>
+           <div class="row " >
+               <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
+                   <?= Html::a('Next',['/sale-record/create', 'id' => $model->id],['class'=>"btn btn-primary pay"])?>
+               </div>
+           </div>
 
        </div>
  </div>
@@ -76,6 +78,14 @@ $this->title = 'My Yii Application';
         -10px 0px 10px green,  // 右边阴影
         0px 0px 20px #CDCDB4;" // 下边阴影
          */
+    }
+
+    .pay{
+        width:100%;
+        height:40px;
+        background-color:#1C86EE;
+        border:0px solid;
+        line-height: 30px;
     }
 
     .modal-dialog {
