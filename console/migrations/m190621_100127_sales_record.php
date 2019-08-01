@@ -16,7 +16,7 @@ class m190621_100127_sales_record extends Migration
 
         $this->createTable('sale_record', [
           'id' =>$this->primaryKey(),
-          'trans_id' =>$this->integer()->notNull(),
+          'trans_id' =>$this->integer(),
           'store_id' =>$this->integer()->notNull(),
           'box_id' =>$this->integer()->notNull(),
           'item_id' =>$this->integer()->notNull(),
