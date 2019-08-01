@@ -13,9 +13,7 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\data\BaseDataProvider;
 
-/**
- * BoxController implements the CRUD actions for Box model.
- */
+// BoxController implements the CRUD actions for Box model.
 class BoxController extends Controller
 {
     /**
@@ -141,22 +139,17 @@ class BoxController extends Controller
 
     protected function findStoreModel($id)
     {
-        if (($model3 = Store::findOne($id)) !== null) {
-            return $model3;
+        if (($store_model = Store::findOne($id)) !== null) {
+            return $store_model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     protected function findItemModel($id)
     {
-      if (($model5 = Item::findOne($id)) !== null) {
-        return $model5;
+      if (($item_model = Item::findOne($id)) !== null) {
+        return $item_model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    public function actionTry()
-    {
-        return $this->render('try');
     }
 }
