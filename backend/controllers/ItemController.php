@@ -59,7 +59,7 @@ class ItemController extends Controller
 
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()
-            ->where(['status'=> [Item::STATUS_DEFAULT, Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($item_model->box->store_id)]),
+            ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($item_model->box->store_id)]),
         ]);
 
         if ($item_model->load(Yii::$app->request->post()) && $item_model->save()) {
