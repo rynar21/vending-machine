@@ -7,9 +7,10 @@ use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 
 /* @var $model common\models\Store */
-$model = new ActiveDataProvider([
-    'query'=> Box::find()->where(['store_id'=>1]),
-]);
+// $model = new ActiveDataProvider([
+//     'query'=> Box::find()->where(['store_id'=> $id]),
+// ]);
+// $model->store_id = $id;
 // $model = Store::findOne(1);
 /*
     1. Views > store > view.php
@@ -20,6 +21,7 @@ $model = new ActiveDataProvider([
 
 
 <div class="row">
+
         <?= GridView::widget([
                  'dataProvider' => $model,
                   'columns' => [

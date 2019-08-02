@@ -47,6 +47,7 @@ class SaleRecordController extends Controller
             $model->box_id = $item_model->box_id;
             $model->store_id = $item_model->store_id;
             $model->status = $model::STATUS_PENDING;
+            $model->trans_id = (SaleRecord::find()->count())+1;
             $model->save();
         }
 
@@ -63,31 +64,21 @@ class SaleRecordController extends Controller
             switch($model->status)
             {
                 case $model::STATUS_PENDING:
-                $item_model = Item::findOne($id);
-                $item_model->status = Item::STATUS_LOCKED;
-                $item_model->save();
+                $model->pending();
                 return $this->render('pending', [
                     'model' => $model,
                 ]);
                 break;
 
                 case $model::STATUS_SUCCESS:
-                $item_model = Item::findOne($id);
-                $item_model->status = Item::STATUS_SOLD;
-                $item_model->save();
-                $box_model = Box::findOne(['id' => $model->box_id]);
-                $box_model->status = Box::BOX_STATUS_AVAILABLE;
-                $box_model->save();
-                //SaleRecord::model()->success();
+                $model->success();
                 return $this->render('success', [
                     'model' => $model,
                 ]);
                 break;
 
                 case $model::STATUS_FAILED:
-                $item_model = Item::findOne($id);
-                $item_model->status = Item::STATUS_AVAILABLE;
-                $item_model->save();
+                $model->failed();
                 return $this->render('failed', [
                     'model' => $model,
                 ]);

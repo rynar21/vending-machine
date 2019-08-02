@@ -80,9 +80,9 @@ class Transaction extends \yii\db\ActiveRecord
 
     public function success()
     {
-        $this->updateAttributes([
-            'status' => static::STATUS_SUCCESS,
-        ]);
+        // $this->updateAttributes([
+        //     'status' => static::STATUS_SUCCESS,
+        // ]);
         $this->item->updateAttributes([
             'status' => Item::STATUS_SOLD,
         ]);
