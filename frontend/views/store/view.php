@@ -10,17 +10,20 @@ use yii\widgets\ActiveForm;
 $this->title = $model->name;
 ?>
 <div class="store-view">
-
-    <h1>
-        <?= $model->name ?>
-    </h1>
+    <div class="row">
+        <h1 class="col-sm-12">
+            <?= $model->name ?>
+        </h1>
+    </div>
 
     <hr/>
 
-    <?php echo $this->render('/item/_search', [
-        'id' => $id,
-        'item_searchModel' => $item_searchModel,
-        ]); ?>
+    <div class="row">
+        <?php echo $this->render('/item/_search', [
+            'id' => $id,
+            'item_searchModel' => $item_searchModel,
+            ]); ?>
+    </div>
 
     <hr/>
 
@@ -36,45 +39,3 @@ $this->title = $model->name;
         ]) ?>
 
 </div>
-
-<style>
-.box_row{
-  margin: 10px 0px;
-}
-
-.box_item{
-  width: 100%;
-  margin: 0 auto;
-  box-shadow:2px 0px 10px #CDCDB4;
-}
-
-.box_item_1{
-  width: 23vw;
-  margin: 0 auto;
-  box-shadow:2px 0px 10px #CDCDB4;
-}
-
-.box_item>a{
-    text-decoration: none;
-}
-
-.item_image{
-  height: 15vh;
-  width: auto;
-  border: 0px solid black;
-}
-
-.item_image>img{
-  height: 95%;
-  padding-top: 15px;
-  margin: 0 auto;
-  z-index:-1;
-}
-
-.item_name{
-    height: 3vh;
-    width: auto;
-    color: black;
-    border: 0px solid black;
-}
-</style>
