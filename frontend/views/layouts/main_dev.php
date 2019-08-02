@@ -1,7 +1,8 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+/*
+    这是专门给 SiteController 定制的 layouts > main_dev.php
+*/
 
 use yii\helpers\Html;
 use yii\bootstrap\Nav;

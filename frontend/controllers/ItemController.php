@@ -4,54 +4,13 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Item;
-use common\models\SaleRecord;
-use backend\models\ItemSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\data\ActiveDataProvider;
 
-/**
- * ItemController implements the CRUD actions for Item model.
- */
+//ItemController implements the CRUD actions for Item model.
 class ItemController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
-    /**
-     * Lists all Item models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new ItemSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Item model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+    // 显示 Item表 其中一个数据 详情
     public function actionView($id)
     {
         return $this->render('view', [
