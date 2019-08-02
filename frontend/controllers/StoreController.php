@@ -4,6 +4,8 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Store;
+use common\models\Box;
+use common\models\Item;
 use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -14,20 +16,6 @@ use yii\filters\VerbFilter;
  */
 class StoreController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Displays a single Store model.
@@ -41,26 +29,11 @@ class StoreController extends Controller
         $item_dataProvider = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => Store::findOne($id),
             'id' => $id,
-            'searchModel' => $item_searchModel,
+            'item_searchModel' => $item_searchModel,
             'item_dataProvider' => $item_dataProvider,
         ]);
     }
 
-    /**
-     * Finds the Store model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Store the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Store::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
 }
