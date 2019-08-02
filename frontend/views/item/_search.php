@@ -9,28 +9,9 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="item-search">
-
-    <?php /*$form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
-
-    <?= $form->field($model, 'id') ?>
-
-    <?= $form->field($model, 'name') ?>
-
-    <?= $form->field($model, 'price') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
-    </div>
-
-    <?php ActiveForm::end(); */?>
-
-    <?php $form = ActiveForm::begin(['action' => ['view', 'id'=> $model->store_id], 'method' => 'get',]); ?>
+    <?php $form = ActiveForm::begin(['id' => $id, 'action' => ['/store/view', 'id'=> $id], 'method' => 'get',]); ?>
         <div class="col-sm-8 col-xs-8">
-            <?= $form->field($model, 'name')
+            <?= $form->field($item_searchModel, 'name')
                     -> input('name')
                     -> textInput(['placeholder' => "Please enter your item name"])
                     -> label(false) ?>
