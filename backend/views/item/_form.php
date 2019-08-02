@@ -45,7 +45,7 @@ use yii\widgets\ActiveForm;
                     <p style="font-size: 18px; margin-top: 5px; font-weight: bold;">
                         RM
                     </p>
-                      <?= $form->field($model, 'price')->textInput()->label('') ?>
+                    <?= $form->field($model, 'price')->textInput()->label('') ?>
               </div>
         </div>
 
@@ -64,7 +64,7 @@ use yii\widgets\ActiveForm;
 </div>
 
 <style>
-.f_label{
+/* .f_label{
     margin: 10px 0px;
     font-size: 15px;
     color: #808080;
@@ -79,5 +79,5 @@ use yii\widgets\ActiveForm;
   width:320px;
   margin-left: 40px;
   margin-top: -60px;
-}
+} */
 </style>
