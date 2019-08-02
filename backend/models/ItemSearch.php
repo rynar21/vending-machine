@@ -69,22 +69,17 @@ class ItemSearch extends Item
     public function searchAvailableItem($params, $id)
     {
         $query = Item::find();
-        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
-            'query' => $query->where(['status'=> [Item::STATUS_AVAILABLE],'store_id'=> $id]),
+            'query' => $query->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED], 'store_id'=> $id]),
         ]);
+
         $this->load($params);
+
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
+            return '';
         }
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'price' => $this->price,
-            'box_id' => $this->box_id,
-        ]);
+
         $query->andFilterWhere(['like', 'name', $this->name]);
         return $dataProvider;
     }
