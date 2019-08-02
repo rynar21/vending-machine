@@ -17,8 +17,8 @@ use yii\helpers\Html;
             <?php //if($model->item):?>
                 <div class="col-sm-3 col-xs-6 box_row" style="padding:5px 7px;">
                          <!-- 产品 显示框 -->
-                        <div class="box_item thumbnail text-center" style="height: 27vh;">
-                            <a >
+                        <div class="box_item thumbnail text-center">
+                            <a>
                                 <!-- 产品：图片 显示框 -->
                                 <div class="item_image">
                                     <img src="<?= Url::base()?>/mel-img/pepsi.jpg">

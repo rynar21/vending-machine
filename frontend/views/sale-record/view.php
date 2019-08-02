@@ -1,75 +1,41 @@
 <?php
-use yii\helpers\Url;
-use yii\helpers\Html;
-use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\SaleRecord */
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = 'Payment Success';
 ?>
 
 <!-- 购买成功页面 -->
-<div class="sale-record-view" style=" border:0px solid red;" >
-    <!-- 内容 开始 -->
-    <div class="body-content">
+<div class="sale-record-view">
+
         <!-- 标题 -->
         <div class="row">
-            <div class="col-sm-offset-2 col-sm-10" style=" font-size:35px;">
-                <h>
-                    Payment Successful
-                </h>
+            <div class="col-sm-offset-2 col-sm-10 headline">
+                Payment Successful
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-12" >
-                <hr />
-            </div>
-        </div>
+        <hr />
 
         <!-- 温馨提示 -->
         <div class="row">
-            <div class="col-sm-offset-2 col-sm-10" style="color:#737363;"  >
-                <h4 >
-                    Please collect your purchased item.
-                </h4>
-            </div>
+            <h4 class="col-sm-offset-2 col-sm-10" style="color:#737363;">
+                Please collect your purchased item.
+            </h4>
         </div>
 
         <!-- 产品信息 -->
-        <div class="row">
-            <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 zz"  >
-                <div class="top"  >
-                    <div class="pull-left" style=" height:110px ;width:30%; border:0px solid red;margin-top:15px;margin-left:-2%;">
-                        <img src="<?= Url::base()?>/kele.jpg" class="img-responsive center-block" style="max-height:100%;max-width:100%;" />
-                    </div>
-                    <div class="pull-left text-left" style=" border:0px solid blue; height:140px;width:70%; ">
-                        <br/>
-                        <p>
-                            <?= $item_model->name ?>
-                        </p>
-                     </div>
-                </div>
-
-                <div  class=" col-sm-12 col-lg-12">
-                    <hr style=" border:1px #D4D4D4 solid; background-color:#D4D4D4;"/>
-                </div>
-
-                <div class="col-sm-12 col-lg-12 buttom text-center" style=" margin-top:5px; height:46px;">
-                    <b style="font-size:25px; color:green;">
-                        RM <?= number_format($item_model->price, 2)?>
-                    </b>
-                </div>
-            </div>
-        </div>
+        <?= $this->render('/item/details',[
+                'model' => $item_model,
+            ]) ?>
 
         <br/>
         <br/>
 
         <!-- 购买成功信息 -->
         <div class="row">
-            <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 " style="border:0px solid red;">
+            <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8">
                 <h5>
                     Transaction No:
                 </h5>
@@ -86,36 +52,20 @@ $this->title = 'Payment Success';
              </div>
         </div>
 
-    <div class="row">
-        <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
-            <a href="<?= Url::to(['store/view','id'=>$item_model->store_id]) ?>" >
-                <button type="button" class="btn btn-primary"  style="width:100%;height:40px;background-color:#1C86EE;border:0px solid;">
+        <!-- 完成交易 按钮 -->
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
+                <a href="<?= Url::to(['store/view','id'=>$item_model->store_id]) ?>" class="btn btn-primary btn-available">
                     Done
-                </button>
-            </a>
+                </a>
 
-            <br/>
-            <br/>
+                <br/>
+                <br/>
 
-            <a href="#">
-                <button type="button" class="btn btn-primary"  style=" width:100%;height:40px; background-color:#FFFFFF; color:black;">
+                <a href="#" class="btn btn-primary btn-cancel">
                     Print Receipt
-                </button>
-            </a>
+                </a>
+            </div>
         </div>
-    </div>
 
-   </div>
-   <!-- 结束内容 -->
  </div>
-
- <style>
-     .zz{
-         border: 1px solid #FFFFFF;
-         box-shadow:0px 0px 20px #CDCDB4;
-         /* box-shadow: -10px 0px 10px #FFFFFF,   /*左边阴影*/
-         0px 0px 20px #CDCDB4,  /*上边阴影*/
-         -10px 0px 10px green,  /*右边阴影*/
-         0px 0px 20px #CDCDB4;" /*下边阴影*/ */
-     }
- </style>
