@@ -4,12 +4,8 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Store;
-use common\models\Box;
-use common\models\Item;
 use backend\models\ItemSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * StoreController implements the CRUD actions for Store model.
@@ -17,12 +13,8 @@ use yii\filters\VerbFilter;
 class StoreController extends Controller
 {
 
-    /**
-     * Displays a single Store model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+    // 显示 Store表 其中一个数据 详情
+    // 采用 ItemSeearch表 来寻找 未购买成功的产品
     public function actionView($id)
     {
         $item_searchModel = new ItemSearch();

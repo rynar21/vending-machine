@@ -1,4 +1,8 @@
 <?php
+
+/* 
+    未被运用： 老大的作品，仅限参考用途
+*/
 namespace frontend\controllers;
 
 use Yii;
