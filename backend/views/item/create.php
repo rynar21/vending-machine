@@ -24,7 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- 显示 表格 -->
     <?= $this->render('_form', [
         'model' => $model,
-        'product_model' => $product_model,
     ]) ?>
 
     <hr />

@@ -2,7 +2,7 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\data\ActiveDataProvider;
+
 /* @var $model common\models\Store */
 
 /*

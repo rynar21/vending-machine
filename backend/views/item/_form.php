@@ -32,8 +32,7 @@ use yii\widgets\ActiveForm;
         <!-- 产品名称 -->
         <div class="row">
             <div class="col-sm-12">
-                <?= $form->field($model, 'name')->dropDownlist([]) ?>
-                <?php //$form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>
+                <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>
             </div>
         </div>
 
