@@ -2,70 +2,40 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Store */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Stores', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="store-view">
-
-    <h1>
-        <?= Html::encode($this->title) ?>
-    </h1>
-    <?php echo $this->render('/item/_search', [
-        'model' => $searchModel,
-    ]); ?>
+    <div class="row">
+        <h1 class="col-sm-12">
+            <?= $model->name ?>
+        </h1>
+    </div>
 
     <hr/>
 
+    <div class="row">
+        <?php echo $this->render('/item/_search', [
+            'id' => $id,
+            'item_searchModel' => $item_searchModel,
+            ]); ?>
+    </div>
+
+    <hr/>
+
+    <div class="row">
+          <div class="col-sm-12" style="color: #6A6A6A; ">
+                Select Item to Purchase:
+          </div>
+    </div>
+
     <?= $this->render('/box/_list', [
             'model' => $model,
+            'item_dataProvider' => $item_dataProvider,
         ]) ?>
 
 </div>
-
-<style>
-.box_row{
-  margin: 10px 0px;
-}
-
-.box_item{
-  width: 100%;
-  margin: 0 auto;
-  box-shadow:2px 0px 10px #CDCDB4;
-}
-
-.box_item_1{
-  width: 23vw;
-  margin: 0 auto;
-  box-shadow:2px 0px 10px #CDCDB4;
-}
-
-.box_item>a{
-    text-decoration: none;
-}
-
-.item_image{
-  height: 15vh;
-  width: auto;
-  border: 0px solid black;
-}
-
-.item_image>img{
-  height: 95%;
-  padding-top: 15px;
-  margin: 0 auto;
-  z-index:-1;
-}
-
-.item_name{
-    height: 3vh;
-    width: auto;
-    color: black;
-    border: 0px solid black;
-}
-</style>

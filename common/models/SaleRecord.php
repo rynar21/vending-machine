@@ -62,11 +62,19 @@ class SaleRecord extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getItem()
+    {
+        return $this->hasOne(Item::className(), ['id' => 'item_id']);
+    }
+
+    public function getBox()
+    {
+        return $this->hasOne(Box::className(), ['id' => 'box_id']);
+    }
+
+
     public function pending()
     {
-        $this->updateAttributes([
-            'status' => static::STATUS_PENDING,
-        ]);
         $this->item->updateAttributes([
             'status' => Item::STATUS_LOCKED,
         ]);
@@ -74,21 +82,18 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     public function success()
     {
-        $this->updateAttributes([
-            'status' => static::STATUS_SUCCESS,
-        ]);
         $this->item->updateAttributes([
             'status' => Item::STATUS_SOLD,
+        ]);
+        $this->box->updateAttributes([
+            'status' => Box::BOX_STATUS_AVAILABLE,
         ]);
     }
 
     public function failed()
     {
-        $this->updateAttributes([
-            'status' => static::STATUS_FAILED,
-        ]);
         $this->item->updateAttributes([
-            'status' => Item::STATUS_ACTIVE,
+            'status' => Item::STATUS_AVAILABLE,
         ]);
     }
 }

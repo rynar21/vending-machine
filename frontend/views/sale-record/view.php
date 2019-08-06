@@ -1,43 +1,71 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\helpers\Url;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\SaleRecord */
-
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Sale Records', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+$this->title = 'Payment Success';
 ?>
+
+<!-- 购买成功页面 -->
 <div class="sale-record-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <!-- 标题 -->
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-10 headline">
+                Payment Successful
+            </div>
+        </div>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+        <hr />
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'trans_id',
-            'store_id',
-            'box_id',
-            'item_id',
-            'status',
-            'created_at',
-            'updated_at',
-        ],
-    ]) ?>
+        <!-- 温馨提示 -->
+        <div class="row">
+            <h4 class="col-sm-offset-2 col-sm-10" style="color:#737363;">
+                Please collect your purchased item.
+            </h4>
+        </div>
 
-</div>
+        <!-- 产品信息 -->
+        <?= $this->render('/item/details',[
+                'model' => $item_model,
+            ]) ?>
+
+        <br/>
+        <br/>
+
+        <!-- 购买成功信息 -->
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8">
+                <h5>
+                    Transaction No:
+                </h5>
+                <h4>
+                    <?= $model->id ?>
+                </h4>
+
+                <h5>
+                    Ordered Time:
+                </h5>
+                <h4>
+                    <?php echo date('Y-m-d H:i:s', $model->created_at); ?>
+                </h4>
+             </div>
+        </div>
+
+        <!-- 完成交易 按钮 -->
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
+                <a href="<?= Url::to(['store/view','id'=>$item_model->store_id]) ?>" class="btn btn-primary btn-available">
+                    Done
+                </a>
+
+                <br/>
+                <br/>
+
+                <a href="#" class="btn btn-primary btn-cancel">
+                    Print Receipt
+                </a>
+            </div>
+        </div>
+
+ </div>

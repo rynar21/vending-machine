@@ -63,6 +63,11 @@ class Transaction extends \yii\db\ActiveRecord
         return $this->hasOne(Item::className(), ['id' => 'item_id']);
     }
 
+    public function getBox()
+    {
+        return $this->hasOne(Box::className(), ['id' => 'box_id']);
+    }
+
     public function pending()
     {
         $this->updateAttributes([
@@ -75,11 +80,14 @@ class Transaction extends \yii\db\ActiveRecord
 
     public function success()
     {
-        $this->updateAttributes([
-            'status' => static::STATUS_SUCCESS,
-        ]);
+        // $this->updateAttributes([
+        //     'status' => static::STATUS_SUCCESS,
+        // ]);
         $this->item->updateAttributes([
             'status' => Item::STATUS_SOLD,
+        ]);
+        $this->box->updateAttributes([
+            'status' => Box::BOX_STATUS_AVAILABLE,
         ]);
     }
 

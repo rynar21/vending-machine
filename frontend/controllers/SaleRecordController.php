@@ -3,125 +3,85 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\Item;
 use common\models\SaleRecord;
 use frontend\models\SaleRecordSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
-/**
- * SaleRecordController implements the CRUD actions for SaleRecord model.
- */
+ //SaleRecordController implements the CRUD actions for SaleRecord model.
 class SaleRecordController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
-    /**
-     * Lists all SaleRecord models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new SaleRecordSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single SaleRecord model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+    // 显示 其中一个订单 详情
     public function actionView($id)
     {
+        $model = SaleRecord::findOne(['item_id' => $id]);   // 寻找 SaleRecord
         return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new SaleRecord model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new SaleRecord();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('create', [
+            'item_model' => Item::findOne($id),
             'model' => $model,
         ]);
     }
 
-    /**
-     * Updates an existing SaleRecord model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
+    // 如果产品ID没有在于 SaleRecord 表里：创新新订单
+    // 运行 购买流程
+    public function actionCreate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $item_model = Item::findOne($id);   // 寻找 Item
+        // 创建 新订单
+        if(empty(SaleRecord::findOne(['item_id' => $id])))
+        {
+            $model = new SaleRecord();
+            $model->item_id = $id;
+            $model->box_id = $item_model->box_id;
+            $model->store_id = $item_model->store_id;
+            $model->status = $model::STATUS_PENDING;
+            $model->trans_id = (SaleRecord::find()->count())+1;
+            $model->save();
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'item_model' => $item_model,
+            'id' => $id,
         ]);
     }
 
-    /**
-     * Deletes an existing SaleRecord model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
+    // 判断 交易订单 的状态
+    public function actionCheck($id)
     {
-        $this->findModel($id)->delete();
+        // 判断 订单是否存在
+        if ($model = SaleRecord::findOne(['item_id' => $id]))
+        {
+            switch($model->status)
+            {
+                case $model::STATUS_PENDING:
+                $model->pending();
+                return $this->render('pending', [
+                    'model' => $model,
+                ]);
+                break;
 
-        return $this->redirect(['index']);
-    }
+                case $model::STATUS_SUCCESS:
+                $model->success();
+                return $this->render('success', [
+                    'model' => $model,
+                ]);
+                break;
 
-    /**
-     * Finds the SaleRecord model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return SaleRecord the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = SaleRecord::findOne($id)) !== null) {
-            return $model;
+                case $model::STATUS_FAILED:
+                $model->failed();
+                return $this->render('failed', [
+                    'model' => $model,
+                ]);
+                break;
+
+                default:
+                throw new NotFoundHttpException('Undefined model status.');
+                break;
+            }
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        else {
+            throw new NotFoundHttpException('The requested model does not exist.');
+        }
     }
 }

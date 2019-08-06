@@ -3,6 +3,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 
 /**
@@ -98,11 +99,6 @@ class Box extends \yii\db\ActiveRecord
         ->orderBy(['id' => SORT_DESC])
         ->where(['status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
         ->limit(1);
-    }
-
-    public function getActiveItem()
-    {
-        return Item::find()->where(['status' => [ Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]);
     }
 
     public function getAction()
