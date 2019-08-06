@@ -47,9 +47,7 @@ class Item extends \yii\db\ActiveRecord
             [['name', 'price', 'box_id'], 'required'],
             [['name'], 'string', 'max' => 255],
             [['price'], 'number'],
-            [['box_id'], 'integer'],
-            [['store_id'], 'integer'],
-            [['image'], 'default', 'value' => ''],
+            [['store_id', 'product_id'], 'integer'],
             [['status'], 'default', 'value' => self::STATUS_AVAILABLE],
         ];
     }
@@ -64,7 +62,8 @@ class Item extends \yii\db\ActiveRecord
             'created_at' => 'Created Time',
             'updated_at' => 'Updated Time',
             'box_id' => 'Box ID',
-            'store_id'=> 'Store ID'
+            'store_id'=> 'Store ID',
+            'product_id'=> 'Product ID'
         ];
     }
 
