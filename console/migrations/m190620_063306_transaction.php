@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use yii\db\Schema;
 
 /**
  * Class m190620_063306_transaction
@@ -12,12 +13,12 @@ class m190620_063306_transaction extends Migration
      */
     public function safeUp()
     {
-      $this->createTable('transaction',[
-        'id' => $this -> primaryKey(),
-        'details' => $this->string(),
-        'created_at' => $this->integer()->notNull(),
-        'updated_at' => $this->integer()->notNull(),
-      ]);
+          $this->createTable('transaction',[
+            'id' => $this -> primaryKey(),
+            'details' => $this->string(),
+            'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
+          ]);
     }
 
     /**
@@ -25,23 +26,9 @@ class m190620_063306_transaction extends Migration
      */
     public function safeDown()
     {
-      $this->dropTable('transaction');
-        //echo "m190620_063306_transaction cannot be reverted.\n";
-      //  return false;
+        if($this->db->schema->getTableSchema('transaction',true))
+        {
+            $this->dropTable('transaction');
+        }
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m190620_063306_transaction cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }
