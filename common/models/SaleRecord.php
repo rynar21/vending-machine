@@ -40,7 +40,9 @@ class SaleRecord extends \yii\db\ActiveRecord
     {
         return [
             [['box_id', 'item_id'], 'required'],
-            [['box_id', 'item_id', 'trans_id'], 'integer'],
+            [['box_id', 'item_id'], 'integer'],
+            [['sell_price'], 'number'],
+            [['status'], 'default', 'value' => self::STATUS_PENDING],
         ];
     }
 
@@ -49,10 +51,11 @@ class SaleRecord extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'store_id' => 'Store ID',
             'box_id' => 'Box ID',
             'item_id' => 'Item ID',
-            'trans_id' => 'Trans ID',
             'status' => 'Status',
+            'sell_price' => 'Price',
         ];
     }
 
