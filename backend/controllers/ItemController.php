@@ -3,6 +3,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Item;
+use common\models\Product;
 use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -65,10 +66,14 @@ class ItemController extends Controller
         if ($item_model->load(Yii::$app->request->post()) && $item_model->save()) {
             return $this->redirect(['store/view', 'id' => $item_model->store_id]);
         }
+        $product_model = new ActiveDataProvider([
+            'query'=> Product::find(),
+        ]);
 
         return $this->render('create', [
             'model' => $item_model,
             'dataProvider' => $dataProvider,
+            'product_model' => $product_model,
         ]);
     }
 
