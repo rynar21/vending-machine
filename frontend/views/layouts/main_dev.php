@@ -1,7 +1,8 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+/*
+    这是专门给 SiteController 定制的 layouts > main_dev.php
+*/
 
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
@@ -31,7 +32,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' =>  Html::img('@web/img/logo.png'),
+        //'brandLabel' =>  Html::img('@web/img/logo.png'),
         'brandOptions' => ['class' => 'myclass'], //options of the brand
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',

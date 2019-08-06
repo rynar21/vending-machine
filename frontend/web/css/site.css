@@ -2,6 +2,106 @@ html,
 body {
     height: 100%;
 }
+/* **********************************************************************
+======================== COMPONENTS LIST ================================
+************************************************************************/
+/* --------------------- Store/View Controller --------------------- */
+.box_row{
+  margin: 10px 0px;
+}
+
+.box_item{
+  width: 100%;
+  margin: 0 auto;
+  height: 27vh;
+  box-shadow:2px 0px 10px #CDCDB4;
+}
+
+.box_item > a{
+    text-decoration: none;
+}
+
+.item_image{
+  height: 15vh;
+  width: auto;
+  border: 0px solid black;
+}
+
+.item_image > img{
+  height: 95%;
+  padding-top: 15px;
+  margin: 0 auto;
+  z-index:-1;
+}
+
+.item_name{
+    height: 3vh;
+    width: auto;
+    color: black;
+    border: 0px solid black;
+}
+
+/* --------------------- Payment Headline Component --------------------- */
+.headline{
+    font-size: 35px;
+}
+/* --------------------- item/details.php ------------------------------ */
+.item_details{
+    border: 1px solid #FFFFFF;
+    box-shadow:0px 0px 20px #CDCDB4;
+}
+
+.item_details_image{
+    height:110px;
+    width:30%;
+    margin-top:15px;
+    margin-left:-2%;
+}
+
+.item_details_image > img{
+    max-height:100%;
+    max-width:100%;
+}
+
+.item_details_name{
+    height:140px;
+    width:70%;
+}
+
+.item_details_price{
+    margin-top:5px;
+    height:46px;
+    font-size:25px;
+    color:green;
+    font-weight: bold;
+}
+
+/* --------------------- Buttons Components ------------------------------ */
+.btn-available{
+    width:100%;
+    height:40px;
+    background-color:#1C86EE;
+    border:0px solid;
+    line-height: 30px;
+}
+
+.btn-unavailable{
+    width:100%;
+    height:40px;
+    color: white;
+    background-color: #909090;
+    border:0px solid;
+    line-height: 30px;
+}
+
+.btn-cancel{
+    width:100%;
+    height:40px;
+    background-color:#FFFFFF;
+    color:black;
+}
+
+/* --------------------- ------------------------------ --------------------- */
 
 .myclass>img{
     height: 50px;
@@ -23,8 +123,6 @@ body {
     font-weight: bold;
     text-align:center;
 }
-
-
 
 .thumbnail{
     border-radius: 0px 0px 0px 0px;
