@@ -1,15 +1,15 @@
 <?php
 
-namespace backend\models;
+namespace frontend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Box;
+use common\models\SaleRecord;
 
 /**
- * BoxSearch represents the model behind the search form of `common\models\Box`.
+ * SaleRecordSearch represents the model behind the search form of `common\models\SaleRecord`.
  */
-class BoxSearch extends Box
+class SaleRecordSearch extends SaleRecord
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,7 @@ class BoxSearch extends Box
     public function rules()
     {
         return [
-            [['id', 'code', 'status', 'store_id'], 'integer'],
+            [['id', 'trans_id', 'store_id', 'box_id', 'item_id', 'status', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -39,7 +39,7 @@ class BoxSearch extends Box
      */
     public function search($params)
     {
-        $query = Box::find();
+        $query = SaleRecord::find();
 
         // add conditions that should always apply here
 
@@ -58,9 +58,13 @@ class BoxSearch extends Box
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'code' => $this->code,
-            'status' => $this->status,
+            'trans_id' => $this->trans_id,
             'store_id' => $this->store_id,
+            'box_id' => $this->box_id,
+            'item_id' => $this->item_id,
+            'status' => $this->status,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
         return $dataProvider;

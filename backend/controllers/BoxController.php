@@ -13,9 +13,7 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\data\BaseDataProvider;
 
-/**
- * BoxController implements the CRUD actions for Box model.
- */
+// BoxController implements the CRUD actions for Box model.
 class BoxController extends Controller
 {
     /**
@@ -34,37 +32,21 @@ class BoxController extends Controller
     }
 
     /**
-     * Lists all Box models.
-     * @return mixed
+     * Lists all Box models. @return mixed
      */
     public function actionIndex($id)
     {
-      $searchModel = new BoxSearch();
-      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-      $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
-      $item_model = new ActiveDataProvider(['query' => Item::find(),]);
+          $searchModel = new BoxSearch();
+          $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+          $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
+          $item_model = new ActiveDataProvider(['query' => Item::find(),]);
 
-      return $this->render('index', [
-          'searchModel' => $searchModel,
-          'dataProvider' => $dataProvider,
-          'store_model' => $this->findModel3($id),
-          'item_model' => $item_model,
-      ]);
-    }
-
-    /**
-     * Lists all Box models.
-     * @return mixed
-     */
-    public function actionIndex2()
-    {
-        $searchModel2 = new BoxSearch();
-        $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams);
-
-        return $this->render('index2', [
-            'searchModel2' => $searchModel2,
-            'dataProvider2' => $dataProvider2,
-        ]);
+          return $this->render('index', [
+              'searchModel' => $searchModel,
+              'dataProvider' => $dataProvider,
+              'store_model' => $this->findStoreModel($id),
+              'item_model' => $item_model,
+          ]);
     }
 
     /**
@@ -80,24 +62,31 @@ class BoxController extends Controller
         ]);
     }
 
-
     /**
      * Creates a new Box model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new Box();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save())
-        {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+        $model->store_id = $id;
+        $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
 
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionSave($id)
+    {
+        $model = new Box();
+        $model->store_id = $id;
+        $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
+        if ($model->save())
+        {
+           return $this->redirect(['store/view', 'id' => $model->store_id]);
+        }
     }
 
     /**
@@ -130,7 +119,6 @@ class BoxController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -146,23 +134,22 @@ class BoxController extends Controller
         if (($model = Box::findOne($id)) !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    protected function findModel3($id)
+    protected function findStoreModel($id)
     {
-        if (($model3 = Store::findOne($id)) !== null) {
-            return $model3;
+        if (($store_model = Store::findOne($id)) !== null) {
+            return $store_model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    protected function findModel5($id)
+    protected function findItemModel($id)
     {
-      if (($model5 = Item::findOne($id)) !== null) {
-        return $model5;
-    }
-    throw new NotFoundHttpException('The requested page does not exist.');
+      if (($item_model = Item::findOne($id)) !== null) {
+        return $item_model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

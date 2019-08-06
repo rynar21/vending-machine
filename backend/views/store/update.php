@@ -5,14 +5,13 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Store */
 
-$this->title = 'Update Store: ' . $model->id;
+$this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Stores', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->store_id, 'url' => ['view', 'id' => $model->store_id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="store-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>Update <?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

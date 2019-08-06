@@ -16,10 +16,9 @@ use yii\behaviors\TimestampBehavior;
  */
 class SaleRecord extends \yii\db\ActiveRecord
 {
-    const STATUS_PENDING = 9;
-    const STATUS_SUCCESS = 10;
-    const STATUS_FAILED = 0;
-
+    const STATUS_PENDING = 9;    //购买中
+    const STATUS_SUCCESS = 10;   //购买成功
+    const STATUS_FAILED = 8;  //购买失败
     /**
      * {@inheritdoc}
      */
@@ -44,7 +43,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['box_id', 'item_id', 'trans_id'], 'required'],
+            [['box_id', 'item_id'], 'required'],
             [['box_id', 'item_id', 'trans_id'], 'integer'],
         ];
     }
@@ -61,5 +60,40 @@ class SaleRecord extends \yii\db\ActiveRecord
             'trans_id' => 'Trans ID',
             'status' => 'Status',
         ];
+    }
+
+    public function getItem()
+    {
+        return $this->hasOne(Item::className(), ['id' => 'item_id']);
+    }
+
+    public function getBox()
+    {
+        return $this->hasOne(Box::className(), ['id' => 'box_id']);
+    }
+
+
+    public function pending()
+    {
+        $this->item->updateAttributes([
+            'status' => Item::STATUS_LOCKED,
+        ]);
+    }
+
+    public function success()
+    {
+        $this->item->updateAttributes([
+            'status' => Item::STATUS_SOLD,
+        ]);
+        $this->box->updateAttributes([
+            'status' => Box::BOX_STATUS_AVAILABLE,
+        ]);
+    }
+
+    public function failed()
+    {
+        $this->item->updateAttributes([
+            'status' => Item::STATUS_AVAILABLE,
+        ]);
     }
 }

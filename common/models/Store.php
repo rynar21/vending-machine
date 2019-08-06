@@ -18,17 +18,13 @@ use yii\behaviors\TimestampBehavior;
  */
 class Store extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+    // Table Name
     public static function tableName()
     {
         return 'store';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // Implement Yii TimestampBehavior
     public function behaviors()
     {
         return [
@@ -36,31 +32,19 @@ class Store extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // Rules for the Attributes
     public function rules()
     {
         return [
             [['name', 'address', 'contact'], 'required'],
             [['contact'], 'integer'],
-            //[['store_contact'], 'validateContact'],
-            //[['store_contact'],  'match', 'pattern'=>'/^[a-z]\w*$/i'],
-            //[['store_contact'],  'match', 'pattern'=>'/^[\d]{10}$'],
+            [['image'], 'default', 'value' => ''],
             [['name', 'address'], 'string', 'max' => 255],
+            [['image'], 'default', 'value' => ''],
         ];
     }
 
-    public function validateContact($attribute, $params, $validator)
-    {
-        if ($this->$attribute != '012') {
-          $this->addError($attribute, 'Must be 012');
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
+    // Labels for the Attributes
     public function attributeLabels()
     {
         return [
@@ -71,8 +55,17 @@ class Store extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getItem()
+    // Retrieve Items
+    public function getItems()
     {
-        return $this->hasOne(Item::className(),['id'=>'item_id']);
+        return $this->hasMany(Item::className(),['store_id'=>'id']);
     }
+
+    // Retrieve Boxes
+    public function getBoxes()
+    {
+      return $this->hasMany(Box::className(), ['store_id' => 'id']);
+    }
+
+    
 }

@@ -31,11 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'price',
+            ['attribute'=> 'price', 'value' => $model->pricing],
+            ['attribute'=> 'status', 'value' => $model->statusText],
             'created_at:datetime',
             'updated_at:datetime',
-            'box_id',
             'store_id',
+            'box_id',
         ],
     ]) ?>
 

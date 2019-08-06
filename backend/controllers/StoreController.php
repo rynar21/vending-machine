@@ -4,12 +4,16 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Store;
+use common\models\Box;
+use common\models\Item;
 use common\models\Transaction;
 use backend\models\StoreSearch;
+use backend\models\BoxSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
+use yii\data\ActiveDataProvider;
 
 /**
  * StoreController implements the CRUD actions for Store model.
@@ -54,10 +58,14 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
+        $box_searchModel = new BoxSearch();
+        $box_searchModel->store_id = $id;
+        $box_dataProvider = $box_searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'box_dataProvider' => $box_dataProvider,
         ]);
-        //return $this->redirect(array('box/home','id' => $id));
     }
 
     /**
@@ -121,4 +129,5 @@ class StoreController extends Controller
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }
