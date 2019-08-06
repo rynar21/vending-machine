@@ -65,13 +65,15 @@ class Box extends \yii\db\ActiveRecord
             if($this->item)
             {
                 $text = "Available"; // 盒子包含产品
-                $this->status = updateAttributes(['status' => self::BOX_STATUS_NOT_AVAILABLE]);
+                $this->status = self::BOX_STATUS_NOT_AVAILABLE;
+                $this->save();
             }
             // 相反：如果 Box盒子 没有包含 Item产品
             else
             {
                 $text = "Not Available"; // 盒子为空
-                $this->status = updateAttributes(['status' => self::BOX_STATUS_AVAILABLE]);
+                $this->status = self::BOX_STATUS_AVAILABLE;
+                $this->save();
             }
         }
         return $text;
