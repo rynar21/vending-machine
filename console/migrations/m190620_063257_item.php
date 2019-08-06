@@ -12,17 +12,17 @@ class m190620_063257_item extends Migration
      */
     public function safeUp()
     {
-      $this->createTable('item',[
-        'id'=>$this->primaryKey(),
-        'name'=>$this->string()->notNull(),
-        'price'=>$this->float(10,2)->notNull(),
-        'image'=>$this->string(),
-        'status' =>$this->smallInteger()->notNull(),
-        'created_at' =>$this->integer()->notNull(),
-        'updated_at' =>$this->integer()->notNull(),
-        'box_id'=>$this->integer()->notNull(),
-        'store_id'=>$this->integer()->notNull(),
-      ]);
+          $this->createTable('item',[
+            'id'=>$this->primaryKey(),
+            'name'=>$this->string()->notNull(),
+            'price'=>$this->float(10,2)->notNull(),
+            'status' =>$this->smallInteger()->notNull(),
+            'created_at' =>$this->integer()->notNull(),
+            'updated_at' =>$this->integer()->notNull(),
+            'product_id'=>$this->integer()->notNull(),
+            'box_id'=>$this->integer()->notNull(),
+            'store_id'=>$this->integer()->notNull(),
+          ]);
     }
 
     /**
