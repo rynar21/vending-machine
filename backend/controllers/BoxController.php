@@ -109,6 +109,16 @@ class BoxController extends Controller
         ]);
     }
 
+    // public function actionList($id){
+    //   $searchModel = new BoxSearch();
+    //   $searchModel->store_id = $model->id;
+    //   $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    //   return $this->render('_list', [
+    //       'model' => $model,
+    //   ]);
+    // }
+
+
     /**
      * Deletes an existing Box model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
