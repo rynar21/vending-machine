@@ -1,5 +1,6 @@
 <?php
 use common\models\Item;
+use common\models\Box;
 use backend\models\BoxSearch;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
@@ -17,10 +18,16 @@ use yii\helpers\Html;
     3. Views > box > _view.php
 */
 
-$searchModel = new BoxSearch();
-$searchModel->store_id = $model->id;
-$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+// $searchModel = new BoxSearch();
+// $searchModel->store_id = $model->id;
+// $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+$query = Box::find()->andFilterWhere([
+    'store_id' => $model->id,
+]);
+// add conditions that should always apply here
+$dataProvider = new ActiveDataProvider([
+    'query' => $query,
+]);
 ?>
 
 
