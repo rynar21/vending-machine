@@ -1,7 +1,6 @@
 <?php
-use common\models\Store;
-use common\models\Box;
 use common\models\Item;
+use backend\models\BoxSearch;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
@@ -17,13 +16,18 @@ use yii\helpers\Html;
     2. Views > box > _list.php
     3. Views > box > _view.php
 */
+
+$searchModel = new BoxSearch();
+$searchModel->store_id = $model->id;
+$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
 ?>
 
 
 <div class="row">
 
         <?= GridView::widget([
-                 'dataProvider' => $model,
+                 'dataProvider' => $dataProvider,
                   'columns' => [
                       ['class' => 'yii\grid\SerialColumn'],
                       'id',
