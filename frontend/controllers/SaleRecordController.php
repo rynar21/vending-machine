@@ -84,4 +84,23 @@ class SaleRecordController extends Controller
             throw new NotFoundHttpException('The requested model does not exist.');
         }
     }
+
+    public function actionPaySuccess($id)
+    {
+    $id = $model->status;
+    
+      return $id;
+    }
+
+    public function actionPayFailed()
+    {
+      $content = $_request;
+      Error_log (Date ("[Ymdhis]"). " \ t ". Json_encode ($content). "\ r \ n", 3, ' ... /'. Date ("y-m-d"). '. Log1 ');
+
+      $class _name = Getcollname ();
+      Require_once App_root_path. " system/collocation/". $class _name." _collocation.php ";
+      $collocation _class = $class _name. " _collocation ";
+      $collocation _object = new $collocation _class ();
+      $collocation _code = $collocation _object->sinanotify ($_post,$_request);
+    }
 }
