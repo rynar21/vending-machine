@@ -106,4 +106,10 @@ class Item extends \yii\db\ActiveRecord
     {
       return $this->hasOne(Box::className(), ['id' => 'box_id']);
     }
+
+    // 搜索 对应产品的 Product产品
+    public function getProduct()
+    {
+      return $this->hasOne(Product::className(), ['id' => 'product_id']);
+    }
 }

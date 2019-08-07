@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "product".
@@ -25,15 +26,22 @@ class Product extends \yii\db\ActiveRecord
         return 'product';
     }
 
+    // YII 自带时间值 功能
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'price', 'status', 'created_at', 'updated_at'], 'required'],
+            [['name', 'price'], 'required'],
             [['price'], 'number'],
-            [['status', 'created_at', 'updated_at'], 'integer'],
             [['name', 'image'], 'string', 'max' => 255],
         ];
     }
@@ -48,9 +56,14 @@ class Product extends \yii\db\ActiveRecord
             'name' => 'Name',
             'price' => 'Price',
             'image' => 'Image',
-            'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    // 搜索 对应产品的 Item产品
+    public function getItems()
+    {
+      return $this->hasone(Item::className(), ['product_id' => 'id']);
     }
 }
