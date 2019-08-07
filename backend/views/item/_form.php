@@ -2,12 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Product;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Item */
 /* @var $form yii\widgets\ActiveForm */
-
-// $model: use common/models/Item
 ?>
 
 <div class="item-form">
@@ -32,7 +31,11 @@ use yii\widgets\ActiveForm;
         <!-- 产品名称 -->
         <div class="row">
             <div class="col-sm-12">
-                <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>
+                <?php echo $form->field($model, 'name')
+                ->dropdownList( $model, 'name', $product_model::find()->all(), 'name',
+                    ['prompt'=>'Select Product Name']
+                ); ?>
+                <?php //$form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>
             </div>
         </div>
 
