@@ -1,7 +1,8 @@
 <?php
-
+use common\models\Box;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\data\ActiveDataProvider;
 
 /* @var $model common\models\Store */
 
@@ -10,13 +11,23 @@ use yii\helpers\Html;
     2. Views > box > _list.php
     3. Views > box > _view.php
 */
+
+$dataProvider = new ActiveDataProvider([
+    'query' => Box::find()->andFilterWhere([
+        'store_id' => $model->id,
+    ]),
+    'pagination' => [
+        'pageSize' => 20
+    ]
+]);
+
 ?>
 
 
 <div class="row">
 
         <?= GridView::widget([
-                 'dataProvider' => $model,
+                 'dataProvider' => $dataProvider,
                   'columns' => [
                       ['class' => 'yii\grid\SerialColumn'],
                       'id',

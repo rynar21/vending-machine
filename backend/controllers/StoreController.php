@@ -58,13 +58,13 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
-        $box_searchModel = new BoxSearch();
-        $box_searchModel->store_id = $id;
-        $box_dataProvider = $box_searchModel->search(Yii::$app->request->queryParams);
+        // $box_searchModel = new BoxSearch();
+        // $box_searchModel->store_id = $id;
+        // $box_dataProvider = $box_searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'box_dataProvider' => $box_dataProvider,
+            // 'box_dataProvider' => $box_dataProvider,
         ]);
     }
 
@@ -112,6 +112,7 @@ class StoreController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
 
