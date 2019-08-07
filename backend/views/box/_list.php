@@ -4,6 +4,7 @@ use common\models\Box;
 use backend\models\BoxSearch;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\data\ActiveDataProvider;
 
 /* @var $model common\models\Store */
 
