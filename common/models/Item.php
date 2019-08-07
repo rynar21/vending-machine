@@ -1,8 +1,6 @@
 <?php
-/*
-    By: Melissa Ho
-    21/07/2019
-*/
+// Item产品 信息 数据表
+// Last Modified: 04/08/2019
 namespace common\models;
 
 use Yii;
@@ -21,12 +19,12 @@ use yii\behaviors\TimestampBehavior;
  */
 class Item extends \yii\db\ActiveRecord
 {
-    // 产品添加 初始值 & 交易失败
-    const STATUS_AVAILABLE = 0; // SaleRecord::STATUS_FAILED
+    // 产品 添加的初始值 & 交易失败
+    const STATUS_AVAILABLE = 0;         // 对应 SaleRecord::STATUS_FAILED
     // 产品 购买当中
-    const STATUS_LOCKED = 9; // SaleRecord::STATUS_PENDING
+    const STATUS_LOCKED = 9;            // 对应 SaleRecord::STATUS_PENDING
     // 产品 交易成功
-    const STATUS_SOLD = 10; // SaleRecord::STATUS_SUCCESS
+    const STATUS_SOLD = 10;             // 对应 SaleRecord::STATUS_SUCCESS
 
     // 连接数据库的表 ：item
     public static function tableName()
@@ -42,21 +40,19 @@ class Item extends \yii\db\ActiveRecord
         ];
     }
 
-    // 定义 属性
+    // 数据表 属性 规则
     public function rules()
     {
         return [
             [['name', 'price', 'box_id'], 'required'],
             [['name'], 'string', 'max' => 255],
             [['price'], 'number'],
-            [['box_id'], 'integer'],
-            [['store_id'], 'integer'],
-            [['image'], 'default', 'value' => ''],
+            [['store_id', 'product_id'], 'integer'],
             [['status'], 'default', 'value' => self::STATUS_AVAILABLE],
         ];
     }
 
-    // 标注 属性 名称
+    // 聚标 属性 标注
     public function attributeLabels()
     {
         return [
@@ -66,12 +62,12 @@ class Item extends \yii\db\ActiveRecord
             'created_at' => 'Created Time',
             'updated_at' => 'Updated Time',
             'box_id' => 'Box ID',
-            'store_id'=> 'Store ID'
+            'store_id'=> 'Store ID',
+            'product_id'=> 'Product ID'
         ];
     }
 
-
-    // 打印状态为文字
+    // 状态属性 以文字展示
     public function getStatusText()
     {
         switch ($this->status)
@@ -92,21 +88,28 @@ class Item extends \yii\db\ActiveRecord
         return $text;
     }
 
-    // 打印 价格格式
+    // 以 价格格式 显示 Item产品价格
     public function getPricing()
     {
         $num = number_format($this->price, 2);
         return 'RM '.$num;
     }
 
+    // 搜索 对应产品的 Store商店
     public function getStore()
     {
         return $this->hasOne(Store::className(), ['store_id' => 'box_id'])->via('box');
     }
 
-    // 搜索 对应产品的 盒子
+    // 搜索 对应产品的 Box盒子
     public function getBox()
     {
       return $this->hasOne(Box::className(), ['id' => 'box_id']);
+    }
+
+    // 搜索 对应产品的 Product产品
+    public function getProduct()
+    {
+      return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
 }
