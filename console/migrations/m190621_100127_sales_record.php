@@ -16,11 +16,11 @@ class m190621_100127_sales_record extends Migration
 
         $this->createTable('sale_record', [
           'id' =>$this->primaryKey(),
-          'trans_id' =>$this->integer(),
           'store_id' =>$this->integer()->notNull(),
           'box_id' =>$this->integer()->notNull(),
           'item_id' =>$this->integer()->notNull(),
-          'status' =>$this->smallInteger()->notNull()->defaultValue(9),
+          'sell_price' =>$this->float(10,2)->notNull(),
+          'status' =>$this->smallInteger()->notNull(),
           'created_at' => $this->integer()->notNull(),
           'updated_at' => $this->integer()->notNull(),
       ]);
@@ -35,12 +35,10 @@ class m190621_100127_sales_record extends Migration
           $this->dropTable('sale_record');
 
           $this->createTable('sale_record', [
-
               'box_id' =>$this->integer()->notNull(),
               'item_id' =>$this->integer()->notNull(),
               'trans_id' =>$this->integer()->notNull(),
               'status' =>$this->smallInteger()->notNull()->defaultValue(10),
-
           ]);
     }
 }
