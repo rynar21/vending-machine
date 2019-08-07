@@ -65,8 +65,15 @@ class ItemController extends Controller
 
         $product_model = new Product();
 
-        if ($item_model->load(Yii::$app->request->post()) && $item_model->save()) {
-            return $this->redirect(['store/view', 'id' => $item_model->store_id]);
+        $product_model->id=$item_model->product_id;
+
+        $request = Yii::$app->request;
+        if ($item_model->load($request->post()))
+        {
+            if($item_model->save())
+            {
+                return $this->redirect(['store/view', 'id' => $item_model->store_id]);
+            }
         }
 
         return $this->render('create', [
