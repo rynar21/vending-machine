@@ -31,8 +31,9 @@ use common\models\Product;
         <!-- 产品名称 -->
         <div class="row">
             <div class="col-sm-12">
+
                 <?php echo $form->field($model, 'name')
-                ->dropdownList( $model, 'name', $product_model::find()->all(), 'name',
+                ->dropdownList([],
                     ['prompt'=>'Select Product Name']
                 ); ?>
                 <?php //$form->field($model, 'name')->textInput(['maxlength' => true])->label('Item Name') ?>

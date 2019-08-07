@@ -99,6 +99,7 @@ class SaleRecordController extends Controller
     {
         $model = $this->findModel($id);
         $model->failed();
+
     }
 
     /**

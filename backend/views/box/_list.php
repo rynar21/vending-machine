@@ -2,6 +2,8 @@
 
 use yii\grid\GridView;
 use yii\helpers\Html;
+use common\models\Box;
+use yii\data\ActiveDataProvider;
 
 /* @var $model common\models\Store */
 
@@ -10,6 +12,10 @@ use yii\helpers\Html;
     2. Views > box > _list.php
     3. Views > box > _view.php
 */
+
+$model = new ActiveDataProvider([
+    'query' =>Box::find()->where(['id' => $model->id])
+]);
 ?>
 
 
