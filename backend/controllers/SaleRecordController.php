@@ -95,6 +95,13 @@ class SaleRecordController extends Controller
         ]);
     }
 
+    public function actionPaymentFailed($id)
+    {
+        $model = $this->findModel($id);
+        $model->failed();
+
+    }
+
     /**
      * Deletes an existing SaleRecord model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

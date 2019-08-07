@@ -5,6 +5,7 @@ use Yii;
 use common\models\Item;
 use common\models\Product;
 use backend\models\ItemSearch;
+use backend\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

@@ -36,7 +36,7 @@ use yii\helpers\ArrayHelper;
             </div>
         </div>
 
-        
+
 
         <!-- 产品价格 -->
         <div class="row">
