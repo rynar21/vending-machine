@@ -60,4 +60,10 @@ class Product extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    // 搜索 对应产品的 Item产品
+    public function getItems()
+    {
+      return $this->hasone(Item::className(), ['product_id' => 'id']);
+    }
 }
