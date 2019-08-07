@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1>
         <?= Html::encode($this->title) ?>
     </h1>
-    
+
     <p>
         <?= Html::a('Create Item', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute'=> 'status', 'value' => 'statusText'],
             'created_at:datetime',
             'updated_at:datetime',
+            'product_id',
             'box_id',
             'store_id',
             ['class' => 'yii\grid\ActionColumn'],
