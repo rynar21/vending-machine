@@ -76,30 +76,26 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function pending()
     {
         // 更新 Item产品 的状态属性 为购买当中
-        $this->item->updateAttributes([
-            'status' => Item::STATUS_LOCKED,
-        ]);
+        $this->item->status = Item::STATUS_LOCKED;
+        $this->item-save();
     }
 
     // 交易状态：购买成功
     public function success()
     {
         // 更新 Item产品 的状态属性 为购买成功
-        $this->item->updateAttributes([
-            'status' => Item::STATUS_SOLD,
-        ]);
+        $this->item->status = Item::STATUS_SOLD;
+        $this->item->save();
         // 更新 Box盒子 的状态属性 为空
-        $this->box->updateAttributes([
-            'status' => Box::BOX_STATUS_AVAILABLE,
-        ]);
+        $this->box->status = Box::BOX_STATUS_AVAILABLE;
+        $this->box->save();
     }
 
     // 交易状态： 购买失败
     public function failed()
     {
         // 更新 Item产品 的状态属性 为购买失败/初始值
-        $this->item->updateAttributes([
-            'status' => Item::STATUS_AVAILABLE,
-        ]);
+        $this->item->status = Item::STATUS_AVAILABLE;
+        $this->item->save();
     }
 }
