@@ -5,12 +5,14 @@ namespace backend\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Item;
+use common\models\Product;
 
 /**
  * ItemSearch represents the model behind the search form of `common\models\Item`.
  */
 class ItemSearch extends Item
 {
+    public $name;
     /**
      * {@inheritdoc}
      */
@@ -57,7 +59,8 @@ class ItemSearch extends Item
             'price' => $this->price,
             'box_id' => $this->box_id,
         ]);
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->joinWith('product');
+        $query->andFilterWhere(['like', 'product.name', $this->name]);
         return $dataProvider;
     }
 
@@ -79,8 +82,8 @@ class ItemSearch extends Item
         if (!$this->validate()) {
             return '';
         }
-
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->joinWith('product');
+        $query->andFilterWhere(['like', 'product.name', $this->name]);
         return $dataProvider;
     }
 }

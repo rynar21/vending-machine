@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\Product;
 use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveField;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Item */
@@ -12,7 +13,8 @@ use yii\helpers\ArrayHelper;
 
 <div class="item-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(); ?>
+
         <!-- 盒子 ID -->
         <div class="row f_label">
             <div class="col-sm-1">
@@ -32,11 +34,9 @@ use yii\helpers\ArrayHelper;
         <!-- 产品名称 -->
         <div class="row">
             <div class="col-sm-12">
-                <?= $form->field($model, 'name')->dropDownList(ArrayHelper::map(Product::find()->all(), 'name', 'name')) ?>
+                <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name')) ?>
             </div>
         </div>
-
-
 
         <!-- 产品价格 -->
         <div class="row">
@@ -64,22 +64,3 @@ use yii\helpers\ArrayHelper;
 
     <?php ActiveForm::end(); ?>
 </div>
-
-<style>
-/* .f_label{
-    margin: 10px 0px;
-    font-size: 15px;
-    color: #808080;
-}
-
-.f_label > .col-sm-1{
-    padding: 0px;
-    font-weight: bold;
-}
-
-#item-price{
-  width:320px;
-  margin-left: 40px;
-  margin-top: -60px;
-} */
-</style>
