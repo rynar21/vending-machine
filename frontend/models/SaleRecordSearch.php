@@ -17,7 +17,7 @@ class SaleRecordSearch extends SaleRecord
     public function rules()
     {
         return [
-            [['id', 'trans_id', 'store_id', 'box_id', 'item_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['id',  'store_id', 'box_id', 'item_id', 'status', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -57,8 +57,7 @@ class SaleRecordSearch extends SaleRecord
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'trans_id' => $this->trans_id,
+            'id' => $this->id,        
             'store_id' => $this->store_id,
             'box_id' => $this->box_id,
             'item_id' => $this->item_id,

@@ -4,7 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\Product;
 use yii\helpers\ArrayHelper;
+use yii\widgets\Menu;
+
 use yii\widgets\ActiveField;
+
+
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Item */
@@ -38,16 +43,28 @@ use yii\widgets\ActiveField;
             </div>
         </div>
 
+
+
         <!-- 产品价格 -->
         <div class="row">
              <div class="col-sm-12">
                   <b>Item Price</b>
               </div>
               <div class="col-sm-12">
-                  <?= $form->field($model, 'price', [
-                      'template' => '<div class="input-group"><span class="input-group-addon">RM</span>{input}</div>',
-                  ]) ?>
-              </div>
+                    <p style="font-size: 18px; margin-top: 5px; font-weight: bold;">
+                        RM
+                    </p>
+                    <?= $form->field($model, 'price')->textInput(['class'=>"form-control"])->label('') ?>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="sizing-addon1">RM</span>
+                        <input type="text" id="item-price" class="form-control" name="Item[price]" value="12" aria-invalid="false">
+                    </div><!-- /input-group -->
+
+
+
+
+
+             </div>
         </div>
 
         <!-- 提交表格按钮 -->

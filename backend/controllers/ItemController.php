@@ -57,6 +57,7 @@ class ItemController extends Controller
         $model->box_id = $id;
         $model->store_id = $model->box->store_id;
 
+
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()
             ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($model->box->store_id)]),
@@ -64,10 +65,16 @@ class ItemController extends Controller
 
         $product_model = new Product();
 
-        if ($model->load(Yii::$app->request->post()))
+        $item_model->product_id=$product_model->id;
+
+        $request = Yii::$app->request;
+        if ($item_model->load($request->post()))
         {
-            $model->price = $model->product->price;
-            if($model->save())
+            if ($item_model->price <= 0) {
+                $item_model->price = $item_model->product->price;
+            }
+
+            if($item_model->save())
             {
                 return $this->redirect(['store/view', 'id' => $model->store_id]);
             }
@@ -123,5 +130,44 @@ class ItemController extends Controller
         Item::findOne($id)->delete();
         return $this->redirect(['index']);
     }
+
+
+
+    // public function testmyfunction()
+    // {
+    //     $this->dosomething(1, 'test', '/hello.jpg', 'hi');
+    //
+    //     $this->dosomething(1, null, null, 'hello');
+    //
+    //     $this->anotherthing([
+    //         'id' => 1,
+    //         'path' => [
+    //             'location' => '/hello/test',
+    //             'file' => 'abc.jpg',
+    //             'extensions' => 'jpeg',
+    //         ]
+    //     ]);
+    //
+    // }
+    //
+    //
+    // public function dosomething($id,  $path, $name)
+    // {
+    //     if ($name == null) {
+    //         $name = '/hello.jpg';
+    //     }
+    //     // execute something with parameter
+    // }
+    //
+    // use yii\helpers\ArrayHelper;
+    //
+    // public function anotherthing($config)
+    // {
+    //     $id = ArrayHelper::getValue($config, 'id', 1);
+    //
+    //     $path = $config['path'];
+    //
+    //     // execute something with parameter
+    // }
 
 }

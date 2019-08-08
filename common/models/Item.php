@@ -44,7 +44,8 @@ class Item extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'box_id'], 'required'],
+            [['box_id', 'product_id'], 'required'],
+            [['name'], 'string', 'max' => 255],
             [['price'], 'number'],
             [['store_id', 'product_id'], 'integer'],
             [['status'], 'default', 'value' => self::STATUS_AVAILABLE],
