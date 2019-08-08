@@ -32,7 +32,7 @@ use yii\helpers\ArrayHelper;
         <!-- 产品名称 -->
         <div class="row">
             <div class="col-sm-12">
-                <?= $form->field($model, 'name')->dropDownList(ArrayHelper::map(Product::find()->all(), 'name', 'name')) ?>
+                <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name')) ?>
             </div>
         </div>
 

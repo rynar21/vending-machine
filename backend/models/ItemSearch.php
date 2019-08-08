@@ -11,6 +11,8 @@ use common\models\Item;
  */
 class ItemSearch extends Item
 {
+    public $name;
+
     /**
      * {@inheritdoc}
      */
@@ -57,7 +59,8 @@ class ItemSearch extends Item
             'price' => $this->price,
             'box_id' => $this->box_id,
         ]);
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->joinWith('product');
+        $query->andFilterWhere(['like', 'product.name', $this->name]);
         return $dataProvider;
     }
 

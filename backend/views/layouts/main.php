@@ -44,7 +44,6 @@ AppAsset::register($this);
                 ['label' => 'Box', 'url' => ['/box/index?id=1']],
                 ['label' => 'Item', 'url' => ['/item/index']],
                 ['label' => 'Record', 'url' => ['/sale-record/index']],
-                ['label' => 'Transaction', 'url' => ['/transaction/index']],
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

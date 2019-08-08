@@ -56,21 +56,21 @@ class ItemController extends Controller
     public function actionCreate($id)
     {
         $item_model = new Item();
+        $product_model = new Product();
         $item_model->box_id = $id;
         $item_model->store_id = $item_model->box->store_id;
-
+        
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()
             ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($item_model->box->store_id)]),
         ]);
 
-        $product_model = new Product();
-
-        $product_model->id=$item_model->product_id;
-
         $request = Yii::$app->request;
         if ($item_model->load($request->post()))
         {
+            if ($item_model->price<=0) {
+                $item_model->price=$item_model->product->price;
+            }
             if($item_model->save())
             {
                 return $this->redirect(['store/view', 'id' => $item_model->store_id]);

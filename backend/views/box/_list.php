@@ -14,7 +14,7 @@ use yii\data\ActiveDataProvider;
 */
 
 $model = new ActiveDataProvider([
-    'query' =>Box::find()->where(['id' => $model->id])
+    'query' =>Box::find()->where(['store_id' => $model->id])
 ]);
 ?>
 
