@@ -17,7 +17,7 @@ class SaleRecordSearch extends SaleRecord
     public function rules()
     {
         return [
-            [['id', 'box_id', 'item_id', 'trans_id', 'status'], 'integer'],
+            [['id', 'box_id', 'item_id',  'status'], 'integer'],
         ];
     }
 

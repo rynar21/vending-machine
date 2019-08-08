@@ -87,20 +87,26 @@ class SaleRecordController extends Controller
 
     public function actionPaySuccess($id)
     {
-    $id = $model->status;
-    
-      return $id;
+        $model = SaleRecord::findOne(['item_id' => $id])
+        if ($model)
+        {
+          $model->status = $model::STATUS_SUCCESS;
+          $model->save();
+          $model->success();
+          echo 'Success';
+        }
     }
 
-    public function actionPayFailed()
-    {
-      $content = $_request;
-      Error_log (Date ("[Ymdhis]"). " \ t ". Json_encode ($content). "\ r \ n", 3, ' ... /'. Date ("y-m-d"). '. Log1 ');
 
-      $class _name = Getcollname ();
-      Require_once App_root_path. " system/collocation/". $class _name." _collocation.php ";
-      $collocation _class = $class _name. " _collocation ";
-      $collocation _object = new $collocation _class ();
-      $collocation _code = $collocation _object->sinanotify ($_post,$_request);
+    public function actionPayFailed($id)
+    {
+        $model = SaleRecord::findOne(['item_id' => $id])
+        if ($model)
+        {
+          $model->status =$model::STATUS_FAILED;
+          $model->save();
+          $model->failed();
+          echo 'Failed';
+        }
     }
 }
