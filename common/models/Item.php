@@ -44,8 +44,7 @@ class Item extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price', 'box_id'], 'required'],
-            [['name'], 'string', 'max' => 255],
+            [['product_id', 'box_id'], 'required'],
             [['price'], 'number'],
             [['store_id', 'product_id'], 'integer'],
             [['status'], 'default', 'value' => self::STATUS_AVAILABLE],
@@ -65,6 +64,11 @@ class Item extends \yii\db\ActiveRecord
             'store_id'=> 'Store ID',
             'product_id'=> 'Product ID'
         ];
+    }
+
+    public function getName()
+    {
+        return $this->product->name;
     }
 
     // 状态属性 以文字展示
