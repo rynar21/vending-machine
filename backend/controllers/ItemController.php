@@ -66,10 +66,7 @@ class ItemController extends Controller
 
         if ($model->load(Yii::$app->request->post()))
         {
-            if ($model->price <= 0)
-            {
-                $model->price = $model->product->price;
-            }
+            $model->price = $model->product->price;
             if($model->save())
             {
                 return $this->redirect(['store/view', 'id' => $model->store_id]);
@@ -91,18 +88,31 @@ class ItemController extends Controller
      */
     public function actionUpdate($id)
     {
-        $item_model = Item::findOne($id);
+        $model = Item::findOne($id);
+        $model->box_id = $id;
+        $model->store_id = $model->box->store_id;
+
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()
-            ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($item_model->box->store_id)]),
+            ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($model->box->store_id)]),
         ]);
 
-        if ($item_model->load(Yii::$app->request->post()) && $item_model->save()) {
-            return $this->redirect(['view', 'id' => $item_model->id]);
+        $product_model = new Product();
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            if ($model->price <= 0)
+            {
+                $model->price = $model->product->price;
+            }
+            if($model->save())
+            {
+                return $this->redirect(['store/view', 'id' => $model->store_id]);
+            }
         }
 
         return $this->render('update', [
-            'model' => $item_model,
+            'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
     }

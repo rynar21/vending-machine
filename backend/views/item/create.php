@@ -22,10 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <!-- 显示 表格 -->
-    <?= $this->render('_form', [
+    <?= $this->render('_form_create', [
         'model' => $model,
-        //'product_model' =>$product_model,
     ]) ?>
+    <p></p>
 
     <hr />
 
