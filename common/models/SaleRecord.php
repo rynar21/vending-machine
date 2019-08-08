@@ -11,7 +11,6 @@ use yii\behaviors\TimestampBehavior;
  * @property int $id
  * @property int $box_id
  * @property int $item_id
- * @property int $trans_id
  * @property int $status
  */
 class SaleRecord extends \yii\db\ActiveRecord

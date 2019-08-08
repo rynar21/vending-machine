@@ -36,7 +36,7 @@ class SaleRecordController extends Controller
             $model->box_id = $item_model->box_id;
             $model->store_id = $item_model->store_id;
             $model->status = $model::STATUS_PENDING;
-            $model->trans_id = (SaleRecord::find()->count())+1;
+            $model->sell_price = $item_model->price;
             $model->save();
         }
 
@@ -83,5 +83,31 @@ class SaleRecordController extends Controller
         else {
             throw new NotFoundHttpException('The requested model does not exist.');
         }
+    }
+
+
+    public function actionSuccess($id)
+    {
+        // do $id success action
+    }
+
+    public $enableCsrfValidation = false;
+
+    public function actionMultiaction()
+    {
+
+        $id         = Yii::$app->request->post('id');
+        $status     = Yii::$app->request->post('status');
+        $validation = Yii::$app->request->post('validation');
+
+        $hash = md5($id . $status);
+
+        if ($validation != $hash) {
+            die('someone modify the data');
+        }
+
+
+        print_r(Yii::$app->request->post());
+
     }
 }

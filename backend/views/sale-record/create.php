@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'item_id')->textInput() ?>
 
-    <?= $form->field($model, 'trans_id')->textInput() ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
