@@ -44,10 +44,9 @@ use yii\widgets\ActiveField;
                   <b>Item Price</b>
               </div>
               <div class="col-sm-12">
-                    <p style="font-size: 18px; margin-top: 5px; font-weight: bold;">
-                        RM
-                    </p>
-                    <?= $form->field($model, 'price')->textInput()->label('') ?>
+                  <?= $form->field($model, 'price', [
+                      'template' => '<div class="input-group"><span class="input-group-addon">RM</span>{input}</div>',
+                  ]) ?>
               </div>
         </div>
 
