@@ -24,8 +24,8 @@ $this->params['breadcrumbs'][] = 'Update';
     </div>
 
     <!-- 显示 表格 -->
-    <?= $this->render('_form', ['model' => $model]) ?>
-    
+    <?= $this->render('_form_update', ['model' => $model]) ?>
+
     <hr />
 
     <!-- 显示还没成功购买的产品 -->

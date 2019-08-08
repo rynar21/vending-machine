@@ -12,7 +12,7 @@ use common\models\Product;
  */
 class ItemSearch extends Item
 {
-    public $name;
+     public $name;
     /**
      * {@inheritdoc}
      */
