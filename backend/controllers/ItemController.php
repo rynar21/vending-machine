@@ -5,14 +5,13 @@ use Yii;
 use common\models\Item;
 use common\models\Product;
 use backend\models\ItemSearch;
+use backend\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 
-/**
- * ItemController implements the CRUD actions for Item model.
- */
+// ItemController implements the CRUD actions for Item model.
 class ItemController extends Controller
 {
     public function behaviors()
@@ -54,35 +53,31 @@ class ItemController extends Controller
      */
     public function actionCreate($id)
     {
-        $item_model = new Item();
-        $item_model->box_id = $id;
-        $item_model->store_id = $item_model->box->store_id;
+        $model = new Item();
+        $model->box_id = $id;
+        $model->store_id = $model->box->store_id;
 
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()
-            ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($item_model->box->store_id)]),
+            ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($model->box->store_id)]),
         ]);
 
         $product_model = new Product();
 
-        //$product_model->id=$item_model->product_id;
-
-        
-        if ($item_model->load( Yii::$app->request->post()))
+        if ($model->load(Yii::$app->request->post()))
         {
-            if($item_model->price <= 0)
+            if ($model->price <= 0)
             {
-              $item_model->price = $item_model->product->price;
+                $model->price = $model->product->price;
             }
-            if($item_model->save())
+            if($model->save())
             {
-                return $this->redirect(['store/view', 'id' => $item_model->store_id]);
+                return $this->redirect(['store/view', 'id' => $model->store_id]);
             }
         }
 
         return $this->render('create', [
-            'model' => $item_model,
-            'product_model' => $product_model,
+            'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
     }

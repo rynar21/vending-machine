@@ -8,7 +8,7 @@ use common\models\Item;
     3. Views > box > _view.php
 */
 ?>
-<?php if($model->item):?>
+<?php //if($model->item):?>
     <div class="col-sm-3 col-xs-6 box_row" style="padding:5px 7px;">
              <!-- 产品 显示框 -->
             <div class="box_item thumbnail text-center" style="height: 27vh;">
@@ -19,11 +19,11 @@ use common\models\Item;
                     </div>
                     <!-- 产品：名字 显示框 -->
                     <div class="item_name">
-                        <h4><?= $model->item->name ?></h4>
+                        <h4><?= $item->name ?></h4>
 
                     </div>
-                    <?= Html::a('Buy', ['item/view', 'id' => $model->item->id], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Buy', ['item/view', 'id' => $item->id], ['class' => 'btn btn-success']) ?>
                 </a>
             </div>
     </div>
-<?php endif;?>
+<?php //endif;?>

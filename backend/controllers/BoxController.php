@@ -37,15 +37,11 @@ class BoxController extends Controller
     public function actionIndex($id)
     {
           $searchModel = new BoxSearch();
+          $searchModel->store_id = $id;
           $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-          $store_model = new ActiveDataProvider(['query'=> Store::find(),]);
-          $item_model = new ActiveDataProvider(['query' => Item::find(),]);
-
           return $this->render('index', [
               'searchModel' => $searchModel,
               'dataProvider' => $dataProvider,
-              'store_model' => $this->findStoreModel($id),
-              'item_model' => $item_model,
           ]);
     }
 
@@ -131,6 +127,20 @@ class BoxController extends Controller
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
+
+
+    // public function actionList()
+    // {
+    //     $model = new BoxSearch();
+    //     $model->store_id = $id;
+    //     $box_dataProvider = $model->search(Yii::$app->request->queryParams);
+    //
+    //     return $this->render('_list', [
+    //         // 'model' => $this->findStoreModel($id),
+    //         'box_dataProvider' => $box_dataProvider,
+    //     ]);
+    // }
+
 
     /**
      * Finds the Box model based on its primary key value.

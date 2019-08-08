@@ -1,8 +1,10 @@
 <?php
 use common\models\Store;
+use common\models\Box;
 use yii\helpers\Url;
 use yii\helpers\Html;
-// $model = Store::findOne(1);
+
+// @models $item_dataProvider = ItemSearch() model
 /*
     1. Views > store > view.php
     2. Views > box > _list.php
@@ -14,25 +16,9 @@ use yii\helpers\Html;
 <div class="row">
     <div class="col-sm-12">
         <?php foreach ($item_dataProvider->query->all() as $item):?>
-            <?php //if($model->item):?>
-                <div class="col-sm-3 col-xs-6 box_row" style="padding:5px 7px;">
-                         <!-- 产品 显示框 -->
-                        <div class="box_item thumbnail text-center">
-                            <a>
-                                <!-- 产品：图片 显示框 -->
-                                <div class="item_image">
-                                    <img src="<?= Url::base()?>/mel-img/pepsi.jpg">
-                                </div>
-                                <!-- 产品：名字 显示框 -->
-                                <div class="item_name">
-                                    <h4><?= $item->name ?></h4>
-
-                                </div>
-                                <?= Html::a('Buy', ['item/view', 'id' => $item->id], ['class' => 'btn btn-success']) ?>
-                            </a>
-                        </div>
-                </div>
-            <?php //endif;?>
+                <?= $this->render('/box/_view', [
+                    'item' => $item,
+                ]) ?>
         <?php endforeach; ?>
 
         <!-- 产品 输入 -->

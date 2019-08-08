@@ -84,7 +84,7 @@ class Box extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Item::className(), ['box_id'=>'id'])
         ->orderBy(['id' => SORT_DESC])
-        ->where(['status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
+        ->where(['status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])//用户体验
         ->limit(1);
     }
 

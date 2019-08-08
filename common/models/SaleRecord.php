@@ -11,7 +11,6 @@ use yii\behaviors\TimestampBehavior;
  * @property int $id
  * @property int $box_id
  * @property int $item_id
- * @property int $trans_id
  * @property int $status
  */
 class SaleRecord extends \yii\db\ActiveRecord
@@ -77,7 +76,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     {
         // 更新 Item产品 的状态属性 为购买当中
         $this->item->status = Item::STATUS_LOCKED;
-        $this->item-save();
+        $this->item->save();
     }
 
     // 交易状态：购买成功
@@ -86,7 +85,7 @@ class SaleRecord extends \yii\db\ActiveRecord
         // 更新 Item产品 的状态属性 为购买成功
         $this->item->status = Item::STATUS_SOLD;
         $this->item->save();
-        
+
         // 更新 Box盒子 的状态属性 为空
         $this->box->status = Box::BOX_STATUS_AVAILABLE;
         $this->box->save();
