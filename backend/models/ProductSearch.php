@@ -59,7 +59,6 @@ class ProductSearch extends Product
             'price' => $this->price,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
