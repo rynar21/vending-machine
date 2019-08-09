@@ -93,11 +93,6 @@ class Item extends \yii\db\ActiveRecord
         return $text;
     }
 
-    public function getName()
-    {
-        return $this->product->name;
-    }
-
     // 以 价格格式 显示 Item产品价格
     public function getPricing()
     {
