@@ -65,16 +65,16 @@ class ItemController extends Controller
 
         $product_model = new Product();
 
-        $item_model->product_id=$product_model->id;
+        $model->product_id=$product_model->id;
 
         $request = Yii::$app->request;
-        if ($item_model->load($request->post()))
+        if ($model->load($request->post()))
         {
-            if ($item_model->price <= 0) {
-                $item_model->price = $item_model->product->price;
+            if ($model->price <= 0) {
+                $model->price = $model->product->price;
             }
 
-            if($item_model->save())
+            if($model->save())
             {
                 return $this->redirect(['store/view', 'id' => $model->store_id]);
             }
