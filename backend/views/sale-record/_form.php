@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'item_id')->textInput() ?>
 
-    <?= $form->field($model, 'trans_id')->textInput() ?>
+    
 
     <?= $form->field($model, 'status')->textInput() ?>
 

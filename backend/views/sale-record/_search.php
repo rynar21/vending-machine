@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'item_id') ?>
 
-    <?= $form->field($model, 'trans_id') ?>
+
 
     <?= $form->field($model, 'status') ?>
 

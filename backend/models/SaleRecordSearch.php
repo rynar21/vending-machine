@@ -17,7 +17,7 @@ class SaleRecordSearch extends SaleRecord
     public function rules()
     {
         return [
-            [['id', 'box_id', 'item_id',  'status'], 'integer'],
+            [['id', 'box_id', 'item_id', 'status'], 'integer'],
         ];
     }
 
@@ -60,7 +60,6 @@ class SaleRecordSearch extends SaleRecord
             'id' => $this->id,
             'box_id' => $this->box_id,
             'item_id' => $this->item_id,
-            'trans_id' => $this->trans_id,
             'status' => $this->status,
         ]);
 
