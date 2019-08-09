@@ -67,11 +67,6 @@ class Item extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getName()
-    {
-        return $this->product->name;
-    }
-
     // 状态属性 以文字展示
     public function getStatusText()
     {
