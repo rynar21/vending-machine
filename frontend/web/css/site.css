@@ -39,7 +39,13 @@ body {
     width: auto;
     color: black;
     border: 0px solid black;
+    font-size: auto;
 }
+
+/* .item_buy{
+    height: 10px;
+    width: auto;
+} */
 
 /* --------------------- Payment Headline Component --------------------- */
 .headline{
