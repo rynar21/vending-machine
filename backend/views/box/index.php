@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'status',
             'store_id',
             'item.name',
+            'item.product_id',
             'created_at:datetime',
             'updated_at:datetime',
             ['class' => 'yii\grid\ActionColumn'],

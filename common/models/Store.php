@@ -78,7 +78,7 @@ class Store extends \yii\db\ActiveRecord
         if (empty($this->image))
         {
             // 注入默认图片
-            return  '/mel-img/product.jpg';
+            return  '/mel-img/store.jpg';
         }
         // 相反：返回 选择后图片的入境
         return $this->image;

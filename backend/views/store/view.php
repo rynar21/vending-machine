@@ -40,6 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
               'name',
               'address',
               'contact',
+              'image',
+              [
+                  'attribute'=>'image',
+                  'value'=> yii::getAlias('@imageUrl').'/'.$model->image,
+                  'format'=>['image', ['width'=>'100', 'height'=>'100']]
+              ],
               'created_at:datetime',
               'updated_at:datetime',
           ],
