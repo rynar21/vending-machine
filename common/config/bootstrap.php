@@ -5,3 +5,5 @@ Yii::setAlias('@backend', dirname(dirname(__DIR__)) . '/backend');
 Yii::setAlias('@console', dirname(dirname(__DIR__)) . '/console');
 
 Yii::setAlias('@upload', 'C:\Users\Melissa\wamp64\www\vending-machine\backend\web\mel-img');
+
+Yii::setAlias('@imagePath', 'http://localhost:8080/vending-machine/backend/web/mel-img');
