@@ -4,8 +4,6 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use yii\web\UploadedFile;
-use yii\helpers\BaseStringHelper;
 
 /**
  * This is the model class for table "product".
@@ -20,11 +18,11 @@ use yii\helpers\BaseStringHelper;
  */
 class Product extends \yii\db\ActiveRecord
 {
-    public $imageFile;
-
     /**
      * {@inheritdoc}
      */
+
+     public $imageFile;
     public static function tableName()
     {
         return 'product';
@@ -38,32 +36,17 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'price', 'image'], 'required'],
+            [['name', 'price'], 'required'],
             [['price'], 'number'],
             [['name', 'image'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
-    }
-
-    public function upload()
-    {
-        if ($this->validate()) {
-
-            $this->image->saveAs('/C:\wamp64\www\cs\backend\image/' . $this->image->baseName . '.' . $this->image->extension);
-
-            return true;
-        } else {
-            return false;
-        }
-
-
     }
 
     /**
@@ -84,9 +67,8 @@ class Product extends \yii\db\ActiveRecord
     // 搜索 对应产品的 Item产品
     public function getItems()
     {
-      return $this->hasMany(Item::className(), ['product_id' => 'id']);
+      return $this->hasone(Item::className(), ['product_id' => 'id']);
     }
-
 
     public function getImageUrl()
     {
@@ -96,4 +78,6 @@ class Product extends \yii\db\ActiveRecord
 
         return $this->image;
     }
+
+
 }

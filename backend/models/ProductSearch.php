@@ -21,10 +21,11 @@ class ProductSearch extends Product
             [['id'], 'integer'],
             [['name', 'image'], 'safe'],
             [['price'], 'number'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 
-        public $image;
+        public $imageFile;
 
     /**
      * {@inheritdoc}

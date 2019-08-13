@@ -11,7 +11,6 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\helpers\BaseStringHelper;
 
-
 /**
  * ProductController implements the CRUD actions for Product model.
  */
@@ -84,9 +83,13 @@ class ProductController extends Controller
         if ($model->load(Yii::$app->request->post()))
         {
             $model->imageFile = UploadedFile::getInstance($model, 'image');
+            // echo "<pre>";
+            // print_r($model);
+            // die('here');
             if ($model->imageFile) {
                 $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
                 $model->imageFile->saveAs($path, $deleteTempFile=true);
+                // $model->image = 'hello';
                 $model->imageFile->baseName . '.' . $model->imageFile->extension;
             }
             if ($model->save())
@@ -110,6 +113,7 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post())) {
 
             $model->imageFile = UploadedFile::getInstance($model, 'image');
@@ -133,27 +137,6 @@ class ProductController extends Controller
             'model' => $model,
         ]);
     }
-        // if ($model->load(Yii::$app->request->post())){
-        //  //represent the uploaded file as an instance
-        //  $model->image = UploadedFile::getInstance($model, 'image');
-        //  if ($model->upload()) {
-        //      $model->save();
-        //  }
-         //save path to image in db
-         // if($model->image){
-         // $model->image = '/uploads/' . $model->image->baseName . '.' . $model->image->extension;
-         // }
-         //save changes in db
-         //upload image on server
-     //     Yii::$app->session->setFlash('success',"Product is successfully updated!");
-     //         return $this->redirect(['view', 'id' => $model->id]);
-     //     }
-     //     else {
-     //         return $this->render('update', [
-     //             'model' => $model,
-     //         ]);
-     //     }
-     // }
 
     /**
      * Deletes an existing Product model.
