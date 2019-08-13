@@ -63,19 +63,20 @@ class ProductController extends Controller
     }
 
 
-    public function actionUpload()
-       {
-           $model = new product();
+    // public function actionUpload()
+    //    {
+    //        $model = new product();
+    //
+    //             if (Yii::$app->request->isPost) {
+    //             $model->image = UploadedFile::getInstance($model, 'image');
+    //             if ($model->upload()) {
+    //                   // file is uploaded successfully
+    //                   return $model->image;
+    //                         }
+    //                     }
+    //                   return $this->render('create', ['model' => $model]);
+    //   }
 
-                if (Yii::$app->request->isPost) {
-                $model->image = UploadedFile::getInstance($model, 'image');
-                if ($model->upload()) {
-                      // file is uploaded successfully
-                      return $model->image;
-                            }
-                        }
-                      return $this->render('create', ['model' => $model]);
-       }
     /**
      * Creates a new Product model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -87,22 +88,16 @@ class ProductController extends Controller
 
         if ($model->load(Yii::$app->request->post()))
         {
-
             $model->imageFile = UploadedFile::getInstance($model, 'image');
-            // echo "<pre>";
-            // print_r($model);
-            // die('here');
+
             if ($model->imageFile)
             {
                 $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                // $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                // $model->imageFile->saveAs($path, $deleteTempFile=true);
-                //$model->image = 'hello'; //$model->imageFile->baseName . '.' . $model->imageFile->extension;
             }
 
             if ($model->save())
             {
-                //$model->upload_image;
+                //$model->imageFile->upload_image;
                 $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
                 $model->imageFile->saveAs($path, true);
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -124,8 +119,8 @@ class ProductController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-<<<<<<< Updated upstream
+
+        $model = Product::findOne($id);
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -150,29 +145,29 @@ class ProductController extends Controller
             'model' => $model,
         ]);
     }
-=======
-        if ($model->load(Yii::$app->request->post())){
-         //represent the uploaded file as an instance
-         $model->image = UploadedFile::getInstance($model, 'image');
-         if ($model->upload()) {
-             $model->save();
-         }
-         //save path to image in db
-         // if($model->image){
-         // $model->image = '/uploads/' . $model->image->baseName . '.' . $model->image->extension;
-         // }
-         //save changes in db
-         //upload image on server
-         Yii::$app->session->setFlash('success',"Product is successfully updated!");
-             return $this->redirect(['view', 'id' => $model->id]);
-         }
-         else {
-             return $this->render('update', [
-                 'model' => $model,
-             ]);
-         }
-     }
->>>>>>> Stashed changes
+
+     //    if ($model->load(Yii::$app->request->post())){
+     //     //represent the uploaded file as an instance
+     //     $model->image = UploadedFile::getInstance($model, 'image');
+     //     if ($model->upload()) {
+     //         $model->save();
+     //     }
+     //     //save path to image in db
+     //     // if($model->image){
+     //     // $model->image = '/uploads/' . $model->image->baseName . '.' . $model->image->extension;
+     //     // }
+     //     //save changes in db
+     //     //upload image on server
+     //     Yii::$app->session->setFlash('success',"Product is successfully updated!");
+     //         return $this->redirect(['view', 'id' => $model->id]);
+     //     }
+     //     else {
+     //         return $this->render('update', [
+     //             'model' => $model,
+     //         ]);
+     //     }
+     // }
+
 
     /**
      * Deletes an existing Product model.
