@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\StoreSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -22,11 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <!-- 创建 新商店 -->
-    <div class="row">
-        <div class="col-sm-12">
-            <?= Html::a('Create Store', ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
-    </div>
+    <p>
+        <?= Html::a('Create Store', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
     <!-- 商店列表 -->
     <?= GridView::widget([

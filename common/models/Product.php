@@ -64,8 +64,9 @@ class Product extends \yii\db\ActiveRecord
         // 如果 Image属性 为空
         if (empty($this->image))
         {
+            $this->image = 'product.jpg';
             // 注入默认图片
-            return  '/mel-img/product.jpg';
+            return $this->image;
         }
         // 相反：返回 选择后图片的入境
         return $this->image;

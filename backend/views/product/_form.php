@@ -21,10 +21,12 @@ use yii\web\UploadedFile;
     <?= $form->field($model, 'image')->fileInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success col-sm-1 col-xs-3']) ?>
+        <div class="col-sm-1 col-xs-3">
+              <?= Html::a('Cancel', ['product/index'], ['class' => 'btn btn-danger']) ?>
+       </div>
     </div>
 
     <?php ActiveForm::end(); ?>
 
-    <img src="<?php echo Url::base().$model->image; ?>"/>
 </div>
