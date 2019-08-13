@@ -4,15 +4,13 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Store;
-use common\models\Box;
-use common\models\Item;
-use common\models\Transaction;
 use backend\models\StoreSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Url;
-use yii\data\ActiveDataProvider;
+use yii\web\UploadedFile;
+use yii\helpers\BaseStringHelper;
+
 
 /**
  * StoreController implements the CRUD actions for Store model.
@@ -69,10 +67,35 @@ class StoreController extends Controller
      */
     public function actionCreate()
     {
+        
         $model = new Store();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+        // ActiveForm 提交后
+        if ($model->load(Yii::$app->request->post()))
+        {
+            //读取 Store商店数据表 Image入境
+            $model->imageFile = UploadedFile::getInstance($model, 'image');
+
+            //如果 有图片
+            if ($model->imageFile)
+            {
+                // 保存图片入境 在于图片属性
+                $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+            }
+
+            // 保存所有数据 在于Store数据表
+            if ($model->save())
+            {
+                // 保存图片入境
+                $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                // 另保存图片 & 清除缓存
+                $model->imageFile->saveAs($path, true);
+                // 返回 View 页面
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
+        // 显示 Create创建页面
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -87,10 +110,34 @@ class StoreController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = Store::findOne($id);
+
+        // ActiveForm 提交后
+        if ($model->load(Yii::$app->request->post()))
+        {
+            //读取 Store数据表  Image入境
+            $model->imageFile = UploadedFile::getInstance($model, 'image');
+
+            //如果 有图片
+            if ($model->imageFile)
+            {
+                // 保存图片入境 在于图片属性
+                $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+            }
+
+            // 保存所有数据 在于Store数据表
+            if ($model->save())
+            {
+                // 保存图片入境
+                $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                // 另保存图片 & 清除缓存
+                $model->imageFile->saveAs($path, true);
+                // 返回 View 页面
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
+        // 显示 Update更新页面
         return $this->render('update', [
             'model' => $model,
         ]);
