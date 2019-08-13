@@ -4,6 +4,8 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\BaseArrayHelper;
+use yii\helpers\ArrayHelper;
 
 
 /**
@@ -18,6 +20,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Store extends \yii\db\ActiveRecord
 {
+    public $text= '/mel-img/store.jpg';
+
     // Table Name
     public static function tableName()
     {
@@ -40,7 +44,6 @@ class Store extends \yii\db\ActiveRecord
             [['contact'], 'integer'],
             [['image'], 'default', 'value' => ''],
             [['name', 'address'], 'string', 'max' => 255],
-            [['image'], 'default', 'value' => ''],
         ];
     }
 
@@ -67,5 +70,15 @@ class Store extends \yii\db\ActiveRecord
       return $this->hasMany(Box::className(), ['store_id' => 'id']);
     }
 
-    
+    // public function getImage()
+    // {
+    //     if($this->image = '')
+    //     {
+    //         $this->image = '/mel-img/store.jpg';
+    //         $this->save();
+    //     }
+    //     return $this->image;
+    //
+    //     //return $this->image = ArrayHelper::getValue($this, 'image', 'text');
+    // }
 }

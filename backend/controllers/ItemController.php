@@ -65,10 +65,7 @@ class ItemController extends Controller
 
         $product_model = new Product();
 
-        $model->product_id=$product_model->id;
-
-        $request = Yii::$app->request;
-        if ($model->load($request->post()))
+        if ($model->load(Yii::$app->request->post()))
         {
             if ($model->price <= 0) {
                 $model->price = $model->product->price;
