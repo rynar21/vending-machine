@@ -73,9 +73,4 @@ class Product extends \yii\db\ActiveRecord
         return $this->image;
     }
 
-    public function upload_image()
-    {
-        $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-        $model->imageFile->saveAs($path, true);
-    }
 }
