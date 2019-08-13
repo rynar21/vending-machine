@@ -75,10 +75,16 @@ class Product extends \yii\db\ActiveRecord
 
     public function getImageUrl()
     {
-        if (empty($this->image)) {
+        if (empty($this->image))
+        {
             return  '/mel-img/product.jpg';
         }
-
         return $this->image;
+    }
+
+    public function upload_image()
+    {
+        $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
+        $model->imageFile->saveAs($path, true);
     }
 }

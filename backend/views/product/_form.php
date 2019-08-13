@@ -27,5 +27,6 @@ use yii\web\UploadedFile;
     </div>
 
     <?php ActiveForm::end(); ?>
+    
     <img src="<?php echo Url::base().$model->image; ?>"/>
 </div>

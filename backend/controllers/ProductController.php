@@ -86,17 +86,22 @@ class ProductController extends Controller
         {
 
             $model->imageFile = UploadedFile::getInstance($model, 'image');
-            echo "<pre>";
-            print_r($model);
-            die('here');
-            if ($model->imageFile) {
+            // echo "<pre>";
+            // print_r($model);
+            // die('here');
+            if ($model->imageFile)
+            {
+                $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
                 // $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
                 // $model->imageFile->saveAs($path, $deleteTempFile=true);
-                $model->image = 'hello'; //$model->imageFile->baseName . '.' . $model->imageFile->extension;
+                //$model->image = 'hello'; //$model->imageFile->baseName . '.' . $model->imageFile->extension;
             }
 
             if ($model->save())
             {
+                //$model->upload_image;
+                $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                $model->imageFile->saveAs($path, true);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -122,19 +127,19 @@ class ProductController extends Controller
 
             $model->imageFile = UploadedFile::getInstance($model, 'image');
 
-            if ($model->imageFile) {
+            if ($model->imageFile)
+            {
                 $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
             }
 
             if ($model->save())
             {
+                // $model->upload_image;
                 $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
                 $model->imageFile->saveAs($path, true);
 
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-
-            // return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -171,6 +176,7 @@ class ProductController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
     public function actions() {
         return [
             'upload_more'=>[
