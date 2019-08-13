@@ -67,6 +67,15 @@ class Item extends \yii\db\ActiveRecord
         ];
     }
 
+<<<<<<< Updated upstream
+=======
+    public function getName()
+    {
+        return $this->product->name;
+    }
+
+
+>>>>>>> Stashed changes
     // 状态属性 以文字展示
     public function getStatusText()
     {

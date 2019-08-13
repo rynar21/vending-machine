@@ -12,15 +12,23 @@ use yii\web\UploadedFile;
 
 <div class="product-form">
 
+<<<<<<< Updated upstream
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+=======
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+>>>>>>> Stashed changes
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
 
+<<<<<<< Updated upstream
 
     <?= $form->field($model, 'image')->fileInput() ?>
 
+=======
+    <?= $form->field($model, 'image')->fileInput() ?>
+>>>>>>> Stashed changes
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

@@ -9,7 +9,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+<<<<<<< Updated upstream
 use yii\helpers\BaseStringHelper;
+=======
+>>>>>>> Stashed changes
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -117,6 +120,7 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+<<<<<<< Updated upstream
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -141,6 +145,29 @@ class ProductController extends Controller
             'model' => $model,
         ]);
     }
+=======
+        if ($model->load(Yii::$app->request->post())){
+         //represent the uploaded file as an instance
+         $model->image = UploadedFile::getInstance($model, 'image');
+         if ($model->upload()) {
+             $model->save();
+         }
+         //save path to image in db
+         // if($model->image){
+         // $model->image = '/uploads/' . $model->image->baseName . '.' . $model->image->extension;
+         // }
+         //save changes in db
+         //upload image on server
+         Yii::$app->session->setFlash('success',"Product is successfully updated!");
+             return $this->redirect(['view', 'id' => $model->id]);
+         }
+         else {
+             return $this->render('update', [
+                 'model' => $model,
+             ]);
+         }
+     }
+>>>>>>> Stashed changes
 
     /**
      * Deletes an existing Product model.
