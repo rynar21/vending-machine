@@ -11,9 +11,9 @@ use common\models\Product;
  */
 class ProductSearch extends Product
 {
-    /**
-     * {@inheritdoc}
-     */
+    public $imageFile;
+
+    // 数据表 属性 搜索 规则
     public function rules()
     {
         return [

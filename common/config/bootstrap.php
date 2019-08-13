@@ -6,4 +6,8 @@ Yii::setAlias('@console', dirname(dirname(__DIR__)) . '/console');
 
 Yii::setAlias('@upload', 'C:\Users\Melissa\wamp64\www\vending-machine\backend\web\mel-img');
 
+<<<<<<< Updated upstream
 Yii::setAlias('@imagePath', 'http://localhost:8080/vending-machine/backend/web/mel-img');
+=======
+Yii::setAlias('@imageUrl', 'http://localhost:8080/vending-machine/backend/web/mel-img'); // localhost 加载图片入境
+>>>>>>> Stashed changes

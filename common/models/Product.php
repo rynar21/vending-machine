@@ -14,7 +14,6 @@ use yii\web\UploadedFile;
  * @property string $name
  * @property double $price
  * @property string $image
- * @property int $status
  * @property int $created_at
  * @property int $updated_at
  */
@@ -22,9 +21,13 @@ class Product extends \yii\db\ActiveRecord
 {
     public $imageFile;
 
+<<<<<<< Updated upstream
     /**
      * {@inheritdoc}
      */
+=======
+    // 数据表 名称
+>>>>>>> Stashed changes
     public static function tableName()
     {
         return 'product';
@@ -38,9 +41,7 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // 数据表 属性 规则
     public function rules()
     {
         return [
@@ -51,9 +52,7 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // 数据表 属性 标注
     public function attributeLabels()
     {
         return [
@@ -66,6 +65,7 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
+<<<<<<< Updated upstream
     // 搜索 对应产品的 Item产品
     public function getItems()
     {
@@ -79,6 +79,19 @@ class Product extends \yii\db\ActiveRecord
         {
             return  '/mel-img/product.jpg';
         }
+=======
+    // 数据表 Image图片 属性
+    public function getImageUrl()
+    {
+        // 判断是否 Image属性 是否存在
+        // 如果 Image属性 为空
+        if (empty($this->image))
+        {
+            // 注入默认图片
+            return  '/mel-img/product.jpg';
+        }
+        // 相反：返回 选择后图片的入境
+>>>>>>> Stashed changes
         return $this->image;
     }
 
