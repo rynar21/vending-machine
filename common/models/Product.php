@@ -21,13 +21,7 @@ class Product extends \yii\db\ActiveRecord
 {
     public $imageFile;
 
-<<<<<<< Updated upstream
-    /**
-     * {@inheritdoc}
-     */
-=======
     // 数据表 名称
->>>>>>> Stashed changes
     public static function tableName()
     {
         return 'product';
@@ -65,21 +59,6 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-<<<<<<< Updated upstream
-    // 搜索 对应产品的 Item产品
-    public function getItems()
-    {
-      return $this->hasMany(Item::className(), ['product_id' => 'id']);
-    }
-
-
-    public function getImageUrl()
-    {
-        if (empty($this->image))
-        {
-            return  '/mel-img/product.jpg';
-        }
-=======
     // 数据表 Image图片 属性
     public function getImageUrl()
     {
@@ -91,7 +70,6 @@ class Product extends \yii\db\ActiveRecord
             return  '/mel-img/product.jpg';
         }
         // 相反：返回 选择后图片的入境
->>>>>>> Stashed changes
         return $this->image;
     }
 
