@@ -67,7 +67,7 @@ class StoreController extends Controller
      */
     public function actionCreate()
     {
-        
+
         $model = new Store();
 
         // ActiveForm 提交后
@@ -83,13 +83,23 @@ class StoreController extends Controller
                 $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
             }
 
+            //如果 没有图片
+            if($model->imageFile == null)
+            {
+                // 保存默认图片
+                $model->imageUrl;
+            }
+
             // 保存所有数据 在于Store数据表
             if ($model->save())
             {
-                // 保存图片入境
-                $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                // 另保存图片 & 清除缓存
-                $model->imageFile->saveAs($path, true);
+                if($model->imageFile)
+                {
+                    // 保存图片入境
+                    $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                    // 另保存图片 & 清除缓存
+                    $model->imageFile->saveAs($path, true);
+                }
                 // 返回 View 页面
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -128,10 +138,13 @@ class StoreController extends Controller
             // 保存所有数据 在于Store数据表
             if ($model->save())
             {
-                // 保存图片入境
-                $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                // 另保存图片 & 清除缓存
-                $model->imageFile->saveAs($path, true);
+                if($model->imageFile)
+                {
+                    // 保存图片入境
+                    $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                    // 另保存图片 & 清除缓存
+                    $model->imageFile->saveAs($path, true);
+                }
                 // 返回 View 页面
                 return $this->redirect(['view', 'id' => $model->id]);
             }
