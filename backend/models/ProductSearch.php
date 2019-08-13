@@ -25,8 +25,6 @@ class ProductSearch extends Product
         ];
     }
 
-        public $imageFile;
-
     /**
      * {@inheritdoc}
      */
