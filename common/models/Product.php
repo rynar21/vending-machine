@@ -5,10 +5,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\web\UploadedFile;
-<<<<<<< Updated upstream
 // use yii\helpers\BaseStringHelper;
-=======
->>>>>>> Stashed changes
 
 /**
  * This is the model class for table "product".
@@ -41,37 +38,17 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'price', 'image'], 'required'],
+            [['name', 'price'], 'required'],
             [['price'], 'number'],
-<<<<<<< Updated upstream
             [['name', 'image'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
-=======
-            [['name'], 'string', 'max' => 255],
-            [['imageFile'], 'file', 'skipOnEmpty' => ture, 'extensions' => 'png, jpg'],
->>>>>>> Stashed changes
         ];
-    }
-
-    public function upload()
-    {
-        if ($this->validate()) {
-
-            $this->image->saveAs('/C:\wamp64\www\cs\backend\image/' . $this->image->baseName . '.' . $this->image->extension);
-
-            return true;
-        } else {
-            return false;
-        }
-
-
     }
 
     /**
@@ -105,9 +82,9 @@ class Product extends \yii\db\ActiveRecord
         return $this->image;
     }
 
-    public function upload_image()
-    {
-        $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-        $model->imageFile->saveAs($path, true);
-    }
+    // public function upload_image()
+    // {
+    //     $path = Yii::getAlias('@upload') . '/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+    //     $this->imageFile->saveAs($path, true);
+    // }
 }
