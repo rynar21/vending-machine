@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'address')->textInput() ?>
     <?= $form->field($model, 'contact')->textInput() ?>
-    <?= $form->field($model, 'image')->textInput() ?>
+    <?= $form->field($model, 'image')->fileInput() ?>
 
     <!-- 信息提交 -->
     <div class="row form-group">

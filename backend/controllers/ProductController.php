@@ -59,49 +59,41 @@ class ProductController extends Controller
         ]);
     }
 
-
-    public function actionUpload()
-       {
-           $model = new product();
-
-                if (Yii::$app->request->isPost) {
-                $model->image = UploadedFile::getInstance($model, 'image');
-                if ($model->upload()) {
-                      // file is uploaded successfully
-                      return $model->image;
-                            }
-                        }
-                      return $this->render('create', ['model' => $model]);
-       }
     /**
-     * Creates a new Product model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * 创建新产品记录
+     * 如果创建呈贡, 返回 View 页面.
      * @return mixed
      */
     public function actionCreate()
     {
+        // 加载 Product 产品 数据表
         $model = new Product();
 
+        // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post()))
         {
-
+            //读取 Product产品数据表  Image入境
             $model->imageFile = UploadedFile::getInstance($model, 'image');
-            // echo "<pre>";
-            // print_r($model);
-            // die('here');
-            if ($model->imageFile) {
-                $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                $model->imageFile->saveAs($path, $deleteTempFile=true);
-                // $model->image = 'hello';
-                $model->imageFile->baseName . '.' . $model->imageFile->extension;
+
+            //如果 有图片
+            if ($model->imageFile)
+            {
+                // 保存图片入境 在于图片属性
+                $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
             }
 
+            // 保存所有数据 在于Product数据表
             if ($model->save())
             {
+                // 保存图片入境
+                $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                // 另保存图片 & 清除缓存
+                $model->imageFile->saveAs($path, true);
+                // 返回 View 页面
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-
+        // 显示 Create创建页面
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -109,35 +101,44 @@ class ProductController extends Controller
     }
 
     /**
-     * Updates an existing Product model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * 更新当前的产品
+     * 如果更新成功, 返回 View页面.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        // 寻找当前 Product产品的资料
+        $model = Product::findOne($id);
 
-        if ($model->load(Yii::$app->request->post())) {
-
+        // ActiveForm 提交后
+        if ($model->load(Yii::$app->request->post()))
+        {
+            //读取 Product产品数据表 Image入境
             $model->imageFile = UploadedFile::getInstance($model, 'image');
 
-            if ($model->imageFile) {
+            //如果 有图片
+            if ($model->imageFile)
+            {
+                // 保存图片入境 在于图片属性
                 $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
             }
 
+            // 保存所有数据 在于Product数据表
             if ($model->save())
             {
+                // 保存图片入境
                 $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                // 另保存图片 & 清除缓存
                 $model->imageFile->saveAs($path, true);
-
+                // 返回 View 页面
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 
             // return $this->redirect(['view', 'id' => $model->id]);
         }
-
+        // 显示 Create创建页面
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -172,11 +173,5 @@ class ProductController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    public function actions() {
-        return [
-            'upload_more'=>[
-                'class' => 'common\widgets'
-            ]
-        ];
-    }
+
 }

@@ -12,17 +12,14 @@ use yii\behaviors\TimestampBehavior;
  * @property string $name
  * @property double $price
  * @property string $image
- * @property int $status
  * @property int $created_at
  * @property int $updated_at
  */
 class Product extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+    public $imageFile;
 
-     public $imageFile;
+    // 数据表 名称
     public static function tableName()
     {
         return 'product';
@@ -36,22 +33,18 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // 数据表 属性 规则
     public function rules()
     {
         return [
             [['name', 'price'], 'required'],
             [['price'], 'number'],
-            [['name', 'image'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // 数据表 属性 标注
     public function attributeLabels()
     {
         return [
@@ -64,20 +57,18 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-    // 搜索 对应产品的 Item产品
-    public function getItems()
-    {
-      return $this->hasone(Item::className(), ['product_id' => 'id']);
-    }
-
+    // 数据表 Image图片 属性
     public function getImageUrl()
     {
-        if (empty($this->image)) {
+        // 判断是否 Image属性 是否存在
+        // 如果 Image属性 为空
+        if (empty($this->image))
+        {
+            // 注入默认图片
             return  '/mel-img/product.jpg';
         }
-
+        // 相反：返回 选择后图片的入境
         return $this->image;
     }
-
 
 }

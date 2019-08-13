@@ -20,7 +20,7 @@ use yii\helpers\ArrayHelper;
  */
 class Store extends \yii\db\ActiveRecord
 {
-    public $text= '/mel-img/store.jpg';
+    public $imageFile;
 
     // Table Name
     public static function tableName()
@@ -42,8 +42,8 @@ class Store extends \yii\db\ActiveRecord
         return [
             [['name', 'address', 'contact'], 'required'],
             [['contact'], 'integer'],
-            [['image'], 'default', 'value' => ''],
             [['name', 'address'], 'string', 'max' => 255],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 
@@ -70,15 +70,17 @@ class Store extends \yii\db\ActiveRecord
       return $this->hasMany(Box::className(), ['store_id' => 'id']);
     }
 
-    // public function getImage()
-    // {
-    //     if($this->image = '')
-    //     {
-    //         $this->image = '/mel-img/store.jpg';
-    //         $this->save();
-    //     }
-    //     return $this->image;
-    //
-    //     //return $this->image = ArrayHelper::getValue($this, 'image', 'text');
-    // }
+    // 数据表 Image图片 属性
+    public function getImageUrl()
+    {
+        // 判断是否 Image属性 是否存在
+        // 如果 Image属性 为空
+        if (empty($this->image))
+        {
+            // 注入默认图片
+            return  '/mel-img/product.jpg';
+        }
+        // 相反：返回 选择后图片的入境
+        return $this->image;
+    }
 }
