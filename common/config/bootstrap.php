@@ -4,4 +4,4 @@ Yii::setAlias('@frontend', dirname(dirname(__DIR__)) . '/frontend');
 Yii::setAlias('@backend', dirname(dirname(__DIR__)) . '/backend');
 Yii::setAlias('@console', dirname(dirname(__DIR__)) . '/console');
 
-Yii::setAlias('@upload', 'C:\Users\Melissa\wamp64\www\vending-machine\backend\web\mel-img');
+Yii::setAlias('@upload', 'D:\wamp64\www\vending-machine\backend\web\mel-img');

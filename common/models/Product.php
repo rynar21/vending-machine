@@ -4,8 +4,6 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use yii\web\UploadedFile;
-// use yii\helpers\BaseStringHelper;
 
 /**
  * This is the model class for table "product".
@@ -20,11 +18,11 @@ use yii\web\UploadedFile;
  */
 class Product extends \yii\db\ActiveRecord
 {
-    public $imageFile;
-
     /**
      * {@inheritdoc}
      */
+
+     public $imageFile;
     public static function tableName()
     {
         return 'product';
@@ -69,22 +67,17 @@ class Product extends \yii\db\ActiveRecord
     // 搜索 对应产品的 Item产品
     public function getItems()
     {
-      return $this->hasMany(Item::className(), ['product_id' => 'id']);
+      return $this->hasone(Item::className(), ['product_id' => 'id']);
     }
-
 
     public function getImageUrl()
     {
-        if (empty($this->image))
-        {
+        if (empty($this->image)) {
             return  '/mel-img/product.jpg';
         }
+
         return $this->image;
     }
 
-    // public function upload_image()
-    // {
-    //     $path = Yii::getAlias('@upload') . '/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
-    //     $this->imageFile->saveAs($path, true);
-    // }
+
 }
