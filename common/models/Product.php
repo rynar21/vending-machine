@@ -5,10 +5,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\web\UploadedFile;
-<<<<<<< Updated upstream
-// use yii\helpers\BaseStringHelper;
-=======
->>>>>>> Stashed changes
+use yii\helpers\BaseStringHelper;
 
 /**
  * This is the model class for table "product".
@@ -50,13 +47,8 @@ class Product extends \yii\db\ActiveRecord
         return [
             [['name', 'price', 'image'], 'required'],
             [['price'], 'number'],
-<<<<<<< Updated upstream
             [['name', 'image'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
-=======
-            [['name'], 'string', 'max' => 255],
-            [['imageFile'], 'file', 'skipOnEmpty' => ture, 'extensions' => 'png, jpg'],
->>>>>>> Stashed changes
         ];
     }
 
