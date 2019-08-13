@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 
@@ -44,7 +45,17 @@ $this->params['breadcrumbs'][] = $this->title;
           ],
      ]); ?>
 
+     <!-- 显示商店的图片-->
+     <?php
+     if($model->image == '')
+     {
+         $model->image = '/mel-img/store.jpg';
+     }
+     ?>
+    <img src="<?php echo Url::base().$model->image; ?>"/>
+
     <hr/>
+
     <!-- PHP: 展示时间 -->
     <?php //echo Yii::$app->formatter->asDateTime($model->created_at); ?>
 

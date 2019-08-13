@@ -5,6 +5,7 @@ namespace backend\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Product;
+use yii\web\UploadedFile;
 
 /**
  * ProductSearch represents the model behind the search form of `common\models\Product`.
@@ -20,8 +21,11 @@ class ProductSearch extends Product
             [['id'], 'integer'],
             [['name', 'image'], 'safe'],
             [['price'], 'number'],
+            [['image'], 'file', 'skipOnEmpty' => ture, 'extensions' => 'png, jpg'],
         ];
     }
+
+        public $image;
 
     /**
      * {@inheritdoc}
@@ -30,6 +34,16 @@ class ProductSearch extends Product
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+            $this->image->saveAs('uploads/' . $this->image->baseName . '.' . $this->image->extension);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

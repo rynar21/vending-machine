@@ -34,10 +34,10 @@ class BoxController extends Controller
     /**
      * Lists all Box models. @return mixed
      */
-    public function actionIndex($id)
+    public function actionIndex()
     {
           $searchModel = new BoxSearch();
-          $searchModel->store_id = $id;
+          //$searchModel->store_id = $id;
           $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
           return $this->render('index', [
               'searchModel' => $searchModel,

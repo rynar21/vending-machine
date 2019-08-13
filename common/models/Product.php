@@ -4,6 +4,11 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\web\UploadedFile;
+<<<<<<< Updated upstream
+// use yii\helpers\BaseStringHelper;
+=======
+>>>>>>> Stashed changes
 
 /**
  * This is the model class for table "product".
@@ -18,6 +23,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Product extends \yii\db\ActiveRecord
 {
+    public $imageFile;
+
     /**
      * {@inheritdoc}
      */
@@ -34,16 +41,37 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'price'], 'required'],
+            [['name', 'price', 'image'], 'required'],
             [['price'], 'number'],
+<<<<<<< Updated upstream
             [['name', 'image'], 'string', 'max' => 255],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
+=======
+            [['name'], 'string', 'max' => 255],
+            [['imageFile'], 'file', 'skipOnEmpty' => ture, 'extensions' => 'png, jpg'],
+>>>>>>> Stashed changes
         ];
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+
+            $this->image->saveAs('/C:\wamp64\www\cs\backend\image/' . $this->image->baseName . '.' . $this->image->extension);
+
+            return true;
+        } else {
+            return false;
+        }
+
+
     }
 
     /**
@@ -65,5 +93,15 @@ class Product extends \yii\db\ActiveRecord
     public function getItems()
     {
       return $this->hasMany(Item::className(), ['product_id' => 'id']);
+    }
+
+
+    public function getImageUrl()
+    {
+        if (empty($this->image)) {
+            return  '/mel-img/product.jpg';
+        }
+
+        return $this->image;
     }
 }
