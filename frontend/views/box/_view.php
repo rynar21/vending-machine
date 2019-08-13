@@ -15,8 +15,7 @@ use common\models\Item;
                 <a>
                     <!-- 产品：图片 显示框 -->
                     <div class="item_image">
-                        <?= '/'. Url::base().'/'.$item->image ?>
-                        <img src="<?= Url::to(['@imageUrl']).'/'.$item->image ?>">
+                        <img src="<?= Yii::getAlias('@imageUrl').'/'.$item->image ?>">
                     </div>
 
                     <!-- 产品：名字 显示框 -->
