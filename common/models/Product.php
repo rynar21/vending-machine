@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "product".
@@ -22,7 +23,8 @@ class Product extends \yii\db\ActiveRecord
      * {@inheritdoc}
      */
 
-     public $imageFile;
+    public $imageFile;
+
     public static function tableName()
     {
         return 'product';
@@ -79,5 +81,30 @@ class Product extends \yii\db\ActiveRecord
         return $this->image;
     }
 
+    public function beforeSave($insert)
+    {
+        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+
+        if ($this->imageFile) {
+            unlink(Yii::getAlias('@upload') . '/' . $this->image);
+
+            $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+        }
+
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($this->imageFile) {
+            $path = Yii::getAlias('@upload') . '/' . $this->image;
+            $this->imageFile->saveAs($path, true);
+        }
+
+        parent::afterSave($insert, $changedAttributes);
+    }
+
+
+    
 
 }

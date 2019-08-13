@@ -86,20 +86,19 @@ class ProductController extends Controller
         {
 
             $model->imageFile = UploadedFile::getInstance($model, 'image');
-            // echo "<pre>";
-            // print_r($model);
-            // die('here');
+
             if ($model->imageFile) {
-                $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                $model->imageFile->saveAs($path, $deleteTempFile=true);
-                // $model->image = 'hello';
-                $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                if ($model->save())
+                {
+                    $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                    $model->imageFile->saveAs($path, true);
+                    return $this->redirect(['view', 'id' => $model->id]);
+
+                }
             }
 
-            if ($model->save())
-            {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+
         }
 
         return $this->render('create', [
@@ -119,29 +118,18 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
 
-            $model->imageFile = UploadedFile::getInstance($model, 'image');
-
-            if ($model->imageFile) {
-                $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-            }
-
-            if ($model->save())
-            {
-                $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                $model->imageFile->saveAs($path, true);
-
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-
-            // return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+               return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
         ]);
     }
+
+
+
 
     /**
      * Deletes an existing Product model.
