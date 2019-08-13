@@ -4,8 +4,6 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use yii\web\UploadedFile;
-// use yii\helpers\BaseStringHelper;
 
 /**
  * This is the model class for table "product".
