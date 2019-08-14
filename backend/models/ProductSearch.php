@@ -12,9 +12,10 @@ use yii\web\UploadedFile;
  */
 class ProductSearch extends Product
 {
-    public $imageFile;
-
-    // 数据表 属性 搜索 规则
+    /**
+     * {@inheritdoc}
+     */
+         public $imageFile;
     public function rules()
     {
         return [
@@ -24,6 +25,8 @@ class ProductSearch extends Product
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
+
+
 
     /**
      * {@inheritdoc}
