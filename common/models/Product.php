@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "product".
@@ -19,7 +20,8 @@ class Product extends \yii\db\ActiveRecord
 {
     public $imageFile;
 
-    // 数据表 名称
+    public $imageFile;
+
     public static function tableName()
     {
         return 'product';
@@ -71,5 +73,40 @@ class Product extends \yii\db\ActiveRecord
         // 相反：返回 选择后图片的入境
         return $this->image;
     }
+
+    public function beforeSave($insert)
+    {
+        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+        if ($this->imageFile==null) {
+            $this->getImageUrl();
+        }
+        if ($this->imageFile) {
+            if ($this->image) {
+
+                 if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
+                    unlink(Yii::getAlias('@upload') . '/' . $this->image);
+                 }
+                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            }
+            if ($this->image==null) {
+                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            }
+        }
+
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($this->imageFile) {
+            $path = Yii::getAlias('@upload') . '/' . $this->image;
+            $this->imageFile->saveAs($path, true);
+        }
+
+        parent::afterSave($insert, $changedAttributes);
+    }
+
+
+
 
 }

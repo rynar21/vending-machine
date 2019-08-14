@@ -72,35 +72,25 @@ class ProductController extends Controller
         // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post()))
         {
-            //读取 Product产品数据表  Image入境
-            $model->imageFile = UploadedFile::getInstance($model, 'image');
 
-            //如果 有图片
-            if ($model->imageFile)
-            {
-                // 保存图片入境 在于图片属性
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
+
+            if ($model->imageFile) {
                 $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-            }
-            //如果 没有图片
-            if($model->imageFile == null)
-            {
-                // 保存默认图片
-                $model->imageUrl;
+
             }
 
             // 保存所有数据 在于Product数据表
             if ($model->save())
             {
-                if($model->imageFile)
-                {
-                    // 保存图片入境
-                    $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                    // 另保存图片 & 清除缓存
+                $path = Yii::getAlias('@upload') . '/' . $model->image;
+                if ($path>0) {
                     $model->imageFile->saveAs($path, true);
                 }
 
-                // 返回 View 页面
                 return $this->redirect(['view', 'id' => $model->id]);
+
             }
 
         }
@@ -120,47 +110,26 @@ class ProductController extends Controller
      */
     public function actionUpdate($id)
     {
-        // 寻找当前 Product产品的资料
-        $model = Product::findOne($id);
+        $model = $this->findModel($id);
 
-        // ActiveForm 提交后
-        if ($model->load(Yii::$app->request->post()))
-        {
-            //读取 Product产品数据表 Image入境
-            $model->imageFile = UploadedFile::getInstance($model, 'image');
 
-            //如果 有图片
-            if ($model->imageFile)
-            {
-                // 保存图片入境 在于图片属性
-                $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-            }
-            //如果 没有图片
-            if($model->imageFile == null)
-            {
-                // 保存默认图片
-                $model->imageUrl;
-            }
-
-            // 保存所有数据 在于Product数据表
+        if ($model->load(Yii::$app->request->post())) {
+            // $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
             if ($model->save())
             {
-                if($model->imageFile)
-                {
-                    // 保存图片入境
-                    $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                    // 另保存图片 & 清除缓存
-                    $model->imageFile->saveAs($path, true);
-                }
-                // 返回 View 页面
-                return $this->redirect(['view', 'id' => $model->id]);
+
+               return $this->redirect(['view', 'id' => $model->id]);
             }
+
         }
         // 显示 Create创建页面
         return $this->render('update', [
             'model' => $model,
         ]);
     }
+
+
+
 
     /**
      * Deletes an existing Product model.

@@ -4,6 +4,7 @@ use yii\grid\GridView;
 use yii\helpers\Html;
 use common\models\Box;
 use yii\data\ActiveDataProvider;
+// use backend\models\BoxSearch;
 
 /* @var $model common\models\Store */
 
@@ -16,6 +17,9 @@ use yii\data\ActiveDataProvider;
 $model = new ActiveDataProvider([
     'query' =>Box::find()->where(['store_id' => $model->id])
 ]);
+
+// $searchModel = new BoxSearch();
+// $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 ?>
 
 
@@ -23,6 +27,7 @@ $model = new ActiveDataProvider([
 
         <?= GridView::widget([
                  'dataProvider' => $model,
+                 //'filterModel' => $searchModel,
                   'columns' => [
                       ['class' => 'yii\grid\SerialColumn'],
                       'id',

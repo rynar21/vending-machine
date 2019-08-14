@@ -93,6 +93,7 @@ class ItemController extends Controller
     public function actionUpdate($id)
     {
         $model = Item::findOne($id);
+        $product_model = new Product();
         $model->box_id = $id;
         $model->store_id = $model->box->store_id;
 
@@ -100,8 +101,6 @@ class ItemController extends Controller
             'query'=> Item::find()
             ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($model->box->store_id)]),
         ]);
-
-        $product_model = new Product();
 
         if ($model->load(Yii::$app->request->post()))
         {

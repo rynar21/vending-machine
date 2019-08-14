@@ -59,7 +59,7 @@ class SaleRecordSearch extends SaleRecord
         $query->andFilterWhere([
             'id' => $this->id,
             'box_id' => $this->box_id,
-            'item_id' => $this->item_id,            
+            'item_id' => $this->item_id,
             'status' => $this->status,
         ]);
 
