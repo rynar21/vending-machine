@@ -74,7 +74,7 @@ class StoreController extends Controller
         if ($model->load(Yii::$app->request->post()))
         {
             //读取 Store商店数据表 Image入境
-            $model->imageFile = UploadedFile::getInstance($model, 'image');
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
 
             //如果 有图片
             if ($model->imageFile)
@@ -125,16 +125,6 @@ class StoreController extends Controller
         // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post()))
         {
-            //读取 Store数据表  Image入境
-            $model->imageFile = UploadedFile::getInstance($model, 'image');
-
-            //如果 有图片
-            if ($model->imageFile)
-            {
-                // 保存图片入境 在于图片属性
-                $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-            }
-
             // 保存所有数据 在于Store数据表
             if ($model->save())
             {
