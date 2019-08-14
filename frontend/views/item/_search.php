@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
                     -> label(false) ?>
         </div>
         <div class="col-sm-4 col-xs-4">
-          <?= Html::submitButton('Search', ['class' => 'btn btn-primary form-group search_btn']) ?>
+          <?= Html::submitButton('Search', ['class' => 'btn btn-primary form-group search_btn btn-block']) ?>
         </div>
     <?php ActiveForm::end(); ?>
 </div>
