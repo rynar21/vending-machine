@@ -67,20 +67,17 @@ class Item extends \yii\db\ActiveRecord
         ];
     }
 
-
+    // 获取产品名字
     public function getName()
     {
-        if (!empty($this->product->name)) {
-            return $this->product->name;
-        }
-        else {
-            return null;
-        }
-
-
+        return $this->product->name;
     }
 
-
+    // 获取产品图片
+    public function getImage()
+    {
+        return $this->product->image;
+    }
 
     // 状态属性 以文字展示
     public function getStatusText()
