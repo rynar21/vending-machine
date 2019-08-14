@@ -8,6 +8,7 @@ use common\models\Item;
     3. Views > box > _view.php
 */
 ?>
+
 <?php //if($model->item):?>
     <div class="col-sm-3 col-xs-6 box_row" style="padding:5px 7px;">
              <!-- 产品 显示框 -->
