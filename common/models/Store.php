@@ -7,7 +7,6 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\BaseArrayHelper;
 use yii\helpers\ArrayHelper;
 
-
 /**
  * This is the model class for table "store".
  *
