@@ -75,17 +75,17 @@ class ProductController extends Controller
 
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
 
-
-            if ($model->imageFile) {
+            if ($model->imageFile)
+            {
                 $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-
             }
 
             // 保存所有数据 在于Product数据表
             if ($model->save())
             {
                 $path = Yii::getAlias('@upload') . '/' . $model->image;
-                if ($path>0) {
+                if ($path>0)
+                {
                     $model->imageFile->saveAs($path, true);
                 }
 
@@ -112,24 +112,19 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()))
+        {
             // $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
             if ($model->save())
             {
-
                return $this->redirect(['view', 'id' => $model->id]);
             }
-
         }
-        // 显示 Create创建页面
+        // 显示 Update 更新页面
         return $this->render('update', [
             'model' => $model,
         ]);
     }
-
-
-
 
     /**
      * Deletes an existing Product model.
