@@ -20,8 +20,6 @@ class Product extends \yii\db\ActiveRecord
 {
     public $imageFile;
 
-    public $imageFile;
-
     public static function tableName()
     {
         return 'product';
