@@ -12,10 +12,10 @@ use common\models\Item;
     <div class="col-sm-3 col-xs-6 box_row" style="padding:5px 7px;">
              <!-- 产品 显示框 -->
             <div class="box_item thumbnail text-center">
-                <a>
+                <a style="text-decoration:none; font-size:24px; font-weight:bold; color:black;">
                     <!-- 产品：图片 显示框 -->
                     <div class="item_image">
-                        <img src="<?= Yii::getAlias('@imageUrl').'/'.$item->image ?>">
+                        <img src="<?= Yii::getAlias('@imageUrl').'/'.$item->image ?>"/>
                     </div>
 
                     <!-- 产品：名字 显示框 -->
@@ -24,8 +24,13 @@ use common\models\Item;
                     </div>
 
                     <!-- 产品：购买的按钮 -->
-                    <div class="item_buy">
-                        <?= Html::a('Buy', ['item/view', 'id' => $item->id], ['class' => 'btn btn-success']) ?>
+                    <div class="item_buy row">
+                        <div class="item_price col-sm-offset-4 col-sm-5">
+                            <?= $item->pricing ?>
+                        </div>
+                        <div class="col-sm-3">
+                            <?= Html::a('Buy', ['item/view', 'id' => $item->id], ['class' => 'btn btn-success pull-right']) ?>
+                        </div>
                     </div>
                 </a>
             </div>
