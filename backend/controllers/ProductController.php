@@ -85,20 +85,24 @@ class ProductController extends Controller
         if ($model->load(Yii::$app->request->post()))
         {
 
-            $model->imageFile = UploadedFile::getInstance($model, 'image');
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+
 
             if ($model->imageFile) {
                 $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                if ($model->save())
-                {
-                    $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                    $model->imageFile->saveAs($path, true);
-                    return $this->redirect(['view', 'id' => $model->id]);
 
-                }
             }
 
+            if ($model->save())
+            {
+                $path = Yii::getAlias('@upload') . '/' . $model->image;
+                if ($path>0) {
+                    $model->imageFile->saveAs($path, true);
+                }
+                
+                return $this->redirect(['view', 'id' => $model->id]);
 
+            }
         }
 
         return $this->render('create', [
@@ -119,8 +123,14 @@ class ProductController extends Controller
         $model = $this->findModel($id);
 
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            // $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+            if ($model->save())
+            {
+
                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
         }
 
         return $this->render('update', [

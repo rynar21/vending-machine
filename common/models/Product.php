@@ -84,11 +84,20 @@ class Product extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-
+        if ($this->imageFile==null) {
+            $this->getImageUrl();
+        }
         if ($this->imageFile) {
-            unlink(Yii::getAlias('@upload') . '/' . $this->image);
+            if ($this->image) {
 
-            $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+                 if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
+                    unlink(Yii::getAlias('@upload') . '/' . $this->image);
+                 }
+                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            }
+            if ($this->image==null) {
+                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            }
         }
 
         return parent::beforeSave($insert);
@@ -105,6 +114,6 @@ class Product extends \yii\db\ActiveRecord
     }
 
 
-    
+
 
 }
