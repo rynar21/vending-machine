@@ -2,13 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use common\models\Product;
-use yii\helpers\ArrayHelper;
-use yii\widgets\ActiveField;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Item */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="item-form">
@@ -34,12 +32,9 @@ use yii\widgets\ActiveField;
         <!-- 产品名称 -->
         <div class="row">
             <div class="col-sm-12">
-                <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name')) ?>
+                <?= $form->field($model, 'name')->textInput(['disabled' => true])->label('Item Name') ?>
             </div>
         </div>
-
-
-
 
         <!-- 产品价格 -->
         <div class="row">
@@ -51,8 +46,6 @@ use yii\widgets\ActiveField;
                     'template' => '<div class="input-group"><span class="input-group-addon">RM </span>{input}</div>',
                     ]); ?>
              </div>
-
-
         </div>
 
         <!-- 提交表格按钮 -->

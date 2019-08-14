@@ -38,26 +38,6 @@ use yii\widgets\ActiveField;
             </div>
         </div>
 
-        <!-- 产品价格 -->
-        <div class="row">
-             <div class="col-sm-12">
-
-
-<br/>
-                    <br/>
-                    <br/>
-                    <br/>
-
-                    <?= $form->field($model, 'price', [
-                       'template' => '<div class="input-group"><span class="input-group-addon"> RM </span>{input}</div>',
-                   ]); ?>
-
-
-             </div>
-
-
-        </div>
-
         <!-- 提交表格按钮 -->
         <div class="row form-group">
               <div class="col-sm-1 col-xs-3">

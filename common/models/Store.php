@@ -6,7 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\BaseArrayHelper;
 use yii\helpers\ArrayHelper;
-
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "store".
@@ -78,9 +78,41 @@ class Store extends \yii\db\ActiveRecord
         if (empty($this->image))
         {
             // 注入默认图片
-            return  '/mel-img/store.jpg';
+            return  $this->image = 'store.jpg';
         }
         // 相反：返回 选择后图片的入境
         return $this->image;
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+        if ($this->imageFile==null) {
+            $this->getImageUrl();
+        }
+        if ($this->imageFile) {
+            if ($this->image) {
+
+                 if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
+                    unlink(Yii::getAlias('@upload') . '/' . $this->image);
+                 }
+                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            }
+            if ($this->image==null) {
+                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            }
+        }
+
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($this->imageFile) {
+            $path = Yii::getAlias('@upload') . '/' . $this->image;
+            $this->imageFile->saveAs($path, true);
+        }
+
+        parent::afterSave($insert, $changedAttributes);
     }
 }
