@@ -95,9 +95,7 @@ class Product extends \yii\db\ActiveRecord
                   $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
             }
         }
-        if ($this->imageFile==null) {
-            $this->image= 'product.jpg';
-        }
+
 
         return parent::beforeSave($insert);
     }
@@ -108,12 +106,7 @@ class Product extends \yii\db\ActiveRecord
             $path = Yii::getAlias('@upload') . '/' . $this->image;
             $this->imageFile->saveAs($path, true);
         }
-        if ($this->imageFile==null) {
-            $path = Yii::getAlias('@upload') . '/' . $this->image;
-            if ($path>0) {
-                $this->imageFile->saveAs($path, true);
-            }
-        }
+
         parent::afterSave($insert, $changedAttributes);
     }
 

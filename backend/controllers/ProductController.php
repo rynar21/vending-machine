@@ -59,37 +59,38 @@ class ProductController extends Controller
         ]);
     }
 
-
-    public function actionUpload()
-       {
-           $model = new product();
-
-                if (Yii::$app->request->isPost) {
-                $model->image = UploadedFile::getInstance($model, 'image');
-                if ($model->upload()) {
-                      // file is uploaded successfully
-                      return $model->image;
-                            }
-                        }
-                      return $this->render('create', ['model' => $model]);
-       }
     /**
-     * Creates a new Product model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * 创建新产品记录
+     * 如果创建呈贡, 返回 View 页面.
      * @return mixed
      */
     public function actionCreate()
     {
+        // 加载 Product 产品 数据表
         $model = new Product();
 
+        // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post()))
         {
+            if ($model->imageFile==null) {
+
+                    $model->image= 'product.jpg';
+
+            }
             if ($model->save())
             {
+                $path = Yii::getAlias('@upload') . '/' . $model->image;
+
+                if ($path>0) {
+
+                    $model->imageFile->saveAs($path, true);
+
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-        }
 
+        }
+        // 显示 Create创建页面
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -97,8 +98,8 @@ class ProductController extends Controller
     }
 
     /**
-     * Updates an existing Product model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * 更新当前的产品
+     * 如果更新成功, 返回 View页面.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -113,15 +114,11 @@ class ProductController extends Controller
             {
                return $this->redirect(['view', 'id' => $model->id]);
             }
-
         }
         return $this->render('update', [
             'model' => $model,
         ]);
     }
-
-
-
 
     /**
      * Deletes an existing Product model.
@@ -131,9 +128,17 @@ class ProductController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    {       $model = $this->findModel($id);
 
+            if ($model->delete()) {
+
+                    if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
+                        if ($model->image!='product.jpg') {
+                            unlink(Yii::getAlias('@upload') . '/' . $model->image);
+                        }
+                    }
+
+                }
         return $this->redirect(['index']);
     }
 
@@ -152,11 +157,5 @@ class ProductController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    public function actions() {
-        return [
-            'upload_more'=>[
-                'class' => 'common\widgets'
-            ]
-        ];
-    }
+
 }

@@ -76,11 +76,18 @@ class Item extends \yii\db\ActiveRecord
         else {
             return null;
         }
-
-
     }
 
-    
+    public function getStore_id()
+    {
+        if (!empty($this->box->store_id)) {
+            return $this->box->store_id;
+        }
+        else {
+            return null;
+        }
+    }
+
 
     // 状态属性 以文字展示
     public function getStatusText()
