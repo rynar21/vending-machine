@@ -15,17 +15,17 @@ use common\models\Item;
             <div class="box_item thumbnail text-center">
                 <a style="text-decoration:none; font-size:24px; font-weight:bold; color:black;">
                     <!-- 产品：图片 显示框 -->
-                    <div class="item_image">
+                    <div class="row item_image">
                         <img src="<?= Yii::getAlias('@imageUrl').'/'.$item->image ?>"/>
                     </div>
 
                     <!-- 产品：名字 显示框 -->
-                    <div class="item_name">
+                    <div class="row item_name">
                         <h4><?= $item->name ?></h4>
                     </div>
 
                     <!-- 产品：购买的按钮 -->
-                    <div class="item_buy row">
+                    <div class="row item_buy">
                         <div class="item_price col-sm-offset-4 col-sm-5">
                             <?= $item->pricing ?>
                         </div>

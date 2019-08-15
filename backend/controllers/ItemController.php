@@ -54,10 +54,8 @@ class ItemController extends Controller
     public function actionCreate($id)
     {
         $model = new Item();
-        // $model = new Box();
         $model->box_id = $id;
         $model->store_id = $model->box->store_id;
-
 
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()
@@ -93,9 +91,8 @@ class ItemController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = Item::findOne(['box_id' => $id]);
-
-        $model->box_id = $id;
+        $model = Item::findOne($id);
+        $model->box_id = $model->box->id;
         $model->store_id = $model->box->store_id;
 
         if ($model->load(Yii::$app->request->post()))
