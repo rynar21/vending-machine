@@ -72,32 +72,31 @@ class Product extends \yii\db\ActiveRecord
       return $this->hasone(Item::className(), ['product_id' => 'id']);
     }
 
-    public function getImageUrl()
+    public function imagex()
     {
-        if (empty($this->image)) {
-            return  '/mel-img/product.jpg';
-        }
 
-        return $this->image;
+        return $this->image= '/mel-img/product.jpg';
     }
 
     public function beforeSave($insert)
     {
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-        if ($this->imageFile==null) {
-            $this->getImageUrl();
-        }
+
         if ($this->imageFile) {
             if ($this->image) {
-
-                 if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
-                    unlink(Yii::getAlias('@upload') . '/' . $this->image);
-                 }
-                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+                    if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
+                        if ($this->image!='product.jpg') {
+                            unlink(Yii::getAlias('@upload') . '/' . $this->image);
+                        }
+                    }
+                     $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
             }
             if ($this->image==null) {
                   $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
             }
+        }
+        if ($this->imageFile==null) {
+            $this->image= 'product.jpg';
         }
 
         return parent::beforeSave($insert);
@@ -109,7 +108,12 @@ class Product extends \yii\db\ActiveRecord
             $path = Yii::getAlias('@upload') . '/' . $this->image;
             $this->imageFile->saveAs($path, true);
         }
-
+        if ($this->imageFile==null) {
+            $path = Yii::getAlias('@upload') . '/' . $this->image;
+            if ($path>0) {
+                $this->imageFile->saveAs($path, true);
+            }
+        }
         parent::afterSave($insert, $changedAttributes);
     }
 
