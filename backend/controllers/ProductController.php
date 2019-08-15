@@ -72,25 +72,9 @@ class ProductController extends Controller
         // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post()))
         {
-
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-
-            if ($model->imageFile)
-            {
-                $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-            }
-
-            // 保存所有数据 在于Product数据表
             if ($model->save())
             {
-                $path = Yii::getAlias('@upload') . '/' . $model->image;
-                if ($path>0)
-                {
-                    $model->imageFile->saveAs($path, true);
-                }
-
                 return $this->redirect(['view', 'id' => $model->id]);
-
             }
 
         }
@@ -112,15 +96,13 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()))
-        {
-            // $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+        if ($model->load(Yii::$app->request->post())) {
+
             if ($model->save())
             {
                return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-        // 显示 Update 更新页面
         return $this->render('update', [
             'model' => $model,
         ]);
