@@ -44,6 +44,15 @@ class Box extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
+    public function getStore_id()
+    {
+        if (!empty($this->store->id)) {
+            return $this->store_id=$this->store->id;
+        }
+        else {
+            return null;
+        }
+    }
 
     // 数据表 属性 标注
     public function attributeLabels()

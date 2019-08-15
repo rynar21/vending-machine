@@ -49,6 +49,7 @@ class Item extends \yii\db\ActiveRecord
             [['price'], 'number'],
             [['store_id', 'product_id'], 'integer'],
             [['status'], 'default', 'value' => self::STATUS_AVAILABLE],
+
         ];
     }
 
@@ -67,6 +68,16 @@ class Item extends \yii\db\ActiveRecord
         ];
     }
 
+    // public String quoteApostrophe(String input) {
+    // if (input != null)
+    //     return input.replaceAll("[\']", "&rsquo;");
+    // else
+    //     return null;
+    // }
+    public function getImage()
+    {
+        return $this->product->image;
+    }
 
     public function getName()
     {

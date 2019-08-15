@@ -15,7 +15,7 @@ use common\models\Item;
                 <a>
                     <!-- 产品：图片 显示框 -->
                     <div class="item_image">
-                        <img src="<?= Url::base()?>/mel-img/pepsi.jpg">
+                        <img src="<?php echo Url::to('@imagePath').'/'.$item->image; ?>"/>
                     </div>
 
                     <!-- 产品：名字 显示框 -->

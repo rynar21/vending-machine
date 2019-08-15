@@ -77,7 +77,9 @@ class Product extends \yii\db\ActiveRecord
 
         return $this->image= '/mel-img/product.jpg';
     }
-
+    //
+    ///上传/修改图片
+    ///
     public function beforeSave($insert)
     {
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');

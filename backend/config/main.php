@@ -13,6 +13,7 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+        
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
@@ -37,6 +38,8 @@ return [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+            'maxSourceLines' => 80,
+
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

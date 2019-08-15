@@ -130,8 +130,9 @@ class ProductController extends Controller
     public function actionDelete($id)
     {       $model = $this->findModel($id);
 
+            //删除字段
             if ($model->delete()) {
-
+                    //删除文件
                     if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
                         if ($model->image!='product.jpg') {
                             unlink(Yii::getAlias('@upload') . '/' . $model->image);

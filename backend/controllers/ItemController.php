@@ -3,6 +3,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Item;
+use common\models\Box;
 use common\models\Product;
 use backend\models\ItemSearch;
 use backend\models\ProductSearch;
@@ -94,9 +95,10 @@ class ItemController extends Controller
     public function actionUpdate($id)
     {
         $model = Item::findOne($id);
+        $box = Box::findOne($id);
         $product_model = new Product();
         $model->box_id = $id;
-        $model->store_id = $model->box->store_id;
+        $model->store_id = $box->store_id;
 
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()
