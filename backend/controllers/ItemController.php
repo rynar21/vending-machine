@@ -3,11 +3,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Item;
-use common\models\Product;
 use backend\models\ItemSearch;
-use backend\models\ProductSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 
@@ -49,6 +46,7 @@ class ItemController extends Controller
     /**
      * Creates a new Item model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id -> Box ID
      * @return mixed
      */
     public function actionCreate($id)
@@ -61,8 +59,6 @@ class ItemController extends Controller
             'query'=> Item::find()
             ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($model->box->store_id)]),
         ]);
-
-        $product_model = new Product();
 
         if ($model->load(Yii::$app->request->post()))
         {
@@ -85,7 +81,7 @@ class ItemController extends Controller
     /**
      * Updates an existing Item model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param integer $id -> Item ID
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
