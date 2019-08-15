@@ -54,6 +54,7 @@ class ItemController extends Controller
     public function actionCreate($id)
     {
         $model = new Item();
+        // $model = new Box();
         $model->box_id = $id;
         $model->store_id = $model->box->store_id;
 

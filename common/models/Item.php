@@ -70,7 +70,22 @@ class Item extends \yii\db\ActiveRecord
     // 获取产品名字
     public function getName()
     {
-        return $this->product->name;
+        if (!empty($this->product->name)) {
+            return $this->product->name;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public function getStore_id()
+    {
+        if (!empty($this->box->store_id)) {
+            return $this->box->store_id;
+        }
+        else {
+            return null;
+        }
     }
 
     // 获取产品图片

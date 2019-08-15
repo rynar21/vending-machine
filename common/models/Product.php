@@ -57,39 +57,36 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-    // 数据表 Image图片 属性
-    public function getImageUrl()
+    // 搜索 对应产品的 Item产品
+    public function getItems()
     {
-        // 判断是否 Image属性 是否存在
-        // 如果 Image属性 为空
-        if (empty($this->image))
-        {
-            $this->image = 'product.jpg';
-            // 注入默认图片
-            return $this->image;
-        }
-        // 相反：返回 选择后图片的入境
-        return $this->image;
+      return $this->hasone(Item::className(), ['product_id' => 'id']);
+    }
+
+    public function imagex()
+    {
+
+        return $this->image= '/mel-img/product.jpg';
     }
 
     public function beforeSave($insert)
     {
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-        if ($this->imageFile==null) {
-            $this->getImageUrl();
-        }
+
         if ($this->imageFile) {
             if ($this->image) {
-
-                 if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
-                    unlink(Yii::getAlias('@upload') . '/' . $this->image);
-                 }
-                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+                    if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
+                        if ($this->image!='product.jpg') {
+                            unlink(Yii::getAlias('@upload') . '/' . $this->image);
+                        }
+                    }
+                     $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
             }
             if ($this->image==null) {
                   $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
             }
         }
+
 
         return parent::beforeSave($insert);
     }
