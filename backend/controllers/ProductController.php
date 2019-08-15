@@ -72,8 +72,20 @@ class ProductController extends Controller
         // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post()))
         {
+            if ($model->imageFile==null) {
+
+                    $model->image= 'product.jpg';
+
+            }
             if ($model->save())
             {
+                $path = Yii::getAlias('@upload') . '/' . $model->image;
+
+                if ($path>0) {
+
+                    $model->imageFile->saveAs($path, true);
+
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 
@@ -116,9 +128,17 @@ class ProductController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    {       $model = $this->findModel($id);
 
+            if ($model->delete()) {
+
+                    if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
+                        if ($model->image!='product.jpg') {
+                            unlink(Yii::getAlias('@upload') . '/' . $model->image);
+                        }
+                    }
+
+                }
         return $this->redirect(['index']);
     }
 
