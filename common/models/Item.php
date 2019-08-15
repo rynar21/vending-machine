@@ -88,6 +88,11 @@ class Item extends \yii\db\ActiveRecord
         }
     }
 
+    // 获取产品图片
+    public function getImage()
+    {
+        return $this->product->image;
+    }
 
     // 状态属性 以文字展示
     public function getStatusText()
