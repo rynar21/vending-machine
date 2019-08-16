@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'image',
             [
               'attribute'=>'image',
-              'value'=> yii::getAlias('@imageUrl').'/'.$model->image,
+              'value'=> yii::getAlias('@imagePath').'/'.$model->image,
               'format'=>['image', ['width'=>'100', 'height'=>'100']]
             ],
             'created_at:datetime',
