@@ -16,7 +16,7 @@ use common\models\Item;
                 <a style="text-decoration:none; font-size:24px; font-weight:bold; color:black;">
                     <!-- 产品：图片 显示框 -->
                     <div class="row item_image">
-                        <img src="<?= Yii::getAlias('@imageUrl').'/'.$item->image ?>"/>
+                        <img src="<?= Yii::getAlias('@imageUrl').'/'.$item->image ?>" class="img-responsive"/>
                     </div>
 
                     <!-- 产品：名字 显示框 -->
