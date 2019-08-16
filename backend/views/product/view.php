@@ -38,6 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <img src="<?php echo Url::to('@imagePath').'/'.$model->image; ?>"/>
+    <img src="<?php echo $model->imageUrl ?>"/>
 
 </div>
