@@ -3,6 +3,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Item;
+use common\models\Box;
+use common\models\Product;
 use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -88,8 +90,11 @@ class ItemController extends Controller
     public function actionUpdate($id)
     {
         $model = Item::findOne($id);
-        $model->box_id = $model->box->id;
-        $model->store_id = $model->box->store_id;
+        $model->box_id=$model->box->id;
+        $dataProvider = new ActiveDataProvider([
+            'query'=> Item::find()
+            ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($model->box->store_id)]),
+        ]);
 
         if ($model->load(Yii::$app->request->post()))
         {

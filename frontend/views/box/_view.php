@@ -15,8 +15,8 @@ use common\models\Item;
             <div class="box_item thumbnail text-center">
                 <a style="text-decoration:none; font-size:24px; font-weight:bold; color:black;">
                     <!-- 产品：图片 显示框 -->
-                    <div class="row item_image">
-                        <img src="<?= Yii::getAlias('@imageUrl').'/'.$item->image ?>" class="img-responsive center-block"/>
+                    <div class="item_image">
+                        <img src="<?php echo Url::to('@imagePath').'/'.$item->image; ?>"/>
                     </div>
 
                     <!-- 产品：名字 显示框 -->
