@@ -76,7 +76,13 @@ class Item extends \yii\db\ActiveRecord
     // }
     public function getImage()
     {
-        return $this->product->image;
+
+        if (!empty($this->product->image)) {
+            return $this->product->image;
+        }
+        else {
+            return null;
+        }
     }
 
     public function getName()

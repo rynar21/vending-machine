@@ -24,6 +24,7 @@ class Product extends \yii\db\ActiveRecord
      */
 
     public $imageFile;
+    public $oldimage;
 
     public static function tableName()
     {
@@ -72,10 +73,16 @@ class Product extends \yii\db\ActiveRecord
       return $this->hasone(Item::className(), ['product_id' => 'id']);
     }
 
+    //初始图片
     public function imagex()
     {
+        if ($oldimage= 'product.jpg') {
+            return $this->image=$oldimage;
+        }
+        else {
+            return null;
+        }
 
-        return $this->image= '/mel-img/product.jpg';
     }
     //
     ///上传/修改图片
@@ -87,7 +94,7 @@ class Product extends \yii\db\ActiveRecord
         if ($this->imageFile) {
             if ($this->image) {
                     if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
-                        if ($this->image!='product.jpg') {
+                        if ($this->image!='$oldimage') {
                             unlink(Yii::getAlias('@upload') . '/' . $this->image);
                         }
                     }

@@ -74,7 +74,7 @@ class ProductController extends Controller
         {
             if ($model->imageFile==null) {
 
-                    $model->image= 'product.jpg';
+                    $model->imagex();
 
             }
             if ($model->save())
