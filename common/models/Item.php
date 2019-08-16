@@ -76,7 +76,6 @@ class Item extends \yii\db\ActiveRecord
     // }
     public function getImage()
     {
-
         if (!empty($this->product->image)) {
             return $this->product->image;
         }
@@ -103,12 +102,6 @@ class Item extends \yii\db\ActiveRecord
         else {
             return null;
         }
-    }
-
-    // 获取产品图片
-    public function getImage()
-    {
-        return $this->product->image;
     }
 
     // 状态属性 以文字展示
