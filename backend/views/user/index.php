@@ -29,11 +29,29 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'username',
             'email',
-            ['class' => 'yii\grid\ActionColumn', 'template' => '{Staff}{Supervisor}{Revoke}',
-            'buttons' => ['Staff' => $this->Assign('staff', $id),
-                          'Supervisor' => $this->Assign('supervisor', $id),
-                          'Revoke' => $this->Revoke($role, $id)],
-          ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{Staff}{Supervisor}{Revoke}',
+                'buttons' => [
+                    // 'Staff' => $this->Assign('staff', $id),
+                    // 'Supervisor' => $this->Assign('supervisor', $id),
+                    // 'Revoke' => $this->Revoke($role, $id)
+
+                    'Staff' => function($url, $model, $id)
+                    {
+                        return Html::a('Staff', ['user/assign'], ['class' => 'btn btn-success']);
+                    },
+                    'Supervisor' => function($url, $model, $id)
+                    {
+                        return Html::a('Supervisor', ['user/assign'], ['class' => 'btn btn-success']);
+                    },
+                    'Revoke' => function($url, $model, $id)
+                    {
+                        return Html::a('Revoke', ['user/assign'], ['class' => 'btn btn-success']);
+                    },
+
+                ],
+            ],
           ],
     ]); ?>
 
