@@ -76,7 +76,7 @@ class ProductController extends Controller
 
 
                 return $this->redirect(['view', 'id' => $model->id]);
-            
+
         }
         // 显示 Create创建页面
         return $this->render('create', [
@@ -119,7 +119,7 @@ class ProductController extends Controller
 
             //删除字段
             if ($model->delete()) {
-                    //删除文件
+                //    删除文件
                     if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
 
                             unlink(Yii::getAlias('@upload') . '/' . $model->image);

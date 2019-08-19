@@ -119,6 +119,22 @@ class Product extends \yii\db\ActiveRecord
         parent::afterSave($insert, $changedAttributes);
     }
 
+    //
+    // public function beforeDelete($insert)
+    // {
+    //
+    //             //删除文件
+    //             if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
+    //
+    //                     unlink(Yii::getAlias('@upload') . '/' . $this->image);
+    //
+    //             }
+    //
+    //             return parent::beforeDelete($insert);
+    //
+    // }
+
+
 
 
 
