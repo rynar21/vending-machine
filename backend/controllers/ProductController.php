@@ -24,30 +24,30 @@ class ProductController extends Controller
     public function behaviors()
     {
         return [
-            // 'access' => [
-            //     'class' => AccessControl::className(),
-            //     'rules' => [
-            //         [
-            //             'actions' => ['index', 'view'],
-            //             'allow' => Yii::$app->user->can('ac_read'),
-            //         ],
-            //         [
-            //             'actions' => ['update'],
-            //             'allow' => true,
-            //             'roles' => ['ac_update'],
-            //         ],
-            //         [
-            //             'actions' => ['create'],
-            //             'allow' => true,
-            //             'roles' => ['ac_create'],
-            //         ],
-            //         [
-            //             'actions' => ['delete'],
-            //             'allow' => true,
-            //             'roles' => ['ac_delete'],
-            //         ],
-            //     ],
-            // ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_read'),
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['ac_update'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['ac_create'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -96,7 +96,7 @@ class ProductController extends Controller
         // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post())&&$model->save())
         {
-                return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('create', [
             'model' => $model,

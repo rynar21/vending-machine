@@ -101,4 +101,27 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+    // public function actionTest()
+    // {
+        // $form = new \frontend\models\SignupForm();
+        // $form->username = "supervisor";
+        // $form->email = "supervisor@email.com";
+        // $form->password = "supervisor";
+        // $form->signup();
+        // print_r($form->errors);
+
+
+        // $auth = Yii::$app->authManager;
+        // // echo "<pre>";
+        // $supervisor = $auth->getRole('supervisor');
+        //
+        // $auth->assign($supervisor,2);
+
+        // print_r($auth->getRoles());
+        //
+        // foreach ($auth->getRoles() as $role)
+        // {
+        //     echo $role->name . "<br>";
+        // }
+    // }
 }
