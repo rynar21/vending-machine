@@ -29,20 +29,25 @@ class SaleRecordController extends Controller
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
-                        'actions' => ['update'],
+                        'actions' => ['create','update','delete'],
                         'allow' => true,
-                        'roles' => ['ac_update'],
+                        'roles' => ['admin'],
                     ],
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['ac_create'],
-                    ],
-                    [
-                        'actions' => ['delete'],
-                        'allow' => true,
-                        'roles' => ['ac_delete'],
-                    ],
+                    // [
+                    //     'actions' => ['update'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_update'],
+                    // ],
+                    // [
+                    //     'actions' => ['create'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_create'],
+                    // ],
+                    // [
+                    //     'actions' => ['delete'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_delete'],
+                    // ],
                 ],
             ],
             'verbs' => [

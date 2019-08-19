@@ -38,11 +38,11 @@ class m190815_093751_init_rbac extends Migration
         $staff = $auth->createRole('staff');
         $auth->add($staff);
         $auth->addChild($staff, $create);
+        $auth->addChild($staff, $update);
         $auth->addChild($staff, $user);
 
         $supervisor = $auth->createRole('supervisor');
         $auth->add($supervisor);
-        $auth->addChild($supervisor, $update);
         $auth->addChild($supervisor, $delete);
         $auth->addChild($supervisor, $staff);
 
