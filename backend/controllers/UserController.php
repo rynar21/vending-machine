@@ -110,34 +110,14 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        // $model = new User();
-        // if ($model->load(Yii::$app->request->post()) ) {
-        //     if ($model->save()) {
-        //         return $this->redirect(['view', 'id' => $model->id]);
-        //     }
+
         $model = new CreateUser();
         if ($model->load(Yii::$app->request->post()) && $model->createUser()) {
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
             return $this->goHome();
         }
 
-    //     return $this->redirect('create', [
-    //         'model' => $model,
-    //     ]);
-    // }
 
-        // $request = Yii::$app->request;
-        //
-        // if ($data = $request->post('user')) {
-        //     $model = new user();
-        //     $model->user_name = $data['user_name'];
-        //     $model->user_id = $data['user_id'];
-        //     if ($model->validate()) {
-        //         if ($model->save()) {
-        //             return $this->redirect(['view', 'id' => $model->id]);
-        //         }
-        //     }
-        // }
 
         return $this->render('create', [
             'model' => $model,
@@ -209,3 +189,29 @@ class UserController extends Controller
     }
 
 }
+
+
+//############actionCreate_OLD##############
+// $model = new User();
+// if ($model->load(Yii::$app->request->post()) ) {
+//     if ($model->save()) {
+//         return $this->redirect(['view', 'id' => $model->id]);
+//     }
+
+//     return $this->redirect('create', [
+//         'model' => $model,
+//     ]);
+// }
+
+    // $request = Yii::$app->request;
+    //
+    // if ($data = $request->post('user')) {
+    //     $model = new user();
+    //     $model->user_name = $data['user_name'];
+    //     $model->user_id = $data['user_id'];
+    //     if ($model->validate()) {
+    //         if ($model->save()) {
+    //             return $this->redirect(['view', 'id' => $model->id]);
+    //         }
+    //     }
+    // }
