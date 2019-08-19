@@ -16,6 +16,7 @@ class ProductSearch extends Product
      * {@inheritdoc}
      */
          public $imageFile;
+
     public function rules()
     {
         return [
@@ -23,6 +24,7 @@ class ProductSearch extends Product
             [['name', 'image'], 'safe'],
             [['price'], 'number'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
+            
         ];
     }
 
@@ -35,16 +37,6 @@ class ProductSearch extends Product
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
-    }
-
-    public function upload()
-    {
-        if ($this->validate()) {
-            $this->image->saveAs('uploads/' . $this->image->baseName . '.' . $this->image->extension);
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**

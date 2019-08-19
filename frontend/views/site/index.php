@@ -493,7 +493,7 @@ $this->title = 'My Yii Application';
                            </div>
                        </div>
                    </div>
-                   <div class="container-fluid">
+                   <!-- <div class="container-fluid">
                        <div class="container-fluid"style="background:rgba(180,180,180,0.5); border-radius:5px; margin-top:15px; box-shadow:3px 3px 7px #333333;">
                            <div class="row">
                                <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -517,11 +517,11 @@ $this->title = 'My Yii Application';
                                  <div style="height: 70px;width: 100%;">
 
                                  </div>
-                            <!-- 侧滑菜单 -->
+
                               <div id="wrapper">
                                     <div class="overlay"></div>
 
-                                    <!-- Sidebar -->
+
                                     <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
                                         <ul class="nav sidebar-nav">
                                             <li class="sidebar-brand">
@@ -563,9 +563,9 @@ $this->title = 'My Yii Application';
                                             </li>
                                         </ul>
                                     </nav>
-                                    <!-- /#sidebar-wrapper -->
 
-                                    <!-- Page Content -->
+
+
                                     <div id="page-content-wrapper">
                                       <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
                                         <span class="hamb-top"></span>
@@ -579,12 +579,12 @@ $this->title = 'My Yii Application';
                                         <div></div>
                                         <div></div>
                                       </div>>
-                                    </div>
-                                    <!-- /#page-content-wrapper -->
+                                  </div>
+                                    
 
                                 </div>
                            </div>
                        </div>
-                   </div>
+                   </div> -->
                </div>
            </div>

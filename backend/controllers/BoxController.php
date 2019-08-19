@@ -10,8 +10,10 @@ use backend\models\BoxSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use yii\data\BaseDataProvider;
+
 
 // BoxController implements the CRUD actions for Box model.
 class BoxController extends Controller
@@ -22,6 +24,30 @@ class BoxController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_read'),
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['ac_update'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['ac_create'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

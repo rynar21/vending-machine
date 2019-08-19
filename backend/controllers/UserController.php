@@ -15,6 +15,7 @@ use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
+use yii\filters\AccessControl;
 
 
 /**
@@ -28,6 +29,40 @@ class UserController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_read'),
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['ac_update'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['ac_create'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+                    [
+                        'actions' => ['assign'],
+                        'allow' => true,
+                        'roles' => ['supervisor','admin'],
+                    ],
+                    [
+                        'actions' => ['revoke'],
+                        'allow' => true,
+                        'roles' => ['supervisor','admin'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -143,6 +178,20 @@ class UserController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionAssign($role, $id)
+    {
+        $auth = Yii::$app->authManager;
+        $auth_role = $auth->getRole($role);
+        $auth->assign($auth_role, $id);
+    }
+
+    public function actionRevoke($role, $id)
+    {
+        $auth = Yii::$app->authManager;
+        $auth_role = $auth->getRole($role);
+        $auth->revoke($auth_role, $id);
+    }
+
     /**
      * Finds the user model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -158,4 +207,5 @@ class UserController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }
