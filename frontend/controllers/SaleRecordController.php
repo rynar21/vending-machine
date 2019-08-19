@@ -85,6 +85,14 @@ class SaleRecordController extends Controller
         }
     }
 
+    public function actionInvoice($id)
+    {
+        return $this->renderPartial('receipt',[
+            'model' => SaleRecord::findOne($id),
+        ]);
+    }
+
+    // API Integration
     public function actionPaysuccess($id)
     {
         $model = SaleRecord::findOne(['item_id' => $id]);

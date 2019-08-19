@@ -9,11 +9,11 @@ use common\models\Item;
 */
 ?>
 
-<?php //if($model->item):?>
-    <div class="col-sm-3 col-xs-6 box_row" style="padding:5px 7px;">
+<?php if($item):?>
+        <div class="col-sm-3 col-xs-6 box_row">
              <!-- 产品 显示框 -->
-            <div class="box_item thumbnail text-center">
-                <a style="text-decoration:none; font-size:24px; font-weight:bold; color:black;">
+            <div class="box_item thumbnail">
+                <a>
                     <!-- 产品：图片 显示框 -->
                     <div class="row item_image">
                         <img src="<?= Yii::getAlias('@imagePath').'/'.$item->image ?>" class="img-responsive center-block"/>
@@ -21,19 +21,17 @@ use common\models\Item;
 
                     <!-- 产品：名字 显示框 -->
                     <div class="row item_name">
-                        <h4><?= $item->name ?></h4>
+                        <?= $item->name ?>
                     </div>
 
                     <!-- 产品：购买的按钮 -->
                     <div class="row item_buy">
-                        <div class="item_price col-sm-offset-4 col-sm-5">
+                        <span class="item_price">
                             <?= $item->pricing ?>
-                        </div>
-                        <div class="col-sm-3">
-                            <?= Html::a('Buy', ['item/view', 'id' => $item->id], ['class' => 'btn btn-success pull-right']) ?>
-                        </div>
+                        </span>
+                        <?= Html::a('Buy', ['item/view', 'id' => $item->id], ['class' => 'btn btn-success pull-right']) ?>
                     </div>
                 </a>
             </div>
-    </div>
-<?php //endif;?>
+        </div>
+<?php endif;?>

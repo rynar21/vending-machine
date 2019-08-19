@@ -90,7 +90,7 @@ class ItemController extends Controller
     public function actionUpdate($id)
     {
         $model = Item::findOne($id);
-        $model->box_id=$model->box->id;
+
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()
             ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($model->box->store_id)]),
@@ -125,8 +125,6 @@ class ItemController extends Controller
         Item::findOne($id)->delete();
         return $this->redirect(['index']);
     }
-
-
 
     // public function testmyfunction()
     // {
