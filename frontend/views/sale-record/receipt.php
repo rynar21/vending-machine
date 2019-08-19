@@ -33,19 +33,18 @@ $this->title = 'Invoice';
     <table class="table" style="width:100%;">
           <tr>
               <?php foreach ($model->attributes() as $th):?>
-              <th>
-                  <?= $model->getAttributeLabel($th) ?>
-              </th>
-                <?php print_r(getValue($model, $th)) ?>
+                  <th>
+                      <?= $model->getAttributeLabel($th) ?>
+                  </th>
               <?php endforeach;?>
           </tr>
 
           <tr>
-            <?php foreach ($model->getAttributes() as $tr):?>
-            <td>
-                <?= $tr ?>
-            </td>
-            <?php endforeach;?>
+              <?php foreach ($model->getAttributes() as $tr):?>
+                    <td>
+                        <?= $tr ?>
+                    </td>
+                <?php endforeach;?>
           </tr>
     </table>
 
@@ -54,6 +53,7 @@ $this->title = 'Invoice';
     <table>
 
     </table>
+
 
 </div>
 
