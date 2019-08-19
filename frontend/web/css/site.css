@@ -42,10 +42,10 @@ body {
     font-size: auto;
 }
 
-/* .item_buy{
+.item_buy{
     height: 10px;
     width: auto;
-} */
+}
 
 /* --------------------- Payment Headline Component --------------------- */
 .headline{
@@ -74,13 +74,13 @@ body {
     width:70%;
 }
 
-/* .item_details_price{
+.item_details_price{
     margin-top:5px;
     height:46px;
     font-size:25px;
     color:green;
     font-weight: bold;
-} */
+}
 
 /* --------------------- Buttons Components ------------------------------ */
 .btn-available{

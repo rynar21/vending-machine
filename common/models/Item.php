@@ -49,6 +49,7 @@ class Item extends \yii\db\ActiveRecord
             [['price'], 'number'],
             [['store_id', 'product_id'], 'integer'],
             [['status'], 'default', 'value' => self::STATUS_AVAILABLE],
+
         ];
     }
 
@@ -67,6 +68,21 @@ class Item extends \yii\db\ActiveRecord
         ];
     }
 
+    // public String quoteApostrophe(String input) {
+    // if (input != null)
+    //     return input.replaceAll("[\']", "&rsquo;");
+    // else
+    //     return null;
+    // }
+    public function getImage()
+    {
+        if (!empty($this->product->image)) {
+            return $this->product->image;
+        }
+        else {
+            return null;
+        }
+    }
 
     public function getName()
     {
@@ -76,7 +92,15 @@ class Item extends \yii\db\ActiveRecord
         return null;
     }
 
-
+    public function getStore_id()
+    {
+        if (!empty($this->box->store_id)) {
+            return $this->box->store_id;
+        }
+        else {
+            return null;
+        }
+    }
 
     // 状态属性 以文字展示
     public function getStatusText()

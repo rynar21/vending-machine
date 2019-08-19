@@ -15,17 +15,14 @@ use yii\helpers\BaseStringHelper;
  * @property string $name
  * @property double $price
  * @property string $image
- * @property int $status
  * @property int $created_at
  * @property int $updated_at
  */
 class Product extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+    public $imageFile;
+    public $oldimage;
 
-     public $imageFile;
     public static function tableName()
     {
         return 'product';
@@ -39,22 +36,18 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // 数据表 属性 规则
     public function rules()
     {
         return [
             [['name', 'price'], 'required'],
             [['price'], 'number'],
-            [['name', 'image'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    // 数据表 属性 标注
     public function attributeLabels()
     {
         return [
@@ -99,6 +92,39 @@ class Product extends \yii\db\ActiveRecord
         }
         return parent::afterSave($insert,$changedAttributes);
     }
+    //
+    ///上传/修改图片
+    ///
+    public function beforeSave($insert)
+    {
+        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
 
+        if ($this->imageFile) {
+            if ($this->image) {
+                    if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
+                        if ($this->image!='$oldimage') {
+                            unlink(Yii::getAlias('@upload') . '/' . $this->image);
+                        }
+                    }
+                     $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            }
+            if ($this->image==null) {
+                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            }
+        }
+
+
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($this->imageFile) {
+            $path = Yii::getAlias('@upload') . '/' . $this->image;
+            $this->imageFile->saveAs($path, true);
+        }
+
+        parent::afterSave($insert, $changedAttributes);
+    }
 
 }

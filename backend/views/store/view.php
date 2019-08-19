@@ -40,19 +40,16 @@ $this->params['breadcrumbs'][] = $this->title;
               'name',
               'address',
               'contact',
+              'image',
+              [
+                  'attribute'=>'image',
+                  'value'=> yii::getAlias('@imagePath').'/'.$model->image,
+                  'format'=>['image', ['width'=>'100', 'height'=>'100']]
+              ],
               'created_at:datetime',
               'updated_at:datetime',
           ],
      ]); ?>
-
-     <!-- 显示商店的图片-->
-     <?php
-     if($model->image == '')
-     {
-         $model->image = '/mel-img/store.jpg';
-     }
-     ?>
-    <img src="<?php echo Url::base().$model->image; ?>"/>
 
     <hr/>
 

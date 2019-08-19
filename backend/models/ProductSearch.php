@@ -15,6 +15,7 @@ class ProductSearch extends Product
     /**
      * {@inheritdoc}
      */
+         public $imageFile;
     public function rules()
     {
         return [
@@ -25,7 +26,7 @@ class ProductSearch extends Product
         ];
     }
 
-        public $imageFile;
+
 
     /**
      * {@inheritdoc}
