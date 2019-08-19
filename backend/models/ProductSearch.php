@@ -16,6 +16,7 @@ class ProductSearch extends Product
      * {@inheritdoc}
      */
          public $imageFile;
+
     public function rules()
     {
         return [
@@ -23,6 +24,7 @@ class ProductSearch extends Product
             [['name', 'image'], 'safe'],
             [['price'], 'number'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
+            
         ];
     }
 

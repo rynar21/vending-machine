@@ -93,19 +93,15 @@ class ProductController extends Controller
     {
         // 加载 Product 产品 数据表
         $model = new Product();
-        if ($model->load(Yii::$app->request->post()))
+
+        // ActiveForm 提交后
+        if ($model->load(Yii::$app->request->post())&&$model->save())
         {
-            if ($model->save())
-            {
-                $path = Yii::getAlias('@upload') . '/' . $model->image;
 
-                if ($path>0) {
 
-                    $model->imageFile->saveAs($path, true);
 
-                }
                 return $this->redirect(['view', 'id' => $model->id]);
-            }
+
         }
         return $this->render('create', [
             'model' => $model,
@@ -123,13 +119,12 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        // $randName = time() .'_'. uniqid();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->save())
-            {
 
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        if ($model->load(Yii::$app->request->post())&&$model->save()) {
+
+
+               return $this->redirect(['view', 'id' => $model->id]);
+
         }
         return $this->render('update', [
             'model' => $model,
@@ -148,11 +143,11 @@ class ProductController extends Controller
 
             //删除字段
             if ($model->delete()) {
-                    //删除文件
+                //    删除文件
                     if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
-                        if ($model->image!='product.jpg') {
+
                             unlink(Yii::getAlias('@upload') . '/' . $model->image);
-                        }
+
                     }
 
                 }

@@ -6,7 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-use yii\helpers\BaseStringHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "product".
@@ -21,7 +21,7 @@ use yii\helpers\BaseStringHelper;
 class Product extends \yii\db\ActiveRecord
 {
     public $imageFile;
-    public $oldimage;
+    public $oldimage ;
 
     public static function tableName()
     {
@@ -66,18 +66,35 @@ class Product extends \yii\db\ActiveRecord
       return $this->hasone(Item::className(), ['product_id' => 'id']);
     }
 
+    public function getImageUrl()
+    {
+        if ($this->image && file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
+            return Url::to('@imagePath'). '/' . $this->image;
+        }
+
+        return Url::to('@imagePath'). '/product.jpg';
+    }
+
+
+    //
+    ///上传/修改图片
+    ///
     public function beforeSave($insert)
     {
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-        if ($this->imageFile && $this->image) {
-            if (file_exists( Yii::getAlias('@upload') . '/'. $this->image ) &&  $this->image!='product.jpg') {
-                 unlink( Yii::getAlias('@upload') . '/'. $this->image );
-             }
-             $this->image = time() .'_'. uniqid(). '.' . $this->imageFile->extension;
-        }
-        // $this->image = time() .'_'. uniqid(). '.' . $this->imageFile->extension;
-        if ($this->imageFile==null) {
-            return $this->image='product.jpg';
+
+        if ($this->imageFile) {
+            if ($this->image) {
+                    if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
+
+                            unlink(Yii::getAlias('@upload') . '/' . $this->image);
+
+                    }
+                     $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            }
+            if ($this->image==null) {
+                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            }
         }
         return parent::beforeSave($insert);
     }
