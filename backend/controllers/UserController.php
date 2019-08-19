@@ -39,7 +39,7 @@ class UserController extends Controller
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['ac_update'],
+                        'roles' => ['admin'],
                     ],
                     [
                         'actions' => ['create'],
@@ -49,7 +49,7 @@ class UserController extends Controller
                     [
                         'actions' => ['delete'],
                         'allow' => true,
-                        'roles' => ['ac_delete'],
+                        'roles' => ['admin'],
                     ],
                     [
                         'actions' => ['assign'],

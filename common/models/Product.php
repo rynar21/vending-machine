@@ -21,7 +21,6 @@ use yii\helpers\Url;
 class Product extends \yii\db\ActiveRecord
 {
     public $imageFile;
-    public $oldimage ;
 
     public static function tableName()
     {
