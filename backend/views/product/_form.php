@@ -16,13 +16,9 @@ use yii\web\UploadedFile;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'price')->textInput() ?>
-
-    <?= $form->field($model, 'image')->fileInput() ?>
-
+    <?= $form->field($model, 'imageFile')->fileInput() ?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
     <?php ActiveForm::end(); ?>
-
-    <img src="<?php echo Url::base().$model->image; ?>"/>
 </div>

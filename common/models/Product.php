@@ -4,6 +4,9 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use yii\helpers\BaseStringHelper;
 
 /**
  * This is the model class for table "product".
@@ -70,13 +73,31 @@ class Product extends \yii\db\ActiveRecord
       return $this->hasone(Item::className(), ['product_id' => 'id']);
     }
 
-    public function getImageUrl()
+    public function beforeSave($insert)
     {
-        if (empty($this->image)) {
-            return  '/mel-img/product.jpg';
+        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+        if ($this->imageFile && $this->image) {
+            if (file_exists( Yii::getAlias('@upload') . '/'. $this->image ) &&  $this->image!='product.jpg') {
+                 unlink( Yii::getAlias('@upload') . '/'. $this->image );
+             }
+             $this->image = time() .'_'. uniqid(). '.' . $this->imageFile->extension;
         }
-
-        return $this->image;
+        // $this->image = time() .'_'. uniqid(). '.' . $this->imageFile->extension;
+        if ($this->imageFile==null) {
+            return $this->image='product.jpg';
+        }
+        return parent::beforeSave($insert);
+    }
+    public function afterSave($insert,$changedAttributes)
+    {
+        if ($this->imageFile) {
+            $path = Yii::getAlias('@upload') . '/' .$this->image;
+            if (!empty($path)) {
+                $this->imageFile->saveAs($path, true);
+            }
+            // $this->imageFile->saveAs($path, true);
+        }
+        return parent::afterSave($insert,$changedAttributes);
     }
 
 

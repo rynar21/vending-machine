@@ -70,7 +70,10 @@ class Item extends \yii\db\ActiveRecord
 
     public function getName()
     {
-        return $this->product->name;
+        if (!empty($this->product->name)) {
+            return $this->product->name;
+        }
+        return null;
     }
 
 

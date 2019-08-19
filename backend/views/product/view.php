@@ -33,11 +33,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'price',
             'image',
+            [
+              'attribute'=>'image',
+              'value'=> yii::getAlias('@imagePath').'/'.$model->image,
+              'format'=>['image', ['width'=>'250', 'height'=>'250']]
+            ],
             'created_at:datetime',
             'updated_at:datetime',
         ],
     ]) ?>
 
-    <img src="<?php echo Url::to('@imagePath').'/'.$model->image; ?>"/>
+    <!--<img src="<?php //echo Url::to('@imagePath').'/'.$model->image; ?>"/> -->
 
 </div>

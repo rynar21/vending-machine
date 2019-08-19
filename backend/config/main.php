@@ -16,10 +16,18 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'itemTable' => '{{%auth_item}}',
+            'itemChildTable' => '{{%auth_item_child}}',
+            'assignmentTable' => '{{%auth_assignment}}',
+            'ruleTable' => '{{%auth_rule}}',
+            'defaultRoles' => ['default'],
+        ],
         'user' => [
             'class'=>'yii\web\User',
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => false,
+            'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
@@ -36,7 +44,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'site/login',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
