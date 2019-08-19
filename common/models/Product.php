@@ -92,39 +92,4 @@ class Product extends \yii\db\ActiveRecord
         }
         return parent::afterSave($insert,$changedAttributes);
     }
-    //
-    ///上传/修改图片
-    ///
-    public function beforeSave($insert)
-    {
-        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-
-        if ($this->imageFile) {
-            if ($this->image) {
-                    if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
-                        if ($this->image!='$oldimage') {
-                            unlink(Yii::getAlias('@upload') . '/' . $this->image);
-                        }
-                    }
-                     $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
-            }
-            if ($this->image==null) {
-                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
-            }
-        }
-
-
-        return parent::beforeSave($insert);
-    }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        if ($this->imageFile) {
-            $path = Yii::getAlias('@upload') . '/' . $this->image;
-            $this->imageFile->saveAs($path, true);
-        }
-
-        parent::afterSave($insert, $changedAttributes);
-    }
-
 }
