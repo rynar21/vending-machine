@@ -70,24 +70,12 @@ class ProductController extends Controller
         $model = new Product();
 
         // ActiveForm 提交后
-        if ($model->load(Yii::$app->request->post()))
+        if ($model->load(Yii::$app->request->post())&&$model->save())
         {
-            if ($model->imageFile==null) {
 
-                    $model->imagex();
 
-            }
-            if ($model->save())
-            {
-                $path = Yii::getAlias('@upload') . '/' . $model->image;
 
-                if ($path>0) {
-
-                    $model->imageFile->saveAs($path, true);
-
-                }
                 return $this->redirect(['view', 'id' => $model->id]);
-            }
 
         }
         // 显示 Create创建页面
@@ -108,12 +96,11 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())&&$model->save()) {
 
-            if ($model->save())
-            {
+
                return $this->redirect(['view', 'id' => $model->id]);
-            }
+
         }
         return $this->render('update', [
             'model' => $model,
@@ -132,11 +119,11 @@ class ProductController extends Controller
 
             //删除字段
             if ($model->delete()) {
-                    //删除文件
+                //    删除文件
                     if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
-                        if ($model->image!='product.jpg') {
+
                             unlink(Yii::getAlias('@upload') . '/' . $model->image);
-                        }
+
                     }
 
                 }
