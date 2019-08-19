@@ -10,6 +10,7 @@ use yii\grid\GridView;
 $this->title = 'User';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="User-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -41,15 +42,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     {
                         return Html::a('Staff', ['user/assign'], ['class' => 'btn btn-success']);
                     },
+
                     'Supervisor' => function($url, $model, $id)
                     {
                         return Html::a('Supervisor', ['user/assign'], ['class' => 'btn btn-success']);
                     },
+
                     'Revoke' => function($url, $model, $id)
                     {
-                        return Html::a('Revoke', ['user/assign'], ['class' => 'btn btn-success']);
+                        return Html::a('Revoke', ['user/revoke'], ['class' => 'btn btn-success']);
                     },
-
                 ],
             ],
           ],
