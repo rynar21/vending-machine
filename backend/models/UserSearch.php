@@ -4,13 +4,15 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Operator;
+use common\models\User;
 
 /**
- * OperatorSearch represents the model behind the search form of `common\models\Operator`.
+ * UserSearch represents the model behind the search form of `common\models\User`.
  */
-class OperatorSearch extends Operator
+class UserSearch extends User
 {
+
+
     /**
      * {@inheritdoc}
      */
@@ -18,11 +20,11 @@ class OperatorSearch extends Operator
 
     {
         return [
-            [['id'], 'integer'],
-            [['name'], 'safe'],
-        ];
+        //     [['id'], 'integer'],
+        //     [['username'], 'safe'],
+        // ];
+    ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -41,7 +43,7 @@ class OperatorSearch extends Operator
      */
     public function search($params)
     {
-        $query = Operator::find();
+        $query = User::find();
 
         // add conditions that should always apply here
 
@@ -62,7 +64,7 @@ class OperatorSearch extends Operator
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'username', $this->username]);
 
         return $dataProvider;
     }

@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Operator */
+/* @var $model common\models\User */
 
-$this->title = 'Create Operator';
-$this->params['breadcrumbs'][] = ['label' => 'Operators', 'url' => ['index']];
+$this->title = 'Create User';
+$this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="operator-create">
+<div class="user-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

@@ -3,16 +3,24 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Operator;
-use backend\models\OperatorSearch;
+use common\models\User;
+use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\models\CreateUser;
+use backend\models\ResendVerificationEmailForm;
+use backend\models\VerifyEmailForm;
+use yii\base\InvalidArgumentException;
+use yii\web\BadRequestHttpException;
+use backend\models\PasswordResetRequestForm;
+use backend\models\ResetPasswordForm;
+
 
 /**
- * OperatorController implements the CRUD actions for Operator model.
+ * userController implements the CRUD actions for user model.
  */
-class OperatorController extends Controller
+class UserController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +38,12 @@ class OperatorController extends Controller
     }
 
     /**
-     * Lists all Operator models.
+     * Lists all user models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new OperatorSearch();
+        $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,15 +53,15 @@ class OperatorController extends Controller
     }
 
     /**
-     * Displays a single Operator model.
+     * Displays a single user model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $operator = $this->findModel($id);
-        $user = $operator->user;
+        $user = $this->findModel($id);
+        // $user = $user->user;
 
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -61,24 +69,33 @@ class OperatorController extends Controller
     }
 
     /**
-     * Creates a new Operator model.
+     * Creates a new user model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Operator();
-        if ($model->load(Yii::$app->request->post()) ) {
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        // $model = new User();
+        // if ($model->load(Yii::$app->request->post()) ) {
+        //     if ($model->save()) {
+        //         return $this->redirect(['view', 'id' => $model->id]);
+        //     }
+        $model = new CreateUser();
+        if ($model->load(Yii::$app->request->post()) && $model->createUser()) {
+            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            return $this->goHome();
         }
+
+    //     return $this->redirect('create', [
+    //         'model' => $model,
+    //     ]);
+    // }
 
         // $request = Yii::$app->request;
         //
-        // if ($data = $request->post('Operator')) {
-        //     $model = new Operator();
-        //     $model->operator_name = $data['operator_name'];
+        // if ($data = $request->post('user')) {
+        //     $model = new user();
+        //     $model->user_name = $data['user_name'];
         //     $model->user_id = $data['user_id'];
         //     if ($model->validate()) {
         //         if ($model->save()) {
@@ -93,7 +110,7 @@ class OperatorController extends Controller
     }
 
     /**
-     * Updates an existing Operator model.
+     * Updates an existing user model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -113,7 +130,7 @@ class OperatorController extends Controller
     }
 
     /**
-     * Deletes an existing Operator model.
+     * Deletes an existing user model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -127,15 +144,15 @@ class OperatorController extends Controller
     }
 
     /**
-     * Finds the Operator model based on its primary key value.
+     * Finds the user model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Operator the loaded model
+     * @return user the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Operator::findOne($id)) !== null) {
+        if (($model = User::findOne($id)) !== null) {
             return $model;
         }
 
