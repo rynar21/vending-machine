@@ -32,24 +32,24 @@ class ProductController extends Controller
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
-                        'actions' => ['create','update','delete'],
+                        'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['admin','supervisor'],
+                        'roles' => ['ac_update'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['ac_create'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
                     ],
                     // [
-                    //     'actions' => ['update'],
+                    //     'actions' => ['create','update','delete'],
                     //     'allow' => true,
-                    //     'roles' => ['ac_update'],
-                    // ],
-                    // [
-                    //     'actions' => ['create'],
-                    //     'allow' => true,
-                    //     'roles' => ['ac_create'],
-                    // ],
-                    // [
-                    //     'actions' => ['delete'],
-                    //     'allow' => true,
-                    //     'roles' => ['ac_delete'],
+                    //     'roles' => ['admin'],
                     // ],
                 ],
             ],
@@ -138,11 +138,13 @@ class ProductController extends Controller
     {       $model = $this->findModel($id);
             //删除字段
             if ($model->delete()) {
-                //    删除文件
+                if ($model->image) {
                     if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
                         unlink(Yii::getAlias('@upload') . '/' . $model->image);
                     }
                 }
+            }
+
         return $this->redirect(['index']);
     }
 

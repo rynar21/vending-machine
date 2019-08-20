@@ -31,11 +31,6 @@ class StoreController extends Controller
                         'actions' => ['index', 'view'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
-                    [
-                        'actions' => ['create','update','delete'],
-                        'allow' => true,
-                        'roles' => ['admin'],
-                    ],
                     // [
                     //     'actions' => ['update'],
                     //     'allow' => true,
@@ -51,6 +46,11 @@ class StoreController extends Controller
                     //     'allow' => true,
                     //     'roles' => ['ac_delete'],
                     // ],
+                    [
+                        'actions' => ['create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -147,11 +147,12 @@ class StoreController extends Controller
         $model = $this->findModel($id);
             //删除字段
             if ($model->delete()) {
-                //    删除文件
+                if ($model->image) {
                     if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
                         unlink(Yii::getAlias('@upload') . '/' . $model->image);
                     }
                 }
+            }
         return $this->redirect(['index']);
     }
 
