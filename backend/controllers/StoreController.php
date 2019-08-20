@@ -146,12 +146,15 @@ class StoreController extends Controller
     {
         $model = $this->findModel($id);
             //删除字段
+        if ($model->image) {
             if ($model->delete()) {
                 //    删除文件
                     if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
                         unlink(Yii::getAlias('@upload') . '/' . $model->image);
                     }
                 }
+        }
+
         return $this->redirect(['index']);
     }
 
