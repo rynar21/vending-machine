@@ -31,11 +31,17 @@ class ProductController extends Controller
                         'actions' => ['index', 'view'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
+
                     [
-                        'actions' => ['create','update','delete'],
+                        'actions' => ['create','delete'],
                         'allow' => true,
                         'roles' => ['admin','supervisor'],
                     ],
+                    // [
+                    //     'actions' => ['create','delete','update'],
+                    //     'allow' => true,
+                    //     'roles' => ['supervisor'],
+                    // ],
                     // [
                     //     'actions' => ['update'],
                     //     'allow' => true,
