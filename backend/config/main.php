@@ -45,7 +45,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/login',
+            'errorAction' => 'site/error',
             'maxSourceLines' => 80,
 
         ],
