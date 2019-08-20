@@ -67,10 +67,10 @@ class Product extends \yii\db\ActiveRecord
 
     public function getImageUrl()
     {
-        if ($this->image && file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
+        if ($this->image && file_exists(Yii::getAlias('@upload') . '/' . $this->image))
+        {
             return Url::to('@imagePath'). '/' . $this->image;
         }
-
         return Url::to('@imagePath'). '/product.jpg';
     }
 

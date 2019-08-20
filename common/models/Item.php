@@ -5,6 +5,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "item".
@@ -74,14 +75,14 @@ class Item extends \yii\db\ActiveRecord
     // else
     //     return null;
     // }
-    public function getImage()
+
+    public function getImageUrl()
     {
-        if (!empty($this->product->image)) {
-            return $this->product->image;
+        if ($this->product->image && file_exists(Yii::getAlias('@upload') . '/' . $this->product->image))
+        {
+            return Url::to('@imagePath'). '/' . $this->product->image;
         }
-        else {
-            return null;
-        }
+        return Url::to('@imagePath'). '/product.jpg';
     }
 
     public function getName()
@@ -133,7 +134,7 @@ class Item extends \yii\db\ActiveRecord
     // 搜索 对应产品的 Store商店
     public function getStore()
     {
-        return $this->hasOne(Store::className(), ['store_id' => 'box_id'])->via('box');
+        return $this->hasOne(Store::className(), ['id' => 'id'])->via('box');
     }
 
     // 搜索 对应产品的 Box盒子

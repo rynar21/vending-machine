@@ -14,7 +14,7 @@ $this->title = 'Invoice';
         RECEIPT
     </h1>
 
-    <!-- Purchased Item Information -->
+    <p> Detail View </p>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -28,9 +28,32 @@ $this->title = 'Invoice';
         ],
     ]) ?>
 
-    <br/>
+    <hr/>
 
-    <table class="table" style="width:100%;">
+    <p> Grid View </p>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            [
+                'header' => 'Quantity',
+                'class' => 'yii\grid\SerialColumn',
+            ],
+            'id',
+            'item.name',
+            'store.name',
+            [
+                'attribute'=>'sell_price',
+                'value' => 'pricing',
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
+        ],
+    ]); ?>
+
+    <hr/>
+
+    <p> Manual View </p>
+    <table class="table" style="">
           <tr>
               <?php foreach ($model->attributes() as $th):?>
                   <th>
@@ -60,10 +83,17 @@ $this->title = 'Invoice';
 <style>
 table {
   border-collapse: collapse;
+  width: 100%;
+  text-align: center;
 }
 
 table, th, td {
   border: 1px solid black;
+}
+
+th>a{
+    text-decoration: none;
+    color: black;
 }
 
 tr:nth-child(even) {

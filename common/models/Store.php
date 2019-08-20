@@ -42,6 +42,7 @@ class Store extends \yii\db\ActiveRecord
         return [
             [['name', 'address', 'contact'], 'required'],
             [['contact'], 'integer'],
+            [['prefix'], 'safe'],
             [['name', 'address'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
@@ -55,6 +56,7 @@ class Store extends \yii\db\ActiveRecord
             'name' => 'Store Name',
             'address' => 'Store Address',
             'contact' => 'Store Contact',
+            'prefix' => 'Box Prefix',
         ];
     }
 
@@ -67,7 +69,7 @@ class Store extends \yii\db\ActiveRecord
     // Retrieve Boxes
     public function getBoxes()
     {
-      return $this->hasMany(Box::className(), ['store_id' => 'id']);
+        return $this->hasMany(Box::className(), ['store_id' => 'id']);
     }
 
     // 数据表 Image图片 属性

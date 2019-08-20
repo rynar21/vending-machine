@@ -8,6 +8,7 @@ use common\models\SaleRecord;
 use frontend\models\SaleRecordSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\data\ActiveDataProvider;
 
  //SaleRecordController implements the CRUD actions for SaleRecord model.
 class SaleRecordController extends Controller
@@ -87,26 +88,34 @@ class SaleRecordController extends Controller
 
     public function actionInvoice($id)
     {
+        $dataProvider = new ActiveDataProvider([
+            'query'=> SaleRecord::find()->where(['id' => $id]),
+        ]);
         return $this->renderPartial('receipt',[
             'model' => SaleRecord::findOne($id),
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     // API Integration
     public function actionPaysuccess($id)
     {
-        $model=SaleRecord::find()->where('item_id'=>$id);
-        if (!empty($model)) {
-            $model->status=$model::STATUS_SUCCESS;
+        $model = SaleRecord::findOne(['item_id'=>$id]);
+        if (!empty($model))
+        {
+            $model->status=SaleRecord::STATUS_SUCCESS;
+            $model->save();
             $model->success();
             echo'success';
         }
     }
     public function actionPayfailed($id)
     {
-        $model=SaleRecord::find()->where('item_id'=>$id);
-        if (!empty($model)) {
-            $model->status=$model::STATUS_FAILED;
+        $model=SaleRecord::findOne(['item_id'=>$id]);
+        if (!empty($model))
+        {
+            $model->status = SaleRecord::STATUS_FAILED;
+            $model->save();
             $model->failed();
             echo'failed';
         }
