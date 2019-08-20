@@ -6,15 +6,17 @@ body {
 ======================== COMPONENTS LIST ================================
 ************************************************************************/
 /* --------------------- Store/View Controller --------------------- */
+
 .box_row{
   margin: 10px 0px;
+  padding: 5px 7px;
 }
 
 .box_item{
-  width: 100%;
-  margin: 0 auto;
-  height: 27vh;
-  box-shadow:2px 0px 10px #CDCDB4;
+  width: auto;
+  height: 28vh;
+  box-shadow: 2px 0px 10px #CDCDB4;
+  padding: 15px;
 }
 
 .box_item > a{
@@ -22,29 +24,47 @@ body {
 }
 
 .item_image{
-  height: 15vh;
-  width: auto;
-  border: 0px solid black;
+    padding: 5px;
+    height: 15vh;
 }
 
 .item_image > img{
-  height: 95%;
-  padding-top: 15px;
-  margin: 0 auto;
-  z-index:-1;
+    height: 100%;
+    width: auto;
+    padding: 5px;
+    margin: 0 auto;
 }
 
 .item_name{
-    height: 3vh;
-    width: auto;
-    color: black;
-    border: 0px solid black;
+    padding: 0px 15px;
     font-size: auto;
+    color: black;
+
+    overflow: hidden;
+    font-family: Arial;
+    text-overflow: ellipsis;
+    height: 1.7em;
+    white-space: nowrap;
+    font-style: italic;
+    font-size: 14px;
+    color: #404040;
 }
 
 .item_buy{
-    height: 10px;
-    width: auto;
+    margin-top: 5px;
+    padding: 0px 15px;
+    border: 0px solid purple;
+}
+
+.item_buy>a{
+    text-decoration: none;
+}
+
+.item_price{
+    font-family: Arial;
+    color: black;
+    font-size: 22px;
+    font-weight: bold;
 }
 
 /* --------------------- Payment Headline Component --------------------- */
@@ -52,35 +72,7 @@ body {
     font-size: 35px;
 }
 /* --------------------- item/details.php ------------------------------ */
-.item_details{
-    border: 1px solid #FFFFFF;
-    box-shadow:0px 0px 20px #CDCDB4;
-}
 
-.item_details_image{
-    height:110px;
-    width:30%;
-    margin-top:15px;
-    margin-left:-2%;
-}
-
-.item_details_image > img{
-    max-height:100%;
-    max-width:100%;
-}
-
-.item_details_name{
-    height:140px;
-    width:70%;
-}
-
-.item_details_price{
-    margin-top:5px;
-    height:46px;
-    font-size:25px;
-    color:green;
-    font-weight: bold;
-}
 
 /* --------------------- Buttons Components ------------------------------ */
 .btn-available{
@@ -272,6 +264,7 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
 .animated {
             background-image: url();
             background-repeat: no-repeat;

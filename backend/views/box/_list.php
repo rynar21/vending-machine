@@ -27,11 +27,13 @@ $model = new ActiveDataProvider([
 
         <?= GridView::widget([
                  'dataProvider' => $model,
-                 //'filterModel' => $searchModel,
                   'columns' => [
                       ['class' => 'yii\grid\SerialColumn'],
                       'id',
-                      'code',
+                      [
+                          'attribute'=> 'code',
+                          'value' => 'boxcode'
+                      ],
                       [
                           'attribute'=> 'status',
                           'value' => 'statusText'

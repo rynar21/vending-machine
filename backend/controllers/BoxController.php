@@ -32,24 +32,24 @@ class BoxController extends Controller
             //             'allow' => Yii::$app->user->can('ac_read'),
             //         ],
             //         [
-            //             'actions' => ['update'],
+            //             'actions' => ['create','update','delete'],
             //             'allow' => true,
-            //             'roles' => ['ac_update'],
-            //         ],
-            //         [
-            //             'actions' => ['create','save'],
-            //             'allow' => true,
-            //             'roles' => ['ac_create'],
-            //         ],
-            //         [
-            //             'actions' => ['delete'],
-            //             'allow' => true,
-            //             'roles' => ['ac_delete'],
+            //             'roles' => ['admin'],
             //         ],
             //         // [
-            //         //     'actions' => ['create','update','delete'],
+            //         //     'actions' => ['update'],
             //         //     'allow' => true,
-            //         //     'roles' => ['admin'],
+            //         //     'roles' => ['ac_update'],
+            //         // ],
+            //         // [
+            //         //     'actions' => ['create'],
+            //         //     'allow' => true,
+            //         //     'roles' => ['ac_create'],
+            //         // ],
+            //         // [
+            //         //     'actions' => ['delete'],
+            //         //     'allow' => true,
+            //         //     'roles' => ['ac_delete'],
             //         // ],
             //     ],
             // ],
@@ -68,7 +68,6 @@ class BoxController extends Controller
     public function actionIndex()
     {
           $searchModel = new BoxSearch();
-          //$searchModel->store_id = $id;
           $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
           return $this->render('index', [
               'searchModel' => $searchModel,
@@ -98,10 +97,15 @@ class BoxController extends Controller
     {
         $model = new Box();
         $model->store_id = $id;
-        $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
-        if ($model->load(Yii::$app->request->post()) &&$model->save())
+        $model->number = (Box::find()->where(['store_id'=> $id])->count())+1;
+        $model->prefix = $model->store->prefix;
+
+        if ($model->load(Yii::$app->request->post()))
         {
-           return $this->redirect(['store/view', 'id' => $model->store_id]);
+            if($model->save())
+            {
+                return $this->redirect(['store/view', 'id' => $model->store_id]);
+            }
         }
         return $this->render('create', [
             'model' => $model,
@@ -113,7 +117,7 @@ class BoxController extends Controller
     //     $model = new Box();
     //     $model->store_id = $id;
     //     $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
-    //     if ($model->load(Yii::$app->request->post()) &&$model->save())
+    //     if ($model->save())
     //     {
     //        return $this->redirect(['store/view', 'id' => $model->store_id]);
     //     }
@@ -129,7 +133,9 @@ class BoxController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        // $model->store_id = $id;
+        $model->number = (Box::find()->where(['store_id'=> $id])->count())+1;
+        $model->prefix = $model->store->prefix;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }

@@ -70,6 +70,17 @@ class SaleRecord extends \yii\db\ActiveRecord
         return $this->hasOne(Box::className(), ['id' => 'box_id']);
     }
 
+    public function getStore()
+    {
+        return $this->hasOne(Store::className(), ['id' => 'id'])->via('box');
+    }
+
+    public function getPricing()
+    {
+        $num = number_format($this->sell_price, 2);
+        return 'RM '.$num;
+    }
+
     // 更新 对应的数据表里的 属性
     // 交易状态： 购买当中
     public function pending()
