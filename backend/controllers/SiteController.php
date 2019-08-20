@@ -5,7 +5,7 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
+use backend\models\LoginForm;
 use common\models\User;
 use yii\helpers\Url;
 
@@ -30,7 +30,7 @@ class SiteController extends Controller
                     [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['ac_read'],
                     ],
                 ],
             ],
@@ -101,4 +101,27 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+    // public function actionTest()
+    // {
+        // $form = new \frontend\models\SignupForm();
+        // $form->username = "admin";
+        // $form->email = "admin@email.com";
+        // $form->password = "admin";
+        // $form->signup();
+        // print_r($form->errors);
+
+
+        // $auth = Yii::$app->authManager;
+        // // echo "<pre>";
+        // $admin = $auth->getRole('admin');
+        //
+        // $auth->assign($admin,1);
+
+        // print_r($auth->getRoles());
+        //
+        // foreach ($auth->getRoles() as $role)
+        // {
+        //     echo $role->name . "<br>";
+        // }
+    // }
 }

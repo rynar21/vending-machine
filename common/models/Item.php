@@ -89,9 +89,7 @@ class Item extends \yii\db\ActiveRecord
         if (!empty($this->product->name)) {
             return $this->product->name;
         }
-        else {
-            return null;
-        }
+        return null;
     }
 
     public function getStore_id()

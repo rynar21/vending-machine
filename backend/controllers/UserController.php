@@ -3,16 +3,17 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Transaction;
-use backend\models\TransactionSearch;
+use common\models\User;
+use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
- * TransactionController implements the CRUD actions for Transaction model.
+ * OperatorController implements the CRUD actions for Operator model.
  */
-class TransactionController extends Controller
+class OperatorController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -20,6 +21,40 @@ class TransactionController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_read'),
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['ac_create'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                    [
+                        'actions' => ['assign'],
+                        'allow' => true,
+                        'roles' => ['supervisor','admin'],
+                    ],
+                    [
+                        'actions' => ['revoke'],
+                        'allow' => true,
+                        'roles' => ['supervisor','admin'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -30,12 +65,12 @@ class TransactionController extends Controller
     }
 
     /**
-     * Lists all Transaction models.
+     * Lists all Operator models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new TransactionSearch();
+        $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,29 +80,33 @@ class TransactionController extends Controller
     }
 
     /**
-     * Displays a single Transaction model.
+     * Displays a single Operator model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
+        $operator = $this->findModel($id);
+        $user = $operator->user;
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Transaction model.
+     * Creates a new Operator model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Transaction();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = new UserSearch();
+        if ($model->load(Yii::$app->request->post()) ) {
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
@@ -76,7 +115,7 @@ class TransactionController extends Controller
     }
 
     /**
-     * Updates an existing Transaction model.
+     * Updates an existing Operator model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +135,7 @@ class TransactionController extends Controller
     }
 
     /**
-     * Deletes an existing Transaction model.
+     * Deletes an existing Operator model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -109,19 +148,34 @@ class TransactionController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionAssign($role, $id)
+    {
+        $auth = Yii::$app->authManager;
+        $auth_role = $auth->getRole($role);
+        $auth->assign($auth_role, $id);
+    }
+
+    public function actionRevoke($role, $id)
+    {
+        $auth = Yii::$app->authManager;
+        $auth_role = $auth->getRole($role);
+        $auth->revoke($auth_role, $id);
+    }
+
     /**
-     * Finds the Transaction model based on its primary key value.
+     * Finds the Operator model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Transaction the loaded model
+     * @return Operator the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Transaction::findOne($id)) !== null) {
+        if (($model = User::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }

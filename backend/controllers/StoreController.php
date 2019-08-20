@@ -8,6 +8,7 @@ use backend\models\StoreSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use yii\helpers\BaseStringHelper;
 
@@ -23,6 +24,35 @@ class StoreController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_read'),
+                    ],
+                    [
+                        'actions' => ['create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                    // [
+                    //     'actions' => ['update'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_update'],
+                    // ],
+                    // [
+                    //     'actions' => ['create'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_create'],
+                    // ],
+                    // [
+                    //     'actions' => ['delete'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_delete'],
+                    // ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -67,45 +97,12 @@ class StoreController extends Controller
      */
     public function actionCreate()
     {
-
         $model = new Store();
-
         // ActiveForm 提交后
-        if ($model->load(Yii::$app->request->post()))
+        if ($model->load(Yii::$app->request->post()) && $model->save())
         {
-            //读取 Store商店数据表 Image入境
-            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-
-            //如果 有图片
-            if ($model->imageFile)
-            {
-                // 保存图片入境 在于图片属性
-                $model->image = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-            }
-
-            //如果 没有图片
-            if($model->imageFile == null)
-            {
-                // 保存默认图片
-                $model->imageUrl;
-            }
-
-            // 保存所有数据 在于Store数据表
-            if ($model->save())
-            {
-                if($model->imageFile)
-                {
-                    // 保存图片入境
-                    $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                    // 另保存图片 & 清除缓存
-                    $model->imageFile->saveAs($path, true);
-                }
-                // 返回 View 页面
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+            return $this->redirect(['view', 'id' => $model->id]);
         }
-
-        // 显示 Create创建页面
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -120,21 +117,13 @@ class StoreController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = Store::findOne($id);
-
+        $model = $this->findModel($id);
         // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post()))
         {
             // 保存所有数据 在于Store数据表
             if ($model->save())
             {
-                if($model->imageFile)
-                {
-                    // 保存图片入境
-                    $path = Yii::getAlias('@upload') . '/' . $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                    // 另保存图片 & 清除缓存
-                    $model->imageFile->saveAs($path, true);
-                }
                 // 返回 View 页面
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -155,8 +144,14 @@ class StoreController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+            //删除字段
+            if ($model->delete()) {
+                //    删除文件
+                    if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
+                        unlink(Yii::getAlias('@upload') . '/' . $model->image);
+                    }
+                }
         return $this->redirect(['index']);
     }
 

@@ -8,8 +8,10 @@ use backend\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use yii\helpers\BaseStringHelper;
+
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -22,6 +24,35 @@ class ProductController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_read'),
+                    ],
+                    [
+                        'actions' => ['create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['admin','supervisor'],
+                    ],
+                    // [
+                    //     'actions' => ['update'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_update'],
+                    // ],
+                    // [
+                    //     'actions' => ['create'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_create'],
+                    // ],
+                    // [
+                    //     'actions' => ['delete'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_delete'],
+                    // ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -39,7 +70,6 @@ class ProductController extends Controller
     {
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -68,33 +98,14 @@ class ProductController extends Controller
     {
         // 加载 Product 产品 数据表
         $model = new Product();
-
         // ActiveForm 提交后
-        if ($model->load(Yii::$app->request->post()))
+        if ($model->load(Yii::$app->request->post())&&$model->save())
         {
-            if ($model->imageFile==null) {
-
-                    $model->imagex();
-
-            }
-            if ($model->save())
-            {
-                $path = Yii::getAlias('@upload') . '/' . $model->image;
-
-                if ($path>0) {
-
-                    $model->imageFile->saveAs($path, true);
-
-                }
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-
+            return $this->redirect(['view', 'id' => $model->id]);
         }
-        // 显示 Create创建页面
         return $this->render('create', [
             'model' => $model,
         ]);
-
     }
 
     /**
@@ -108,12 +119,8 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
-
-            if ($model->save())
-            {
-               return $this->redirect(['view', 'id' => $model->id]);
-            }
+        if ($model->load(Yii::$app->request->post())&&$model->save()) {
+           return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('update', [
             'model' => $model,
@@ -129,16 +136,12 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {       $model = $this->findModel($id);
-
             //删除字段
             if ($model->delete()) {
-                    //删除文件
+                //    删除文件
                     if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
-                        if ($model->image!='product.jpg') {
-                            unlink(Yii::getAlias('@upload') . '/' . $model->image);
-                        }
+                        unlink(Yii::getAlias('@upload') . '/' . $model->image);
                     }
-
                 }
         return $this->redirect(['index']);
     }
@@ -155,7 +158,6 @@ class ProductController extends Controller
         if (($model = Product::findOne($id)) !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 

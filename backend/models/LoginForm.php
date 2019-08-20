@@ -3,7 +3,7 @@ namespace backend\models;
 
 use Yii;
 use yii\base\Model;
-use  common\models\User;
+use common\models\User;
 
 /**
  * Login form
@@ -16,9 +16,8 @@ class LoginForm extends Model
 
     private $_user;
 
-
     /**
-     * @inheritdoc
+     * @return array the validation rules.
      */
     public function rules()
     {
@@ -26,7 +25,7 @@ class LoginForm extends Model
             // username and password are both required
             [['username', 'password'], 'required'],
             // rememberMe must be a boolean value
-            //['rememberMe', 'boolean'],
+            ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
@@ -35,7 +34,6 @@ class LoginForm extends Model
     /**
      * Validates the password.
      * This method serves as the inline validation for password.
-     *
      * @param string $attribute the attribute currently being validated
      * @param array $params the additional name-value pairs given in the rule
      */
@@ -46,28 +44,24 @@ class LoginForm extends Model
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
-            if (!Operator::find()->where(['user_id' => $user->id])->one()) {
-               $this->addError($attribute, 'Operational privileges are insufficient.');
         }
     }
 
     /**
      * Logs in a user using the provided username and password.
-     *
-     * @return boolean whether the user is logged in successfully
+     * @return bool whether the user is logged in successfully
      */
     public function login()
     {
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Finds user by [[username]]
-     *
      * @return User|null
      */
     protected function getUser()

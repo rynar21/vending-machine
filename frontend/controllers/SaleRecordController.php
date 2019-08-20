@@ -23,7 +23,7 @@ class SaleRecordController extends Controller
         ]);
     }
 
-    // 如果 Item产品ID没有在于 SaleRecord 表里：创新新订单
+    // 如果产品ID没有在于 SaleRecord 表里：创新新订单
     // 运行 购买流程
     public function actionCreate($id)
     {
@@ -95,19 +95,20 @@ class SaleRecordController extends Controller
     // API Integration
     public function actionPaysuccess($id)
     {
-        $model = SaleRecord::findOne(['item_id' => $id]);
-        $model->status = $model::STATUS_SUCCESS;
-        $model->save();
-        $model->success();
-        echo 'Success';
+        $model=SaleRecord::find()->where('item_id'=>$id);
+        if (!empty($model)) {
+            $model->status=$model::STATUS_SUCCESS;
+            $model->success();
+            echo'success';
+        }
     }
-
     public function actionPayfailed($id)
     {
-        $model = SaleRecord::findOne(['item_id' => $id]);
-        $model->status = $model::STATUS_FAILED;
-        $model->save();
-        $model->failed();
-        echo 'Failed';
+        $model=SaleRecord::find()->where('item_id'=>$id);
+        if (!empty($model)) {
+            $model->status=$model::STATUS_FAILED;
+            $model->failed();
+            echo'failed';
+        }
     }
 }
