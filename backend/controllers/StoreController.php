@@ -31,26 +31,24 @@ class StoreController extends Controller
                         'actions' => ['index', 'view'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
-                    // [
-                    //     'actions' => ['update'],
-                    //     'allow' => true,
-                    //     'roles' => ['ac_update'],
-                    // ],
-                    // [
-                    //     'actions' => ['create'],
-                    //     'allow' => true,
-                    //     'roles' => ['ac_create'],
-                    // ],
-                    // [
-                    //     'actions' => ['delete'],
-                    //     'allow' => true,
-                    //     'roles' => ['ac_delete'],
-                    // ],
+
+
                     [
-                        'actions' => ['create','update','delete'],
+                        'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['ac_create'],
                     ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['ac_update'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+
                 ],
             ],
             'verbs' => [
@@ -146,15 +144,13 @@ class StoreController extends Controller
     {
         $model = $this->findModel($id);
             //删除字段
-        if ($model->image) {
-            if ($model->delete()) {
-                if ($model->image) {
-                    if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
-                        unlink(Yii::getAlias('@upload') . '/' . $model->image);
-                    }
+        if ($model->delete()) {
+            if ($model->image) {
+                if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
+                    unlink(Yii::getAlias('@upload') . '/' . $model->image);
                 }
+            }
         }
-
         return $this->redirect(['index']);
     }
 
