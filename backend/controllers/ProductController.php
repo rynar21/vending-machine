@@ -32,31 +32,31 @@ class ProductController extends Controller
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
 
-                    // [
-                    //     'actions' => ['create','delete'],
-                    //     'allow' => true,
-                    //     'roles' => ['admin','supervisor'],
-                    // ],
                     [
                         'actions' => ['create','delete','update'],
                         'allow' => true,
-                        'roles' => ['supervisor'],
+                        'roles' => ['admin','supervisor'],
                     ],
-                    [
-                        'actions' => ['update'],
-                        'allow' => true,
-                        'roles' => ['ac_update'],
-                    ],
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['ac_create'],
-                    ],
-                    [
-                        'actions' => ['delete'],
-                        'allow' => true,
-                        'roles' => ['ac_delete'],
-                    ],
+                    // [
+                    //     'actions' => ['create','delete','update'],
+                    //     'allow' => true,
+                    //     'roles' => ['supervisor'],
+                    // ],
+                    // [
+                    //     'actions' => ['update'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_sup'],
+                    // ],
+                    // [
+                    //     'actions' => ['create'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_create'],
+                    // ],
+                    // [
+                    //     'actions' => ['delete'],
+                    //     'allow' => true,
+                    //     'roles' => ['ac_delete'],
+                    // ],
                 ],
             ],
             'verbs' => [

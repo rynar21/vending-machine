@@ -30,6 +30,9 @@ class m190815_093751_init_rbac extends Migration
         $delete = $auth->createPermission('ac_delete');
         $auth->add($delete);
 
+        $sup = $auth->createPermission('ac_sup');
+        $auth->add($sup);
+
         // add "author" role and give this role the "createPost" permission
         $user = $auth->createRole('user');
         $auth->add($user);
@@ -43,13 +46,14 @@ class m190815_093751_init_rbac extends Migration
 
         $supervisor = $auth->createRole('supervisor');
         $auth->add($supervisor);
-        $auth->addChild($supervisor, $delete);
+        $auth->addChild($staff, $sup);
         $auth->addChild($supervisor, $staff);
 
         // add "admin" role and give this role the "updatePost" permission
         // as well as the permissions of the "author" role
         $admin = $auth->createRole('admin');
         $auth->add($admin);
+        $auth->addChild($supervisor, $delete);
         $auth->addChild($admin, $supervisor);
 
 
