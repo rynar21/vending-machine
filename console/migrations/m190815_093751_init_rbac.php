@@ -33,6 +33,8 @@ class m190815_093751_init_rbac extends Migration
         $sup = $auth->createPermission('ac_sup');
         $auth->add($sup);
 
+        $sup = $auth->createPermission('two');
+        $auth->add($two);
         // add "author" role and give this role the "createPost" permission
         $user = $auth->createRole('user');
         $auth->add($user);
@@ -42,7 +44,7 @@ class m190815_093751_init_rbac extends Migration
         $auth->add($staff);
         $auth->addChild($staff, $create);
         $auth->addChild($staff, $update);
-        $auth->addChild($staff, $user);
+        // $auth->addChild($staff, $user);
 
         $supervisor = $auth->createRole('supervisor');
         $auth->add($supervisor);
