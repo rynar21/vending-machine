@@ -63,6 +63,8 @@ $this->title = 'Invoice';
           </tr>
 
           <tr>
+              <td><?= $model->id ?></td>
+              <td><?= Yii::$app->formatter->asDateTime($model->created_at) ?></td>
               <?php foreach ($model->getAttributes() as $tr):?>
                     <td>
                         <?= $tr ?>
