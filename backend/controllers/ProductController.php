@@ -135,16 +135,17 @@ class ProductController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
-    {       $model = $this->findModel($id);
+    {
+        $model = $this->findModel($id);
             //删除字段
-            if ($model->delete()) {
-                if ($model->image) {
-                    if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
-                        unlink(Yii::getAlias('@upload') . '/' . $model->image);
-                    }
+        if ($model->delete()) {
+            if ($model->image) {
+                if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
+                    unlink(Yii::getAlias('@upload') . '/' . $model->image);
                 }
             }
-
+        }
+        
         return $this->redirect(['index']);
     }
 
