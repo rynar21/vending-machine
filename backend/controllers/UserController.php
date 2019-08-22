@@ -1,5 +1,4 @@
 <?php
-
 namespace backend\controllers;
 
 use Yii;
@@ -33,34 +32,18 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view','assign','revoke'],
-                        'allow' => Yii::$app->user->can('ac_read'),
-                    ],
-
-                    [
-                        'actions' => ['update'],
-                        'allow' => true,
-                        'roles' => ['admin'],
-                    ],
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['ac_create'],
-                    ],
-                    [
-                        'actions' => ['delete'],
-                        'allow' => true,
-                        'roles' => ['admin'],
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_user_read'),
                     ],
                     [
                         'actions' => ['assign'],
                         'allow' => true,
-                        'roles' => ['ac_update','ac_create','ac_read'],
+                        'roles' => ['ac_user_assign'],
                     ],
                     [
                         'actions' => ['revoke'],
                         'allow' => true,
-                        'roles' => ['supervisor','admin'],
+                        'roles' => ['ac_user_revoke'],
                     ],
                 ],
             ],
@@ -162,18 +145,6 @@ class UserController extends Controller
     //To assign user Role
     public function actionAssign($role, $id)
     {
-      // if(Yii::$app->authManager->getAssignments($id) == null){
-      //   $auth = Yii::$app->authManager;
-      //   $auth_role = $auth->getRole($role);
-      //   $auth->assign($auth_role, $id);
-      // }
-      // else {
-      //
-      //   $auth = Yii::$app->authManager;
-      //   $auth->revokeAll($id);
-      //   $auth_role = $auth->getRole($role);
-      //   $auth->assign($auth_role, $id);
-      // }
           $auth = Yii::$app->authManager;
           if (!$auth->checkAccess($id,'admin')) {
               if ($auth->getAssignments($id)!=null)
@@ -184,23 +155,16 @@ class UserController extends Controller
               $auth->assign($auth_role, $id);
             }
             return $this->redirect(['index']);
-          // }else
-          // {
-          // echo "Admin cannot revoke and assign to other role";
-          // }
+
 }
     //To revoke user Role
     public function actionRevoke($id)
     {
 
         $auth = Yii::$app->authManager;
-        if ($auth->checkAccess($id, 'admin')) {
-            if($auth->revokeAll($id)!=$auth->checkAccess($id, 'admin'))
-            {
+        if (!$auth->checkAccess($id, 'admin')) {
               $auth->revokeAll($id);
-            }
         }
-
         return $this->redirect(['index']);
     }
 
@@ -219,7 +183,10 @@ class UserController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
+    public function actionTest(){
+        $auth = Yii::$app->authManager;
+        return $auth->removeAll();
+    }
 }
 
 
@@ -247,3 +214,22 @@ class UserController extends Controller
     //         }
     //     }
     // }
+
+
+
+//############## Old permission ############
+    // [
+    //     'actions' => ['update'],
+    //     'allow' => true,
+    //     'roles' => ['admin'],
+    // ],
+    // [
+    //     'actions' => ['create'],
+    //     'allow' => true,
+    //     'roles' => ['ac_create'],
+    // ],
+    // [
+    //     'actions' => ['delete'],
+    //     'allow' => true,
+    //     'roles' => ['admin'],
+    // ],
