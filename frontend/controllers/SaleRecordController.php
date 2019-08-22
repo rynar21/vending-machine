@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\Store;
 use common\models\Item;
 use common\models\SaleRecord;
 use frontend\models\SaleRecordSearch;
@@ -91,9 +92,14 @@ class SaleRecordController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query'=> SaleRecord::find()->where(['id' => $id]),
         ]);
+
+        $model = SaleRecord::findOne($id);
+        $store_model = Store::findOne($model->store_id);
+        
         return $this->renderPartial('receipt',[
-            'model' => SaleRecord::findOne($id),
+            'model' => $model,
             'dataProvider' => $dataProvider,
+            'store_model' => $store_model,
         ]);
     }
 
