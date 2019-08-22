@@ -17,6 +17,9 @@ use yii\helpers\Html;
  */
 class Box extends \yii\db\ActiveRecord
 {
+    public $prefix;
+    public $number;
+
       //盒子状态
       const BOX_STATUS_AVAILABLE = 2;       // 盒子为空
       const BOX_STATUS_NOT_AVAILABLE = 1;   // 盒子包含产品
@@ -31,8 +34,9 @@ class Box extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'store_id'], 'integer'],
-            [['code'], 'required'],
+            [['number', 'store_id'], 'integer'],
+            // [['prefix'], 'safe'],
+            [['number'], 'required'],
             [['status'], 'default', 'value' => self::BOX_STATUS_AVAILABLE],
         ];
     }
@@ -88,6 +92,11 @@ class Box extends \yii\db\ActiveRecord
         return $text;
     }
 
+    public function getStore()
+    {
+        return $this->hasOne(Store::className(), ['id'=>'store_id']);
+    }
+
     // 寻找 Item产品 数据表
     public function getItem()
     {
@@ -121,5 +130,27 @@ class Box extends \yii\db\ActiveRecord
             // 添加新Item产品
             return Html::a('Add Item', ['item/create', 'id' => $this->id], ['class' => 'btn btn-primary']);
         }
+    }
+
+    public function beforeSave($insert)
+    {
+        // if($this->prefix)
+        // {
+        //     $this->code = $this->prefix.'-'.$this->number;
+        // }
+        // else
+        // {
+            $this->code = $this->number;
+        // }
+        return parent::beforeSave($insert);
+    }
+
+    public function getBoxcode()
+    {
+        if($this->code)
+        {
+            $text = $this->store->prefix.'-'.$this->code; // 盒子包含产品
+        }
+        return $text;
     }
 }

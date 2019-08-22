@@ -13,12 +13,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="box-create">
-    
+
     <h1>
         <?= Html::encode($this->title) ?>
     </h1>
 
-    <?php echo $this->render('_form', [
+    <?php echo $this->render('_form_create', [
         'model' => $model,
     ]) ?>
 

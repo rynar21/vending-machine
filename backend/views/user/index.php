@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-// use backend\controllers\UserController;
-
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
@@ -59,6 +57,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
           ],
     ]); ?>
-<!-- $role = 'staff, $id)' -->
-<!-- ['onclick' => $model->actionAssign('staff',$id)] -->
+
+
 </div>

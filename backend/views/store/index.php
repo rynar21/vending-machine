@@ -13,13 +13,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="store-index">
-
-    <!-- 标题 -->
-    <div class="row">
-        <h1 class="col-sm-12">
-            <?= Html::encode($this->title) ?>
-        </h1>
-    </div>
+<!-- 标题 -->
+    <h1 ><?= Html::encode($this->title) ?></h1>
 
     <!-- 创建 新商店 -->
     <p>
