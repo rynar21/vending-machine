@@ -19,6 +19,7 @@ class m190620_063311_store extends Migration
             'contact'=>$this->string()->notNull(),
             'prefix' =>$this->string(),
             'image'=>$this->string(),
+            'user_id' => $this->integer(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
           ]);

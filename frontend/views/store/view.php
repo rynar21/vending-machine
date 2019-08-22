@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\Store */
 
-$this->title = $model->name;
+$this->title = 'Vending Machine';
 ?>
 <div class="store-view">
     <div class="row">
