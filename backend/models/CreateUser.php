@@ -1,48 +1,49 @@
 <?php
-namespace frontend\models;
+
+namespace backend\models;
 
 use Yii;
 use yii\base\Model;
+use yii\data\ActiveDataProvider;
 use common\models\User;
 
-/**
- * Signup form
- */
-class SignupForm extends User
+class CreateUser extends User
 {
-    public $username;
-    public $email;
-    public $password;
-
+  public $username;
+  public $email;
+  public $password;
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules()//规则
+
     {
         return [
-            ['username', 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+        //     [['id'], 'integer'],
+        //     [['username'], 'safe'],
+        // ];
+        ['username', 'trim'],
+        ['username', 'required'],
+        ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+        ['username', 'string', 'min' => 2, 'max' => 255],
 
-            ['email', 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+        ['email', 'trim'],
+        ['email', 'required'],
+        ['email', 'email'],
+        ['email', 'string', 'max' => 255],
+        ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => 3],
-        ];
+        ['password', 'required'],
+        ['password', 'string', 'min' => 6],
+    ];
     }
-
     /**
      * Signs user up.
      *
      * @return bool whether the creating new account was successful and email was sent
      */
-    public function signup()
+    public function createUser()
     {
         if (!$this->validate()) {
             return null;
@@ -58,11 +59,6 @@ class SignupForm extends User
 
     }
 
-    /**
-     * Sends confirmation email to user
-     * @param User $user user model to with email should be send
-     * @return bool whether the email was sent
-     */
     protected function sendEmail($user)
     {
         return Yii::$app
@@ -76,4 +72,7 @@ class SignupForm extends User
             ->setSubject('Account registration at ' . Yii::$app->name)
             ->send();
     }
+
 }
+
+?>
