@@ -39,7 +39,7 @@ AppAsset::register($this);
             ]);
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'User', 'url' => ['/operator/index']],
+                ['label' => 'User', 'url' => ['/user/index']],
                 ['label' => 'Store', 'url' => ['/store/index']],
                 ['label' => 'Box', 'url' => ['/box/index?id=1']],
                 ['label' => 'Item', 'url' => ['/item/index']],
