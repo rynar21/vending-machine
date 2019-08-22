@@ -11,6 +11,7 @@ use yii\helpers\Url;
         <div class="row item_details" style="">
             <div class="item_details_image col-sm-5 col-lg-4 col-xs-6">
                 <img src="<?php echo $model->imageUrl ?>"/>
+                
             </div>
             <div class="item_details_name col-sm-7 col-lg-8 col-xs-6">
                 <?= $model->name ?>
