@@ -144,6 +144,22 @@ class ItemController extends Controller
         ]);
     }
 
+    public function actionVoid($id)
+    {
+        $model = Item::findOne($id);
+        $model->status = Item::STATUS_VOID;
+        $model->save();
+
+        $box_model = $model->box;
+        $box_model->status = Box::BOX_STATUS_NOT_AVAILABLE;
+        $box_model->save();
+
+        if($model->save())
+        {
+            return $this->redirect(['store/view', 'id' => $model->store_id]);
+        }
+    }
+
     // Deletes an existing Item model.
     public function actionDelete($id)
     {
