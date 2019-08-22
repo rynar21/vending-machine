@@ -24,35 +24,31 @@ class ProductController extends Controller
     public function behaviors()
     {
         return [
-            // 'access' => [
-            //     'class' => AccessControl::className(),
-            //     'rules' => [
-            //         [
-            //             'actions' => ['index', 'view'],
-            //             'allow' => Yii::$app->user->can('ac_read'),
-            //         ],
-            //         [
-            //             'actions' => ['create','update','delete'],
-            //             'allow' => true,
-            //             'roles' => ['admin','supervisor'],
-            //         ],
-            //         // [
-            //         //     'actions' => ['update'],
-            //         //     'allow' => true,
-            //         //     'roles' => ['ac_update'],
-            //         // ],
-            //         // [
-            //         //     'actions' => ['create'],
-            //         //     'allow' => true,
-            //         //     'roles' => ['ac_create'],
-            //         // ],
-            //         // [
-            //         //     'actions' => ['delete'],
-            //         //     'allow' => true,
-            //         //     'roles' => ['ac_delete'],
-            //         // ],
-            //     ],
-            // ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_read'),
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['ac_product_update'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['ac_product_create'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -135,14 +131,17 @@ class ProductController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
-    {       $model = $this->findModel($id);
+    {
+        $model = $this->findModel($id);
             //删除字段
-            if ($model->delete()) {
-                //    删除文件
-                    if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
-                        unlink(Yii::getAlias('@upload') . '/' . $model->image);
-                    }
+        if ($model->delete()) {
+            if ($model->image) {
+                if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
+                    unlink(Yii::getAlias('@upload') . '/' . $model->image);
                 }
+            }
+        }
+
         return $this->redirect(['index']);
     }
 

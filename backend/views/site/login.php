@@ -31,3 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<?php
+// $c=!Yii::$app->authManager->checkAccess(1,'user');
+// if ($c) {
+//     echo'000';
+// }
+// else {
+//     echo'111';
+// }
+?>

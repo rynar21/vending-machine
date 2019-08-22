@@ -3,14 +3,14 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Transaction */
+/* @var $model common\models\User */
 
-$this->title = 'Update Transaction: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Transactions', 'url' => ['index']];
+$this->title = 'Update Operator: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="transaction-update">
+<div class="operator-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

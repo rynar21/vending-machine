@@ -24,13 +24,13 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error','test','logout'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['ac_read'],
+                        // 'roles' => ['ac_read'],
                     ],
                 ],
             ],
@@ -101,27 +101,27 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
-    // public function actionTest()
-    // {
-        // $form = new \frontend\models\SignupForm();
-        // $form->username = "admin";
-        // $form->email = "admin@email.com";
-        // $form->password = "admin";
-        // $form->signup();
-        // print_r($form->errors);
+    public function actionTest()
+    {
+        $form = new \frontend\models\SignupForm();
+        $form->username = "admin5";
+        $form->email = "admin@email5.com";
+        $form->password = "admin5";
+        $form->signup();
+        print_r($form->errors);
 
 
-        // $auth = Yii::$app->authManager;
-        // // echo "<pre>";
-        // $admin = $auth->getRole('admin');
+        $auth = Yii::$app->authManager;
+        // echo "<pre>";
+        $admin = $auth->getRole('admin');
+
+        $auth->assign($admin,5);
         //
-        // $auth->assign($admin,1);
-
         // print_r($auth->getRoles());
         //
         // foreach ($auth->getRoles() as $role)
         // {
         //     echo $role->name . "<br>";
         // }
-    // }
+    }
 }

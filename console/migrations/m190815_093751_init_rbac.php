@@ -15,41 +15,72 @@ class m190815_093751_init_rbac extends Migration
         $auth = Yii::$app->authManager;
 
         // add "createPost" permission
-        $create = $auth->createPermission('ac_create');
-        $auth->add($create);
+        $ac_create = $auth->createPermission('ac_create');
+        $auth->add($ac_create);
 
         // add "createPost" permission
-        $read = $auth->createPermission('ac_read');
-        $auth->add($read);
+        $ac_read = $auth->createPermission('ac_read');
+        $auth->add($ac_read);
 
         // add "updatePost" permission
-        $update = $auth->createPermission('ac_update');
-        $auth->add($update);
+        $ac_update = $auth->createPermission('ac_update');
+        $auth->add($ac_update);
 
         // add "deletePost" permission
-        $delete = $auth->createPermission('ac_delete');
-        $auth->add($delete);
+        $ac_delete = $auth->createPermission('ac_delete');
+        $auth->add($ac_delete);
 
+        $ac_user_assign=$auth->createPermission('ac_user_assign');
+        $auth->add($ac_user_assign);
+
+        $ac_user_read=$auth->createPermission('ac_user_read');
+        $auth->add($ac_user_read);
+
+        $ac_user_revoke=$auth->createPermission('ac_user_revoke');
+        $auth->add($ac_user_revoke);
+
+        $ac_item_create=$auth->createPermission('ac_item_create');
+        $auth->add($ac_item_create);
+
+        $ac_item_update=$auth->createPermission('ac_item_update');
+        $auth->add($ac_item_update);
+
+        $ac_prouduct_create=$auth->createPermission('ac_prouduct_create');
+        $auth->add($ac_prouduct_create);
+
+        $ac_prouduct_read=$auth->createPermission('ac_prouduct_read');
+        $auth->add($ac_prouduct_read);
+
+        $ac_prouduct_update=$auth->createPermission('ac_prouduct_update');
+        $auth->add($ac_prouduct_update);
         // add "author" role and give this role the "createPost" permission
         $user = $auth->createRole('user');
         $auth->add($user);
-        $auth->addChild($user, $read);
+        $auth->addChild($user, $ac_read);
 
         $staff = $auth->createRole('staff');
         $auth->add($staff);
-        $auth->addChild($staff, $create);
-        $auth->addChild($staff, $update);
+        $auth->addChild($staff, $ac_item_create);
+        $auth->addChild($staff, $ac_item_update);
         $auth->addChild($staff, $user);
 
         $supervisor = $auth->createRole('supervisor');
         $auth->add($supervisor);
-        $auth->addChild($supervisor, $delete);
+        $auth->addChild($supervisor, $ac_user_assign);
+        $auth->addChild($supervisor, $ac_user_read);
+        $auth->addChild($supervisor, $ac_prouduct_create);
+        $auth->addChild($supervisor, $ac_prouduct_read);
+        $auth->addChild($supervisor, $ac_prouduct_update);
         $auth->addChild($supervisor, $staff);
 
         // add "admin" role and give this role the "updatePost" permission
         // as well as the permissions of the "author" role
         $admin = $auth->createRole('admin');
         $auth->add($admin);
+        $auth->addChild($admin, $ac_create);
+        $auth->addChild($admin, $ac_update);
+        $auth->addChild($admin, $ac_delete);
+        $auth->addChild($admin, $ac_user_revoke);
         $auth->addChild($admin, $supervisor);
 
 
