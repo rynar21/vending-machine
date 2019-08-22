@@ -15,6 +15,7 @@ use yii\web\BadRequestHttpException;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use yii\filters\AccessControl;
+use yii\web\MethodNotAllowedHttpException;
 
 
 /**
@@ -147,12 +148,15 @@ class UserController extends Controller
     {
           $auth = Yii::$app->authManager;
           if (!$auth->checkAccess($id,'admin')) {
-              if ($auth->getAssignments($id)!=null)
-              {
-                $auth->revokeAll($id);
-              }
+              $auth->revokeAll($id);
               $auth_role = $auth->getRole($role);
               $auth->assign($auth_role, $id);
+              Yii::$app->session->setFlash('success', "Edit Success.");
+            }
+            else
+            {
+              Yii::$app->session->setFlash('warning', "Cannot Edit Admin.");
+              // throw new MethodNotAllowedHttpException('Cannot edit admin.');
             }
             return $this->redirect(['index']);
 
