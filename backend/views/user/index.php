@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+// use backend\controllers\UserController;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
@@ -32,30 +34,31 @@ $this->params['breadcrumbs'][] = $this->title;
             'email',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{Staff}{Supervisor}{Revoke}',
+                'template' => '{User}{Staff}{Supervisor}{Revoke}',
                 'buttons' => [
-                    // 'Staff' => $this->Assign('staff', $id),
-                    // 'Supervisor' => $this->Assign('supervisor', $id),
-                    // 'Revoke' => $this->Revoke($role, $id)
+                    'User' => function($url, $model, $id)
+                    {
+                        return Html::a('User', ['assign', 'role'=>'user','id'=>$id], ['class' => 'btn btn-success']);
+                    },
 
                     'Staff' => function($url, $model, $id)
                     {
-                        return Html::a('Staff', ['user/assign'], ['class' => 'btn btn-success']);
+                        return Html::a('Staff', ['assign' ,'role'=>'staff','id'=>$id], ['class' => 'btn btn-success']);
                     },
 
                     'Supervisor' => function($url, $model, $id)
                     {
-                        return Html::a('Supervisor', ['user/assign'], ['class' => 'btn btn-success']);
+                        return Html::a('Supervisor', ['assign','role'=>'supervisor','id'=>$id], ['class' => 'btn btn-success']);
                     },
 
                     'Revoke' => function($url, $model, $id)
                     {
-                        return Html::a('Revoke', ['user/revoke'], ['class' => 'btn btn-success']);
+                        return Html::a('Revoke', ['revoke','id'=>$id], ['class' => 'btn btn-danger']);
                     },
                 ],
             ],
           ],
     ]); ?>
-
-
+<!-- $role = 'staff, $id)' -->
+<!-- ['onclick' => $model->actionAssign('staff',$id)] -->
 </div>
