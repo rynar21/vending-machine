@@ -29,11 +29,6 @@ class BoxController extends Controller
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
-                        'actions' => ['create','update','delete'],
-                        'allow' => true,
-                        'roles' => ['admin'],
-                    ],
-                    [
                         'actions' => ['update'],
                         'allow' => true,
                         'roles' => ['ac_update'],

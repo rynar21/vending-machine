@@ -27,12 +27,12 @@ class ItemController extends Controller
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['ac_update'],
+                        'roles' => ['ac_item_update'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['ac_create'],
+                        'roles' => ['ac_item_create'],
                     ],
                     [
                         'actions' => ['delete'],

@@ -25,33 +25,28 @@ class OperatorController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view'],
-                        'allow' => Yii::$app->user->can('ac_read'),
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
                     ],
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['ac_update'],
                     ],
                     [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['ac_create'],
-                    ],
-                    [
-                        'actions' => ['delete'],
-                        'allow' => true,
-                        'roles' => ['admin'],
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_user_read'),
                     ],
                     [
                         'actions' => ['assign'],
                         'allow' => true,
-                        'roles' => ['supervisor','admin'],
+                        'roles' => ['ac_user_assign'],
                     ],
                     [
                         'actions' => ['revoke'],
                         'allow' => true,
-                        'roles' => ['supervisor','admin'],
+                        'roles' => ['ac_user_revoke'],
                     ],
                 ],
             ],
