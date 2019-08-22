@@ -18,6 +18,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'contact')->textInput() ?>
 
+    <?= $form->field($model, 'prefix')->textInput() ?>
+
     <?= $form->field($model, 'imageFile')->fileInput() ?>
 
     <!-- 信息提交 -->
@@ -25,7 +27,7 @@ use yii\widgets\ActiveForm;
           <div class="col-sm-1 col-xs-3">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
           </div>
-          
+
           <div class="col-sm-1 col-xs-3">
                 <?= Html::a('Cancel', ['/store/index'], ['class' => 'btn btn-danger']) ?>
          </div>

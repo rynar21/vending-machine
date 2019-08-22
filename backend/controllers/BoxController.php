@@ -4,14 +4,11 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Box;
-use common\models\Store;
-use common\models\Item;
 use backend\models\BoxSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
 use yii\data\BaseDataProvider;
 
 
@@ -32,24 +29,24 @@ class BoxController extends Controller
             //             'allow' => Yii::$app->user->can('ac_read'),
             //         ],
             //         [
-            //             'actions' => ['update'],
+            //             'actions' => ['create','update','delete'],
             //             'allow' => true,
-            //             'roles' => ['ac_update'],
-            //         ],
-            //         [
-            //             'actions' => ['create','save'],
-            //             'allow' => true,
-            //             'roles' => ['ac_create'],
-            //         ],
-            //         [
-            //             'actions' => ['delete'],
-            //             'allow' => true,
-            //             'roles' => ['ac_delete'],
+            //             'roles' => ['admin'],
             //         ],
             //         // [
-            //         //     'actions' => ['create','update','delete'],
+            //         //     'actions' => ['update'],
             //         //     'allow' => true,
-            //         //     'roles' => ['admin'],
+            //         //     'roles' => ['ac_update'],
+            //         // ],
+            //         // [
+            //         //     'actions' => ['create'],
+            //         //     'allow' => true,
+            //         //     'roles' => ['ac_create'],
+            //         // ],
+            //         // [
+            //         //     'actions' => ['delete'],
+            //         //     'allow' => true,
+            //         //     'roles' => ['ac_delete'],
             //         // ],
             //     ],
             // ],
@@ -68,7 +65,6 @@ class BoxController extends Controller
     public function actionIndex()
     {
           $searchModel = new BoxSearch();
-          //$searchModel->store_id = $id;
           $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
           return $this->render('index', [
               'searchModel' => $searchModel,
@@ -98,26 +94,20 @@ class BoxController extends Controller
     {
         $model = new Box();
         $model->store_id = $id;
-        $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
-        if ($model->load(Yii::$app->request->post()) &&$model->save())
+        $model->number = (Box::find()->where(['store_id'=> $id])->count())+1;
+        $model->prefix = $model->store->prefix;
+
+        if ($model->load(Yii::$app->request->post()))
         {
-           return $this->redirect(['store/view', 'id' => $model->store_id]);
+            if($model->save())
+            {
+                return $this->redirect(['store/view', 'id' => $model->store_id]);
+            }
         }
         return $this->render('create', [
             'model' => $model,
         ]);
     }
-
-    // public function actionSave($id)
-    // {
-    //     $model = new Box();
-    //     $model->store_id = $id;
-    //     $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
-    //     if ($model->load(Yii::$app->request->post()) &&$model->save())
-    //     {
-    //        return $this->redirect(['store/view', 'id' => $model->store_id]);
-    //     }
-    // }
 
     /**
      * Updates an existing Box model.
@@ -129,7 +119,8 @@ class BoxController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $model->number = (Box::find()->where(['store_id'=> $id])->count())+1;
+        $model->prefix = $model->store->prefix;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -138,16 +129,6 @@ class BoxController extends Controller
             'model' => $model,
         ]);
     }
-
-    // public function actionList($id){
-    //   $searchModel = new BoxSearch();
-    //   $searchModel->store_id = $model->id;
-    //   $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-    //   return $this->render('_list', [
-    //       'model' => $model,
-    //   ]);
-    // }
-
 
     /**
      * Deletes an existing Box model.
@@ -162,20 +143,6 @@ class BoxController extends Controller
         return $this->redirect(['index']);
     }
 
-
-    // public function actionList()
-    // {
-    //     $model = new BoxSearch();
-    //     $model->store_id = $id;
-    //     $box_dataProvider = $model->search(Yii::$app->request->queryParams);
-    //
-    //     return $this->render('_list', [
-    //         // 'model' => $this->findStoreModel($id),
-    //         'box_dataProvider' => $box_dataProvider,
-    //     ]);
-    // }
-
-
     /**
      * Finds the Box model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -187,22 +154,6 @@ class BoxController extends Controller
     {
         if (($model = Box::findOne($id)) !== null) {
             return $model;
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    protected function findStoreModel($id)
-    {
-        if (($store_model = Store::findOne($id)) !== null) {
-            return $store_model;
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    protected function findItemModel($id)
-    {
-      if (($item_model = Item::findOne($id)) !== null) {
-        return $item_model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }

@@ -7,25 +7,65 @@ use yii\helpers\Url;
 
 
 <div class="row">
-    <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 item_details">
-        <div>
-            <div class="pull-left item_details_image">
-                <img src="<?= Yii::getAlias('@imagePath').'/'.$model->image ?>" class="img-responsive center-block"/>
+    <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 item_details_box">
+        <div class="row item_details" style="">
+            <div class="item_details_image col-sm-5 col-lg-4 col-xs-6">
+                <img src="<?= $model->imageUrl ?>"  class="img-responsive" />
             </div>
-            <div class="pull-left text-left item_details_name" >
-                <br/>
-                <p>
-                    <?= $model->name ?>
-                </p>
+            <div class="item_details_name col-sm-7 col-lg-8 col-xs-6">
+                <?= $model->name ?>
             </div>
         </div>
 
-        <div class="col-sm-12 col-lg-12">
-            <hr style="border:1px #D4D4D4 solid; background-color:#D4D4D4;"/>
-        </div>
+        <hr />
 
-        <div class="col-sm-12 col-lg-12 text-center item_details_price">
-            RM  <?= number_format($model->price,2) ?>
+        <div class="row text-center item_details_price">
+            <div class="col-sm-12">
+                <?= $model->pricing ?>
+            </div>
         </div>
   </div>
 </div>
+
+<style>
+.item_details_box{
+    margin-top: 12px;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 0px 20px #CDCDB4;
+    padding: 10px 20px;
+}
+
+.item_details{
+    padding: 15px;
+    border: 0px solid black;
+}
+
+.item_details_image{
+    border: 0px solid red;
+}
+
+.item_details_image > img{
+    height: 110px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.item_details_name{
+    font-weight: bold;
+    white-space: wrap;
+    border: 0px solid purple;
+}
+
+.item_details_box > .col-sm-12 > hr{
+    border:1px #D4D4D4 solid;
+    background-color:#D4D4D4;
+}
+
+.item_details_price{
+    margin: 5px 0px;
+    font-size: 25px;
+    color: green;
+    font-weight: bold;
+    border: 0px solid green;
+}
+</style>

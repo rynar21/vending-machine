@@ -39,6 +39,7 @@ class ItemController extends Controller
                         'allow' => true,
                         'roles' => ['ac_delete'],
                     ],
+
                 ],
             ],
             'verbs' => [
@@ -79,7 +80,6 @@ class ItemController extends Controller
     public function actionCreate($id)
     {
         $model = new Item();
-        $product_model = new Product();
         $model->box_id = $id;
         $model->store_id = $model->box->store_id;
         $dataProvider = new ActiveDataProvider([
@@ -115,7 +115,7 @@ class ItemController extends Controller
     public function actionUpdate($id)
     {
         $model = Item::findOne($id);
-        $model->box_id=$model->box->id;
+
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()
             ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($model->box->store_id)]),
@@ -150,8 +150,6 @@ class ItemController extends Controller
         Item::findOne($id)->delete();
         return $this->redirect(['index']);
     }
-
-
 
     // public function testmyfunction()
     // {
