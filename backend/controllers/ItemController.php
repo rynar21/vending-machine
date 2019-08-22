@@ -27,12 +27,12 @@ class ItemController extends Controller
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['ac_update'],
+                        'roles' => ['ac_item_update'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['ac_create'],
+                        'roles' => ['ac_item_create'],
                     ],
                     [
                         'actions' => ['delete'],
@@ -142,6 +142,22 @@ class ItemController extends Controller
             'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionVoid($id)
+    {
+        $model = Item::findOne($id);
+        $model->status = Item::STATUS_VOID;
+        $model->save();
+
+        $box_model = $model->box;
+        $box_model->status = Box::BOX_STATUS_NOT_AVAILABLE;
+        $box_model->save();
+
+        if($model->save())
+        {
+            return $this->redirect(['store/view', 'id' => $model->store_id]);
+        }
     }
 
     // Deletes an existing Item model.

@@ -53,7 +53,6 @@ class m190815_093751_init_rbac extends Migration
 
         $ac_prouduct_update=$auth->createPermission('ac_prouduct_update');
         $auth->add($ac_prouduct_update);
-
         // add "author" role and give this role the "createPost" permission
         $user = $auth->createRole('user');
         $auth->add($user);

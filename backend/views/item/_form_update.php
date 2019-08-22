@@ -29,6 +29,10 @@ use yii\widgets\ActiveForm;
             <?= $model->store_id ?>
         </div>
 
+        <p>
+            <?= Html::a('Void Item', ['void', 'id'=> $model->id], ['class' => 'btn btn-danger pull-right']) ?>
+        </p>
+
         <!-- 产品名称 -->
         <div class="row">
             <div class="col-sm-12">

@@ -31,26 +31,22 @@ class StoreController extends Controller
                         'actions' => ['index', 'view'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
-                    // [
-                    //     'actions' => ['update'],
-                    //     'allow' => true,
-                    //     'roles' => ['ac_update'],
-                    // ],
-                    // [
-                    //     'actions' => ['create'],
-                    //     'allow' => true,
-                    //     'roles' => ['ac_create'],
-                    // ],
-                    // [
-                    //     'actions' => ['delete'],
-                    //     'allow' => true,
-                    //     'roles' => ['ac_delete'],
-                    // ],
                     [
-                        'actions' => ['create','update','delete'],
+                        'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['ac_update'],
                     ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['ac_create'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+
                 ],
             ],
             'verbs' => [
@@ -157,6 +153,7 @@ class StoreController extends Controller
             }
         }
 
+        }
         return $this->redirect(['index']);
     }
 

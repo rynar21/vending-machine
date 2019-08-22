@@ -1,7 +1,7 @@
 <?php
 
-use Yii;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\DetailView;
 use yii\behaviors\AttributeBehavior;
@@ -10,80 +10,58 @@ $this->title = 'Invoice';
 ?>
 
 <div class="sale-record-receipt">
-    <h1>
+
+    <div class="header">
+        <img src="<?= Url::base()?>/img/logo1.png" alt="logo" />
+
+        <span class="store_details">
+            Vending Machine
+            <br/>
+            <p>
+                <?= $store_model->name.', '.$store_model->address ?>
+            </p>
+            <p>
+                <?= $store_model->contact ?>
+            </p>
+        </span>
+    </div>
+
+    <hr/>
+
+    <h2>
         RECEIPT
-    </h1>
+    </h2>
 
-    <p> Detail View </p>
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'item_id',
-            'status',
-            'store_id',
-            'box_id',
-            'created_at:datetime',
-            'updated_at:datetime',
-        ],
-    ]) ?>
-
-    <hr/>
-
-    <p> Grid View </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            [
-                'header' => 'Quantity',
-                'class' => 'yii\grid\SerialColumn',
-            ],
-            'id',
-            'item.name',
-            'store.name',
-            [
-                'attribute'=>'sell_price',
-                'value' => 'pricing',
-            ],
-            'created_at:datetime',
-            'updated_at:datetime',
-        ],
-    ]); ?>
-
-    <hr/>
-
-    <p> Manual View </p>
-    <table class="table" style="">
-          <tr>
-              <?php foreach ($model->attributes() as $th):?>
-                  <th>
-                      <?= $model->getAttributeLabel($th) ?>
-                  </th>
-              <?php endforeach;?>
-          </tr>
-
-          <tr>
-              <td><?= $model->id ?></td>
-              <td><?= Yii::$app->formatter->asDateTime($model->created_at) ?></td>
-              <?php foreach ($model->getAttributes() as $tr):?>
-                    <td>
-                        <?= $tr ?>
-                    </td>
-                <?php endforeach;?>
-          </tr>
-    </table>
-
-    <hr/>
-
-    <table>
-
-    </table>
-
+    <br/>
+    <>
 
 </div>
 
 <style>
-table {
+.header{
+    margin: 20px;
+    padding: 20px;
+    width: 90vw;
+    height: 20vh;
+    background-color: grey;
+}
+
+img{
+    width: 10vw;
+    height: 20vh;
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid red;
+}
+
+.store_details{
+    position: absolute;
+    margin: 2px;
+    width: 30vw;
+    border: 1px solid blue;
+}
+
+/* table {
   border-collapse: collapse;
   width: 100%;
   text-align: center;
@@ -100,6 +78,6 @@ th>a{
 
 tr:nth-child(even) {
     background-color: #f2f2f2;
-}
+} */
 
 </style>
