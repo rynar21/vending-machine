@@ -31,8 +31,12 @@ $model = new ActiveDataProvider([
                       ['class' => 'yii\grid\SerialColumn'],
                       'id',
                       [
-                          'attribute'=> 'code',
-                          'value' => 'boxcode'
+                          'label'=> 'Box Code',
+                          'format' => 'raw',
+                          'value' => function ($model)
+                          {
+                              return $model->boxcode;
+                          }
                       ],
                       [
                           'attribute'=> 'status',
