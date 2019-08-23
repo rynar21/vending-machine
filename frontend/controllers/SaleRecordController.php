@@ -94,12 +94,15 @@ class SaleRecordController extends Controller
         ]);
 
         $model = SaleRecord::findOne($id);
+
         $store_model = Store::findOne($model->store_id);
+        $item_model = Item::findOne(['id' => $model->item_id]);
         
         return $this->renderPartial('receipt',[
             'model' => $model,
             'dataProvider' => $dataProvider,
             'store_model' => $store_model,
+            'item_model' => $item_model,
         ]);
     }
 
@@ -109,7 +112,7 @@ class SaleRecordController extends Controller
         $model = SaleRecord::findOne(['item_id'=>$id]);
         if (!empty($model))
         {
-            $model->status=SaleRecord::STATUS_SUCCESS;
+            $model->status = SaleRecord::STATUS_SUCCESS;
             $model->save();
             $model->success();
             echo'success';
@@ -117,7 +120,7 @@ class SaleRecordController extends Controller
     }
     public function actionPayfailed($id)
     {
-        $model=SaleRecord::findOne(['item_id'=>$id]);
+        $model = SaleRecord::findOne(['item_id'=>$id]);
         if (!empty($model))
         {
             $model->status = SaleRecord::STATUS_FAILED;
