@@ -156,18 +156,33 @@ class UserController extends Controller
     //To assign user Role
     public function actionAssign($role, $id)
     {
-          $auth = Yii::$app->authManager;
-          if (!$auth->checkAccess($id,'admin')) {
-              $auth->revokeAll($id);
-              $auth_role = $auth->getRole($role);
-              $auth->assign($auth_role, $id);
-              Yii::$app->session->setFlash('success', "Edit Success.");
-            }
-            else
-            {
-              Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
-              // throw new MethodNotAllowedHttpException('Cannot edit admin.');
-            }
+        $auth = Yii::$app->authManager;
+        // $str=$auth->getUserIdsByRole('admin');
+        if (Yii::$app->user->identity->id==5) {
+              if (!$auth->checkAccess($id,'admin')) {
+                      $auth->revokeAll($id);
+                      $auth_role = $auth->getRole($role);
+                      $auth->assign($auth_role, $id);
+                      Yii::$app->session->setFlash('success', "Edit Success.");
+              }
+              else {
+                   Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+              }
+          }
+          if (Yii::$app->user->identity->id!=5) {
+              if (!$auth->checkAccess($id,'admin')&&!$auth->checkAccess($id,'supervisor')) {
+                  if ($role!='supervisor') {
+                      $auth->revokeAll($id);
+                      $auth_role = $auth->getRole($role);
+                      $auth->assign($auth_role, $id);
+                      Yii::$app->session->setFlash('success', "Edit Success.");
+                  }
+                  else {
+                     Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
+                  }
+              }
+          }
+
             return $this->redirect(['index']);
 
 }
