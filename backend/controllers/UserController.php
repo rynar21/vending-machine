@@ -7,7 +7,7 @@ use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use backend\models\CreateUser;
+use backend\models\SignUp;
 use backend\models\ResendVerificationEmailForm;
 use backend\models\VerifyEmailForm;
 use yii\base\InvalidArgumentException;
@@ -32,14 +32,13 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
+                        'actions' => ['create'],
+                        'allow' => true,
+                    ],
+                    [
                         'actions' => ['delete'],
                         'allow' => true,
                         'roles' => ['ac_delete'],
-                    ],
-                    [
-                        'actions' => ['update'],
-                        'allow' => true,
-                        'roles' => ['ac_update'],
                     ],
                     [
                         'actions' => ['index', 'view'],
@@ -105,14 +104,11 @@ class UserController extends Controller
     public function actionCreate()
     {
 
-        $model = new CreateUser();
-        if ($model->load(Yii::$app->request->post()) && $model->createUser()) {
+        $model = new SignUp();
+        if ($model->load(Yii::$app->request->post()) && $model->SignUp()) {
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
             return $this->goHome();
         }
-
-
-
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -157,10 +153,7 @@ class UserController extends Controller
     {
           $auth = Yii::$app->authManager;
           if (!$auth->checkAccess($id,'admin')) {
-              if ($auth->getAssignments($id)!=null)
-              {
-                $auth->revokeAll($id);
-              }
+              $auth->revokeAll($id);
               $auth_role = $auth->getRole($role);
               $auth->assign($auth_role, $id);
             }

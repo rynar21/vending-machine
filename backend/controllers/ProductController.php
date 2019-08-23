@@ -44,7 +44,7 @@ class ProductController extends Controller
                     [
                         'actions' => ['delete'],
                         'allow' => true,
-                        'roles' => ['ac_product_delete'],
+                        'roles' => ['ac_delete'],
                     ],
                 ],
             ],

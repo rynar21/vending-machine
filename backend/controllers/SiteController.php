@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use backend\models\LoginForm;
+use backend\models\SignUp;
 use common\models\User;
 use yii\helpers\Url;
 
@@ -105,17 +106,17 @@ class SiteController extends Controller
     // {
     //     $form = new \frontend\models\SignupForm();
     //     $form->username = "admin";
-    //     $form->email = "admin@email.com";
+    //     $form->email ="admin@email.com";
     //     $form->password = "admin";
     //     $form->signup();
     //     print_r($form->errors);
     //
     //
-    //     // $auth = Yii::$app->authManager;
-    //     // // echo "<pre>";
-    //     // $admin = $auth->getRole('admin');
-    //     //
-    //     // $auth->assign($admin,1);
+    //     $auth = Yii::$app->authManager;
+    //     // echo "<pre>";
+    //     $admin = $auth->getRole('admin');
+    //
+    //     $auth->assign($admin,1);
     //
     //     // print_r($auth->getRoles());
     //     //

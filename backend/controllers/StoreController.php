@@ -152,8 +152,6 @@ class StoreController extends Controller
                 }
             }
         }
-
-        }
         return $this->redirect(['index']);
     }
 
