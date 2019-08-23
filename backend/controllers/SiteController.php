@@ -24,11 +24,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','test','logout'],
+                        'actions' => ['login', 'error','test'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index'],
+                        'actions' => ['logout', 'index'],
                         'allow' => true,
                         // 'roles' => ['ac_read'],
                     ],
@@ -104,18 +104,18 @@ class SiteController extends Controller
     public function actionTest()
     {
         $form = new \frontend\models\SignupForm();
-        $form->username = "admin5";
-        $form->email = "admin@email5.com";
-        $form->password = "admin5";
+        $form->username = "user";
+        $form->email = "admin@email4444.com";
+        $form->password = "user";
         $form->signup();
         print_r($form->errors);
 
 
         $auth = Yii::$app->authManager;
         // echo "<pre>";
-        $admin = $auth->getRole('admin');
+        $admin = $auth->getRole('user');
 
-        $auth->assign($admin,5);
+        $auth->assign($admin,6);
         //
         // print_r($auth->getRoles());
         //
