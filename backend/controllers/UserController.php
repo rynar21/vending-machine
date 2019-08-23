@@ -160,20 +160,44 @@ class UserController extends Controller
     public function actionAssign($role, $id)
     {
           $auth = Yii::$app->authManager;
-          if (!$auth->checkAccess($id,'admin')) {
+          $current_user =Yii::$app->user->identity->id;
+          if (!$auth->checkAccess($id,'admin'))
+          {
+            if (Yii::$app->user->identity->id == 2)
+            {
+              if ($auth->checkAccess($id,'supervisor'))
+              {
+                Yii::$app->session->setFlash('danger', "No permission to edit Supervior !");
+              }
+              else
+              {
+                if ($role == 'supervisor')
+                {
+                  Yii::$app->session->setFlash('danger', "No permission to assign other user to supervisor !");
+                }
+                else
+                {
+                  $auth->revokeAll($id);
+                  $auth_role = $auth->getRole($role);
+                  $auth->assign($auth_role, $id);
+                  Yii::$app->session->setFlash('success', "Edit Success.");
+                }
+              }
+            }
+            else
+            {
               $auth->revokeAll($id);
               $auth_role = $auth->getRole($role);
               $auth->assign($auth_role, $id);
               Yii::$app->session->setFlash('success', "Edit Success.");
             }
-            else
-            {
-              Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
-              // throw new MethodNotAllowedHttpException('Cannot edit admin.');
-            }
-            return $this->redirect(['index']);
-
-}
+          }
+          else
+          {
+              Yii::$app->session->setFlash('danger', "Cannot Edit Admin !");
+          }
+          return $this->redirect(['index']);
+    }
     //To revoke user Role
     public function actionRevoke($id)
     {

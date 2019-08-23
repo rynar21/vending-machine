@@ -206,7 +206,11 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    
+    // public function getRoleName()
+    // {
+    //     return $this->hasOne(auth_assignment::className(), ['id'=>'user_id']);
+    // }
+
 
     // public function actionAssign($role, $id)
     // {
