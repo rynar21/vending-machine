@@ -22,6 +22,8 @@ class Item extends \yii\db\ActiveRecord
 {
     // 产品 添加的初始值 & 交易失败
     const STATUS_AVAILABLE = 0;         // 对应 SaleRecord::STATUS_FAILED
+    // 产品 被撤除值
+    const STATUS_VOID = 8;
     // 产品 购买当中
     const STATUS_LOCKED = 9;            // 对应 SaleRecord::STATUS_PENDING
     // 产品 交易成功
@@ -116,6 +118,9 @@ class Item extends \yii\db\ActiveRecord
                 break;
             case self::STATUS_SOLD:
                 $text = "Sold";
+                break;
+            case self::STATUS_VOID:
+                $text = "Removed";
                 break;
             default:
                 $text = "(Undefined)";

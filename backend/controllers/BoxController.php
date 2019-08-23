@@ -21,35 +21,30 @@ class BoxController extends Controller
     public function behaviors()
     {
         return [
-            // 'access' => [
-            //     'class' => AccessControl::className(),
-            //     'rules' => [
-            //         [
-            //             'actions' => ['index', 'view'],
-            //             'allow' => Yii::$app->user->can('ac_read'),
-            //         ],
-            //         [
-            //             'actions' => ['create','update','delete'],
-            //             'allow' => true,
-            //             'roles' => ['admin'],
-            //         ],
-            //         // [
-            //         //     'actions' => ['update'],
-            //         //     'allow' => true,
-            //         //     'roles' => ['ac_update'],
-            //         // ],
-            //         // [
-            //         //     'actions' => ['create'],
-            //         //     'allow' => true,
-            //         //     'roles' => ['ac_create'],
-            //         // ],
-            //         // [
-            //         //     'actions' => ['delete'],
-            //         //     'allow' => true,
-            //         //     'roles' => ['ac_delete'],
-            //         // ],
-            //     ],
-            // ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_read'),
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['ac_update'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['ac_create'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -95,7 +90,15 @@ class BoxController extends Controller
         $model = new Box();
         $model->store_id = $id;
         $model->number = (Box::find()->where(['store_id'=> $id])->count())+1;
-        $model->prefix = $model->store->prefix;
+
+        if($model->store->prefix)
+        {
+            $model->prefix = $model->store->prefix;
+        }
+        else
+        {
+            $model->prefix = '(prefix_not_set)';
+        }
 
         if ($model->load(Yii::$app->request->post()))
         {
@@ -120,7 +123,15 @@ class BoxController extends Controller
     {
         $model = $this->findModel($id);
         $model->number = (Box::find()->where(['store_id'=> $id])->count())+1;
-        $model->prefix = $model->store->prefix;
+        if($model->store->prefix)
+        {
+            $model->prefix = $model->store->prefix;
+        }
+        else
+        {
+            $model->prefix = '(prefix_not_set)';
+        }
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }

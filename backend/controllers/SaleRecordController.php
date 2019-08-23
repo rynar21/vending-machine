@@ -43,11 +43,6 @@ class SaleRecordController extends Controller
                         'allow' => true,
                         'roles' => ['ac_delete'],
                     ],
-                    // [
-                    //     'actions' => ['create','update','delete'],
-                    //     'allow' => true,
-                    //     'roles' => ['admin'],
-                    // ],
                 ],
             ],
             'verbs' => [

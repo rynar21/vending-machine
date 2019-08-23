@@ -33,6 +33,16 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['ac_update'],
+                    ],
+                    [
                         'actions' => ['index', 'view'],
                         'allow' => Yii::$app->user->can('ac_user_read'),
                     ],
