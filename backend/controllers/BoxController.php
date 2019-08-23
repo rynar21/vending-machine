@@ -90,7 +90,15 @@ class BoxController extends Controller
         $model = new Box();
         $model->store_id = $id;
         $model->number = (Box::find()->where(['store_id'=> $id])->count())+1;
-        $model->prefix = $model->store->prefix;
+
+        if($model->store->prefix)
+        {
+            $model->prefix = $model->store->prefix;
+        }
+        else
+        {
+            $model->prefix = '(prefix_not_set)';
+        }
 
         if ($model->load(Yii::$app->request->post()))
         {
@@ -115,7 +123,15 @@ class BoxController extends Controller
     {
         $model = $this->findModel($id);
         $model->number = (Box::find()->where(['store_id'=> $id])->count())+1;
-        $model->prefix = $model->store->prefix;
+        if($model->store->prefix)
+        {
+            $model->prefix = $model->store->prefix;
+        }
+        else
+        {
+            $model->prefix = '(prefix_not_set)';
+        }
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }

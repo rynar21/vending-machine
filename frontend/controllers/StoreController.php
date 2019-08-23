@@ -6,6 +6,7 @@ use Yii;
 use common\models\Store;
 use backend\models\ItemSearch;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 /**
  * StoreController implements the CRUD actions for Store model.
@@ -21,11 +22,19 @@ class StoreController extends Controller
         $item_dataProvider = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
 
         return $this->render('view', [
-            'model' => Store::findOne($id),
+            'model' => $this->findModel($id),
             'id' => $id,
             'item_searchModel' => $item_searchModel,
             'item_dataProvider' => $item_dataProvider,
         ]);
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Store::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
 }

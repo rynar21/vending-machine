@@ -29,7 +29,7 @@ class ProductController extends Controller
                 'rules' => [
                     [
                         'actions' => ['index', 'view'],
-                        'allow' => Yii::$app->user->can('ac_product_read'),
+                        'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
                         'actions' => ['update'],
@@ -46,6 +46,7 @@ class ProductController extends Controller
                         'allow' => true,
                         'roles' => ['ac_delete'],
                     ],
+
                 ],
             ],
             'verbs' => [

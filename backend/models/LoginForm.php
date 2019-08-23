@@ -50,6 +50,7 @@ class LoginForm extends Model
             else {
                 $this->addError($attribute, 'Incorrect username or password');
             }
+
         }
     }
 

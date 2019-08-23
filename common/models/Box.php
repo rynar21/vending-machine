@@ -17,8 +17,8 @@ use yii\helpers\Html;
  */
 class Box extends \yii\db\ActiveRecord
 {
-    public $prefix;
     public $number;
+    public $prefix;
 
       //盒子状态
       const BOX_STATUS_AVAILABLE = 2;       // 盒子为空
@@ -134,20 +134,17 @@ class Box extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        // if($this->prefix)
-        // {
-        //     $this->code = $this->prefix.'-'.$this->number;
-        // }
-        // else
-        // {
-            $this->code = $this->number;
-        // }
+        $this->code = $this->number;
         return parent::beforeSave($insert);
     }
 
     public function getBoxcode()
     {
-        if($this->code)
+        if(empty($this->store->prefix))
+        {
+            $text = $this->code;
+        }
+        else
         {
             $text = $this->store->prefix.'-'.$this->code; // 盒子包含产品
         }

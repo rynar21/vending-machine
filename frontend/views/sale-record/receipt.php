@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
-use yii\widgets\DetailView;
 use yii\behaviors\AttributeBehavior;
 
 $this->title = 'Invoice';
@@ -33,7 +31,31 @@ $this->title = 'Invoice';
     </h2>
 
     <br/>
-    <>
+
+    <div>
+        Transaction No.
+    </div>
+
+    <div>
+        Purchased Time
+    </div>
+
+    <div>
+        Item Purchased
+    </div>
+
+    <div>
+        Quantity
+    </div>
+
+    <hr/>
+
+    <div>
+        Amount Paid
+    </div>
+
+    <hr/>
+    <hr/>
 
 </div>
 
