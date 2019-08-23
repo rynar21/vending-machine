@@ -155,7 +155,7 @@ class UserController extends Controller
             }
             else
             {
-              Yii::$app->session->setFlash('warning', "Cannot Edit Admin.");
+              Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
               // throw new MethodNotAllowedHttpException('Cannot edit admin.');
             }
             return $this->redirect(['index']);
@@ -168,7 +168,11 @@ class UserController extends Controller
         $auth = Yii::$app->authManager;
         if (!$auth->checkAccess($id, 'admin')) {
               $auth->revokeAll($id);
+              Yii::$app->session->setFlash('success', "Revoke Success.");
+        }else{
+          Yii::$app->session->setFlash('danger', "Cannot Revoke Admin.");
         }
+
         return $this->redirect(['index']);
     }
 
