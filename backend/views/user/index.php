@@ -32,11 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'email',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{User}{Staff}{Supervisor}{Revoke}',
+                'template' => '{User} {Staff} {Supervisor} {Revoke}',
                 'buttons' => [
                     'User' => function($url, $model, $id)
                     {
-                        return Html::a('User', ['assign', 'role'=>'user','id'=>$id], ['class' => 'btn btn-success']);
+                        return Html::a('User', ['assign', 'role'=>'user','id'=>$id], ['class' => 'btn btn-primary']);
                     },
 
                     'Staff' => function($url, $model, $id)
@@ -57,6 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
           ],
     ]); ?>
+
 
 
 </div>

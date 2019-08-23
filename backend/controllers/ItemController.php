@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
+use yii\web\NotFoundHttpException;
 
 // ItemController implements the CRUD actions for Item model.
 class ItemController extends Controller
@@ -22,7 +23,7 @@ class ItemController extends Controller
                 'rules' => [
                     [
                         'actions' => ['index', 'view'],
-                        'allow' => Yii::$app->user->can('ac_read'),
+                        'allow' => Yii::$app->user->can('supervisor'),
                     ],
                     [
                         'actions' => ['update'],
@@ -39,6 +40,13 @@ class ItemController extends Controller
                         'allow' => true,
                         'roles' => ['ac_delete'],
                     ],
+
+                    [
+                        'actions' => ['void'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+                    
 
                 ],
             ],
@@ -66,8 +74,10 @@ class ItemController extends Controller
     // Displays a single Item model.
     public function actionView($id)
     {
+
         return $this->render('view', [
-            'model' => Item::findOne($id),
+            'model' => $this->findModel($id),
+            // 'model' => Item::findOne($id),
         ]);
     }
 
@@ -165,6 +175,14 @@ class ItemController extends Controller
     {
         Item::findOne($id)->delete();
         return $this->redirect(['index']);
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Item::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     // public function testmyfunction()
