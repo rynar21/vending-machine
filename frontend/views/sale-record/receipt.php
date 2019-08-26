@@ -84,6 +84,9 @@ $this->title = 'Invoice';
 
         <hr/>
         <hr/>
+
+        <br/>
+        <?= Html::a('Download as PDF', ['download', 'id' => $model->id], ['class' => 'btn btn-success btn-block']) ?>
     </div>
 
 
@@ -169,6 +172,5 @@ p {
     text-align:right;
     font-size: 22px;
 }
-
 
 </style>
