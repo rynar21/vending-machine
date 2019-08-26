@@ -85,27 +85,30 @@ class Store extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-
-        if ($this->imageFile) {
-            if ($this->image) {
-                    if (file_exists(Yii::getAlias('@upload') . '/' . $this->image)) {
-
-                            unlink(Yii::getAlias('@upload') . '/' . $this->image);
-
-                    }
+        if ($this->imageFile)
+        {
+            if ($this->image)
+            {
+                if (file_exists(Yii::getAlias('@upload') . '/' . $this->image))
+                {
+                    unlink(Yii::getAlias('@upload') . '/' . $this->image);
+                }
                 $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
             }
-            if ($this->image==null) {
-                  $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+            if ($this->image==null)
+            {
+                $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
             }
         }
         return parent::beforeSave($insert);
     }
     public function afterSave($insert,$changedAttributes)
     {
-        if ($this->imageFile) {
+        if ($this->imageFile)
+        {
             $path = Yii::getAlias('@upload') . '/' .$this->image;
-            if (!empty($path)) {
+            if (!empty($path))
+            {
                 $this->imageFile->saveAs($path, true);
             }
             // $this->imageFile->saveAs($path, true);
