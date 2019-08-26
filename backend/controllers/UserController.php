@@ -158,7 +158,8 @@ class UserController extends Controller
     {
         $auth = Yii::$app->authManager;
         // $str=$auth->getUserIdsByRole('admin');
-        if (Yii::$app->user->identity->id==5) {
+        $current_id = Yii::$app->user->identity->id;
+        if ($auth->checkAccess($current_id,'admin')) {
               if (!$auth->checkAccess($id,'admin')) {
                       $auth->revokeAll($id);
                       $auth_role = $auth->getRole($role);
@@ -169,9 +170,9 @@ class UserController extends Controller
                    Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
               }
           }
-          if (Yii::$app->user->identity->id!=5) {
+          if ($auth->checkAccess($current_id,'supervisor')) {
               if (!$auth->checkAccess($id,'admin')&&!$auth->checkAccess($id,'supervisor')) {
-                  if ($role!='supervisor') {
+                  if ($role!='supervisor'&&$role!='admin') {
                       $auth->revokeAll($id);
                       $auth_role = $auth->getRole($role);
                       $auth->assign($auth_role, $id);
@@ -208,6 +209,14 @@ class UserController extends Controller
      * @return user the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    // protected function findModel($id)
+    // {
+    //     if (($model = User::findOne($id)) !== null) {
+    //         return $model;
+    //     }
+    //
+    //     throw new NotFoundHttpException('The requested page does not exist.');
+    // }
     protected function findModel($id)
     {
         if (($model = User::findOne($id)) !== null) {
