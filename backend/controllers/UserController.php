@@ -74,7 +74,6 @@ class UserController extends Controller
     {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -152,21 +151,44 @@ class UserController extends Controller
     //To assign user Role
     public function actionAssign($role, $id)
     {
-          $auth = Yii::$app->authManager;
-          if (!$auth->checkAccess($id,'admin')) {
-              $auth->revokeAll($id);
-              $auth_role = $auth->getRole($role);
-              $auth->assign($auth_role, $id);
-              Yii::$app->session->setFlash('success', "Edit Success.");
+        $auth = Yii::$app->authManager;
+            if ($auth->checkAccess(Yii::$app->user->identity->id,'admin'))
+            {
+                if (!$auth->checkAccess($id,'admin'))
+                {
+                    $auth->revokeAll($id);
+                    $auth_role = $auth->getRole($role);
+                    $auth->assign($auth_role, $id);
+                    Yii::$app->session->setFlash('success', "Edit Success.");
+                }
+                else
+                {
+                    Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+                }
             }
             else
             {
-              Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
-              // throw new MethodNotAllowedHttpException('Cannot edit admin.');
+                if (!$auth->checkAccess($id,'admin') && !$auth->checkAccess($id,'supervisor'))
+                {
+                    if ($role!='admin' && $role!='supervisor')
+                     {
+                        $auth->revokeAll($id);
+                        $auth_role = $auth->getRole($role);
+                        $auth->assign($auth_role, $id);
+                        Yii::$app->session->setFlash('success', "Edit Success.");
+                    }
+                    else
+                    {
+                        Yii::$app->session->setFlash('danger', "You don't have enough authority!");
+                    }
+                }
+                else
+                {
+                    Yii::$app->session->setFlash('danger', "Cannot Edit admin or supervisor!");
+                }
             }
-            return $this->redirect(['index']);
-
-}
+          return $this->redirect(['index']);
+      }
     //To revoke user Role
     public function actionRevoke($id)
     {
@@ -197,13 +219,13 @@ class UserController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    public function actionTest(){
-        $auth = Yii::$app->authManager;
-        return $auth->removeAll();
-    }
 }
 
 
+// public function actionTest(){
+//     $auth = Yii::$app->authManager;
+//     return $auth->removeAll();
+// }
 //############actionCreate_OLD##############
 // $model = new User();
 // if ($model->load(Yii::$app->request->post()) ) {

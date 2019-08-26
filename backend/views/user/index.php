@@ -58,5 +58,9 @@ $this->params['breadcrumbs'][] = $this->title;
           ],
     ]); ?>
 
-
+<?php
+// $auth = Yii::$app->authManager;
+// $id=$auth->getUserIdsByRole('admin');
+//  print_r($id);
+?>
 </div>
