@@ -63,7 +63,7 @@ $this->title = 'Payment Success';
                 <br/>
 
                 <a href="<?= Url::to(['sale-record/invoice','id'=> $model->id]) ?>" class="btn btn-default btn-cancel" target="_blank">
-                    Print Receipt
+                    View Receipt
                 </a>
             </div>
         </div>

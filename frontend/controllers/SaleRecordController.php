@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use mpdf;
 use common\models\Store;
 use common\models\Item;
 use common\models\SaleRecord;
@@ -89,21 +90,34 @@ class SaleRecordController extends Controller
 
     public function actionInvoice($id)
     {
-        $dataProvider = new ActiveDataProvider([
-            'query'=> SaleRecord::find()->where(['id' => $id]),
-        ]);
-
         $model = SaleRecord::findOne($id);
-
         $store_model = Store::findOne($model->store_id);
         $item_model = Item::findOne(['id' => $model->item_id]);
-        
+
         return $this->renderPartial('receipt',[
             'model' => $model,
-            'dataProvider' => $dataProvider,
             'store_model' => $store_model,
             'item_model' => $item_model,
         ]);
+    }
+
+    public function actionDownload($id)
+    {
+        $model = SaleRecord::findOne($id);
+        $store_model = Store::findOne($model->store_id);
+        $item_model = Item::findOne(['id' => $model->item_id]);
+
+        $content = $this->renderPartial('download',[
+            'model' => $model,
+            'store_model' => $store_model,
+            'item_model' => $item_model,
+        ]);
+
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML($content);
+        $file_name = 'invoice.pdf';
+        $mpdf->Output($file_name, 'D');
+        // exit;
     }
 
     // API Integration
