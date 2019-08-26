@@ -7,7 +7,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\User;
 
-class CreateUser extends User
+class SignUp extends User
 {
   public $username;
   public $email;
@@ -43,7 +43,7 @@ class CreateUser extends User
      *
      * @return bool whether the creating new account was successful and email was sent
      */
-    public function createUser()
+    public function SignUp()
     {
         if (!$this->validate()) {
             return null;

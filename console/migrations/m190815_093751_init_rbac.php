@@ -45,14 +45,14 @@ class m190815_093751_init_rbac extends Migration
         $ac_item_update=$auth->createPermission('ac_item_update');
         $auth->add($ac_item_update);
 
-        $ac_prouduct_create=$auth->createPermission('ac_prouduct_create');
-        $auth->add($ac_prouduct_create);
+        $ac_product_create=$auth->createPermission('ac_product_create');
+        $auth->add($ac_product_create);
 
-        $ac_prouduct_read=$auth->createPermission('ac_prouduct_read');
-        $auth->add($ac_prouduct_read);
+        $ac_product_read=$auth->createPermission('ac_product_read');
+        $auth->add($ac_product_read);
 
-        $ac_prouduct_update=$auth->createPermission('ac_prouduct_update');
-        $auth->add($ac_prouduct_update);
+        $ac_product_update=$auth->createPermission('ac_product_update');
+        $auth->add($ac_product_update);
         // add "author" role and give this role the "createPost" permission
         $user = $auth->createRole('user');
         $auth->add($user);
@@ -68,9 +68,9 @@ class m190815_093751_init_rbac extends Migration
         $auth->add($supervisor);
         $auth->addChild($supervisor, $ac_user_assign);
         $auth->addChild($supervisor, $ac_user_read);
-        $auth->addChild($supervisor, $ac_prouduct_create);
-        $auth->addChild($supervisor, $ac_prouduct_read);
-        $auth->addChild($supervisor, $ac_prouduct_update);
+        $auth->addChild($supervisor, $ac_product_create);
+        $auth->addChild($supervisor, $ac_product_read);
+        $auth->addChild($supervisor, $ac_product_update);
         $auth->addChild($supervisor, $staff);
 
         // add "admin" role and give this role the "updatePost" permission

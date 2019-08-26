@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use backend\models\LoginForm;
+use backend\models\SignUp;
 use common\models\User;
 use yii\helpers\Url;
 
@@ -101,27 +102,27 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
-    public function actionTest()
-    {
-        $form = new \frontend\models\SignupForm();
-        $form->username = "user";
-        $form->email = "admin@email4444.com";
-        $form->password = "user";
-        $form->signup();
-        print_r($form->errors);
-
-
-        $auth = Yii::$app->authManager;
-        // echo "<pre>";
-        $admin = $auth->getRole('user');
-
-        $auth->assign($admin,6);
-        //
-        // print_r($auth->getRoles());
-        //
-        // foreach ($auth->getRoles() as $role)
-        // {
-        //     echo $role->name . "<br>";
-        // }
-    }
+    // public function actionTest()
+    // {
+    //     $form = new \frontend\models\SignupForm();
+    //     $form->username = "admin";
+    //     $form->email ="admin@email.com";
+    //     $form->password = "admin";
+    //     $form->signup();
+    //     print_r($form->errors);
+    //
+    //
+    //     $auth = Yii::$app->authManager;
+    //     // echo "<pre>";
+    //     $admin = $auth->getRole('admin');
+    //
+    //     $auth->assign($admin,1);
+    //
+    //     // print_r($auth->getRoles());
+    //     //
+    //     // foreach ($auth->getRoles() as $role)
+    //     // {
+    //     //     echo $role->name . "<br>";
+    //     // }
+    // }
 }

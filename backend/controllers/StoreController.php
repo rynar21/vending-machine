@@ -148,11 +148,10 @@ class StoreController extends Controller
             if ($model->image) {
 
                 if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
-                    
+
                     unlink(Yii::getAlias('@upload') . '/' . $model->image);
                 }
             }
-
         }
         return $this->redirect(['index']);
         // return $this->redirect(['index']);
