@@ -130,7 +130,7 @@ class SiteController extends Controller
     public function actionContact($id)
     {
         $model = new ContactForm();
-        $model3 = new ActiveDataProvider(['query'=> store::find(),]);
+        $StoreModel = new ActiveDataProvider(['query'=> store::find(),]);
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
@@ -147,10 +147,10 @@ class SiteController extends Controller
         }
     }
 
-    protected function findModel3($id)
+    protected function findStoreModel($id)
     {
-        if (($model3 = Store::findOne($id)) !== null) {
-            return $model3;
+        if (($StoreModel = Store::findOne($id)) !== null) {
+            return $StoreModel;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }

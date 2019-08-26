@@ -49,16 +49,16 @@ $this->title = 'Contact';
             <div class="container">
               <div class="row">
                 <p>Store name</p>
-                <h4><?= $model3->store_name ?></h4>
+                <h4><?= $StoreModel->store_name ?></h4>
                 <br>
               </div>
               <div class="row">
                 Address<br>
-                <h4><?= $model3->store_description ?></h4><br>
+                <h4><?= $StoreModel->store_description ?></h4><br>
               </div>
               <div class="row">
                 Contact Number<br>
-                <h4>+6<?= $model3->store_contact ?></h4><br>
+                <h4>+6<?= $StoreModel->store_contact ?></h4><br>
               </div>
 
             </div>
