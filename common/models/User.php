@@ -25,8 +25,8 @@ use yii\filters\AccessControl;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 10;
-    const STATUS_INACTIVE = 10;
+    const STATUS_DELETED = 8;
+    const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
 
@@ -205,24 +205,5 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
-
-    // public function getRoleName()
-    // {
-    //     return $this->hasOne(auth_assignment::className(), ['id'=>'user_id']);
-    // }
-
-
-    // public function actionAssign($role, $id)
-    // {
-    //     $auth = Yii::$app->authManager;
-    //     $auth_role = $auth->getRole($role);
-    //     $auth->assign($auth_role, $id);
-    // }
-    //
-    // public function actionRevoke($role, $id)
-    // {
-    //     $auth = Yii::$app->authManager;
-    //     $auth_role = $auth->getRole($role);
-    //     $auth->revoke($auth_role, $id);
-    // }
+    
 }
