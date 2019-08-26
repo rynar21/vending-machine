@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div style="color:#999;margin:1em 0">
                     <?= Html::a('Forgot Password?', ['site/request-password-reset']) ?>
                     <br>
+                     <?= Html::a('Activate Account', ['site/resend-verification-email']) ?>
                     <!-- Need new verification email? -->
                      <?= "" //Html::a('Resend', ['site/resend-verification-email']) ?>
                 </div>

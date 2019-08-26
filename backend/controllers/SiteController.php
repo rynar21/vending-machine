@@ -12,6 +12,7 @@ use yii\helpers\Url;
 use backend\models\ResendVerificationEmailForm;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
+use backend\models\VerifyEmailForm;
 
 /**
  * Site controller
@@ -32,13 +33,13 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['request-password-reset','reset-password'],
+                        'actions' => ['request-password-reset','reset-password','resend-verification-email','verify-email'],
                         'allow' => true,
                     ],
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        // 'roles' => ['ac_read'],
+                        'roles' => ['ac_read'],
                     ],
                 ],
             ],
@@ -80,11 +81,10 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            // return $this->goHome();
-            return $this->redirect(Url::to(['site/index']));
-        }
-
+        // if (!Yii::$app->user->isGuest) {
+        //     // return $this->goHome();
+        //     return $this->redirect(Url::to(['site/index']));
+        // }
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login())
         {
@@ -107,7 +107,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->actionLogin();
     }
     /**
      * Signs user up.
@@ -119,7 +119,7 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->goHome();
+            return $this->actionLogin();
         }
 
         return $this->render('signup', [
@@ -139,7 +139,7 @@ class SiteController extends Controller
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
 
-                return $this->goHome();
+                return $this->actionLogin();
             } else {
                 Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
             }
@@ -168,7 +168,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', 'New password saved.');
 
-            return $this->goHome();
+            return $this->actionLogin();
         }
 
         return $this->render('resetPassword', [
@@ -193,12 +193,12 @@ class SiteController extends Controller
         if ($user = $model->verifyEmail()) {
             if (Yii::$app->user->login($user)) {
                 Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
-                return $this->goHome();
+                return $this->actionLogout();
             }
         }
 
         Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
-        return $this->goHome();
+        return $this->actionLogout();
     }
 
     /**
@@ -212,7 +212,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-                return $this->goHome();
+                return $this->actionLogin();
             }
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
         }
