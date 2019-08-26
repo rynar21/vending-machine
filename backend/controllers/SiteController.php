@@ -12,6 +12,7 @@ use yii\helpers\Url;
 use backend\models\ResendVerificationEmailForm;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
+use backend\models\VerifyEmailForm;
 
 /**
  * Site controller
@@ -33,6 +34,10 @@ class SiteController extends Controller
                     ],
                     [
                         'actions' => ['request-password-reset','reset-password'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['verify-email','resend-verification-email'],
                         'allow' => true,
                     ],
                     [
