@@ -23,7 +23,7 @@ class ItemController extends Controller
                 'rules' => [
                     [
                         'actions' => ['index', 'view'],
-                        'allow' => Yii::$app->user->can('ac_read'),
+                        'allow' => Yii::$app->user->can('supervisor'),
                     ],
                     [
                         'actions' => ['update'],
@@ -40,6 +40,13 @@ class ItemController extends Controller
                         'allow' => true,
                         'roles' => ['ac_delete'],
                     ],
+
+                    [
+                        'actions' => ['void'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+                    
 
                 ],
             ],

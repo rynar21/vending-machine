@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Sign Up', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //print_r(array_keys($roles));// echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -31,12 +31,26 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             'email',
             [
+                'header' => 'Roles',
+                'value' => function($data) {
+                    $roles = Yii::$app->authManager->getRolesByUser($data->id);
+                    if ($roles) {
+                        $array = array_keys($roles);
+                      if (count($roles)>=2) {
+                      return  ($array[1]);
+                      }
+                    } else {
+                        return 'no roles';
+                    }
+                }
+            ],
+            [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{User}{Staff}{Supervisor}{Revoke}',
+                'template' => '{User} {Staff} {Supervisor} {Revoke}',
                 'buttons' => [
                     'User' => function($url, $model, $id)
                     {
-                        return Html::a('User', ['assign', 'role'=>'user','id'=>$id], ['class' => 'btn btn-success']);
+                        return Html::a('User', ['assign', 'role'=>'user','id'=>$id], ['class' => 'btn btn-primary']);
                     },
 
                     'Staff' => function($url, $model, $id)
@@ -58,9 +72,6 @@ $this->params['breadcrumbs'][] = $this->title;
           ],
     ]); ?>
 
-<?php
-// $auth = Yii::$app->authManager;
-// $id=$auth->getUserIdsByRole('admin');
-//  print_r($id);
-?>
+
+
 </div>

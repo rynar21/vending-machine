@@ -207,24 +207,4 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    // public function getAssignment($id)
-    // {
-    //     return $this -> Yii::$app->authManager->getRolesByUser($id);
-    // }
-
-
-
-    // public function actionAssign($role, $id)
-    // {
-    //     $auth = Yii::$app->authManager;
-    //     $auth_role = $auth->getRole($role);
-    //     $auth->assign($auth_role, $id);
-    // }
-    //
-    // public function actionRevoke($role, $id)
-    // {
-    //     $auth = Yii::$app->authManager;
-    //     $auth_role = $auth->getRole($role);
-    //     $auth->revoke($auth_role, $id);
-    // }
 }
