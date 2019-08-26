@@ -36,8 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
               'attribute'=>'image',
               'value'=> $model->imageUrl,
-              'format'=>['image']
-              // ['width'=>'400', 'height'=>'300']
+              'format'=>['image', ],
+              //['width'=>'400', 'height'=>'300']
             ],
             'created_at:datetime',
             'updated_at:datetime',
