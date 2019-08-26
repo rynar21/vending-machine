@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use backend\models\LoginForm;
+use backend\models\SignUp;
 use common\models\User;
 use yii\helpers\Url;
 use backend\models\ResendVerificationEmailForm;
@@ -232,10 +233,11 @@ class SiteController extends Controller
     //
     //
     //     $auth = Yii::$app->authManager;
+    //     // echo "<pre>";
     //     $admin = $auth->getRole('admin');
     //
-    //     $auth->assign($admin,5);
-    //     //
+    //     $auth->assign($admin,1);
+    //
     //     // print_r($auth->getRoles());
     //     //
     //     // foreach ($auth->getRoles() as $role)

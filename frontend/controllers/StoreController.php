@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Store;
+use common\models\Item;
 use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

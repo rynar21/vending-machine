@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Sign Up', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php //print_r(array_keys($roles));// echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -46,11 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{User}{Staff}{Supervisor}{Revoke}',
+                'template' => '{User} {Staff} {Supervisor} {Revoke}',
                 'buttons' => [
                     'User' => function($url, $model, $id)
                     {
-                        return Html::a('User', ['assign', 'role'=>'user','id'=>$id], ['class' => 'btn btn-success']);
+                        return Html::a('User', ['assign', 'role'=>'user','id'=>$id], ['class' => 'btn btn-primary']);
                     },
 
                     'Staff' => function($url, $model, $id)
@@ -71,6 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
           ],
     ]); ?>
+
 
 
 </div>

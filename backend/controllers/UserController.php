@@ -7,7 +7,7 @@ use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use backend\models\CreateUser;
+use backend\models\SignUp;
 use backend\models\ResendVerificationEmailForm;
 use backend\models\VerifyEmailForm;
 use yii\base\InvalidArgumentException;
@@ -36,14 +36,13 @@ class UserController extends Controller
                       'allow' => true,
                     ],
                     [
+                        'actions' => ['create'],
+                        'allow' => true,
+                    ],
+                    [
                         'actions' => ['delete'],
                         'allow' => true,
                         'roles' => ['ac_delete'],
-                    ],
-                    [
-                        'actions' => ['update'],
-                        'allow' => true,
-                        'roles' => ['ac_update'],
                     ],
                     [
                         'actions' => ['index', 'view'],
@@ -78,7 +77,6 @@ class UserController extends Controller
     {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -109,14 +107,11 @@ class UserController extends Controller
     public function actionCreate()
     {
 
-        $model = new CreateUser();
-        if ($model->load(Yii::$app->request->post()) && $model->createUser()) {
+        $model = new SignUp();
+        if ($model->load(Yii::$app->request->post()) && $model->SignUp()) {
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
             return $this->goHome();
         }
-
-
-
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -159,45 +154,44 @@ class UserController extends Controller
     //To assign user Role
     public function actionAssign($role, $id)
     {
-          $auth = Yii::$app->authManager;
-          $current_user =Yii::$app->user->identity->id;
-          if (!$auth->checkAccess($id,'admin'))
-          {
-            if (Yii::$app->user->identity->id == 2)
+        $auth = Yii::$app->authManager;
+            if ($auth->checkAccess(Yii::$app->user->identity->id,'admin'))
             {
-              if ($auth->checkAccess($id,'supervisor'))
-              {
-                Yii::$app->session->setFlash('danger', "No permission to edit Supervior !");
-              }
-              else
-              {
-                if ($role == 'supervisor')
+                if (!$auth->checkAccess($id,'admin'))
                 {
-                  Yii::$app->session->setFlash('danger', "No permission to assign other user to supervisor !");
+                    $auth->revokeAll($id);
+                    $auth_role = $auth->getRole($role);
+                    $auth->assign($auth_role, $id);
+                    Yii::$app->session->setFlash('success', "Edit Success.");
                 }
                 else
                 {
-                  $auth->revokeAll($id);
-                  $auth_role = $auth->getRole($role);
-                  $auth->assign($auth_role, $id);
-                  Yii::$app->session->setFlash('success', "Edit Success.");
+                    Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
                 }
-              }
             }
             else
             {
-              $auth->revokeAll($id);
-              $auth_role = $auth->getRole($role);
-              $auth->assign($auth_role, $id);
-              Yii::$app->session->setFlash('success', "Edit Success.");
+                if (!$auth->checkAccess($id,'admin') && !$auth->checkAccess($id,'supervisor'))
+                {
+                    if ($role!='admin' && $role!='supervisor')
+                     {
+                        $auth->revokeAll($id);
+                        $auth_role = $auth->getRole($role);
+                        $auth->assign($auth_role, $id);
+                        Yii::$app->session->setFlash('success', "Edit Success.");
+                    }
+                    else
+                    {
+                        Yii::$app->session->setFlash('danger', "You don't have enough authority!");
+                    }
+                }
+                else
+                {
+                    Yii::$app->session->setFlash('danger', "Cannot Edit admin or supervisor!");
+                }
             }
-          }
-          else
-          {
-              Yii::$app->session->setFlash('danger', "Cannot Edit Admin !");
-          }
           return $this->redirect(['index']);
-    }
+      }
     //To revoke user Role
     public function actionRevoke($id)
     {
@@ -228,13 +222,13 @@ class UserController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    public function actionTest(){
-        $auth = Yii::$app->authManager;
-        return $auth->removeAll();
-    }
 }
 
 
+// public function actionTest(){
+//     $auth = Yii::$app->authManager;
+//     return $auth->removeAll();
+// }
 //############actionCreate_OLD##############
 // $model = new User();
 // if ($model->load(Yii::$app->request->post()) ) {

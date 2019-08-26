@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use yii\rbac\Assignment;
 
 /**
  * User model
@@ -205,5 +206,5 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
-    
+
 }
