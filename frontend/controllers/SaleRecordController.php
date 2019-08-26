@@ -114,9 +114,11 @@ class SaleRecordController extends Controller
         ]);
 
         $mpdf = new \Mpdf\Mpdf();
+        $mpdf->SetHeader('Vending Machine');
+        $mpdf->SetFooter('<div> Page {PAGENO} of {nbpg} <br> {DATE j-m-Y}  </div>');
         $mpdf->WriteHTML($content);
         $file_name = 'invoice.pdf';
-        $mpdf->Output($file_name, 'D');
+        $mpdf->Output($file_name, 'I');
         // exit;
     }
 
