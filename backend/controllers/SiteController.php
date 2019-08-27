@@ -38,6 +38,10 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
+                        'actions' => ['verify-email','resend-verification-email'],
+                        'allow' => true,
+                    ],
+                    [
                         'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['ac_read'],
@@ -238,9 +242,9 @@ class SiteController extends Controller
     // public function actionTest()
     // {
     //     $form = new \frontend\models\SignupForm();
-    //     $form->username = "admin5";
-    //     $form->email = "admin@email5.com";
-    //     $form->password = "admin5";
+    //     $form->username = "admin";
+    //     $form->email = "admin@gmail.com";
+    //     $form->password = "admin";
     //     $form->signup();
     //     print_r($form->errors);
     //
@@ -250,12 +254,12 @@ class SiteController extends Controller
     //     $admin = $auth->getRole('admin');
     //
     //     $auth->assign($admin,1);
-    //
-    //     // print_r($auth->getRoles());
-    //     //
-    //     // foreach ($auth->getRoles() as $role)
-    //     // {
-    //     //     echo $role->name . "<br>";
-    //     // }
+
+        // print_r($auth->getRoles());
+        //
+        // foreach ($auth->getRoles() as $role)
+        // {
+        //     echo $role->name . "<br>";
+        // }
     // }
 }

@@ -47,6 +47,7 @@ class PasswordResetRequestForm extends Model
             return false;
         }
 
+        // THIS MAKE RUNTIME MAIL RESET PASSWORD TOKEN URL LINK DIFFERENT WITH DATABASE TOKEN
         if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
             $user->generatePasswordResetToken();
             if (!$user->save()) {
