@@ -35,9 +35,9 @@ class UserController extends Controller
                     [  'actions' => ['create'],
                       'allow' => true,
                     ],
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
+                    [  'actions' => ['suspend','unsuspend'],
+                      'allow' => true,
+                      'roles' => ['ac_update'],
                     ],
                     [
                         'actions' => ['delete'],
@@ -124,19 +124,39 @@ class UserController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionSuspend($id)
     {
+        $auth = Yii::$app->authManager;
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (!$auth->checkAccess($id,'admin')) {
+            $model->status=User::STATUS_SUSPEND;
+            $model->save();
+            Yii::$app->session->setFlash('success', "Suspend Success.");
         }
-
-        return $this->render('update', [
+        else {
+             Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+        }
+        return $this->render('index', [
             'model' => $model,
         ]);
     }
 
+    public function actionUnsuspend($id)
+    {
+        $auth = Yii::$app->authManager;
+        $model = $this->findModel($id);
+        if (!$auth->checkAccess($id,'admin')) {
+            $model->status=User::STATUS_ACTIVE;
+            $model->save();
+            Yii::$app->session->setFlash('success', "Suspend Success.");
+        }
+        else {
+             Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+        }
+        return $this->render('index', [
+            'model' => $model,
+        ]);
+    }
     /**
      * Deletes an existing user model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -146,10 +166,21 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $auth = Yii::$app->authManager;
+        $model = $this->findModel($id);
+        if (!$auth->checkAccess($id,'admin')) {
+            $model->status=User::STATUS_DELETED;
+            $model->save();
+            Yii::$app->session->setFlash('success', "Suspend Success.");
+        }
+        else {
+             Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+        }
+        return $this->render('index', [
+            'model' => $model,
+        ]);
     }
+
 
     //To assign user Role
     public function actionAssign($role, $id)

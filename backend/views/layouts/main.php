@@ -78,7 +78,7 @@ AppAsset::register($this);
 
                     'items'=>[
                                 ['label' => 'ChangePassword', 'url' => ['/site/change-password','id'=>Yii::$app->user->identity->id] ],
-                                ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]      
+                                ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
                             ]];
             }
             echo Nav::widget([
