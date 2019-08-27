@@ -2,6 +2,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
@@ -36,12 +37,27 @@ $this->params['breadcrumbs'][] = $this->title;
             [
               'attribute'=>'image',
               'value'=> $model->imageUrl,
-              'format'=>['image', ],
-              //['width'=>'400', 'height'=>'300']
+              'format'=>
+              ['image', ['width'=>'400', 'height'=>'300']],
             ],
             'created_at:datetime',
             'updated_at:datetime',
         ],
     ]) ?>
+
+    <h3> Available Items </h3>
+
+    <?= GridView::widget([
+             'dataProvider' => $item_model,
+              'columns' => [
+                  [
+                      'header' => 'Item ID',
+                      'attribute' => 'id',
+                  ],
+                  'name',
+                  'created_at:datetime',
+                  'updated_at:datetime',
+              ],
+          ]); ?>
 
 </div>

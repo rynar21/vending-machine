@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Product;
+use common\models\Item;
 use backend\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -11,6 +12,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use yii\helpers\BaseStringHelper;
+use yii\data\ActiveDataProvider;
 
 
 /**
@@ -24,32 +26,32 @@ class ProductController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['index', 'view'],
-                        'allow' => Yii::$app->user->can('ac_prouduct_read'),
-                    ],
-                    [
-                        'actions' => ['update'],
-                        'allow' => true,
-                        'roles' => ['ac_prouduct_update'],
-                    ],
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['ac_prouduct_create'],
-                    ],
-
-                    [
-                        'actions' => ['delete'],
-                        'allow' => true,
-                        'roles' => ['ac_delete'],
-                    ],
-                    
-                ],
-            ],
+            // 'access' => [
+            //     'class' => AccessControl::className(),
+            //     'rules' => [
+            //         [
+            //             'actions' => ['index', 'view'],
+            //             'allow' => Yii::$app->user->can('ac_prouduct_read'),
+            //         ],
+            //         [
+            //             'actions' => ['update'],
+            //             'allow' => true,
+            //             'roles' => ['ac_prouduct_update'],
+            //         ],
+            //         [
+            //             'actions' => ['create'],
+            //             'allow' => true,
+            //             'roles' => ['ac_prouduct_create'],
+            //         ],
+            //
+            //         [
+            //             'actions' => ['delete'],
+            //             'allow' => true,
+            //             'roles' => ['ac_delete'],
+            //         ],
+            //
+            //     ],
+            // ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -81,9 +83,16 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        $model = $this->findModel($id);
+        $item_model =  new ActiveDataProvider([
+            'query' => Item::find()->where(['product_id' => $id]),
         ]);
+
+        return $this->render('view', [
+            'model' => $model,
+            'item_model' => $item_model,
+        ]);
+
     }
 
     /**
@@ -134,11 +143,22 @@ class ProductController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-            //删除字段
-        if ($model->delete()) {
-            if ($model->image) {
-                if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
-                    unlink(Yii::getAlias('@upload') . '/' . $model->image);
+
+        if($model->items)
+        {
+            Yii::$app->session->setFlash('error', "Product cannot be deleted!");
+            // throw new NotFoundHttpException('Existing item(s) cannot be deleted');
+        }
+        else
+        {
+            if($model->delete())
+            {
+                if ($model->image)
+                {
+                    if (file_exists(Yii::getAlias('@upload') . '/' . $model->image))
+                    {
+                        unlink(Yii::getAlias('@upload') . '/' . $model->image);
+                    }
                 }
             }
         }
