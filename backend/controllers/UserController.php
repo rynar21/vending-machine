@@ -126,10 +126,16 @@ class UserController extends Controller
      */
     public function actionSuspend($id)
     {
+        $auth = Yii::$app->authManager;
         $model = $this->findModel($id);
-        $model->status=User::STATUS_SUSPEND;
-        $model->save();
-        Yii::$app->session->setFlash('success', "Suspend Success.");
+        if (!$auth->checkAccess($id,'admin')) {
+            $model->status=User::STATUS_SUSPEND;
+            $model->save();
+            Yii::$app->session->setFlash('success', "Suspend Success.");
+        }
+        else {
+             Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+        }
         return $this->render('index', [
             'model' => $model,
         ]);
@@ -137,10 +143,16 @@ class UserController extends Controller
 
     public function actionUnsuspend($id)
     {
+        $auth = Yii::$app->authManager;
         $model = $this->findModel($id);
-        $model->status=User::STATUS_ACTIVE;
-        $model->save();
-        Yii::$app->session->setFlash('success', "Unsuspend Success.");
+        if (!$auth->checkAccess($id,'admin')) {
+            $model->status=User::STATUS_ACTIVE;
+            $model->save();
+            Yii::$app->session->setFlash('success', "Suspend Success.");
+        }
+        else {
+             Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+        }
         return $this->render('index', [
             'model' => $model,
         ]);
@@ -154,10 +166,16 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
+        $auth = Yii::$app->authManager;
         $model = $this->findModel($id);
-        $model->status=User::STATUS_DELETED;
-        $model->save();
-        Yii::$app->session->setFlash('success', "Delete Success.");
+        if (!$auth->checkAccess($id,'admin')) {
+            $model->status=User::STATUS_DELETED;
+            $model->save();
+            Yii::$app->session->setFlash('success', "Suspend Success.");
+        }
+        else {
+             Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+        }
         return $this->render('index', [
             'model' => $model,
         ]);

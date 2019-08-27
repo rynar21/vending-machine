@@ -23,9 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'newPassword')->passwordInput(['autofocus' => true]) ?>
 
                 <?= $form->field($model, 'confirmPassword')->passwordInput(['autofocus' => true]) ?>
-                <?php
-                    print_r(Yii::$app->user->identity->id);
-                ?>
                 <div class="form-group">
                     <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
                 </div>
