@@ -26,32 +26,32 @@ class ProductController extends Controller
     public function behaviors()
     {
         return [
-            // 'access' => [
-            //     'class' => AccessControl::className(),
-            //     'rules' => [
-            //         [
-            //             'actions' => ['index', 'view'],
-            //             'allow' => Yii::$app->user->can('ac_prouduct_read'),
-            //         ],
-            //         [
-            //             'actions' => ['update'],
-            //             'allow' => true,
-            //             'roles' => ['ac_prouduct_update'],
-            //         ],
-            //         [
-            //             'actions' => ['create'],
-            //             'allow' => true,
-            //             'roles' => ['ac_prouduct_create'],
-            //         ],
-            //
-            //         [
-            //             'actions' => ['delete'],
-            //             'allow' => true,
-            //             'roles' => ['ac_delete'],
-            //         ],
-            //
-            //     ],
-            // ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => Yii::$app->user->can('ac_product_read'),
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['ac_product_update'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['ac_product_create'],
+                    ],
+
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
+                    ],
+
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
