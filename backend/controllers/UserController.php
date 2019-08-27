@@ -35,9 +35,8 @@ class UserController extends Controller
                     [  'actions' => ['create'],
                       'allow' => true,
                     ],
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
+                    [  'actions' => ['update'],
+                      'allow' => true,
                     ],
                     [
                         'actions' => ['delete'],
