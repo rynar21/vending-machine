@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\common\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
@@ -50,6 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
+                'header' => 'Action',
                 'template' => '{User} {Staff} {Supervisor} {Revoke} {Suspend} {Unsuspended} {Terminate}',
                 'buttons' => [
                     'User' => function($url, $model, $id)
@@ -73,17 +75,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                     'Suspend' => function($url, $model, $id)
                     {
-                        return Html::a('Suspend', ['suspend', 'id'=>$id], ['class' => 'btn btn-danger']);
+                        return Html::a('Suspend', ['update-status','status'= 8, 'id'=>$id], ['class' => 'btn btn-danger']);
                     },
 
                     'Unsuspended' => function($url, $model, $id)
                     {
-                        return Html::a('Unsuspended', ['unsuspend','id'=>$id], ['class' => 'btn btn-primary']);
+                        return Html::a('Unsuspended', ['update-status','status'= 10,'id'=>$id], ['class' => 'btn btn-primary']);
                     },
 
                     'Terminate' => function($url, $model, $id)
                     {
-                        return Html::a('Terminate', ['terminate','id'=>$id], ['class' => 'btn btn-danger']);
+                        return Html::a('Terminate', ['update-status','status'= 0,'id'=>$id], ['class' => 'btn btn-danger']);
                     },
                 ],
             ],

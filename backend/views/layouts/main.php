@@ -54,14 +54,14 @@ AppAsset::register($this);
             } else {
                 $menuItems[] =
                 // '<li>'
-                    // . Html::beginForm(['/site/logout'], 'post')
-                    // . Html::submitButton(
-                    //     'Logout (' . Yii::$app->user->identity->username . ')',
-                    //     ['class' => 'btn btn-link logout']
-                    //
-                    // )
-                    // . Html::endForm()
-                    // . '</li>';
+                //     . Html::beginForm(['/site/logout'], 'post')
+                //     . Html::submitButton(
+                //         'Logout (' . Yii::$app->user->identity->username . ')',
+                //         ['class' => 'btn btn-link logout']
+                //
+                //     )
+                //     . Html::endForm()
+                //     . '</li>';
 
                     // [
                     //   'label' => 'Setting',
@@ -77,7 +77,7 @@ AppAsset::register($this);
                     ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
 
                     'items'=>[
-                                ['label' => 'ChangePassword', 'url' => ['/site/change-password','id'=>Yii::$app->user->identity->id] ],
+                                ['label' => 'Change Password', 'url' => ['/site/change-password'] ],
                                 ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
                             ]];
             }
