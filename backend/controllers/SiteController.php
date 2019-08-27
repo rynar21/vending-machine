@@ -180,24 +180,24 @@ class SiteController extends Controller
     }
 
     // CHANGE PASSWORD
-    public function actionChangePassword()
-    {
-        $id = \Yii::$app->user->id;
-
-        try {
-            $model = new \backend\models\ChangePassword($id);
-        } catch (InvalidParamException $e) {
-            throw new \yii\web\BadRequestHttpException($e->getMessage());
-        }
-
-        if ($model->load(\Yii::$app->request->post()) && $model->validate() && $model->changePassword()) {
-            \Yii::$app->session->setFlash('success', 'Password Changed!');
-        }
-
-        return $this->render('changePasswordForm', [
-            'model' => $model,
-        ]);
-    }
+    // public function actionChangePassword()
+    // {
+    //     $id = \Yii::$app->user->id;
+    //
+    //     try {
+    //         $model = new \backend\models\ChangePassword($id);
+    //     } catch (InvalidParamException $e) {
+    //         throw new \yii\web\BadRequestHttpException($e->getMessage());
+    //     }
+    //
+    //     if ($model->load(\Yii::$app->request->post()) && $model->validate() && $model->changePassword()) {
+    //         \Yii::$app->session->setFlash('success', 'Password Changed!');
+    //     }
+    //
+    //     return $this->render('changePasswordForm', [
+    //         'model' => $model,
+    //     ]);
+    // }
 
     /**
      * Verify email address
