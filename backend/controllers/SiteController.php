@@ -13,11 +13,9 @@ use backend\models\ResendVerificationEmailForm;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\VerifyEmailForm;
-use backend\models\ChangePassword;
+use backend\models\ChangePasswordForm;
 
-/**
- * Site controller
- */
+
 class SiteController extends Controller
 {
     /**
@@ -229,9 +227,9 @@ class SiteController extends Controller
 
     public function actionChangePassword()
     {
-        $model= new ChangePassword();
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->setPassword()) {
-            Yii::$app->session->setFlash('success', 'New password saved.');
+        $model= new ChangePasswordForm();
+        if ($model->load(Yii::$app->request->post()) && $model->ChangePassword()) {
+            Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
             return $this->goHome();
         }
         return $this->render('changePassword', [

@@ -66,7 +66,7 @@ AppAsset::register($this);
                     [
                       'label' => 'Setting',
                       'items' => [
-                        ['label' => 'Change Password', 'url' => '#'],
+                        ['label' => 'Change Password', 'url' => '/site/change-password'],
                         '<li class="divider"></li>',
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                           'url' => ['/site/logout'],
