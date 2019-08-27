@@ -13,6 +13,7 @@ use backend\models\ResendVerificationEmailForm;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\VerifyEmailForm;
+use backend\models\ChangePassword;
 
 /**
  * Site controller
@@ -33,7 +34,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['request-password-reset','reset-password'],
+                        'actions' => ['request-password-reset','reset-password', 'change-password'],
                         'allow' => true,
                     ],
                     [
@@ -177,6 +178,26 @@ class SiteController extends Controller
         }
 
         return $this->render('resetPassword', [
+            'model' => $model,
+        ]);
+    }
+
+    // CHANGE PASSWORD
+    public function actionChangePassword()
+    {
+        $id = \Yii::$app->user->id;
+
+        try {
+            $model = new \backend\models\ChangePassword($id);
+        } catch (InvalidParamException $e) {
+            throw new \yii\web\BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->load(\Yii::$app->request->post()) && $model->validate() && $model->changePassword()) {
+            \Yii::$app->session->setFlash('success', 'Password Changed!');
+        }
+
+        return $this->render('changePasswordForm', [
             'model' => $model,
         ]);
     }

@@ -26,7 +26,8 @@ use yii\rbac\Assignment;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 8;
+    const STATUS_DELETED = 0;
+    const STATUS_SUSPEND = 8;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
@@ -59,6 +60,29 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
+    }
+
+    public function getStatusText()
+    {
+        switch ($this->status)
+        {
+            case self::STATUS_ACTIVE:
+                $text = "Active";
+                break;
+            case self::STATUS_INACTIVE:
+                $text = "Inactive";
+                break;
+            case self::STATUS_SUSPEND:
+                $text = "Suspend";
+                break;
+            case self::STATUS_DELETED:
+                $text = "Terminate";
+                break;
+            default:
+                $text = "(Undefined)";
+                break;
+        }
+        return $text;
     }
 
     /**

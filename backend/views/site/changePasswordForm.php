@@ -2,33 +2,29 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\SignupForm */
+/* @var $model \backend\models\ChangePasswordForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Signup';
+$this->title = 'Change Password';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-signup">
+<div class="site-change-password">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to signup:</p>
+    <p>Please enter your new password:</p>
 
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'email') ?>
-
+          <?php $form = ActiveForm::begin(); ?>
+                <?= ''// $form->field($model, 'Oldpassword')->passwordInput() ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
+                <?= $form->field($model, 'confirm_password')->passwordInput() ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton('Change', ['class' => 'btn btn-primary']) ?>
                 </div>
-
             <?php ActiveForm::end(); ?>
         </div>
     </div>
