@@ -14,8 +14,7 @@ use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\VerifyEmailForm;
 use backend\models\UserSearch;
-use backend\models\AdminPasswordForm;
-use backend\models\ChangePasswordForm;;
+use backend\models\ChangePasswordForm;
 
 
 
@@ -34,7 +33,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','test','logout','changepassword'],
+                        'actions' => ['login', 'error','test','logout','change-password'],
                         'allow' => true,
                     ],
                     [
@@ -43,10 +42,6 @@ class SiteController extends Controller
                     ],
                     [
                         'actions'=>['verify-email','resend-verification-email'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions'=>['change-password'],
                         'allow' => true,
                     ],
                     [
@@ -108,36 +103,6 @@ class SiteController extends Controller
         }
     }
 
-    public function actionChangepassword()
-    {
-
-        $model = new ChangePasswordForm();
-
-        $request = Yii::$app->request;
-
-        if($request->isPost && $model->load(Yii::$app->request->post()) && $model->changePassword()){
-            Yii::$app->user->logout();
-            return $this->goHome();
-        }else{
-            return $this->render('changepassword_y',['model'=>$model]);
-        }
-
-        // return $this->render('changepassword', [
-        //     'model' => $model,
-        //
-        // ]);
-
-
-    }
-
-    protected function findModel($id)
-    {
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
-        }
-
-        // throw new NotFoundHttpException('The requested page does not exist.');
-    }
     /**
      * Logout action.
      *
@@ -146,7 +111,6 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->actionLogin();
     }
     /**
@@ -260,6 +224,16 @@ class SiteController extends Controller
         return $this->render('resendVerificationEmail', [
             'model' => $model
         ]);
+    }
+
+    public function actionChangepassword()
+    {
+        $model = new ChangePasswordForm();
+        if( $model->load(Yii::$app->request->post()) && $model->changePassword()){
+            Yii::$app->session->setFlash('success', 'New password saved.');
+            return $this->actionLogout();
+        }
+        return $this->render('change-password',['model'=>$model]);
     }
 
 }
