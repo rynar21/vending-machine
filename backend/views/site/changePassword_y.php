@@ -23,9 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password')->passwordInput(['placeholder'=> 'Please choose your old password']) ?>
 
-                <?= $form->field($model, 'newpassword')->passwordInput(['placeholder'=> 'Please choose your new password']) ?>
+                <?= $form->field($model, 'newPassword')->passwordInput(['placeholder'=> 'Please choose your new password']) ?>
 
-                <?= $form->field($model, 'confirmpassword')->passwordInput(['placeholder'=> 'Please Submit your password again']) ?>
+                <?= $form->field($model, 'confirmPassword')->passwordInput(['placeholder'=> 'Please Submit your password again']) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>

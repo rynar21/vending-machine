@@ -50,15 +50,26 @@ AppAsset::register($this);
             ];
             }
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-            } else {
-                $menuItems[] =
-                    ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
+                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login'],
+                // 'items'=>[
+                //             ['label'=>'Home1','url'=>'/site/index'],
+                //             ['label'=>'Home2','url'=>'/site/index']
+                //         ]
+            ];
+
+            }
+            else {
+                    $menuItems[] = ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
 
                     'items'=>[
-                                ['label' => 'ChangePassword', 'url' => ['/site/change-password'] ],
-                                ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
-                            ]];
+                                ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
+
+                                ['label' => 'ChangePassword', 'url' => ['/site/changepassword']]
+                            ]
+
+                ];
+
+
             }
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
