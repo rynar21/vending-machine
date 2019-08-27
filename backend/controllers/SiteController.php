@@ -15,6 +15,7 @@ use backend\models\ResetPasswordForm;
 use backend\models\VerifyEmailForm;
 use backend\models\UserSearch;
 use backend\models\AdminPasswordForm;
+use backend\models\ChangePasswordForm;;
 
 
 
@@ -107,18 +108,18 @@ class SiteController extends Controller
         }
     }
 
-    public function actionChangepassword($id)
+    public function actionChangepassword()
     {
 
-        $model = new AdminPasswordForm();
+        $model = new ChangePasswordForm();
 
         $request = Yii::$app->request;
 
-        if($request->isPost && $model->load(Yii::$app->request->post()) && $model->changePassword($id)){
+        if($request->isPost && $model->load(Yii::$app->request->post()) && $model->changePassword()){
             Yii::$app->user->logout();
             return $this->goHome();
         }else{
-            return $this->render('changepassword',['model'=>$model]);
+            return $this->render('changepassword_y',['model'=>$model]);
         }
 
         // return $this->render('changepassword', [
