@@ -50,50 +50,13 @@ AppAsset::register($this);
             ];
             }
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login'],
-                // 'items'=>[
-                //             ['label'=>'Home1','url'=>'/site/index'],
-                //             ['label'=>'Home2','url'=>'/site/index']
-                //         ]
-            ];
-
-            }
-            else {
-                    $menuItems[] = ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
-
-                    'items'=>[
-                                ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']],
-
-                                ['label' => 'ChangePassword', 'url' => ['/site/changepassword','id'=>Yii::$app->user->identity->id] ]
-                            ]
-
-                ];
-                // $menuItems[] = '<li>'
-                //     . Html::beginForm(['/site/logout'], 'post')
-                //     . Html::submitButton(
-                //         'Logout (' . Yii::$app->user->identity->username . ')',
-                //         ['class' => 'btn btn-link logout']
-                //     )
-                //     . Html::endForm()
-                //     . '</li>'
-                //     ;
-
-
-                    // [
-                    //   'label' => 'Setting',
-                    //   'items' => [
-                    //     ['label' => 'Change Password', 'url' => 'site/change-password'],
-                    //     '<li class="divider"></li>',
-                    //     ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    //       'url' => ['/site/logout'],
-                    //       'linkOptions' => ['data-method' => 'post']
-                    //     ],
-                    //   ],
-                    // ];
+                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+            } else {
+                $menuItems[] =
                     ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
 
                     'items'=>[
-                                ['label' => 'ChangePassword', 'url' => ['/site/change-password','id'=>Yii::$app->user->identity->id] ],
+                                ['label' => 'ChangePassword', 'url' => ['/site/change-password'] ],
                                 ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
                             ]];
             }
