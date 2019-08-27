@@ -62,6 +62,29 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function getStatusText()
+    {
+        switch ($this->status)
+        {
+            case self::STATUS_ACTIVE:
+                $text = "Active";
+                break;
+            case self::STATUS_INACTIVE:
+                $text = "Inactive";
+                break;
+            case self::STATUS_SUSPEND:
+                $text = "Suspend";
+                break;
+            case self::STATUS_DELETED:
+                $text = "Terminate";
+                break;
+            default:
+                $text = "(Undefined)";
+                break;
+        }
+        return $text;
+    }
+
     /**
      * {@inheritdoc}
      */

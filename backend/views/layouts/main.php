@@ -79,6 +79,23 @@ AppAsset::register($this);
                 //     ;
 
 
+                    // [
+                    //   'label' => 'Setting',
+                    //   'items' => [
+                    //     ['label' => 'Change Password', 'url' => 'site/change-password'],
+                    //     '<li class="divider"></li>',
+                    //     ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                    //       'url' => ['/site/logout'],
+                    //       'linkOptions' => ['data-method' => 'post']
+                    //     ],
+                    //   ],
+                    // ];
+                    ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
+
+                    'items'=>[
+                                ['label' => 'ChangePassword', 'url' => ['/site/change-password','id'=>Yii::$app->user->identity->id] ],
+                                ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
+                            ]];
             }
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
