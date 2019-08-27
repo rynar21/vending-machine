@@ -13,6 +13,10 @@ use backend\models\ResendVerificationEmailForm;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\VerifyEmailForm;
+use backend\models\UserSearch;
+use backend\models\AdminPasswordForm;
+
+
 
 /**
  * Site controller
@@ -29,7 +33,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','test','logout'],
+                        'actions' => ['login', 'error','test','logout','changepassword'],
                         'allow' => true,
                     ],
                     [
@@ -41,9 +45,13 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
+                        'actions'=>['change-password'],
+                        'allow' => true,
+                    ],
+                    [
                         'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['ac_read'],
+                        // 'roles' => ['ac_read'],
                     ],
                 ],
             ],
@@ -85,10 +93,6 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        // if (!Yii::$app->user->isGuest) {
-        //     // return $this->goHome();
-        //     return $this->redirect(Url::to(['site/index']));
-        // }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login())
@@ -103,6 +107,26 @@ class SiteController extends Controller
         }
     }
 
+    public function actionChangepassword($id)
+    {
+    
+        $model = new AdminPasswordForm();
+        return $this->render('changepassword', [
+            'model' => $model,
+
+        ]);
+        // return $this->render('changepassword',['model'=>$model]);
+
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = User::findOne($id)) !== null) {
+            return $model;
+        }
+
+        // throw new NotFoundHttpException('The requested page does not exist.');
+    }
     /**
      * Logout action.
      *
