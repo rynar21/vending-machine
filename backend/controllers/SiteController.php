@@ -109,13 +109,23 @@ class SiteController extends Controller
 
     public function actionChangepassword($id)
     {
-    
-        $model = new AdminPasswordForm();
-        return $this->render('changepassword', [
-            'model' => $model,
 
-        ]);
-        // return $this->render('changepassword',['model'=>$model]);
+        $model = new AdminPasswordForm();
+
+        $request = Yii::$app->request;
+
+        if($request->isPost && $model->load(Yii::$app->request->post()) && $model->changePassword()){
+            Yii::$app->user->logout();
+            return $this->goHome();
+        }else{
+            return $this->render('changepassword',['model'=>$model]);
+        }
+
+        // return $this->render('changepassword', [
+        //     'model' => $model,
+        //
+        // ]);
+
 
     }
 

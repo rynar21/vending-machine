@@ -34,7 +34,6 @@ class AdminPasswordForm extends Model
             [['newpassword','confirmpassword','password'],'string', 'min' => 6],
 
 
-
             [['newpassword','confirmpassword'],'changePassword'],
 
 
@@ -48,10 +47,10 @@ class AdminPasswordForm extends Model
      * @param string $attribute the attribute currently being validated
      * @param array $params the additional name-value pairs given in the rule
      */
-    public function validatePassword($id,$attribute, $params)
+    public function validatePassword($attribute, $params)
     {
-        $id = Yii::$app->user->identity->id;
-        $admin=  User::findIdentity($id);
+        // $id = Yii::$app->user->identity->id;
+        // $admin=  User::findIdentity($id);
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if ($user && $user->validatePassword($this->password)) {
@@ -65,15 +64,15 @@ class AdminPasswordForm extends Model
 
         }
     }
-    public function changePassword($id,$newpassword,$confirmpassword){
+    public function changePassword(){
         $id = Yii::$app->user->identity->id;
-        $admin=  User::findIdentity($id);
+        $user=  User::findIdentity($id);
         $password = $user->password;
         if(Yii::$app->getSecurity()->validatePassword($this->password, $password)){
             if($this->$newpassword == $this->$confirmpassword){
                 $newPass = Yii::$app->getSecurity()->generatePasswordHash($this->$newpassword);
-                $admin->password = $newPass;
-                if($admin->save()){
+                $user->password = $newPass;
+                if($user->save()){
                     return true;
                 }else{
                     return false;
