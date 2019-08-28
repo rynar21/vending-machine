@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'contact',
             'created_at:datetime',
             'updated_at:datetime',
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 'header' => 'Action'],
         ],
     ]); ?>
 

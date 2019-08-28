@@ -34,13 +34,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=> 'status',
                 'value' => 'statusText'
             ],
-            'status',
+            // 'status',
             'store_id',
             'item.name',
             'item.product_id',
             'created_at:datetime',
             'updated_at:datetime',
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn','header' => 'Action'],
         ],
     ]); ?>
 
