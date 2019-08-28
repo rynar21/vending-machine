@@ -114,13 +114,13 @@ class SiteController extends Controller
 
         $model = new ChangePasswordForm();
         if (Yii::$app->user->identity!=null) {
-            
+
 
             if( $model->load(Yii::$app->request->post()) && $model->changePassword()){
                 Yii::$app->user->logout();
                 return $this->goHome();
             }else{
-                return $this->render('changepassword_y',['model'=>$model]);
+                return $this->render('changepassword',['model'=>$model]);
             }
         }
         else {

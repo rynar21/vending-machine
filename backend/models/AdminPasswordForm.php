@@ -84,4 +84,5 @@ class AdminPasswordForm extends Model
 
         return $this->_user;
     }
-   }
+
+  }
