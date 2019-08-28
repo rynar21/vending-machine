@@ -45,16 +45,20 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <hr/>
+    
     <h3> Available Items </h3>
 
     <?= GridView::widget([
-             'dataProvider' => $item_model,
+             'dataProvider' => $item_dataProvider,
               'columns' => [
                   [
                       'header' => 'Item ID',
                       'attribute' => 'id',
                   ],
                   'name',
+                  'box_id',
+                  'store_id',
                   'created_at:datetime',
                   'updated_at:datetime',
               ],
