@@ -45,7 +45,7 @@ class SaleRecordController extends Controller
 
         return $this->render('update', [
             'item_model' => $item_model,
-            'id' => $id,
+            // 'id' => $id,
         ]);
     }
 
