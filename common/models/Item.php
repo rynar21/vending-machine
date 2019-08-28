@@ -96,7 +96,7 @@ class Item extends \yii\db\ActiveRecord
         }
         else
         {
-            return 'Missing Item';
+            return '<i> Missing Item </i>';
         }
     }
 

@@ -17,7 +17,7 @@ use yii\helpers\Html;
  */
 class Box extends \yii\db\ActiveRecord
 {
-    public $number;
+    
     public $prefix;
 
       //盒子状态
@@ -35,7 +35,6 @@ class Box extends \yii\db\ActiveRecord
     {
         return [
             [['number', 'store_id'], 'integer'],
-            // [['prefix'], 'safe'],
             [['number'], 'required'],
             [['status'], 'default', 'value' => self::BOX_STATUS_AVAILABLE],
         ];
@@ -48,6 +47,7 @@ class Box extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
+
     public function getStore_id()
     {
         if (!empty($this->store->id)) {
@@ -130,12 +130,6 @@ class Box extends \yii\db\ActiveRecord
             // 添加新Item产品
             return Html::a('Add Item', ['item/create', 'id' => $this->id], ['class' => 'btn btn-primary']);
         }
-    }
-
-    public function beforeSave($insert)
-    {
-        $this->code = $this->number;
-        return parent::beforeSave($insert);
     }
 
     public function getBoxcode()
