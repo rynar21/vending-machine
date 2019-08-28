@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\common\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
@@ -50,6 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
+                'header' => 'Action',
                 'template' => '{User} {Staff} {Supervisor} {Revoke} {Suspend} {Unsuspended} {Terminate}',
                 'buttons' => [
                     'User' => function($url, $model, $id)

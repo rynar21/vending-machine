@@ -24,14 +24,18 @@ class BoxController extends Controller
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
-                    [
-                        'actions' => ['index', 'view'],
-                        'allow' => Yii::$app->user->can('ac_read'),
-                    ],
+                    // [
+                    //     'actions' => ['index', 'view'],
+                    //     'allow' => Yii::$app->user->can('ac_read'),
+                    // ],
                     [
                         'actions' => ['update'],
                         'allow' => true,
                         'roles' => ['ac_update'],
+                    ],
+                    [
+                        'actions' => ['index','view'],
+                        'allow' => false,
                     ],
                     [
                         'actions' => ['create'],
