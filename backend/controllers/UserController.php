@@ -35,14 +35,9 @@ class UserController extends Controller
                     [  'actions' => ['create'],
                       'allow' => true,
                     ],
-                    [  'actions' => ['suspend','unsuspend'],
+                    [  'actions' => ['update-status'],
                       'allow' => true,
                       'roles' => ['ac_update'],
-                    ],
-                    [
-                        'actions' => ['delete'],
-                        'allow' => true,
-                        'roles' => ['ac_delete'],
                     ],
                     [
                         'actions' => ['index', 'view'],
@@ -106,7 +101,6 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-
         $model = new SignUp();
         if ($model->load(Yii::$app->request->post()) && $model->SignUp()) {
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
@@ -124,39 +118,42 @@ class UserController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionSuspend($id)
+    public function actionUpdateStatus($status,$id)
     {
         $auth = Yii::$app->authManager;
         $model = $this->findModel($id);
-        if (!$auth->checkAccess($id,'admin')) {
-            $model->status=User::STATUS_SUSPEND;
-            $model->save();
-            Yii::$app->session->setFlash('success', "Suspend Success.");
+        // $dataProvider =$model->search(Yii::$app->request->queryParams);
+        if (!$auth->checkAccess($id,'admin'))
+        {
+            switch($status)
+            {
+                 case 8:
+                    $model->status=User::STATUS_SUSPEND;
+                    $model->save();
+                    Yii::$app->session->setFlash('success', "Suspend Success.");
+                    break;
+                 case 10:
+                    $model->status=User::STATUS_ACTIVE;
+                    $model->save();
+                    Yii::$app->session->setFlash('success', "Unsuspend Success.");
+                    break;
+                 case 0:
+                    $model->status=User::STATUS_DELETED;
+                    $model->save();
+                    Yii::$app->session->setFlash('success', "Termimate Success.");
+                    break;
+                 default:
+                    Yii::$app->session->setFlash('danger', "User not active!");
+                    break;
+            }
         }
-        else {
-             Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+        else
+        {
+           Yii::$app->session->setFlash('danger', "Cannot edit admin");
         }
-        return $this->render('index', [
-            'model' => $model,
-        ]);
+        return $this->redirect(['index']);
     }
 
-    public function actionUnsuspend($id)
-    {
-        $auth = Yii::$app->authManager;
-        $model = $this->findModel($id);
-        if (!$auth->checkAccess($id,'admin')) {
-            $model->status=User::STATUS_ACTIVE;
-            $model->save();
-            Yii::$app->session->setFlash('success', "Suspend Success.");
-        }
-        else {
-             Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
-        }
-        return $this->render('index', [
-            'model' => $model,
-        ]);
-    }
     /**
      * Deletes an existing user model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -164,68 +161,57 @@ class UserController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
-        $auth = Yii::$app->authManager;
-        $model = $this->findModel($id);
-        if (!$auth->checkAccess($id,'admin')) {
-            $model->status=User::STATUS_DELETED;
-            $model->save();
-            Yii::$app->session->setFlash('success', "Suspend Success.");
-        }
-        else {
-             Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
-        }
-        return $this->render('index', [
-            'model' => $model,
-        ]);
-    }
-
 
     //To assign user Role
     public function actionAssign($role, $id)
     {
         $auth = Yii::$app->authManager;
         // $str=$auth->getUserIdsByRole('admin');
-        $current_id = Yii::$app->user->identity->id;
-        if ($auth->checkAccess($current_id,'admin')) {
-              if (!$auth->checkAccess($id,'admin')) {
-                      $auth->revokeAll($id);
-                      $auth_role = $auth->getRole($role);
-                      $auth->assign($auth_role, $id);
-                      Yii::$app->session->setFlash('success', "Edit Success.");
+        if ($auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
+              if (!$auth->checkAccess($id,'admin'))
+              {
+                  $auth->revokeAll($id);
+                  $auth_role = $auth->getRole($role);
+                  $auth->assign($auth_role, $id);
+                  Yii::$app->session->setFlash('success', "Edit Success.");
               }
-              else {
-                   Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+              else
+              {
+                  Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
               }
           }
-          if ($auth->checkAccess($current_id,'supervisor')) {
-              if (!$auth->checkAccess($id,'admin')&&!$auth->checkAccess($id,'supervisor')) {
-                  if ($role!='supervisor'&&$role!='admin') {
+          if ($auth->checkAccess(Yii::$app->user->identity->id,'supervisor'))
+          {
+              if (!$auth->checkAccess($id,'admin')&&!$auth->checkAccess($id,'supervisor'))
+              {
+                  if ($role!='supervisor'&&$role!='admin')
+                  {
                       $auth->revokeAll($id);
                       $auth_role = $auth->getRole($role);
                       $auth->assign($auth_role, $id);
                       Yii::$app->session->setFlash('success', "Edit Success.");
                   }
-                  else {
+                  else
+                  {
                      Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
                   }
               }
           }
-
             return $this->redirect(['index']);
-
-}
+        }
     //To revoke user Role
     public function actionRevoke($id)
     {
 
         $auth = Yii::$app->authManager;
-        if (!$auth->checkAccess($id, 'admin')) {
-              $auth->revokeAll($id);
-              Yii::$app->session->setFlash('success', "Revoke Success.");
-        }else{
-          Yii::$app->session->setFlash('danger', "Cannot Revoke Admin.");
+        if (!$auth->checkAccess($id, 'admin'))
+        {
+            $auth->revokeAll($id);
+            Yii::$app->session->setFlash('success', "Revoke Success.");
+        }
+        else
+        {
+            Yii::$app->session->setFlash('danger', "Cannot Revoke Admin.");
         }
 
         return $this->redirect(['index']);
@@ -255,52 +241,3 @@ class UserController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
-
-
-// public function actionTest(){
-//     $auth = Yii::$app->authManager;
-//     return $auth->removeAll();
-// }
-//############actionCreate_OLD##############
-// $model = new User();
-// if ($model->load(Yii::$app->request->post()) ) {
-//     if ($model->save()) {
-//         return $this->redirect(['view', 'id' => $model->id]);
-//     }
-
-//     return $this->redirect('create', [
-//         'model' => $model,
-//     ]);
-// }
-
-    // $request = Yii::$app->request;
-    //
-    // if ($data = $request->post('user')) {
-    //     $model = new user();
-    //     $model->user_name = $data['user_name'];
-    //     $model->user_id = $data['user_id'];
-    //     if ($model->validate()) {
-    //         if ($model->save()) {
-    //             return $this->redirect(['view', 'id' => $model->id]);
-    //         }
-    //     }
-    // }
-
-
-
-//############## Old permission ############
-    // [
-    //     'actions' => ['update'],
-    //     'allow' => true,
-    //     'roles' => ['admin'],
-    // ],
-    // [
-    //     'actions' => ['create'],
-    //     'allow' => true,
-    //     'roles' => ['ac_create'],
-    // ],
-    // [
-    //     'actions' => ['delete'],
-    //     'allow' => true,
-    //     'roles' => ['admin'],
-    // ],

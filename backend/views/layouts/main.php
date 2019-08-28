@@ -50,34 +50,19 @@ AppAsset::register($this);
             ];
             }
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-            } else {
-                $menuItems[] =
-                // '<li>'
-                //     . Html::beginForm(['/site/logout'], 'post')
-                //     . Html::submitButton(
-                //         'Logout (' . Yii::$app->user->identity->username . ')',
-                //         ['class' => 'btn btn-link logout']
-                //
-                //     )
-                //     . Html::endForm()
-                //     . '</li>';
+                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login'],
+                // 'items'=>[
+                //             ['label'=>'Home1','url'=>'/site/index'],
+                //             ['label'=>'Home2','url'=>'/site/index']
+                //         ]
+            ];
 
-                    // [
-                    //   'label' => 'Setting',
-                    //   'items' => [
-                    //     ['label' => 'Change Password', 'url' => 'site/change-password'],
-                    //     '<li class="divider"></li>',
-                    //     ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    //       'url' => ['/site/logout'],
-                    //       'linkOptions' => ['data-method' => 'post']
-                    //     ],
-                    //   ],
-                    // ];
-                    ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
+            }
+            else {
+                    $menuItems[] = ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
 
                     'items'=>[
-                                ['label' => 'Change Password', 'url' => ['/site/change-password'] ],
+                                ['label' => 'Change Password', 'url' => ['/site/changepassword'] ],
                                 ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
                             ]];
             }

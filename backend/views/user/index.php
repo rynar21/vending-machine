@@ -75,17 +75,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                     'Suspend' => function($url, $model, $id)
                     {
-                        return Html::a('Suspend', ['update-status','status'= 8, 'id'=>$id], ['class' => 'btn btn-danger']);
+                        return Html::a('Suspend', ['update-status','status'=>8, 'id'=>$id], ['class' => 'btn btn-danger']);
                     },
 
                     'Unsuspended' => function($url, $model, $id)
                     {
-                        return Html::a('Unsuspended', ['update-status','status'= 10,'id'=>$id], ['class' => 'btn btn-primary']);
+                        return Html::a('Unsuspended', ['update-status','status'=>10,'id'=>$id], ['class' => 'btn btn-primary']);
                     },
 
                     'Terminate' => function($url, $model, $id)
                     {
-                        return Html::a('Terminate', ['update-status','status'= 0,'id'=>$id], ['class' => 'btn btn-danger']);
+                        return Html::a('Terminate', ['update-status','status'=>0,'id'=>$id], ['class' => 'btn btn-danger']);
                     },
                 ],
             ],

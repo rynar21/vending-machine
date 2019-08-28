@@ -13,9 +13,14 @@ use backend\models\ResendVerificationEmailForm;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\VerifyEmailForm;
+use backend\models\UserSearch;
 use backend\models\ChangePasswordForm;
 
 
+
+/**
+ * Site controller
+ */
 class SiteController extends Controller
 {
     /**
@@ -28,21 +33,21 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','test','logout'],
+                        'actions' => ['login', 'error','test','logout','change-password'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['request-password-reset','reset-password', 'change-password'],
+                        'actions' => ['request-password-reset','reset-password'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['verify-email','resend-verification-email'],
+                        'actions'=>['verify-email','resend-verification-email'],
                         'allow' => true,
                     ],
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['ac_read'],
+                        // 'roles' => ['ac_read'],
                     ],
                 ],
             ],
@@ -84,10 +89,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        // if (!Yii::$app->user->isGuest) {
-        //     // return $this->goHome();
-        //     return $this->redirect(Url::to(['site/index']));
-        // }
+
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login())
         {
@@ -109,7 +111,6 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->actionLogin();
     }
     /**
@@ -194,9 +195,9 @@ class SiteController extends Controller
             throw new BadRequestHttpException($e->getMessage());
         }
         if ($user = $model->verifyEmail()) {
-            if (Yii::$app->user->login($user)) {
+            if (Yii::$app->user->Logout($user)) {
                 Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
-                return $this->actionLogout();
+                return $this->actionLogin();
             }
         }
 
@@ -215,7 +216,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-                return $this->actionLogin();
+                return $this->actionLogout();
             }
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
         }
@@ -225,39 +226,14 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionChangePassword()
+    public function actionChangepassword()
     {
-        $model= new ChangePasswordForm();
-        if ($model->load(Yii::$app->request->post()) && $model->ChangePassword()) {
-            Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-            return $this->goHome();
+        $model = new ChangePasswordForm();
+        if( $model->load(Yii::$app->request->post()) && $model->changePassword()){
+            Yii::$app->session->setFlash('success', 'New password saved.');
+            return $this->actionLogout();
         }
-        return $this->render('changePassword', [
-            'model' => $model,
-        ]);
+        return $this->render('change-password',['model'=>$model]);
     }
 
-    // public function actionTest()
-    // {
-    //     $form = new \frontend\models\SignupForm();
-    //     $form->username = "admin";
-    //     $form->email = "admin@gmail.com";
-    //     $form->password = "admin";
-    //     $form->signup();
-    //     print_r($form->errors);
-    //
-    //
-    //     $auth = Yii::$app->authManager;
-    //     // echo "<pre>";
-    //     $admin = $auth->getRole('admin');
-    //
-    //     $auth->assign($admin,1);
-
-        // print_r($auth->getRoles());
-        //
-        // foreach ($auth->getRoles() as $role)
-        // {
-        //     echo $role->name . "<br>";
-        // }
-    // }
 }
