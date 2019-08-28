@@ -52,6 +52,8 @@ $this->title = 'Payment Progress';
             <a href="<?= Url::base() ?>/sale-record/check?id=<?= $item_model->id?>" class="btn btn-primary btn-available" data-toggle="modal">
                 Next
             </a>
+        </br></br>
+            
         </div>
     </div>
 

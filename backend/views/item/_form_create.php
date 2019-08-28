@@ -5,7 +5,8 @@ use yii\widgets\ActiveForm;
 use common\models\Product;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveField;
-
+use yii\jui\AutoComplete;
+use yii\web\JsExpression;
 /* @var $this yii\web\View */
 /* @var $model common\models\Item */
 /* @var $form yii\widgets\ActiveForm */
@@ -38,6 +39,29 @@ use yii\widgets\ActiveField;
             </div>
         </div>
 
+
+        <?php
+
+        $str = Product::find()
+        ->select(['name as value', 'name as  label','id as id'])
+        ->asArray()
+        ->all(); ?>
+
+        <?=
+        	 AutoComplete::widget([
+        	'clientOptions' => [
+        	'source' => $str,
+        	'autoFill'=>true,
+        	// 'select' => new JsExpression("function( event, ui ) {
+			//         $('#memberssearch-family_name_id').val(ui.item.id);//#memberssearch-family_name_id is the id of hiddenInput.
+			//      }")],
+			    ] ]);
+		    ?>
+
+
+    
+
+        <br/><br/>
         <!-- 提交表格按钮 -->
         <div class="row form-group">
               <div class="col-sm-1 col-xs-3">
