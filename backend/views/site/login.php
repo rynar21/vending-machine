@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div style="color:#999;margin:1em 0">
                     <?= Html::a('Forgot Password?', ['site/request-password-reset']) ?>
                     <br>
+                     <?= Html::a('Activate Account', ['site/resend-verification-email']) ?>
                     <!-- Need new verification email? -->
                      <?= "" //Html::a('Resend', ['site/resend-verification-email']) ?>
                 </div>
@@ -34,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                     <?= Html::a('Sign Up', ['user/create'], ['class' => 'btn btn-primary']) ?>
                 </div>
-
+                
             <?php ActiveForm::end(); ?>
         </div>
     </div>

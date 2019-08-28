@@ -31,6 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             'email',
             [
+                'attribute'=> 'status',
+                'value' => 'statusText'
+            ],
+            [
                 'header' => 'Roles',
                 'value' => function($data) {
                     $roles = Yii::$app->authManager->getRolesByUser($data->id);
@@ -46,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{User} {Staff} {Supervisor} {Revoke}',
+                'template' => '{User} {Staff} {Supervisor} {Revoke} {Suspend} {Unsuspended} {Terminate}',
                 'buttons' => [
                     'User' => function($url, $model, $id)
                     {
@@ -66,6 +70,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     'Revoke' => function($url, $model, $id)
                     {
                         return Html::a('Revoke', ['revoke','id'=>$id], ['class' => 'btn btn-danger']);
+                    },
+                    'Suspend' => function($url, $model, $id)
+                    {
+                        return Html::a('Suspend', ['update-status','status'=>8, 'id'=>$id], ['class' => 'btn btn-danger']);
+                    },
+
+                    'Unsuspended' => function($url, $model, $id)
+                    {
+                        return Html::a('Unsuspended', ['update-status','status'=>10,'id'=>$id], ['class' => 'btn btn-primary']);
+                    },
+
+                    'Terminate' => function($url, $model, $id)
+                    {
+                        return Html::a('Terminate', ['update-status','status'=>0,'id'=>$id], ['class' => 'btn btn-danger']);
                     },
                 ],
             ],
