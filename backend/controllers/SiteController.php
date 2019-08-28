@@ -34,7 +34,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','logout','change-password','request-password-reset','reset-password','verify-email','resend-verification-email'],
+                        'actions' => ['login', 'error','logout','change-password'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['request-password-reset','reset-password','verify-email','resend-verification-email'],
                         'allow' => true,
                     ],
                     [
