@@ -90,10 +90,14 @@ class Item extends \yii\db\ActiveRecord
 
     public function getName()
     {
-        if (!empty($this->product->name)) {
+        if (!empty($this->product->name))
+        {
             return $this->product->name;
         }
-        return null;
+        else
+        {
+            return '<i> Missing Item </i>';
+        }
     }
 
     public function getStore_id()

@@ -50,10 +50,16 @@ AppAsset::register($this);
             ];
             }
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-            } else {
-                $menuItems[] =
-                    ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
+                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login'],
+                // 'items'=>[
+                //             ['label'=>'Home1','url'=>'/site/index'],
+                //             ['label'=>'Home2','url'=>'/site/index']
+                //         ]
+            ];
+
+            }
+            else {
+                    $menuItems[] = ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
 
                     'items'=>[
                                 ['label' => 'Change Password', 'url' => ['/site/change-password'] ],

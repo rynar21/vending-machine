@@ -62,7 +62,7 @@ class Product extends \yii\db\ActiveRecord
     // 搜索 对应产品的 Item产品
     public function getItems()
     {
-      return $this->hasone(Item::className(), ['product_id' => 'id']);
+      return $this->hasMany(Item::className(), ['product_id' => 'id']);
     }
 
     public function getImageUrl()

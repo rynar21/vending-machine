@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Product;
+use common\models\Item;
 use backend\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -11,6 +12,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use yii\helpers\BaseStringHelper;
+use yii\data\ActiveDataProvider;
 
 
 /**
@@ -29,17 +31,17 @@ class ProductController extends Controller
                 'rules' => [
                     [
                         'actions' => ['index', 'view'],
-                        'allow' => Yii::$app->user->can('ac_product_read'),
+                        'allow' => Yii::$app->user->can('ac_prouduct_read'),
                     ],
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['ac_product_update'],
+                        'roles' => ['ac_prouduct_update'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['ac_product_create'],
+                        'roles' => ['ac_prouduct_create'],
                     ],
 
                     [
@@ -81,9 +83,16 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        $model = $this->findModel($id);
+        $item_dataProvider =  new ActiveDataProvider([
+            'query' => Item::find()->where(['product_id' => $id]),
         ]);
+
+        return $this->render('view', [
+            'model' => $model,
+            'item_dataProvider' => $item_dataProvider,
+        ]);
+
     }
 
     /**
@@ -134,11 +143,80 @@ class ProductController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-            //删除字段
-        if ($model->delete()) {
-            if ($model->image) {
-                if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
-                    unlink(Yii::getAlias('@upload') . '/' . $model->image);
+
+        // 判断产品是否存在 在于Item表单中
+        //如果存在，Product不可被删除
+        if($model->items)
+        {
+            Yii::$app->session->setFlash('error', 'Product cannot be deleted');
+
+            $text_item_available = '';
+            $text_item_void = '';
+            $text_item_locked = '';
+            $text_item_sold = '';
+            $text = '';
+            $text_string = array();
+
+            foreach ($model->items as $item)
+            {
+                switch($item->status)
+                {
+                    case Item::STATUS_AVAILABLE:
+                        if($text_item_available !== 'AVAILABLE Item')
+                        {
+                            $text_item_available = 'AVAILABLE Item';
+                            array_push($text_string, 'AVAILABLE Item');
+                        }
+                    break;
+
+                    case Item::STATUS_VOID:
+                        if($text_item_void !== 'VOID Item')
+                        {
+                            $text_item_void = 'VOID Item';
+                            array_push($text_string, 'VOID Item');
+                        }
+                    break;
+
+                    case Item::STATUS_LOCKED:
+                        if($text_item_locked !== 'LOCKED Item')
+                        {
+                            $text_item_locked = 'LOCKED Item';
+                            array_push($text_string, 'LOCKED Item');
+                        }
+                    break;
+
+                    case Item::STATUS_SOLD:
+                        if($text_item_sold !== 'SOLD Item')
+                        {
+                            $text_item_sold = 'SOLD Item';
+                            array_push($text_string, 'SOLD Item');
+                        }
+                    break;
+
+                    default:
+                    break;
+                }
+            }
+
+            for($x=0; $x < count($text_string)-1; $x++)
+            {
+                $text = $text.$text_string[$x].', ';
+            }
+
+            $text = 'Tips: <br>'.'Contains '.$text.$text_string[count($text_string)-1].'.';
+
+            Yii::$app->session->addFlash('info', $text);
+        }
+        else
+        {
+            if($model->delete())
+            {
+                if ($model->image)
+                {
+                    if (file_exists(Yii::getAlias('@upload') . '/' . $model->image))
+                    {
+                        unlink(Yii::getAlias('@upload') . '/' . $model->image);
+                    }
                 }
             }
         }
