@@ -41,11 +41,12 @@ class SaleRecordController extends Controller
             $model->status = $model::STATUS_PENDING;
             $model->sell_price = $item_model->price;
             $model->save();
+            $model->Check();
         }
 
         return $this->render('update', [
             'item_model' => $item_model,
-            // 'id' => $id,
+            'id' => $id,
         ]);
     }
 
