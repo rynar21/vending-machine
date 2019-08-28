@@ -15,6 +15,7 @@ use backend\models\ResetPasswordForm;
 use backend\models\VerifyEmailForm;
 use backend\models\UserSearch;
 use backend\models\ChangePasswordForm;
+use yii\web\NotFoundHttpException;
 
 
 
@@ -33,21 +34,13 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','test','logout','change-password'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['request-password-reset','reset-password'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions'=>['verify-email','resend-verification-email'],
+                        'actions' => ['login', 'error','logout','change-password','request-password-reset','reset-password','verify-email','resend-verification-email'],
                         'allow' => true,
                     ],
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        // 'roles' => ['ac_read'],
+                        'roles' => ['ac_read'],
                     ],
                 ],
             ],
@@ -111,7 +104,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-        return $this->actionLogin();
+        return $this->redirect(['login']);
     }
     /**
      * Signs user up.
@@ -226,14 +219,21 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionChangepassword()
+    public function actionChangePassword()
     {
         $model = new ChangePasswordForm();
-        if( $model->load(Yii::$app->request->post()) && $model->changePassword()){
-            Yii::$app->session->setFlash('success', 'New password saved.');
-            return $this->actionLogout();
+        if (Yii::$app->user->identity)
+        {
+            if($model->load(Yii::$app->request->post()) && $model->ChangePassword())
+            {
+                return $this->actionLogout() && Yii::$app->session->setFlash('success', 'New password saved.');
+            }
+            return $this->render('changepassword',['model'=>$model]);
         }
-        return $this->render('change-password',['model'=>$model]);
+        else
+        {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 }
