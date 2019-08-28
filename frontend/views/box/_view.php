@@ -13,7 +13,7 @@ use common\models\Item;
         <div class="col-sm-3 col-xs-6 box_row">
              <!-- 产品 显示框 -->
             <div class="box_item thumbnail">
-                <a>
+                <a href="<?= Url::base()?>/item/view?id=<?= $item->id?>">
                     <!-- 产品：图片 显示框 -->
                     <div class="row item_image">
                         <img src="<?= $item->imageUrl ?>" class="img-responsive center-block"/>
@@ -29,7 +29,6 @@ use common\models\Item;
                         <span class="item_price">
                             <?= $item->pricing ?>
                         </span>
-                        <?= Html::a('Buy', ['item/view', 'id' => $item->id], ['class' => 'btn btn-success pull-right']) ?>
                     </div>
                 </a>
             </div>
