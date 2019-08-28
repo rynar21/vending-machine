@@ -15,7 +15,8 @@ use backend\models\ResetPasswordForm;
 use backend\models\VerifyEmailForm;
 use backend\models\UserSearch;
 use backend\models\AdminPasswordForm;
-use backend\models\ChangePasswordForm;;
+use backend\models\ChangePasswordForm;
+use yii\web\NotFoundHttpException;
 
 
 
@@ -112,32 +113,24 @@ class SiteController extends Controller
     {
 
         $model = new ChangePasswordForm();
+        if (Yii::$app->user->identity!=null) {
+            
 
-        $request = Yii::$app->request;
-
-        if($request->isPost && $model->load(Yii::$app->request->post()) && $model->changePassword()){
-            Yii::$app->user->logout();
-            return $this->goHome();
-        }else{
-            return $this->render('changepassword_y',['model'=>$model]);
+            if( $model->load(Yii::$app->request->post()) && $model->changePassword()){
+                Yii::$app->user->logout();
+                return $this->goHome();
+            }else{
+                return $this->render('changepassword_y',['model'=>$model]);
+            }
         }
-
-        // return $this->render('changepassword', [
-        //     'model' => $model,
-        //
-        // ]);
+        else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
 
 
     }
 
-    protected function findModel($id)
-    {
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
-        }
 
-        // throw new NotFoundHttpException('The requested page does not exist.');
-    }
     /**
      * Logout action.
      *
