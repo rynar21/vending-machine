@@ -43,8 +43,8 @@ AppAsset::register($this);
                 ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'User', 'url' => ['/user/index']],
                 ['label' => 'Store', 'url' => ['/store/index']],
-                ['label' => 'Box', 'url' => ['/box/index?id=1']],
-                ['label' => 'Item', 'url' => ['/item/index']],
+                // ['label' => 'Box', 'url' => ['/box/index?id=1']],
+                // ['label' => 'Item', 'url' => ['/item/index']],
                 ['label' => 'Record', 'url' => ['/sale-record/index']],
                 ['label' => 'Product', 'url' => ['/product/index']],
             ];

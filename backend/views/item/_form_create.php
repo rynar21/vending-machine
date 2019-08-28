@@ -5,6 +5,8 @@ use yii\widgets\ActiveForm;
 use common\models\Product;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveField;
+use yii\jui\AutoComplete;
+use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Item */
@@ -34,7 +36,23 @@ use yii\widgets\ActiveField;
         <!-- 产品名称 -->
         <div class="row">
             <div class="col-sm-12">
-                <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name')) ?>
+              <?php
+              $test = Product::find()
+                ->select(['name as value', 'name as  label','id as id'])
+                ->asArray()
+                ->all();?>
+                <?= AutoComplete::widget([
+                      'name' => 'name',
+                      'clientOptions' => [
+                          'source' => $test,
+                          'autoFill' => true,
+                          // 'select' => new JsExpression("function( event, ui )) {
+                          //     $('#product').val(ui.product.id);
+                          //  }"),
+                      ],
+                  ]);
+              //$form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name')) ?>
+              <?= Html::activeHiddenInput($model, 'id')?>
             </div>
         </div>
 

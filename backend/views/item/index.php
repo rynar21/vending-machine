@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'product_id',
             'box_id',
             'store_id',
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn','header' => 'Action'],
         ],
     ]); ?>
 

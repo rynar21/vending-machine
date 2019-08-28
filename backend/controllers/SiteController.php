@@ -15,6 +15,7 @@ use backend\models\ResetPasswordForm;
 use backend\models\VerifyEmailForm;
 use backend\models\UserSearch;
 use backend\models\ChangePasswordForm;
+use yii\web\NotFoundHttpException;
 
 
 
@@ -33,7 +34,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','test','logout','change-password'],
+                        'actions' => ['login', 'error','test','logout','changepassword'],
                         'allow' => true,
                     ],
                     [
@@ -47,7 +48,7 @@ class SiteController extends Controller
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        // 'roles' => ['ac_read'],
+                        'roles' => ['ac_read'],
                     ],
                 ],
             ],
@@ -111,7 +112,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-        return $this->actionLogin();
+        return $this->redirect(['login']);
     }
     /**
      * Signs user up.
@@ -228,12 +229,20 @@ class SiteController extends Controller
 
     public function actionChangepassword()
     {
-        $model = new ChangePasswordForm();
-        if( $model->load(Yii::$app->request->post()) && $model->changePassword()){
-            Yii::$app->session->setFlash('success', 'New password saved.');
-            return $this->actionLogout();
-        }
-        return $this->render('change-password',['model'=>$model]);
-    }
+      $model = new ChangePasswordForm();
 
+      if(Yii::$app->user->identity != null)
+      {
+        if( $model->load(Yii::$app->request->post()) && $model->changePassword())
+        {
+            // Yii::$app->session->setFlash('success', 'New password saved.');
+            return $this->actionLogout() && Yii::$app->session->setFlash('success', 'New password saved.');
+        }
+        return $this->render('changepassword',['model'=>$model]);
+      }
+      else
+      {
+        throw new NotFoundHttpException('The requested page does not exist.');
+      }
+    }
 }
