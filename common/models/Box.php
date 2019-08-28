@@ -17,7 +17,7 @@ use yii\helpers\Html;
  */
 class Box extends \yii\db\ActiveRecord
 {
-    
+
     public $prefix;
 
       //盒子状态
@@ -34,8 +34,8 @@ class Box extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['number', 'store_id'], 'integer'],
-            [['number'], 'required'],
+            [['code', 'store_id'], 'integer'],
+            [['code'], 'required'],
             [['status'], 'default', 'value' => self::BOX_STATUS_AVAILABLE],
         ];
     }
