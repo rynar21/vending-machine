@@ -10,9 +10,9 @@ use common\models\Item;
 ?>
 
 <?php if($item):?>
-        <div class="col-sm-3 col-xs-6 box_row">
+        <div class="col-sm-3 col-xs-6 box_row ">
              <!-- 产品 显示框 -->
-            <div class="box_item thumbnail">
+            <div class="box_item thumbnail  ">
                 <a>
                     <!-- 产品：图片 显示框 -->
                     <div class="row item_image">
