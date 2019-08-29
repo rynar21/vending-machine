@@ -196,6 +196,10 @@ class UserController extends Controller
                      Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
                   }
               }
+              else
+              {
+                 Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
+              }
           }
             return $this->redirect(['index']);
         }

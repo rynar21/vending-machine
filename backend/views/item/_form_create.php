@@ -33,17 +33,13 @@ use yii\web\JsExpression;
         </div>
 
         <!-- 产品名称 -->
-        <div class="row">
-            <div class="col-sm-12">
-                <?= $form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name')) ?>
-            </div>
-        </div>
 
 
         <?php
 
         $str = Product::find()
-        ->select(['name as value', 'name as  label','id as id'])
+
+        ->select(['sku as value', 'sku as  label','id as product_id'])
         ->asArray()
         ->all(); ?>
 
@@ -51,7 +47,6 @@ use yii\web\JsExpression;
         	 AutoComplete::widget([
             'name'=>'Product',
             'options'=>['class'=>'form-control'],
-
         	'clientOptions' => [
         	'source' => $str,
         	'autoFill'=>true,
@@ -65,6 +60,7 @@ use yii\web\JsExpression;
 
 
         <br/><br/>
+
         <!-- 提交表格按钮 -->
         <div class="row form-group">
               <div class="col-sm-1 col-xs-3">
