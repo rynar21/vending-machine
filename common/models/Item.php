@@ -100,6 +100,18 @@ class Item extends \yii\db\ActiveRecord
         }
     }
 
+    public function getPrice()
+    {
+        if (!empty($this->product->price))
+        {
+            return $this->product->price;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     public function getStore_id()
     {
         if (!empty($this->box->store_id)) {
