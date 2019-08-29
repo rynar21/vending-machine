@@ -41,7 +41,7 @@ class UserController extends Controller
                     ],
                     [
                         'actions' => ['index', 'view'],
-                        'allow' => Yii::$app->user->can('ac_user_read'),
+                        'allow' => true,
                     ],
                     [
                         'actions' => ['assign'],

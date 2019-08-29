@@ -49,6 +49,9 @@ use yii\web\JsExpression;
 
         <?=
         	 AutoComplete::widget([
+            'name'=>'Product',
+            'options'=>['class'=>'form-control'],
+
         	'clientOptions' => [
         	'source' => $str,
         	'autoFill'=>true,
@@ -59,7 +62,7 @@ use yii\web\JsExpression;
 		    ?>
 
 
-    
+
 
         <br/><br/>
         <!-- 提交表格按钮 -->

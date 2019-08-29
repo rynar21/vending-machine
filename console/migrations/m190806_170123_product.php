@@ -14,6 +14,7 @@ class m190806_170123_product extends Migration
     {
         $this->createTable('product',[
           'id'=>$this->primaryKey(),
+          'sku'=>$this->string()->notNull(),
           'name'=>$this->string()->notNull(),
           'price'=>$this->float(10,2)->notNull(),
           'image'=>$this->string(),

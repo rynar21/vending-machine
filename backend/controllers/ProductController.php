@@ -27,9 +27,13 @@ class ProductController extends Controller
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
+                    // [
+                    //     'actions' => ['index', 'view'],
+                    //     'allow' => Yii::$app->user->can('ac_prouduct_read'),
+                    // ],
                     [
                         'actions' => ['index', 'view'],
-                        'allow' => Yii::$app->user->can('ac_prouduct_read'),
+                        'allow' =>true,
                     ],
                     [
                         'actions' => ['update'],
