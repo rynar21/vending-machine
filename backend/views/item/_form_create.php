@@ -55,6 +55,19 @@ use yii\web\JsExpression;
 			//      }")],
 			    ] ]);
 		    ?>
+            <?=
+             $form->field($model, 'product_id')->widget(\yii\jui\AutoComplete::classname(), [
+
+                 'clientOptions' => [
+                       'source' => $str,
+                       'options' => ['class' => 'form-control'],
+                      // 'minLength'=>'2',
+                      'autoFill'=>true,
+                      'select' => new JsExpression("function( event, ui ) {
+                                    $('#item-name').val(ui.item.id);
+                                 }"),
+                               ],
+                             ]); ?>
 
 
 
