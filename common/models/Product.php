@@ -39,7 +39,7 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price'], 'required'],
+            [['name', 'price','sku'], 'required'],
             [['price'], 'number'],
             [['name'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
@@ -51,6 +51,7 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'sku'=>'sku',
             'name' => 'Name',
             'price' => 'Price',
             'image' => 'Image',

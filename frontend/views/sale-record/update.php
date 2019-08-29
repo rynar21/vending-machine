@@ -52,10 +52,8 @@ $this->title = 'Payment Progress';
             <a href="<?= Url::base() ?>/sale-record/check?id=<?= $model->id?>" class="btn btn-primary btn-available" data-toggle="modal">
                 Next
             </a>
+        </br></br>
 
-            <br/><br/>
-
-            <?= Html::a('Cancel', ['cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel"])?>
         </div>
     </div>
 

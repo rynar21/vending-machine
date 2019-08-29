@@ -20,11 +20,12 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+
+            [['sku'], 'string'],
             [['name', 'image'], 'safe'],
             [['price'], 'number'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
-            
+
         ];
     }
 
@@ -63,6 +64,7 @@ class ProductSearch extends Product
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'sku'=>$this->sku,
             'price' => $this->price,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

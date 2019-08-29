@@ -7,7 +7,6 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveField;
 use yii\jui\AutoComplete;
 use yii\web\JsExpression;
-
 /* @var $this yii\web\View */
 /* @var $model common\models\Item */
 /* @var $form yii\widgets\ActiveForm */
@@ -36,30 +35,46 @@ use yii\web\JsExpression;
         </div>
 
         <!-- 产品名称 -->
-        <div class="row">
-            <div class="col-sm-12">
-              <?php
-                  $test = Product::find()
-                    ->select(['name as value', 'name as  label','id as id'])
-                    ->asArray()
-                    ->all();?>
-                    <?= AutoComplete::widget([
-                          'name' => 'name',
-                          'clientOptions' => [
-                              'source' => $test,
-                              'autoFill' => true,
-                              // 'select' => new JsExpression("function( event, ui )) {
-                              //     $('#product').val(ui.product.id);
-                              //  }"),
-                          ],
-                      ]); ?>
 
-              <?= Html::activeHiddenInput($model, 'id')?>
 
-              <!-- 搜索 Product数据表 的所有Product ID数据，以Product Name产品名称 展示对应的Product ID -->
-              <?php //echo $form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name')); ?>
-            </div>
-        </div>
+        <?php
+
+        $str = Product::find()
+
+        ->select(['sku as value', 'sku as  label','id as product_id'])
+        ->asArray()
+        ->all(); ?>
+
+        <?=
+        	 AutoComplete::widget([
+            'name'=>'Product',
+            'options'=>['class'=>'form-control'],
+        	'clientOptions' => [
+        	'source' => $str,
+        	'autoFill'=>true,
+        	// 'select' => new JsExpression("function( event, ui ) {
+			//         $('#memberssearch-family_name_id').val(ui.item.id);//#memberssearch-family_name_id is the id of hiddenInput.
+			//      }")],
+			    ] ]);
+		    ?>
+            <?=
+             $form->field($model, 'product_id')->widget(\yii\jui\AutoComplete::classname(), [
+
+                 'clientOptions' => [
+                       'source' => $str,
+                       'options' => ['class' => 'form-control'],
+                      // 'minLength'=>'2',
+                      'autoFill'=>true,
+                      'select' => new JsExpression("function( event, ui ) {
+                                    $('#item-name').val(ui.item.id);
+                                 }"),
+                               ],
+                             ]); ?>
+
+
+
+
+        <br/><br/>
 
         <!-- 提交表格按钮 -->
         <div class="row form-group">
