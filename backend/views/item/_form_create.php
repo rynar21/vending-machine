@@ -41,22 +41,12 @@ use yii\web\JsExpression;
 
         $str = Product::find()
 
-        ->select(['sku as value', 'sku as  label','id as product_id'])
+        ->select(['sku as value', 'sku as  label','sku as product_id'])
+        // ->where(['% 2 =', 'id', 1])
         ->asArray()
         ->all(); ?>
 
-        <?=
-        	 AutoComplete::widget([
-            'name'=>'Product',
-            'options'=>['class'=>'form-control'],
-        	'clientOptions' => [
-        	'source' => $str,
-        	'autoFill'=>true,
-        	// 'select' => new JsExpression("function( event, ui ) {
-			//         $('#memberssearch-family_name_id').val(ui.item.id);//#memberssearch-family_name_id is the id of hiddenInput.
-			//      }")],
-			    ] ]);
-		    ?>
+
             <?=
              $form->field($model, 'product_id')->widget(\yii\jui\AutoComplete::classname(), [
 
@@ -65,9 +55,9 @@ use yii\web\JsExpression;
                        'options' => ['class' => 'form-control'],
                       // 'minLength'=>'2',
                       'autoFill'=>true,
-                      'select' => new JsExpression("function( event, ui ) {
-                                    $('#item-name').val(ui.item.id);
-                                 }"),
+                      // 'select' => new JsExpression("function( event, ui ) {
+                      //               $('#item-name').val(ui.item.id);
+                      //            }"),
                                ],
                              ]); ?>
 

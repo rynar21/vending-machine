@@ -96,7 +96,7 @@ class Item extends \yii\db\ActiveRecord
         }
         else
         {
-            return '<i> Missing Item </i>';
+            return null;
         }
     }
 
@@ -137,8 +137,18 @@ class Item extends \yii\db\ActiveRecord
     // 以 价格格式 显示 Item产品价格
     public function getPricing()
     {
-        $num = number_format($this->price, 2);
-        return 'RM '.$num;
+        // $num = number_format($this->price, 2);
+        // return 'RM '.$num;
+    }
+    public function getPrice()
+    {
+
+        if (!empty($this->product->price)) {
+            return $this->product->price;
+        }
+        else {
+            return null;
+        }
     }
 
     // 搜索 对应产品的 Store商店
