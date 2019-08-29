@@ -31,9 +31,11 @@ class SaleRecordController extends Controller
     public function actionCreate($id)
     {
         $item_model = Item::findOne($id);   // 寻找 Item
-        // 创建 新订单
-        if(empty(SaleRecord::findOne(['item_id' => $id])))
+
+        // 先判断 这Item ID是否存在 在于 SaleRecord
+        if(empty(SaleRecord::findOne(['item_id'=> $id]))) // 如果 相关的Item ID数据 不存在
         {
+            // 创建 新订单
             $model = new SaleRecord();
             $model->item_id = $id;
             $model->box_id = $item_model->box_id;
@@ -42,9 +44,27 @@ class SaleRecordController extends Controller
             $model->sell_price = $item_model->price;
             $model->save();
         }
+        else // 相反 如果存在
+        {
+            // 搜索 相关 Item ID 最后一条数据
+            $last_record = SaleRecord::find()->where(['item_id'=> $id])->orderBy(['id'=> SORT_DESC])->one();
+            // 如果最后一条数据状态 为 交易失败
+            if($last_record->status == SaleRecord::STATUS_FAILED)
+            {
+                // 创建 新订单
+                $model = new SaleRecord();
+                $model->item_id = $id;
+                $model->box_id = $item_model->box_id;
+                $model->store_id = $item_model->store_id;
+                $model->status = $model::STATUS_PENDING;
+                $model->sell_price = $item_model->price;
+                $model->save();
+            }
+        }
 
         return $this->render('update', [
             'item_model' => $item_model,
+            'model' => SaleRecord::findOne(['id' => (SaleRecord::find()->count())]), //搜索最后一条数据
             'id' => $id,
         ]);
     }
@@ -53,7 +73,7 @@ class SaleRecordController extends Controller
     public function actionCheck($id)
     {
         // 判断 订单是否存在
-        if ($model = SaleRecord::findOne(['item_id' => $id]))
+        if ($model = SaleRecord::findOne(['id' => $id]))
         {
             switch($model->status)
             {
@@ -86,6 +106,16 @@ class SaleRecordController extends Controller
         else {
             throw new NotFoundHttpException('The requested model does not exist.');
         }
+    }
+
+    public function actionCancel($id)
+    {
+        $model = SaleRecord::findOne(['id' => $id]);
+        $model->status = SaleRecord:: STATUS_FAILED;
+        $model->save();
+        $model->failed();
+
+        return $this->redirect(['store/view', 'id' => $model->store_id]);
     }
 
     public function actionInvoice($id)
