@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = 'Update';
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            'store_id',
+            // 'store_id',
             'box.code',
             'name',
             ['attribute'=> 'price', 'value' => 'pricing'],

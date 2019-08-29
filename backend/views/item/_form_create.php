@@ -37,9 +37,43 @@ use yii\web\JsExpression;
         <!-- 产品名称 -->
 
         <div class="row">
-             <div class="col-sm-12">
-                  <b>Item Price</b>
-              </div>
+            <div class="col-sm-12">
+              <?php
+              $data = Product::find()
+                ->select(['id as value', 'name as label','id as id'])
+                ->asArray()
+                ->all(); ?>
+
+                <?= //AutoComplete::widget([
+                  //     // 'name' => 'Product',
+                  //     // 'id' => 'ddd',
+                  //     'options' => ['class' => 'form-control'],
+                  //     'clientOptions' => [
+                  //         'source' => $_searchProduct,
+                  //         'autoFill' => true,
+                  //         // 'minLength'=>'2',
+                  //         'select' => new JsExpression("function( event, ui ) {
+                  //               $('#item-name').val(ui.item.id);
+                  //            }")
+                  //     ],
+                  // ]);
+              //$form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name'))
+             $form->field($model, 'product_id')->widget(\yii\jui\AutoComplete::classname(), [
+
+                	'clientOptions' => [
+                       'source' => $data,
+                       'options' => ['class' => 'form-control'],
+                      // 'minLength'=>'2',
+                      'autoFill'=>true,
+                      'select' => new JsExpression("function( event, ui ) {
+                                    $('#item-name').val(ui.item.id);
+                                 }"),
+                               ],
+                             ]); ?>
+              <?=  ''//Html::activeHiddenInput($model, 'product_id', ['value' => 1]); ?>
+            </div>
+
+
         </div>
 
         <?php
