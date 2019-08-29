@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'username',
             'email',
             [
@@ -51,8 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'header' => 'Action',
-                'template' => '{User} {Staff} {Supervisor} {Revoke} {Suspend} {Unsuspended} {Terminate}',
+                'header' => 'Role Assign',
+                'template' => '{User} {Staff} {Supervisor} {Revoke}',
                 'buttons' => [
                     'User' => function($url, $model, $id)
                     {
@@ -73,6 +73,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     {
                         return Html::a('Revoke', ['revoke','id'=>$id], ['class' => 'btn btn-danger']);
                     },
+                ],
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header' => 'Action',
+                'template' => '{Unsuspended} {Suspend} {Terminate}',
+                'buttons' => [
                     'Suspend' => function($url, $model, $id)
                     {
                         return Html::a('Suspend', ['update-status','status'=>8, 'id'=>$id], ['class' => 'btn btn-danger']);

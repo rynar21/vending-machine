@@ -30,7 +30,7 @@ $model = new ActiveDataProvider([
                  // 'filterModel' => $searchModel,
                   'columns' => [
                       ['class' => 'yii\grid\SerialColumn'],
-                      'id',
+                      // 'id',
                       [
                           'label'=> 'Box Code',
                           'format' => 'raw',
@@ -44,8 +44,8 @@ $model = new ActiveDataProvider([
                           'value' => 'statusText'
                       ],
                       'item.name',
-                      'created_at:datetime',
-                      'updated_at:datetime',
+                      // 'created_at:datetime',
+                      // 'updated_at:datetime',
                       [
                           'label'=>'Action',
                           'format' => 'raw',
