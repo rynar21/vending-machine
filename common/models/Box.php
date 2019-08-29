@@ -6,7 +6,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Html;
-
+use yii\helpers\Url;
 /**
  * This is the model class for table "box".
  * @property int $id
@@ -46,6 +46,15 @@ class Box extends \yii\db\ActiveRecord
         return [
             TimestampBehavior::className(),
         ];
+    }
+
+    public function getImageUrl()
+    {
+        if ($this->image && file_exists(Yii::getAlias('@upload') . '/' . $this->image))
+        {
+            return Url::to('@imagePath'). '/' . $this->image;
+        }
+        return Url::to('@imagePath'). '/product.jpg';
     }
 
     public function getStore_id()
