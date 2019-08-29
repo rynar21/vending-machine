@@ -131,12 +131,6 @@ class Box extends \yii\db\ActiveRecord
         }
     }
 
-    public function beforeSave($insert)
-    {
-        $this->code = $this->number;
-        return parent::beforeSave($insert);
-    }
-
     public function getBoxcode()
     {
         if(empty($this->store->prefix))
