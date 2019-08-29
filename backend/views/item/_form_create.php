@@ -13,6 +13,7 @@ use yii\web\JsExpression;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+<!-- 添加产品： 只需要选择 Product Name 产品名称 -->
 <div class="item-form">
 
         <!-- 运行 Yii ActiveForm 框架 -->
@@ -55,7 +56,7 @@ use yii\web\JsExpression;
 
               <?= Html::activeHiddenInput($model, 'id')?>
 
-
+              <!-- 搜索 Product数据表 的所有Product ID数据，以Product Name产品名称 展示对应的Product ID -->
               <?php //echo $form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name')); ?>
             </div>
         </div>
@@ -63,10 +64,12 @@ use yii\web\JsExpression;
         <!-- 提交表格按钮 -->
         <div class="row form-group">
               <div class="col-sm-1 col-xs-3">
+                <!-- 保存按钮 -->
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
               </div>
 
               <div class="col-sm-1 col-xs-3">
+                  <!-- 取消按钮 -->
                   <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
               </div>
         </div>
