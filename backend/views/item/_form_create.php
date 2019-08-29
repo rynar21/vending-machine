@@ -36,44 +36,31 @@ use yii\web\JsExpression;
 
         <!-- 产品名称 -->
 
+        <div class="row">
+             <div class="col-sm-12">
+                  <b>Item Price</b>
+              </div>
+        </div>
 
         <?php
 
         $str = Product::find()
 
-        ->select(['sku as value', 'sku as  label','id as product_id'])
+        ->select(['sku as value', 'sku as label','id as id'])
         ->asArray()
         ->all(); ?>
+        <?=$form->field($model, 'product_id')->widget(\yii\jui\AutoComplete::classname(), [
 
-        <?=
-        	 AutoComplete::widget([
-            'name'=>'Product',
-            'options'=>['class'=>'form-control'],
-        	'clientOptions' => [
-        	'source' => $str,
-        	'autoFill'=>true,
-        	// 'select' => new JsExpression("function( event, ui ) {
-			//         $('#memberssearch-family_name_id').val(ui.item.id);//#memberssearch-family_name_id is the id of hiddenInput.
-			//      }")],
-			    ] ]);
-		    ?>
-            <?=
-             $form->field($model, 'product_id')->widget(\yii\jui\AutoComplete::classname(), [
-
-                 'clientOptions' => [
-                       'source' => $str,
-                       'options' => ['class' => 'form-control'],
-                      // 'minLength'=>'2',
-                      'autoFill'=>true,
-                      'select' => new JsExpression("function( event, ui ) {
-                                    $('#item-name').val(ui.item.id);
-                                 }"),
-                               ],
-                             ]); ?>
-
-
-
-
+             'clientOptions' => [
+                   'source' => $str,
+                   'options' => ['class' => 'form-control'],
+                  // 'minLength'=>'2',
+                  'autoFill'=>true,
+                  'select' => new JsExpression("function( event, ui ) {
+                                $('#item-name').val(ui.item.id);
+                             }"),
+                           ],
+                         ]); ?>
         <br/><br/>
 
         <!-- 提交表格按钮 -->
