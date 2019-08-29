@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\SaleRecordSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
