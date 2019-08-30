@@ -6,7 +6,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Html;
-
+use yii\helpers\Url;
 /**
  * This is the model class for table "box".
  * @property int $id
@@ -17,7 +17,7 @@ use yii\helpers\Html;
  */
 class Box extends \yii\db\ActiveRecord
 {
-    public $number;
+
     public $prefix;
 
       //盒子状态
@@ -34,9 +34,8 @@ class Box extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['number', 'store_id'], 'integer'],
-            // [['prefix'], 'safe'],
-            [['number'], 'required'],
+            [['code', 'store_id'], 'integer'],
+            [['code'], 'required'],
             [['status'], 'default', 'value' => self::BOX_STATUS_AVAILABLE],
         ];
     }
@@ -48,6 +47,16 @@ class Box extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
+
+    public function getImageUrl()
+    {
+        if ($this->image && file_exists(Yii::getAlias('@upload') . '/' . $this->image))
+        {
+            return Url::to('@imagePath'). '/' . $this->image;
+        }
+        return Url::to('@imagePath'). '/product.jpg';
+    }
+
     public function getStore_id()
     {
         if (!empty($this->store->id)) {
@@ -130,12 +139,6 @@ class Box extends \yii\db\ActiveRecord
             // 添加新Item产品
             return Html::a('Add Item', ['item/create', 'id' => $this->id], ['class' => 'btn btn-primary']);
         }
-    }
-
-    public function beforeSave($insert)
-    {
-        $this->code = $this->number;
-        return parent::beforeSave($insert);
     }
 
     public function getBoxcode()

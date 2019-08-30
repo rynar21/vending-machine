@@ -40,10 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'store_id',
             'box.code',
             'name',
-            ['attribute'=> 'price', 'value' => 'pricing'],
+            'price',
             ['attribute'=> 'status', 'value' => 'statusText'],
             'created_at:datetime',
             'updated_at:datetime',
         ],
     ]); ?>
+
+
 </div>

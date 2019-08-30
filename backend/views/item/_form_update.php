@@ -9,8 +9,10 @@ use yii\widgets\ActiveForm;
 
 ?>
 
+<!-- 更改产品： 只可应许更改产品出售价格 -->
 <div class="item-form">
 
+        <!--运行 Yii ActiveForm 框架 -->
         <?php $form = ActiveForm::begin(); ?>
 
         <!-- 盒子 ID -->
@@ -29,6 +31,7 @@ use yii\widgets\ActiveForm;
             <?= $model->store_id ?>
         </div>
 
+        <!-- 强行下架产品 为不可出售 -->
         <p>
             <?= Html::a('Void Item', ['void', 'id'=> $model->id], ['class' => 'btn btn-danger pull-right']) ?>
         </p>
@@ -36,6 +39,7 @@ use yii\widgets\ActiveForm;
         <!-- 产品名称 -->
         <div class="row">
             <div class="col-sm-12">
+                <!-- 产品名称 不可替换 或更改 -->
                 <?= $form->field($model, 'name')->textInput(['disabled' => true])->label('Item Name') ?>
             </div>
         </div>
@@ -55,10 +59,12 @@ use yii\widgets\ActiveForm;
         <!-- 提交表格按钮 -->
         <div class="row form-group">
               <div class="col-sm-1 col-xs-3">
+                  <!-- 保存按钮 -->
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
               </div>
 
               <div class="col-sm-1 col-xs-3">
+                  <!-- 取消按钮 -->
                   <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
               </div>
         </div>

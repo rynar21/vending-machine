@@ -62,7 +62,7 @@ AppAsset::register($this);
                     $menuItems[] = ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
 
                     'items'=>[
-                                ['label' => 'Change Password', 'url' => ['/site/changepassword'] ],
+                                ['label' => 'Change Password', 'url' => ['/site/change-password'] ],
                                 ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
                             ]];
             }

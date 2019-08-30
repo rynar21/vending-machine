@@ -19,11 +19,11 @@ use yii\widgets\ActiveForm;
                       <b> Box Code </b>
                   </div>
                   <div class="col-sm-12">
-                      <?= $form->field($model, 'number', [
+                      <?= $form->field($model, 'code', [
                         'template' => '<div class="input-group"><span class="input-group-addon">'. $model->prefix .'</span>{input}</div>',
                         ])->textInput(['disabled' => true]) ?>
 
-                    <?= $form->field($model, 'number')->hiddenInput()->label(false) ?>
+                    <?= $form->field($model, 'code')->hiddenInput()->label(false) ?>
                  </div>
             </div>
 
