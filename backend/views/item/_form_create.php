@@ -41,22 +41,23 @@ use yii\web\JsExpression;
 
         $str = Product::find()
 
-        ->select(['sku as value', 'sku as  label','sku as product_id'])
+        ->select(['sku as value', 'name as  label','id as id'])
         // ->where(['% 2 =', 'id', 1])
         ->asArray()
         ->all(); ?>
 
 
             <?=
-             $form->field($model, 'product_id')->widget(\yii\jui\AutoComplete::classname(), [
+             $form->field($model, 'sku')->widget(\yii\jui\AutoComplete::classname(), [
 
                  'clientOptions' => [
+                        'name'=>'2',
                        'source' => $str,
                        'options' => ['class' => 'form-control'],
                       // 'minLength'=>'2',
                       'autoFill'=>true,
                       // 'select' => new JsExpression("function( event, ui ) {
-                      //               $('#item-name').val(ui.item.id);
+                      //               $('#item-id').val(ui.item.sku);
                       //            }"),
                                ],
                              ]); ?>

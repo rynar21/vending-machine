@@ -104,17 +104,33 @@ class ItemController extends Controller
         if ($model->load(Yii::$app->request->post()))
         {
             // 如果没有输入价格
-            if ($model->price <= 0)
+            //print_r($model->sku);
+            $getsku=Product::find()->where(['sku' =>$model->sku])->one();
+
+            if($getsku)
             {
-                // Item价格 默认为相关Product的价格
-                $model->price = $model->product->price;
+                $model->product_id=$getsku->id;
+                if ($model->price <= 0)
+                {
+                    // Item价格 默认为相关Product的价格
+                    $model->price = $model->product->price;
+                }
+
+                // 保存 数据 进入Item表单里
+                if($model->save())
+                {
+                    // 返回 store/view页面 当保存成功
+                    return $this->redirect(['store/view', 'id' => $model->store_id]);
+                }
             }
-            // 保存 数据 进入Item表单里
-            if($model->save())
-            {
-                // 返回 store/view页面 当保存成功
-                return $this->redirect(['store/view', 'id' => $model->store_id]);
+            if (empty($getsku)) {
+                Yii::$app->session->setFlash('error', 'Non exist item.');
             }
+
+
+            // print_r($model->product_id);
+            // die();
+
         }
 
         // 查询当前店 所有未成功卖出的产品
