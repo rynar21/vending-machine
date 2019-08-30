@@ -58,7 +58,7 @@ class StoreSearch extends Store
         $query->andFilterWhere(['id' => $this->id,'contact' => $this->contact,])
             ->andFilterWhere(['like', 'name', $this->name,])
             ->andFilterWhere(['like', 'address', $this->address,]);
-        
+
         return $dataProvider;
     }
 }

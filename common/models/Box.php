@@ -74,6 +74,7 @@ class Box extends \yii\db\ActiveRecord
             'id' => 'Box ID',
             'code' => 'Box Code',
             'status' => 'Box Status',
+
             'store_id' => 'Store ID',
         ];
     }
@@ -105,6 +106,7 @@ class Box extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Store::className(), ['id'=>'store_id']);
     }
+
 
     // 寻找 Item产品 数据表
     public function getItem()
@@ -152,5 +154,15 @@ class Box extends \yii\db\ActiveRecord
             $text = $this->store->prefix.'-'.$this->code; // 盒子包含产品
         }
         return $text;
+    }
+
+    public  function getName()
+    {
+        if($stu= $this->item)
+        {
+            return    $stu->product->name;
+        }
+
+
     }
 }

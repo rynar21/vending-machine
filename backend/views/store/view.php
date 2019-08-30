@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
               'address',
               'contact',
               // 'prefix',
-              // 'image',
+
               [
                   'attribute'=>'image',
                   'value'=> $model->imageUrl,
