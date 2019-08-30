@@ -42,21 +42,7 @@ use yii\web\JsExpression;
                 ->asArray()
                 ->all(); ?>
 
-                <?= //AutoComplete::widget([
-                  //     // 'name' => 'Product',
-                  //     // 'id' => 'ddd',
-                  //     'options' => ['class' => 'form-control'],
-                  //     'clientOptions' => [
-                  //         'source' => $_searchProduct,
-                  //         'autoFill' => true,
-                  //         // 'minLength'=>'2',
-                  //         'select' => new JsExpression("function( event, ui ) {
-                  //               $('#item-name').val(ui.item.id);
-                  //            }")
-                  //     ],
-                  // ]);
-              //$form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Product::find()->all(), 'id', 'name'))
-             $form->field($model, 'product_id')->widget(\yii\jui\AutoComplete::classname(), [
+                <?= $form->field($model, 'product_id')->widget(\yii\jui\AutoComplete::classname(), [
 
                 	'clientOptions' => [
                        'source' => $data,
@@ -68,7 +54,7 @@ use yii\web\JsExpression;
                                  }"),
                                ],
                              ]); ?>
-              <?=  ''//Html::activeHiddenInput($model, 'product_id', ['value' => 1]); ?>
+
             </div>
 
 
