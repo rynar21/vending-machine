@@ -15,19 +15,20 @@ use backend\models\BoxSearch;
     3. Views > box > _view.php
 */
 
-$model = new ActiveDataProvider([
-    'query' =>Box::find()->where(['store_id' => $model->id])
-]);
+// $model = new ActiveDataProvider([
+//     'query' =>Box::find()->where(['store_id' => $model->id])
+// ]);
 
 $searchModel = new BoxSearch();
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ // $model->name=$
 ?>
 
 
 <div class="row">
 
         <?= GridView::widget([
-                 'dataProvider' => $model,
+                 'dataProvider' => $dataProvider,
                  'filterModel' => $searchModel,
                   'columns' => [
                       ['class' => 'yii\grid\SerialColumn'],
@@ -45,8 +46,11 @@ $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
                           'value' => 'statusText'
                       ],
                       // 'status',
-                      'name',
-                      'item.price',
+                      [
+                        'attribute' => 'name',
+                        'value' => 'product.name'
+                        ],
+                      'item.price:currency',
                       // 'created_at:datetime',
                       // 'updated_at:datetime',
                       [

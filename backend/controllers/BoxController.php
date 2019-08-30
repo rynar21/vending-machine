@@ -35,7 +35,7 @@ class BoxController extends Controller
                     ],
                     [
                         'actions' => ['index','view'],
-                        'allow' => false,
+                        'allow' => true,
                     ],
                     [
                         'actions' => ['create'],

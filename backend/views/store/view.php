@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-success pull-left']) ?>
     <div class="col-sm-12">
         <?php echo $this->render('/box/_list', [
-            'model' => $model ,
+            // 'model' => $model ,
         ]); ?>
     </div>
 

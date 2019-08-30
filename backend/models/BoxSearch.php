@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Box;
 use common\models\Item;
+use common\models\Product;
 
 /**
  * BoxSearch represents the model behind the search form of `common\models\Box`.
@@ -14,15 +15,19 @@ class BoxSearch extends Box
 {
 
     public $name;
+    public $price;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'code' , 'store_id'], 'integer'],
-            [['name', 'price'], 'safe'],
-            [['name','status'],'string'],
+            // [['id', 'code' , 'store_id', 'status'], 'integer'],
+            // [['status'], 'integer'],
+            [['name'], 'safe'],
+            [['price'], 'number'],
+            // [['name'],'string'],
         ];
     }
 
@@ -45,7 +50,7 @@ class BoxSearch extends Box
     public function search($params)
     {
         $query = Box::find();
-        $pro_name= Item::find();
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -62,16 +67,18 @@ class BoxSearch extends Box
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'code' => $this->code,
-            'status' => $this->status,
-            'store_id' => $this->store_id,
+            // 'id' => $this->id,
+            // 'code' => $this->code,
+            // 'box.status' => $this->status,
+            // 'store_id' => $this->store_id,
+            'product.name' => $this->name,
         ]);
-        $query->joinWith('item');
-        $pro_name->joinWith('product');
-        if ($stu= $this->item) {
-            $query->andFilterWhere(['like', 'product.name',$stu->product->name]);
+
+        if ($this->name) {
+            $query->joinWith('product');
         }
+            // $query->andFilterWhere(['like', 'item.name', $this->name]);
+            // $query->andFilterWhere(['like', 'item.price', $this->price]);
 
 
         return $dataProvider;
@@ -79,7 +86,7 @@ class BoxSearch extends Box
 
     // if($stu= $this->item)
     // {
-    //     return    $stu->product->name;
+    //     return $stu->product->name;
     // }
 
 }
