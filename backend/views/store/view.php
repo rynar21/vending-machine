@@ -30,25 +30,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-success pull-right']) ?>
     </p>
 
     <?php echo DetailView::widget([
           'model' => $model,
           'attributes' => [
-              'id',
+              // 'id',
               'name',
               'address',
               'contact',
-              'image',
+              // 'prefix',
+              // 'image',
               [
                   'attribute'=>'image',
                   'value'=> $model->imageUrl,
                   'format'=>['image', ['width'=>'250', 'height'=>'250']]
               ],
-              'prefix',
-              'created_at:datetime',
-              'updated_at:datetime',
+
+              // 'created_at:datetime',
+              // 'updated_at:datetime',
           ],
      ]); ?>
 
@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
             Available Boxes
         </h3>
     </div>
-
+    <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-success pull-left']) ?>
     <div class="col-sm-12">
         <?php echo $this->render('/box/_list', [
             'model' => $model ,
