@@ -36,6 +36,7 @@ class Box extends \yii\db\ActiveRecord
         return [
             [['code', 'store_id'], 'integer'],
             [['code'], 'required'],
+            // [['status'],'string'],
             [['status'], 'default', 'value' => self::BOX_STATUS_AVAILABLE],
         ];
     }

@@ -3,6 +3,7 @@
 use yii\grid\GridView;
 use yii\helpers\Html;
 use common\models\Box;
+use backend\models\BoxSearch;
 use yii\data\ActiveDataProvider;
 // use backend\models\BoxSearch;
 
@@ -13,21 +14,22 @@ use yii\data\ActiveDataProvider;
     2. Views > box > _list.php
     3. Views > box > _view.php
 */
-
+$searchModel = new BoxSearch();
+$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 $model = new ActiveDataProvider([
     'query' =>Box::find()->where(['store_id' => $model->id])
 ]);
 
-// $searchModel = new BoxSearch();
-// $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+
 ?>
 
 
 <div class="row">
 
         <?= GridView::widget([
-                 'dataProvider' => $model,
-                 // 'filterModel' => $searchModel,
+                 'dataProvider' => $dataProvider,
+                 'filterModel' => $searchModel,
                   'columns' => [
                       ['class' => 'yii\grid\SerialColumn'],
                       // 'id',
@@ -44,8 +46,10 @@ $model = new ActiveDataProvider([
                           'value' => 'statusText'
                       ],
                       'item.name',
+                      'item.product.sku',
                       // 'created_at:datetime',
                       // 'updated_at:datetime',
+                      'item.price',
                       [
                           'label'=>'Action',
                           'format' => 'raw',

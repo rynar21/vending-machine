@@ -40,6 +40,7 @@ class BoxSearch extends Box
     public function search($params)
     {
         $query = Box::find();
+        // $query->joinWith('item');
 
         // add conditions that should always apply here
 
@@ -59,8 +60,10 @@ class BoxSearch extends Box
         $query->andFilterWhere([
             'id' => $this->id,
             'code' => $this->code,
-            'status' => $this->status,
+            'box_status' => $this->status,
             'store_id' => $this->store_id,
+            // 'item.product.name' =>
+            // ['like', 'item.product.sku' => $model->item->product_id],
         ]);
 
         return $dataProvider;

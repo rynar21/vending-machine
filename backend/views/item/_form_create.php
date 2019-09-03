@@ -21,7 +21,7 @@ use yii\web\JsExpression;
         <!-- 盒子 ID -->
         <div class="row f_label">
             <div class="col-sm-1">
-                Box ID:
+                Box Code:
             </div>
             <?= $model->box_id ?>
         </div>

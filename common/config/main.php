@@ -1,5 +1,6 @@
 <?php
 return [
+   'timeZone' => 'Asia/Singapore',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
