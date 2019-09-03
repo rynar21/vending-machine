@@ -4,13 +4,16 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Store;
+use common\models\Box;
 use backend\models\StoreSearch;
+use backend\models\BoxSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use yii\helpers\BaseStringHelper;
+use yii\data\ActiveDataProvider;
 
 
 /**
@@ -21,6 +24,8 @@ class StoreController extends Controller
     /**
      * {@inheritdoc}
      */
+
+     public  $name;
     public function behaviors()
     {
         return [
@@ -81,8 +86,27 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
+        $query = Box::find();
+        //->where(['store_id' =>$id]);
+
+        $boxsearch = new BoxSearch([
+
+        ]);
+        // $query->andFilterWhere([
+        //
+        //     'product.name' => $boxsearch->name,
+        // ]);
+        $modeldata = new ActiveDataProvider([
+            'query' => $query,
+
+        ]);
+
+        $dataProvider = $boxsearch->search(Yii::$app->request->queryParams);
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
+            'boxSearch' => $boxsearch,
+            'modelData'=>$modeldata,
         ]);
     }
 
