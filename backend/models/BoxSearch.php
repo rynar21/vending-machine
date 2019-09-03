@@ -5,19 +5,29 @@ namespace backend\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Box;
+use common\models\Item;
+use common\models\Product;
 
 /**
  * BoxSearch represents the model behind the search form of `common\models\Box`.
  */
 class BoxSearch extends Box
 {
+
+    public $name;
+    public $price;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'code', 'status', 'store_id'], 'integer'],
+            // [['id', 'code' , 'store_id', 'status'], 'integer'],
+            // [['status'], 'integer'],
+            [['name'], 'safe'],
+            [['price'], 'number'],
+            // [['name'],'string'],
         ];
     }
 
@@ -58,14 +68,26 @@ class BoxSearch extends Box
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'code' => $this->code,
-            'box_status' => $this->status,
-            'store_id' => $this->store_id,
-            // 'item.product.name' =>
-            // ['like', 'item.product.sku' => $model->item->product_id],
+            // 'id' => $this->id,
+            // 'code' => $this->code,
+            // 'box.status' => $this->status,
+            // 'store_id' => $this->store_id,
+            'product.name' => $this->name,
         ]);
+
+        if ($this->name) {
+            $query->joinWith('product');
+        }
+            // $query->andFilterWhere(['like', 'item.name', $this->name]);
+            // $query->andFilterWhere(['like', 'item.price', $this->price]);
+
 
         return $dataProvider;
     }
+
+    // if($stu= $this->item)
+    // {
+    //     return $stu->product->name;
+    // }
+
 }

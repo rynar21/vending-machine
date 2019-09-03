@@ -3,9 +3,9 @@
 use yii\grid\GridView;
 use yii\helpers\Html;
 use common\models\Box;
-use backend\models\BoxSearch;
+
 use yii\data\ActiveDataProvider;
-// use backend\models\BoxSearch;
+use backend\models\BoxSearch;
 
 /* @var $model common\models\Store */
 
@@ -14,14 +14,14 @@ use yii\data\ActiveDataProvider;
     2. Views > box > _list.php
     3. Views > box > _view.php
 */
+
+// $model = new ActiveDataProvider([
+//     'query' =>Box::find()->where(['store_id' => $model->id])
+// ]);
+
 $searchModel = new BoxSearch();
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-$model = new ActiveDataProvider([
-    'query' =>Box::find()->where(['store_id' => $model->id])
-]);
-
-
-
+ // $model->name=$
 ?>
 
 
@@ -45,8 +45,12 @@ $model = new ActiveDataProvider([
                           'attribute'=> 'status',
                           'value' => 'statusText'
                       ],
-                      'item.name',
-                      'item.product.sku',
+                      // 'status',
+                      [
+                        'attribute' => 'name',
+                        'value' => 'product.name'
+                        ],
+                      'item.price:currency',
                       // 'created_at:datetime',
                       // 'updated_at:datetime',
                       'item.price',
