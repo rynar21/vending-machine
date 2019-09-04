@@ -32,7 +32,8 @@ class SaleRecordController extends Controller
     {
         $item_model = Item::findOne($id);   // 寻找 Item
         $model = new SaleRecord();
-        if($model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_PENDING]) && $model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_SUCCESS]))
+        // if($model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_PENDING]) && $model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_SUCCESS]))
+        if(empty($model->findOne(['item_id'=> $id])) || $model->find()->orderBy(['id'=> SORT_DESC])->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
         {
             // 创建 新订单
             $model->item_id = $id;
@@ -42,6 +43,12 @@ class SaleRecordController extends Controller
             $model->pending();
             $model->save();
         }
+        // if ($model->find()->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_PENDING])->min(['created_at'])->all()) {
+        //     // code...
+        // }
+            // $model=SaleRecord::find()->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_PENDING])->min(['created_at']);
+            print_t($model);
+            die();
         return $this->redirect(['check','id'=>$id]);
         // print_r($model->id);
     }
