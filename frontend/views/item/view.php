@@ -31,7 +31,6 @@ $this->title = 'My Yii Application';
             <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
                 <br/>
                 <br/>
-
                 <?php if($model->status === $model::STATUS_AVAILABLE):?>
                     <?= Html::a('Pay',['/sale-record/create', 'id' => $model->id],['class'=>"btn btn-primary btn-available"])?>
                     <br/><br/>

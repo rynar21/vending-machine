@@ -2,10 +2,13 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\Item;
+use common\models\SaleRecord;
+use yii\web\NotFoundHttpException;
+
 
 $this->title = 'Payment Progress';
 ?>
-
 <div class="sale-record-update">
 
     <!-- 页面标题 -->
@@ -26,7 +29,6 @@ $this->title = 'Payment Progress';
     <?= $this->render('/item/details',[
             'model' => $item_model,
     ]) ?>
-
     <br/>
     <br/>
 
@@ -49,12 +51,47 @@ $this->title = 'Payment Progress';
     <!-- 检查订单状态按钮 -->
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
-            <a href="<?= Url::base() ?>/sale-record/check?id=<?= $model->id?>" class="btn btn-primary btn-available" data-toggle="modal">
-                Next
-            </a>
-        </br></br>
+            <?= Html::a('Cancel',['cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel",
+            'data' => [
+                'confirm' => 'Are you sure you want to exit this Store?',
+                'method' => 'post']])?>
 
         </div>
     </div>
+    <?php
+    //  function actionCheck($id)
+    // {
+    //     if ($model = SaleRecord::find()->where(['item_id'=> $id])->orderBy(['id'=> SORT_DESC])->one())
+    //     {
+    //         if ($model->status==8) {
+    //              return $this->render('failed', [
+    //                  'model' => $model,
+    //              ]);
+    //         }
+    //         if ($model->status==9) {
+    //             return $this->render('pending', [
+    //                 'model' => $model,
+    //             ]);
+    //         }
+    //         if ($model->status==10) {
+    //              return $this->render('success', [
+    //                  'model' => $model,
+    //              ]);
+    //         }
+    //     }
+    // }
 
+    ?>
+    <!-- <script>
+    function refreshPage()
+       {
+        setTimeout(Check(),1000);
+       }
+    </script> -->
  </div>
+ <!-- <script>
+ function refreshPage()
+    {
+     setTimeout("location.reload(true)",1000);
+    }
+ </script> -->

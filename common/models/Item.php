@@ -130,13 +130,6 @@ class Item extends \yii\db\ActiveRecord
         return $text;
     }
 
-    public function getPrice()
-    {
-        if (!empty($this->product->price))
-        {
-            return $this->product->price;
-        }
-    }
     // 以 价格格式 显示 Item产品价格
     public function getPricing()
     {

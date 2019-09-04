@@ -15,6 +15,8 @@ use yii\web\NotFoundHttpException;
 // ItemController implements the CRUD actions for Item model.
 class ItemController extends Controller
 {
+    public $sku;
+
     public function behaviors()
     {
         return [
