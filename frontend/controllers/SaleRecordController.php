@@ -41,7 +41,7 @@ class SaleRecordController extends Controller
             $model->sell_price = $item_model->price;
             $model->pending();
             $model->save();
-        }   $model->save();
+        }
         return $this->redirect(['check','id'=>$id]);
         // print_r($model->id);
     }

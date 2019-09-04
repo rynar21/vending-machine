@@ -21,7 +21,7 @@ class ItemController extends Controller
             ]);
         }
         else {
-            throw new NotFoundHttpException("I can't find this product.");
+            throw new NotFoundHttpException("Requested item cannot be found.");
         }
 
     }
