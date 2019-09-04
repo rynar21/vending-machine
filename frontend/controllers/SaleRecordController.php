@@ -34,17 +34,18 @@ class SaleRecordController extends Controller
         $model = new SaleRecord();
 
         // 先判断 这Item ID是否存在 在于 SaleRecord
-        if(empty($model->findOne(['item_id'=> $id])) || $model->find()->where(['item_id'=> $id])->orderBy(['id'=> SORT_DESC])->one()->status == SaleRecord::STATUS_FAILED) // 如果 相关的Item ID数据 不存在
-        {
-            // 创建 新订单
-            $model->item_id = $id;
-            $model->box_id = $item_model->box_id;
-            $model->store_id = $item_model->store_id;
-            $model->sell_price = $item_model->price;
-            $model->pending();
-            $model->save();
-        }
-        return $this->redirect(['check','id'=>$id]);
+        // if(empty($model->findOne(['item_id'=> $id])) || $model->find()->where(['item_id'=> $id])->orderBy(['id'=> SORT_DESC])->one()->status == SaleRecord::STATUS_FAILED) // 如果 相关的Item ID数据 不存在
+        // {
+        //     // 创建 新订单
+        //     $model->item_id = $id;
+        //     $model->box_id = $item_model->box_id;
+        //     $model->store_id = $item_model->store_id;
+        //     $model->sell_price = $item_model->price;
+        //     $model->pending();
+        //     $model->save();
+        // }
+        // return $this->redirect(['check','id'=>$id]);
+        print_r($model->id);
     }
 
     // 判断 交易订单 的状态
@@ -56,6 +57,7 @@ class SaleRecordController extends Controller
         {
             if ($item_model->status==9)
             {
+                // print_r($id);
                 return $this->render('create', [
                     'item_model' => $item_model,
                     'model' => $model,
