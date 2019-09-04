@@ -75,7 +75,7 @@ class BoxSearch extends Box
             // 'id' => $this->id,
             // 'code' => $this->code,
             // 'box.status' => $this->status,
-            // 'store_id' =>$this->store->id,
+            'box.store_id' => $this->store_id,
             'product.name' => $this->name,
         ]);
 

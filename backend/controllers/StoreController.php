@@ -86,12 +86,11 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
-        $query = Box::find();
-        //->where(['store_id' =>$id]);
+        $query = Box::find()
+        ->where(['store_id' =>$id]);
 
-        $boxsearch = new BoxSearch([
-
-        ]);
+        $boxsearch = new BoxSearch();
+        $boxsearch->store_id = $id;
         // $query->andFilterWhere([
         //
         //     'product.name' => $boxsearch->name,
@@ -102,11 +101,12 @@ class StoreController extends Controller
         ]);
 
         $dataProvider = $boxsearch->search(Yii::$app->request->queryParams);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
             'dataProvider' => $dataProvider,
             'boxSearch' => $boxsearch,
-            'modelData'=>$modeldata,
+            // 'modelData'=>$modeldata,
         ]);
     }
 

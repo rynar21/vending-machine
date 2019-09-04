@@ -38,3 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
 </div>
+
+<!-- <script type="text/javascript">
+setTimeout(function() { location.reload(); }, 5000);
+
+
+</script> -->
