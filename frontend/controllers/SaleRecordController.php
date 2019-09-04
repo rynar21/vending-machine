@@ -52,38 +52,36 @@ class SaleRecordController extends Controller
     public function actionCheck($id)
     {
         $item_model = Item::findOne($id);
-        $model = new SaleRecord();
-        if ($model->findOne(['id' => $id]))
+        $model = SaleRecord::find()->where(['item_id' => $id])->orderBy(['id'=> SORT_DESC])->one();
+        if ($item_model->status == Item::STATUS_LOCKED)
         {
-            if ($item_model->status==9)
-            {
-                // print_r($id);
-                return $this->render('create', [
-                    'item_model' => $item_model,
-                    'model' => $model,
-                    'id' => $id,
-                ]);
-            }
-            elseif ($item_model->status==10)
-            {
-                return $this->render('success', [
-                    'model' => $model,
-                    'id' => $id,
-                ]);
-            }
-            elseif ($item_model->status==0)
+            return $this->render('create', [
+                'item_model' => $item_model,
+                'model' => $model,
+                'id' => $id,
+            ]);
+        }
+        //  当SaleRecord 交易订单状态为交易成功
+        elseif ($item_model->status== Item::STATUS_SOLD)
+        {
+            return $this->render('success', [
+                'model' => $model,
+                'id' => $id,
+            ]);
+        }
+        //  当SaleRecord 交易订单状态为交易失败
+        elseif ($item_model->status== Item::STATUS_AVAILABLE)
+        {
+            if($model->status == SaleRecord::STATUS_FAILED)
             {
                 return $this->render('failed', [
                     'model' => $model,
                     'id' => $id,
                 ]);
             }
-            else {
-                throw new NotFoundHttpException('Undefined model status.');
-            }
         }
         else {
-            throw new NotFoundHttpException('The requested model does not exist.');
+            throw new NotFoundHttpException('Undefined model status.');
         }
     }
 
