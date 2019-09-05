@@ -43,9 +43,10 @@ class SaleRecordController extends Controller
             $model->pending();
             $model->save();
         }
-        // if ($model->find()->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_PENDING])->min(['created_at'])->all()) {
-        //     // code...
-        // }
+        if (SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one()) {
+            print_t($model);
+            die();
+        }
             // $model=SaleRecord::find()->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_PENDING])->min(['created_at']);
             // print_t($model);
             // die();
