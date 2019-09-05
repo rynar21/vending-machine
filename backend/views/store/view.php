@@ -65,10 +65,55 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-success pull-left']) ?>
     <div class="col-sm-12">
-        <?php echo $this->render('/box/_list', [
+        <?php
+         // echo $this->render('/box/_list', [
+
             // 'model' => $model ,
-            // 'model' => $this->findModel($id),
-        ]); ?>
+            // 'query'=>$query,
+            // 'dataProvider' => $dataProvider,
+        // ]);
+         ?>
+
+         <div class="row">
+
+                 <?= GridView::widget([
+                          'dataProvider' => $dataProvider,
+                          'filterModel' => $boxSearch,
+                           'columns' => [
+                               ['class' => 'yii\grid\SerialColumn'],
+                               // 'id',
+                               [
+                                   'label'=> 'Box Code',
+                                   'format' => 'raw',
+                                   'value' => function ($model)
+                                   {
+                                       return $model->boxcode;
+                                   }
+                               ],
+                               [
+                                   'attribute'=> 'status',
+                                   'value' => 'statusText'
+                               ],
+                               // 'status',
+                               [
+                                 'attribute' => 'name',
+                                 'value' => 'product.name'
+                                 ],
+                               'item.price:currency',
+                               // 'created_at:datetime',
+                               // 'updated_at:datetime',
+                               [
+                                   'label'=>'Action',
+                                   'format' => 'raw',
+                                   'value' => function ($model)
+                                   {
+                                       return $model->action;
+                                   }
+                               ],
+                           ],
+                       ]); ?>
+         </div>
+
     </div>
 
 </div>

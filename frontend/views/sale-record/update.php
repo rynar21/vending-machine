@@ -45,10 +45,10 @@ $this->title = 'Payment Progress';
     <!-- 检查订单状态按钮 -->
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
-            <?= Html::a('Cancel and return to home page',['cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel",
-            'data' => [
-                'confirm' => 'Are you sure you want to exit this Store?',
-                'method' => 'post']])?>
+            <a href="<?= Url::base() ?>/sale-record/check?id=<?= $item_model->id?>" class="btn btn-primary btn-available" data-toggle="modal">
+                Next
+            </a>
+        </br></br>
 
         </div>
     </div>

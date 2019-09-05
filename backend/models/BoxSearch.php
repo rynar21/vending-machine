@@ -24,7 +24,7 @@ class BoxSearch extends Box
     public function rules()
     {
         return [
-            // [['id', 'code' , 'store_id', 'status'], 'integer'],
+            [['id', 'code' , 'store_id', 'status'], 'integer'],
             // [['status'], 'integer'],
             [['name'], 'safe'],
             [['price'], 'number'],
@@ -48,14 +48,18 @@ class BoxSearch extends Box
      *
      * @return ActiveDataProvider
      */
+
+
     public function search($params)
     {
         $query = Box::find();
-        // ->where(['store_id' => $params])
+        //->where(['store_id'  =>$st->id]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query' => $query
+
+            //Box::find()->where(['store_id'  =>1])
         ]);
 
         $this->load($params);
@@ -71,7 +75,7 @@ class BoxSearch extends Box
             // 'id' => $this->id,
             // 'code' => $this->code,
             // 'box.status' => $this->status,
-            'store.store_id' => $this->store_id,
+            'box.store_id' => $this->store_id,
             'product.name' => $this->name,
         ]);
 
@@ -85,9 +89,6 @@ class BoxSearch extends Box
         return $dataProvider;
     }
 
-    // if($stu= $this->item)
-    // {
-    //     return $stu->product->name;
-    // }
+
 
 }

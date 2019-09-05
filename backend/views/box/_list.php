@@ -3,6 +3,8 @@
 use yii\grid\GridView;
 use yii\helpers\Html;
 use common\models\Box;
+use common\models\Store;
+
 use yii\data\ActiveDataProvider;
 use backend\models\BoxSearch;
 
@@ -14,11 +16,15 @@ use backend\models\BoxSearch;
     3. Views > box > _view.php
 */
 
+$searchModel = new BoxSearch([
+    'store_id' => $this->store->id
+    // $query=> Box::find()-> where(['store_id' =>$model->id])
+]);
+
 // $model = new ActiveDataProvider([
-//     'query' =>Box::find()->where(['store_id' => $model->id])
+//      'query' =>$query
 // ]);
 
-$searchModel = new BoxSearch();
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 ?>
 
