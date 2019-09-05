@@ -67,6 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-sm-12">
         <?php echo $this->render('/box/_list', [
             // 'model' => $model ,
+            // 'model' => $this->findModel($id),
         ]); ?>
     </div>
 

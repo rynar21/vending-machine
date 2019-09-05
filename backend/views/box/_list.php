@@ -3,7 +3,6 @@
 use yii\grid\GridView;
 use yii\helpers\Html;
 use common\models\Box;
-
 use yii\data\ActiveDataProvider;
 use backend\models\BoxSearch;
 
@@ -21,7 +20,6 @@ use backend\models\BoxSearch;
 
 $searchModel = new BoxSearch();
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
- // $model->name=$
 ?>
 
 
@@ -53,7 +51,6 @@ $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
                       'item.price:currency',
                       // 'created_at:datetime',
                       // 'updated_at:datetime',
-                      'item.price',
                       [
                           'label'=>'Action',
                           'format' => 'raw',
