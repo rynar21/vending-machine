@@ -5,6 +5,7 @@ namespace backend\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Box;
+use common\models\Store;
 use common\models\Item;
 use common\models\Product;
 
@@ -50,8 +51,7 @@ class BoxSearch extends Box
     public function search($params)
     {
         $query = Box::find();
-        // $query->joinWith('item');
-
+        // ->where(['store_id' => $params])
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -71,7 +71,7 @@ class BoxSearch extends Box
             // 'id' => $this->id,
             // 'code' => $this->code,
             // 'box.status' => $this->status,
-            // 'store_id' => $this->store_id,
+            'store.store_id' => $this->store_id,
             'product.name' => $this->name,
         ]);
 
