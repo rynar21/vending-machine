@@ -2,16 +2,19 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\Item;
+use common\models\SaleRecord;
+use yii\web\NotFoundHttpException;
+
 
 $this->title = 'Payment Progress';
 ?>
-
 <div class="sale-record-update">
 
     <!-- 页面标题 -->
     <div class="row">
         <div class="col-sm-offset-2 col-sm-10 headline">
-            Payment
+            Sorry
         </div>
     </div>
 
@@ -26,7 +29,6 @@ $this->title = 'Payment Progress';
     <?= $this->render('/item/details',[
             'model' => $item_model,
     ]) ?>
-
     <br/>
     <br/>
 
@@ -34,14 +36,8 @@ $this->title = 'Payment Progress';
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8">
             <h4>
-                Please follow the following steps to make payment:
+                Sorry, this item has been purchased. Please buy other items.
                 <br/>
-                <br/>
-                1. Scan QR Code shown at the vending machine.
-                <br/>
-                2. Select your payment method.
-                <br/>
-                3. After payment, tab on 'Next' button to proceed.
             </h4>
         </div>
     </div>
@@ -49,12 +45,11 @@ $this->title = 'Payment Progress';
     <!-- 检查订单状态按钮 -->
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
-            <a href="<?= Url::base() ?>/sale-record/check?id=<?= $model->id?>" class="btn btn-primary btn-available" data-toggle="modal">
-                Next
-            </a>
-        </br></br>
+            <?= Html::a('Cancel and return to home page',['cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel",
+            'data' => [
+                'confirm' => 'Are you sure you want to exit this Store?',
+                'method' => 'post']])?>
 
         </div>
     </div>
-
  </div>

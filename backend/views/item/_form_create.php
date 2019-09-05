@@ -61,11 +61,8 @@ use yii\web\JsExpression;
                       //            }"),
                                ],
                              ]); ?>
-
-
-
-
-        <br/><br/>
+            </div>
+        </div>
 
         <!-- 提交表格按钮 -->
         <div class="row form-group">

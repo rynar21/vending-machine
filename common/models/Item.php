@@ -97,10 +97,6 @@ class Item extends \yii\db\ActiveRecord
         {
             return $this->product->name;
         }
-        else
-        {
-            return '<i> Missing Item </i>';
-        }
     }
 
 
@@ -131,16 +127,16 @@ class Item extends \yii\db\ActiveRecord
     {
         switch ($this->status)
         {
-            case self::STATUS_AVAILABLE:
+            case self::STATUS_AVAILABLE:  //0
                 $text = "Available";
                 break;
-            case self::STATUS_LOCKED:
+            case self::STATUS_LOCKED:  //9
                 $text = "On Hold";
                 break;
-            case self::STATUS_SOLD:
+            case self::STATUS_SOLD:  //10
                 $text = "Sold";
                 break;
-            case self::STATUS_VOID:
+            case self::STATUS_VOID:  //8
                 $text = "Removed";
                 break;
             default:
