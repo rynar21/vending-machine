@@ -1,0 +1,51 @@
+Message-ID: <170d7597c4ff8b206c3a6a6be69474aa@localhost>
+Date: Mon, 19 Aug 2019 09:58:57 +0000
+Subject: Account registration at My Application
+From: My Application robot <support@example.com>
+To: admin@email.com
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="_=_swift_1566208737_3d250d7483434986d6417ca20864bad0_=_"
+
+
+--_=_swift_1566208737_3d250d7483434986d6417ca20864bad0_=_
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+Hello admin,
+
+Follow the link below to verify your email:
+
+http://localhost/vending-machine/backend/web/site/verify-email?token=3DKhlu=
+mQeud0dqWEBpyAA3kDCpWKRAJto0_1566208736
+
+--_=_swift_1566208737_3d250d7483434986d6417ca20864bad0_=_
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8=
+" />
+    <title></title>
+    </head>
+<body>
+        <div class=3D"verify-email">
+    <p>Hello admin,</p>
+
+    <p>Follow the link below to verify your email:</p>
+
+    <p><a href=3D"http://localhost/vending-machine/backend/web/site/verify-=
+email?token=3DKhlumQeud0dqWEBpyAA3kDCpWKRAJto0_1566208736">http://localhost=
+/vending-machine/backend/web/site/verify-email?token=3DKhlumQeud0dqWEBpyAA3=
+kDCpWKRAJto0_1566208736</a></p>
+</div>
+    </body>
+</html>
+=20
+
+
+--_=_swift_1566208737_3d250d7483434986d6417ca20864bad0_=_--
