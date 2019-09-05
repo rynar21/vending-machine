@@ -46,7 +46,7 @@ class SaleRecordController extends Controller
         $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
         if ($model->id==$salerecord->id)
         {
-            return $this->redirect(['check','id'=>$id]);
+            return $this->redirect(['check','id'=>$model->id]);
         }
         else {
             return $this->render('update', [
@@ -61,10 +61,11 @@ class SaleRecordController extends Controller
     public function actionCheck($id)
     {
         $item_model = Item::findOne($id);
-        $model = SaleRecord::find()->where(['item_id' => $id])->orderBy(['id'=> SORT_DESC])->one();
+        // $model = SaleRecord::find()->where(['item_id' => $id])->orderBy(['id'=> SORT_DESC])->one();
+        $model=SaleRecord::find()->where(['id' => $id])->one();
         if ($model!=null)
         {
-            if ($item_model->status == Item::STATUS_LOCKED)
+            if ($model->status == SaleRecord::STATUS_PENDING)
             {
                 return $this->render('create', [
                     'item_model' => $item_model,
@@ -73,7 +74,7 @@ class SaleRecordController extends Controller
                 ]);
             }
             //  当SaleRecord 交易订单状态为交易成功
-            elseif ($item_model->status== Item::STATUS_SOLD)
+            elseif ($model->status== SaleRecord::STATUS_SUCCESS)
             {
                 return $this->render('success', [
                     'model' => $model,
@@ -81,15 +82,12 @@ class SaleRecordController extends Controller
                 ]);
             }
             //  当SaleRecord 交易订单状态为交易失败
-            elseif ($item_model->status== Item::STATUS_AVAILABLE)
+            elseif ($model->status== SaleRecord::STATUS_FAILED)
             {
-                if($model->status == SaleRecord::STATUS_FAILED)
-                {
-                    return $this->render('failed', [
-                        'model' => $model,
-                        'id' => $id,
-                    ]);
-                }
+                return $this->render('failed', [
+                    'model' => $model,
+                    'id' => $id,
+                ]);
             }
             else
             {
