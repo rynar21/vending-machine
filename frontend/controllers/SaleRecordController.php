@@ -47,8 +47,8 @@ class SaleRecordController extends Controller
         //     // code...
         // }
             // $model=SaleRecord::find()->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_PENDING])->min(['created_at']);
-            print_t($model);
-            die();
+            // print_t($model);
+            // die();
         return $this->redirect(['check','id'=>$id]);
         // print_r($model->id);
     }
