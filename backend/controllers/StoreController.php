@@ -86,8 +86,7 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
-        $query = Box::find()
-        ->where(['store_id' =>$id]);
+        $query = Box::find()->where(['store_id' =>$id]);
 
         $boxsearch = new BoxSearch();
         $boxsearch->store_id = $id;
@@ -166,14 +165,14 @@ class StoreController extends Controller
     {
         $model = $this->findModel($id);
             //删除字段
-
+        $oldimage=Yii::getAlias('@upload') . '/' . $model->image;
         if ($model->delete()) {
 
             if ($model->image) {
 
-                if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
+                if (file_exists($oldimage)) {
 
-                    unlink(Yii::getAlias('@upload') . '/' . $model->image);
+                    unlink($oldimage);
                 }
             }
         }

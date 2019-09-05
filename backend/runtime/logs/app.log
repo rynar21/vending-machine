@@ -80,3 +80,389 @@ $_SERVER = [
     'REQUEST_TIME_FLOAT' => 1567561111.774
     'REQUEST_TIME' => 1567561111
 ]
+2019-09-04 04:39:39 [::1][1][o1egga4300belf70kskpi9ekjm][error][yii\web\HttpException:404] yii\base\InvalidRouteException: Unable to resolve the request: sale-record/test in D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Controller.php:128
+Stack trace:
+#0 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Module.php(528): yii\base\Controller->runAction('test', Array)
+#1 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\web\Application.php(103): yii\base\Module->runAction('sale-record/tes...', Array)
+#2 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#3 D:\wamp64\www\vending-machine\backend\web\index.php(17): yii\base\Application->run()
+#4 {main}
+
+Next yii\web\NotFoundHttpException: Page not found. in D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\web\Application.php:115
+Stack trace:
+#0 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#1 D:\wamp64\www\vending-machine\backend\web\index.php(17): yii\base\Application->run()
+#2 {main}
+2019-09-04 04:39:39 [::1][1][o1egga4300belf70kskpi9ekjm][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '__utma' => '111872281.2134287311.1565145694.1565145694.1565145694.1'
+    '__utmz' => '111872281.1565145694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'
+    'advanced-frontend' => 'shfqj1n0bv0b9ticjvlpk8raov'
+    '_csrf-frontend' => '0d9303d8f27dbc68bca2c4e85b0bebf31091b81ea6244e08178c039f603417cca:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"ofw7c25LTSBip2zkKgBzGe3QfiJUoxDs\";}'
+    'advanced-backend' => 'o1egga4300belf70kskpi9ekjm'
+    '_identity-backend' => 'e395bd8082f063a94f63b7fd1789d50bea0cf15115b72a1bd2d347266e0ebea5a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"INI32PtVLd42HFlRbzOPtyDNScuVCfkO\",2592000]\";}'
+    '_csrf-backend' => '8031452b4a30d75f86268685cbe79ded6efc848748a186404e6a8873f968917fa:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"YnfV0vFgA3tIC4AxXPW-RM6Qb2Jx6hmn\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+]
+
+$_SERVER = [
+    'REDIRECT_STATUS' => '200'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh,zh-TW;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6'
+    'HTTP_COOKIE' => '__utma=111872281.2134287311.1565145694.1565145694.1565145694.1; __utmz=111872281.1565145694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); advanced-frontend=shfqj1n0bv0b9ticjvlpk8raov; _csrf-frontend=0d9303d8f27dbc68bca2c4e85b0bebf31091b81ea6244e08178c039f603417cca%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22ofw7c25LTSBip2zkKgBzGe3QfiJUoxDs%22%3B%7D; advanced-backend=o1egga4300belf70kskpi9ekjm; _identity-backend=e395bd8082f063a94f63b7fd1789d50bea0cf15115b72a1bd2d347266e0ebea5a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22INI32PtVLd42HFlRbzOPtyDNScuVCfkO%22%2C2592000%5D%22%3B%7D; _csrf-backend=8031452b4a30d75f86268685cbe79ded6efc848748a186404e6a8873f968917fa%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22YnfV0vFgA3tIC4AxXPW-RM6Qb2Jx6hmn%22%3B%7D'
+    'PATH' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.39 (Win64) PHP/7.2.18 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.39 (Win64) PHP/7.2.18'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'D:/wamp64/www'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'D:/wamp64/www'
+    'SERVER_ADMIN' => 'wampserver@wampserver.invalid'
+    'SCRIPT_FILENAME' => 'D:/wamp64/www/vending-machine/backend/web/index.php'
+    'REMOTE_PORT' => '58294'
+    'REDIRECT_URL' => '/vending-machine/backend/web/sale-record/test'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/vending-machine/backend/web/sale-record/test'
+    'SCRIPT_NAME' => '/vending-machine/backend/web/index.php'
+    'PHP_SELF' => '/vending-machine/backend/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1567571979.9
+    'REQUEST_TIME' => 1567571979
+]
+2019-09-04 04:40:21 [::1][1][o1egga4300belf70kskpi9ekjm][error][yii\web\HttpException:404] yii\base\InvalidRouteException: Unable to resolve the request: sale-record/test in D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Controller.php:128
+Stack trace:
+#0 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Module.php(528): yii\base\Controller->runAction('test', Array)
+#1 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\web\Application.php(103): yii\base\Module->runAction('sale-record/tes...', Array)
+#2 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#3 D:\wamp64\www\vending-machine\backend\web\index.php(17): yii\base\Application->run()
+#4 {main}
+
+Next yii\web\NotFoundHttpException: Page not found. in D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\web\Application.php:115
+Stack trace:
+#0 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#1 D:\wamp64\www\vending-machine\backend\web\index.php(17): yii\base\Application->run()
+#2 {main}
+2019-09-04 04:40:21 [::1][1][o1egga4300belf70kskpi9ekjm][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '__utma' => '111872281.2134287311.1565145694.1565145694.1565145694.1'
+    '__utmz' => '111872281.1565145694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'
+    'advanced-frontend' => 'shfqj1n0bv0b9ticjvlpk8raov'
+    '_csrf-frontend' => '0d9303d8f27dbc68bca2c4e85b0bebf31091b81ea6244e08178c039f603417cca:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"ofw7c25LTSBip2zkKgBzGe3QfiJUoxDs\";}'
+    'advanced-backend' => 'o1egga4300belf70kskpi9ekjm'
+    '_identity-backend' => 'e395bd8082f063a94f63b7fd1789d50bea0cf15115b72a1bd2d347266e0ebea5a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"INI32PtVLd42HFlRbzOPtyDNScuVCfkO\",2592000]\";}'
+    '_csrf-backend' => '8031452b4a30d75f86268685cbe79ded6efc848748a186404e6a8873f968917fa:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"YnfV0vFgA3tIC4AxXPW-RM6Qb2Jx6hmn\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+]
+
+$_SERVER = [
+    'REDIRECT_STATUS' => '200'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh,zh-TW;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6'
+    'HTTP_COOKIE' => '__utma=111872281.2134287311.1565145694.1565145694.1565145694.1; __utmz=111872281.1565145694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); advanced-frontend=shfqj1n0bv0b9ticjvlpk8raov; _csrf-frontend=0d9303d8f27dbc68bca2c4e85b0bebf31091b81ea6244e08178c039f603417cca%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22ofw7c25LTSBip2zkKgBzGe3QfiJUoxDs%22%3B%7D; advanced-backend=o1egga4300belf70kskpi9ekjm; _identity-backend=e395bd8082f063a94f63b7fd1789d50bea0cf15115b72a1bd2d347266e0ebea5a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22INI32PtVLd42HFlRbzOPtyDNScuVCfkO%22%2C2592000%5D%22%3B%7D; _csrf-backend=8031452b4a30d75f86268685cbe79ded6efc848748a186404e6a8873f968917fa%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22YnfV0vFgA3tIC4AxXPW-RM6Qb2Jx6hmn%22%3B%7D'
+    'PATH' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.39 (Win64) PHP/7.2.18 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.39 (Win64) PHP/7.2.18'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'D:/wamp64/www'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'D:/wamp64/www'
+    'SERVER_ADMIN' => 'wampserver@wampserver.invalid'
+    'SCRIPT_FILENAME' => 'D:/wamp64/www/vending-machine/backend/web/index.php'
+    'REMOTE_PORT' => '58305'
+    'REDIRECT_URL' => '/vending-machine/backend/web/sale-record/test'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/vending-machine/backend/web/sale-record/test'
+    'SCRIPT_NAME' => '/vending-machine/backend/web/index.php'
+    'PHP_SELF' => '/vending-machine/backend/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1567572021.657
+    'REQUEST_TIME' => 1567572021
+]
+2019-09-04 04:55:16 [::1][1][o1egga4300belf70kskpi9ekjm][error][yii\web\HttpException:404] yii\base\InvalidRouteException: Unable to resolve the request: sale-record/test in D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Controller.php:128
+Stack trace:
+#0 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Module.php(528): yii\base\Controller->runAction('test', Array)
+#1 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\web\Application.php(103): yii\base\Module->runAction('sale-record/tes...', Array)
+#2 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#3 D:\wamp64\www\vending-machine\backend\web\index.php(17): yii\base\Application->run()
+#4 {main}
+
+Next yii\web\NotFoundHttpException: Page not found. in D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\web\Application.php:115
+Stack trace:
+#0 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#1 D:\wamp64\www\vending-machine\backend\web\index.php(17): yii\base\Application->run()
+#2 {main}
+2019-09-04 04:55:16 [::1][1][o1egga4300belf70kskpi9ekjm][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '__utma' => '111872281.2134287311.1565145694.1565145694.1565145694.1'
+    '__utmz' => '111872281.1565145694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'
+    'advanced-frontend' => 'shfqj1n0bv0b9ticjvlpk8raov'
+    '_csrf-frontend' => '0d9303d8f27dbc68bca2c4e85b0bebf31091b81ea6244e08178c039f603417cca:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"ofw7c25LTSBip2zkKgBzGe3QfiJUoxDs\";}'
+    'advanced-backend' => 'o1egga4300belf70kskpi9ekjm'
+    '_identity-backend' => 'e395bd8082f063a94f63b7fd1789d50bea0cf15115b72a1bd2d347266e0ebea5a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"INI32PtVLd42HFlRbzOPtyDNScuVCfkO\",2592000]\";}'
+    '_csrf-backend' => '8031452b4a30d75f86268685cbe79ded6efc848748a186404e6a8873f968917fa:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"YnfV0vFgA3tIC4AxXPW-RM6Qb2Jx6hmn\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+]
+
+$_SERVER = [
+    'REDIRECT_STATUS' => '200'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh,zh-TW;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6'
+    'HTTP_COOKIE' => '__utma=111872281.2134287311.1565145694.1565145694.1565145694.1; __utmz=111872281.1565145694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); advanced-frontend=shfqj1n0bv0b9ticjvlpk8raov; _csrf-frontend=0d9303d8f27dbc68bca2c4e85b0bebf31091b81ea6244e08178c039f603417cca%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22ofw7c25LTSBip2zkKgBzGe3QfiJUoxDs%22%3B%7D; advanced-backend=o1egga4300belf70kskpi9ekjm; _identity-backend=e395bd8082f063a94f63b7fd1789d50bea0cf15115b72a1bd2d347266e0ebea5a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22INI32PtVLd42HFlRbzOPtyDNScuVCfkO%22%2C2592000%5D%22%3B%7D; _csrf-backend=8031452b4a30d75f86268685cbe79ded6efc848748a186404e6a8873f968917fa%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22YnfV0vFgA3tIC4AxXPW-RM6Qb2Jx6hmn%22%3B%7D'
+    'PATH' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.39 (Win64) PHP/7.2.18 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.39 (Win64) PHP/7.2.18'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'D:/wamp64/www'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'D:/wamp64/www'
+    'SERVER_ADMIN' => 'wampserver@wampserver.invalid'
+    'SCRIPT_FILENAME' => 'D:/wamp64/www/vending-machine/backend/web/index.php'
+    'REMOTE_PORT' => '58535'
+    'REDIRECT_URL' => '/vending-machine/backend/web/sale-record/test'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/vending-machine/backend/web/sale-record/test'
+    'SCRIPT_NAME' => '/vending-machine/backend/web/index.php'
+    'PHP_SELF' => '/vending-machine/backend/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1567572916.761
+    'REQUEST_TIME' => 1567572916
+]
+2019-09-04 04:55:30 [::1][1][o1egga4300belf70kskpi9ekjm][error][yii\web\HttpException:404] yii\base\InvalidRouteException: Unable to resolve the request: sale-record/test in D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Controller.php:128
+Stack trace:
+#0 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Module.php(528): yii\base\Controller->runAction('test', Array)
+#1 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\web\Application.php(103): yii\base\Module->runAction('sale-record/tes...', Array)
+#2 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#3 D:\wamp64\www\vending-machine\backend\web\index.php(17): yii\base\Application->run()
+#4 {main}
+
+Next yii\web\NotFoundHttpException: Page not found. in D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\web\Application.php:115
+Stack trace:
+#0 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#1 D:\wamp64\www\vending-machine\backend\web\index.php(17): yii\base\Application->run()
+#2 {main}
+2019-09-04 04:55:30 [::1][1][o1egga4300belf70kskpi9ekjm][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '__utma' => '111872281.2134287311.1565145694.1565145694.1565145694.1'
+    '__utmz' => '111872281.1565145694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'
+    'advanced-frontend' => 'shfqj1n0bv0b9ticjvlpk8raov'
+    '_csrf-frontend' => '0d9303d8f27dbc68bca2c4e85b0bebf31091b81ea6244e08178c039f603417cca:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"ofw7c25LTSBip2zkKgBzGe3QfiJUoxDs\";}'
+    'advanced-backend' => 'o1egga4300belf70kskpi9ekjm'
+    '_identity-backend' => 'e395bd8082f063a94f63b7fd1789d50bea0cf15115b72a1bd2d347266e0ebea5a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"INI32PtVLd42HFlRbzOPtyDNScuVCfkO\",2592000]\";}'
+    '_csrf-backend' => '8031452b4a30d75f86268685cbe79ded6efc848748a186404e6a8873f968917fa:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"YnfV0vFgA3tIC4AxXPW-RM6Qb2Jx6hmn\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+]
+
+$_SERVER = [
+    'REDIRECT_STATUS' => '200'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh,zh-TW;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6'
+    'HTTP_COOKIE' => '__utma=111872281.2134287311.1565145694.1565145694.1565145694.1; __utmz=111872281.1565145694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); advanced-frontend=shfqj1n0bv0b9ticjvlpk8raov; _csrf-frontend=0d9303d8f27dbc68bca2c4e85b0bebf31091b81ea6244e08178c039f603417cca%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22ofw7c25LTSBip2zkKgBzGe3QfiJUoxDs%22%3B%7D; advanced-backend=o1egga4300belf70kskpi9ekjm; _identity-backend=e395bd8082f063a94f63b7fd1789d50bea0cf15115b72a1bd2d347266e0ebea5a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22INI32PtVLd42HFlRbzOPtyDNScuVCfkO%22%2C2592000%5D%22%3B%7D; _csrf-backend=8031452b4a30d75f86268685cbe79ded6efc848748a186404e6a8873f968917fa%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22YnfV0vFgA3tIC4AxXPW-RM6Qb2Jx6hmn%22%3B%7D'
+    'PATH' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.39 (Win64) PHP/7.2.18 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.39 (Win64) PHP/7.2.18'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'D:/wamp64/www'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'D:/wamp64/www'
+    'SERVER_ADMIN' => 'wampserver@wampserver.invalid'
+    'SCRIPT_FILENAME' => 'D:/wamp64/www/vending-machine/backend/web/index.php'
+    'REMOTE_PORT' => '58539'
+    'REDIRECT_URL' => '/vending-machine/backend/web/sale-record/test'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/vending-machine/backend/web/sale-record/test'
+    'SCRIPT_NAME' => '/vending-machine/backend/web/index.php'
+    'PHP_SELF' => '/vending-machine/backend/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1567572930.071
+    'REQUEST_TIME' => 1567572930
+]
+2019-09-04 04:56:31 [::1][1][o1egga4300belf70kskpi9ekjm][error][yii\web\HttpException:404] yii\base\InvalidRouteException: Unable to resolve the request: sale-record/test in D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Controller.php:128
+Stack trace:
+#0 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Module.php(528): yii\base\Controller->runAction('test', Array)
+#1 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\web\Application.php(103): yii\base\Module->runAction('sale-record/tes...', Array)
+#2 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#3 D:\wamp64\www\vending-machine\backend\web\index.php(17): yii\base\Application->run()
+#4 {main}
+
+Next yii\web\NotFoundHttpException: Page not found. in D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\web\Application.php:115
+Stack trace:
+#0 D:\wamp64\www\vending-machine\vendor\yiisoft\yii2\base\Application.php(386): yii\web\Application->handleRequest(Object(yii\web\Request))
+#1 D:\wamp64\www\vending-machine\backend\web\index.php(17): yii\base\Application->run()
+#2 {main}
+2019-09-04 04:56:31 [::1][1][o1egga4300belf70kskpi9ekjm][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    '__utma' => '111872281.2134287311.1565145694.1565145694.1565145694.1'
+    '__utmz' => '111872281.1565145694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'
+    'advanced-frontend' => 'shfqj1n0bv0b9ticjvlpk8raov'
+    '_csrf-frontend' => '0d9303d8f27dbc68bca2c4e85b0bebf31091b81ea6244e08178c039f603417cca:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"ofw7c25LTSBip2zkKgBzGe3QfiJUoxDs\";}'
+    'advanced-backend' => 'o1egga4300belf70kskpi9ekjm'
+    '_identity-backend' => 'e395bd8082f063a94f63b7fd1789d50bea0cf15115b72a1bd2d347266e0ebea5a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"INI32PtVLd42HFlRbzOPtyDNScuVCfkO\",2592000]\";}'
+    '_csrf-backend' => '8031452b4a30d75f86268685cbe79ded6efc848748a186404e6a8873f968917fa:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"YnfV0vFgA3tIC4AxXPW-RM6Qb2Jx6hmn\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+]
+
+$_SERVER = [
+    'REDIRECT_STATUS' => '200'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh,zh-TW;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6'
+    'HTTP_COOKIE' => '__utma=111872281.2134287311.1565145694.1565145694.1565145694.1; __utmz=111872281.1565145694.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); advanced-frontend=shfqj1n0bv0b9ticjvlpk8raov; _csrf-frontend=0d9303d8f27dbc68bca2c4e85b0bebf31091b81ea6244e08178c039f603417cca%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22ofw7c25LTSBip2zkKgBzGe3QfiJUoxDs%22%3B%7D; advanced-backend=o1egga4300belf70kskpi9ekjm; _identity-backend=e395bd8082f063a94f63b7fd1789d50bea0cf15115b72a1bd2d347266e0ebea5a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22INI32PtVLd42HFlRbzOPtyDNScuVCfkO%22%2C2592000%5D%22%3B%7D; _csrf-backend=8031452b4a30d75f86268685cbe79ded6efc848748a186404e6a8873f968917fa%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22YnfV0vFgA3tIC4AxXPW-RM6Qb2Jx6hmn%22%3B%7D'
+    'PATH' => 'C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.39 (Win64) PHP/7.2.18 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.39 (Win64) PHP/7.2.18'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'D:/wamp64/www'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'D:/wamp64/www'
+    'SERVER_ADMIN' => 'wampserver@wampserver.invalid'
+    'SCRIPT_FILENAME' => 'D:/wamp64/www/vending-machine/backend/web/index.php'
+    'REMOTE_PORT' => '58552'
+    'REDIRECT_URL' => '/vending-machine/backend/web/sale-record/test'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/vending-machine/backend/web/sale-record/test'
+    'SCRIPT_NAME' => '/vending-machine/backend/web/index.php'
+    'PHP_SELF' => '/vending-machine/backend/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1567572991.364
+    'REQUEST_TIME' => 1567572991
+]

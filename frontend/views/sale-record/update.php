@@ -49,7 +49,7 @@ $this->title = 'Payment Progress';
     <!-- 检查订单状态按钮 -->
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
-            <a href="<?= Url::base() ?>/sale-record/check?id=<?= $model->id?>" class="btn btn-primary btn-available" data-toggle="modal">
+            <a href="<?= Url::base() ?>/sale-record/check?id=<?= $item_model->id?>" class="btn btn-primary btn-available" data-toggle="modal">
                 Next
             </a>
         </br></br>

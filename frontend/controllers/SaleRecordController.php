@@ -11,6 +11,7 @@ use frontend\models\SaleRecordSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 
  //SaleRecordController implements the CRUD actions for SaleRecord model.
 class SaleRecordController extends Controller
@@ -156,6 +157,7 @@ class SaleRecordController extends Controller
     public function actionPaysuccess($id)
     {
         $model = SaleRecord::findOne(['item_id'=>$id]);
+
         if (!empty($model))
         {
             $model->status = SaleRecord::STATUS_SUCCESS;
@@ -175,4 +177,29 @@ class SaleRecordController extends Controller
             echo'failed';
         }
     }
+
+    //检查状态
+    public  function actionInspection()
+    {
+            // $sale= new SaleRecord();
+            $models = SaleRecord::find()
+            ->where([
+                // 'and',
+                'status' => 9,
+                // [' between','created_at',$sale->created_at+900,$sale->created_at],
+            ])
+            ->all();
+                if ($models) {
+                    foreach ($models as $model) {
+                         if (time()-$model->created_at>=900) {
+                            $model->status = SaleRecord::STATUS_FAILED;
+                            $model->save();
+                            $model->failed();
+                            echo "failure";
+                         }
+
+                    }
+              }
+
+     }
 }
