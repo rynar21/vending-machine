@@ -48,6 +48,13 @@ $this->title = 'Payment Progress';
         </div>
     </div>
 
+    <?php
+        // $model = new SaleRecord();
+        // $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
+        // print_r($model->id);
+        // die();
+    ?>
+
     <!-- 检查订单状态按钮 -->
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">

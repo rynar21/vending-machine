@@ -31,10 +31,10 @@ $this->title = 'My Yii Application';
             <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
                 <br/>
                 <br/>
-                <?php if($model->status === $model::STATUS_AVAILABLE):?>
+                <?php //if($model->status === $model::STATUS_AVAILABLE):?>
                     <?= Html::a('Pay',['/sale-record/create', 'id' => $model->id],['class'=>"btn btn-primary btn-available"])?>
                     <br/><br/>
-                <?php else: ?>
+                <?php //else: ?>
                     <a class="btn btn-unavailable" disabled="disabled">
                         Pay
                     </a>
@@ -42,7 +42,7 @@ $this->title = 'My Yii Application';
                         <?= '*Item is currently being purchased.' ?>
                     </h5>
                     <br/>
-                <?php endif; ?>
+                <?php //endif; ?>
 
                 <a href="<?= Url::base()?>/store/view?id=<?= $model->store_id?>"  class="btn btn-default btn-cancel" >
                     Cancel

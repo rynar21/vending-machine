@@ -32,7 +32,7 @@ class SaleRecordController extends Controller
     {
         $item_model = Item::findOne($id);   // 寻找 Item
         $model = new SaleRecord();
-        // if($model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_PENDING]) && $model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_SUCCESS]))
+        //if($model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_PENDING]) && $model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_SUCCESS]))
         if(empty($model->findOne(['item_id'=> $id])) || $model->find()->orderBy(['id'=> SORT_DESC])->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
         {
             // 创建 新订单
@@ -43,15 +43,18 @@ class SaleRecordController extends Controller
             $model->pending();
             $model->save();
         }
-        if (SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one()) {
-            print_t($model);
-            die();
+        $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
+        if ($model->id==$salerecord->id)
+        {
+            return $this->redirect(['check','id'=>$id]);
         }
-            // $model=SaleRecord::find()->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_PENDING])->min(['created_at']);
-            // print_t($model);
-            // die();
-        return $this->redirect(['check','id'=>$id]);
-        // print_r($model->id);
+        else {
+            return $this->render('update', [
+                'item_model' => $item_model,
+                'model' => $model,
+                'id' => $id,
+            ]);
+        }
     }
 
     // 判断 交易订单 的状态
@@ -59,35 +62,43 @@ class SaleRecordController extends Controller
     {
         $item_model = Item::findOne($id);
         $model = SaleRecord::find()->where(['item_id' => $id])->orderBy(['id'=> SORT_DESC])->one();
-        if ($item_model->status == Item::STATUS_LOCKED)
+        if ($model!=null)
         {
-            return $this->render('create', [
-                'item_model' => $item_model,
-                'model' => $model,
-                'id' => $id,
-            ]);
-        }
-        //  当SaleRecord 交易订单状态为交易成功
-        elseif ($item_model->status== Item::STATUS_SOLD)
-        {
-            return $this->render('success', [
-                'model' => $model,
-                'id' => $id,
-            ]);
-        }
-        //  当SaleRecord 交易订单状态为交易失败
-        elseif ($item_model->status== Item::STATUS_AVAILABLE)
-        {
-            if($model->status == SaleRecord::STATUS_FAILED)
+            if ($item_model->status == Item::STATUS_LOCKED)
             {
-                return $this->render('failed', [
+                return $this->render('create', [
+                    'item_model' => $item_model,
                     'model' => $model,
                     'id' => $id,
                 ]);
             }
+            //  当SaleRecord 交易订单状态为交易成功
+            elseif ($item_model->status== Item::STATUS_SOLD)
+            {
+                return $this->render('success', [
+                    'model' => $model,
+                    'id' => $id,
+                ]);
+            }
+            //  当SaleRecord 交易订单状态为交易失败
+            elseif ($item_model->status== Item::STATUS_AVAILABLE)
+            {
+                if($model->status == SaleRecord::STATUS_FAILED)
+                {
+                    return $this->render('failed', [
+                        'model' => $model,
+                        'id' => $id,
+                    ]);
+                }
+            }
+            else
+            {
+                throw new NotFoundHttpException("Requested item cannot be found.");
+            }
         }
-        else {
-            throw new NotFoundHttpException('Undefined model status.');
+        else
+        {
+            throw new NotFoundHttpException("Requested item cannot be found.");
         }
     }
 

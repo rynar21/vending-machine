@@ -14,7 +14,7 @@ $this->title = 'Payment Progress';
     <!-- 页面标题 -->
     <div class="row">
         <div class="col-sm-offset-2 col-sm-10 headline">
-            Payment
+            Sorry
         </div>
     </div>
 
@@ -36,14 +36,8 @@ $this->title = 'Payment Progress';
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8">
             <h4>
-                Please follow the following steps to make payment:
+                Sorry, this item has been purchased. Please buy other items.
                 <br/>
-                <br/>
-                1. Scan QR Code shown at the vending machine.
-                <br/>
-                2. Select your payment method.
-                <br/>
-                3. After payment, tab on 'Next' button to proceed.
             </h4>
         </div>
     </div>
@@ -51,47 +45,11 @@ $this->title = 'Payment Progress';
     <!-- 检查订单状态按钮 -->
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
-            <?= Html::a('Cancel',['cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel",
+            <?= Html::a('Cancel and return to home page',['cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel",
             'data' => [
                 'confirm' => 'Are you sure you want to exit this Store?',
                 'method' => 'post']])?>
 
         </div>
     </div>
-    <?php
-    //  function actionCheck($id)
-    // {
-    //     if ($model = SaleRecord::find()->where(['item_id'=> $id])->orderBy(['id'=> SORT_DESC])->one())
-    //     {
-    //         if ($model->status==8) {
-    //              return $this->render('failed', [
-    //                  'model' => $model,
-    //              ]);
-    //         }
-    //         if ($model->status==9) {
-    //             return $this->render('pending', [
-    //                 'model' => $model,
-    //             ]);
-    //         }
-    //         if ($model->status==10) {
-    //              return $this->render('success', [
-    //                  'model' => $model,
-    //              ]);
-    //         }
-    //     }
-    // }
-
-    ?>
-    <!-- <script>
-    function refreshPage()
-       {
-        setTimeout(Check(),1000);
-       }
-    </script> -->
  </div>
- <!-- <script>
- function refreshPage()
-    {
-     setTimeout("location.reload(true)",1000);
-    }
- </script> -->
