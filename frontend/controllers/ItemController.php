@@ -14,6 +14,7 @@ class ItemController extends Controller
     // 显示 Item表 其中一个数据 详情
     public function actionView($id)
     {
+        $model=Item::findOne(['id'=>$id]);
         if ($model)
         {
             return $this->render('view', [

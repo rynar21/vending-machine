@@ -61,12 +61,11 @@ class SaleRecordController extends Controller
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
-        $item_model = Item::findOne($id);
-        // $model = SaleRecord::find()->where(['item_id' => $id])->orderBy(['id'=> SORT_DESC])->one();
-        $model=SaleRecord::find()->where(['id' => $id])->one();
+        $model = SaleRecord::find()->where(['id' => $id])->one();
+        $item_model = Item::findOne(['id'=>$model->item_id]);
         if ($model!=null)
         {
-            if ($model->status == SaleRecord::STATUS_PENDING)
+            if ($item_model->status == Item::STATUS_LOCKED)
             {
                 return $this->render('create', [
                     'item_model' => $item_model,
@@ -75,7 +74,7 @@ class SaleRecordController extends Controller
                 ]);
             }
             //  当SaleRecord 交易订单状态为交易成功
-            elseif ($model->status== SaleRecord::STATUS_SUCCESS)
+            elseif ($item_model->status== Item::STATUS_SOLD)
             {
                 return $this->render('success', [
                     'model' => $model,
@@ -83,12 +82,15 @@ class SaleRecordController extends Controller
                 ]);
             }
             //  当SaleRecord 交易订单状态为交易失败
-            elseif ($model->status== SaleRecord::STATUS_FAILED)
+            elseif ($item_model->status== Item::STATUS_AVAILABLE)
             {
-                return $this->render('failed', [
-                    'model' => $model,
-                    'id' => $id,
-                ]);
+                if($model->status == SaleRecord::STATUS_FAILED)
+                {
+                    return $this->render('failed', [
+                        'model' => $model,
+                        'id' => $id,
+                    ]);
+                }
             }
             else
             {
@@ -105,7 +107,6 @@ class SaleRecordController extends Controller
     {
         $model = SaleRecord::findOne(['id' => $id]);
         $model->failed();
-
         return $this->redirect(['store/view', 'id' => $model->store_id]);
     }
 
