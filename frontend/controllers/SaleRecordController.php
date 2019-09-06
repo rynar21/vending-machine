@@ -41,8 +41,8 @@ class SaleRecordController extends Controller
             $model->box_id = $item_model->box_id;
             $model->store_id = $item_model->store_id;
             $model->sell_price = $item_model->price;
-            $model->pending();
             $model->save();
+            $model->pending();
         }
         $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
         if ($model->id==$salerecord->id)
@@ -107,7 +107,7 @@ class SaleRecordController extends Controller
     {
         $model = SaleRecord::findOne(['id' => $id]);
         $model->failed();
-        $model->save();
+
         return $this->redirect(['store/view', 'id' => $model->store_id]);
     }
 
@@ -148,12 +148,11 @@ class SaleRecordController extends Controller
     // API Integration
     public function actionPaysuccess($id)
     {
-        $model = SaleRecord::findOne(['item_id'=>$id]);
+        $model = SaleRecord::findOne(['id'=>$id]);
 
         if (!empty($model))
         {
             $model->success();
-            $model->save();
             echo'success';
         }
     }
@@ -163,7 +162,6 @@ class SaleRecordController extends Controller
         if (!empty($model))
         {
             $model->failed();
-            $model->save();
             echo'failed';
         }
     }
@@ -181,7 +179,7 @@ class SaleRecordController extends Controller
             ->all();
                 if ($models) {
                     foreach ($models as $model) {
-                         if (time()-$model->created_at>=900) {
+                         if (time()-$model->created_at>=1) {
                             $model->status = SaleRecord::STATUS_FAILED;
                             $model->save();
                             $model->failed();
