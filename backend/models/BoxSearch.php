@@ -89,9 +89,6 @@ class BoxSearch extends Box
         return $dataProvider;
     }
 
-    // if($stu= $this->item)
-    // {
-    //     return $stu->product->name;
-    // }
+
 
 }

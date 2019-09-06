@@ -26,7 +26,6 @@ $searchModel = new BoxSearch([
 // ]);
 
 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
- // $model->name=$
 ?>
 
 

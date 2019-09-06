@@ -21,7 +21,7 @@ use yii\web\JsExpression;
         <!-- 盒子 ID -->
         <div class="row f_label">
             <div class="col-sm-1">
-                Box ID:
+                Box Code:
             </div>
             <?= $model->box_id ?>
         </div>
@@ -61,11 +61,8 @@ use yii\web\JsExpression;
                       //            }"),
                                ],
                              ]); ?>
-
-
-
-
-        <br/><br/>
+            </div>
+        </div>
 
         <!-- 提交表格按钮 -->
         <div class="row form-group">

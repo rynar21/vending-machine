@@ -32,88 +32,80 @@ class SaleRecordController extends Controller
     public function actionCreate($id)
     {
         $item_model = Item::findOne($id);   // 寻找 Item
-
-        // 先判断 这Item ID是否存在 在于 SaleRecord
-        if(empty(SaleRecord::findOne(['item_id'=> $id]))) // 如果 相关的Item ID数据 不存在
+        $model = new SaleRecord();
+        //if($model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_PENDING]) && $model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_SUCCESS]))
+        if(empty($model->findOne(['item_id'=> $id])) || $model->find()->orderBy(['id'=> SORT_DESC])->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
         {
             // 创建 新订单
-            $model = new SaleRecord();
             $model->item_id = $id;
             $model->box_id = $item_model->box_id;
             $model->store_id = $item_model->store_id;
-            $model->status = $model::STATUS_PENDING;
             $model->sell_price = $item_model->price;
             $model->save();
+            $model->pending();
         }
-        else // 相反 如果存在
+        $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
+        if ($model->id==$salerecord->id)
         {
-            // 搜索 相关 Item ID 最后一条数据
-            $last_record = SaleRecord::find()->where(['item_id'=> $id])->orderBy(['id'=> SORT_DESC])->one();
-            // 如果最后一条数据状态 为 交易失败
-            if($last_record->status == SaleRecord::STATUS_FAILED)
-            {
-                // 创建 新订单
-                $model = new SaleRecord();
-                $model->item_id = $id;
-                $model->box_id = $item_model->box_id;
-                $model->store_id = $item_model->store_id;
-                $model->status = $model::STATUS_PENDING;
-                $model->sell_price = $item_model->price;
-                $model->save();
-            }
+            return $this->redirect(['check','id'=>$id]);
         }
-
-        return $this->render('update', [
-            'item_model' => $item_model,
-            'model' => SaleRecord::findOne(['id' => (SaleRecord::find()->count())]), //搜索最后一条数据
-            'id' => $id,
-        ]);
+        else {
+            return $this->render('update', [
+                'item_model' => $item_model,
+                'model' => $model,
+                'id' => $id,
+            ]);
+        }
     }
 
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
-        // 判断 订单是否存在
-        if ($model = SaleRecord::findOne(['id' => $id]))
+        $item_model = Item::findOne($id);
+        $model = SaleRecord::find()->where(['item_id' => $id])->orderBy(['id'=> SORT_DESC])->one();
+        if ($model!=null)
         {
-            switch($model->status)
+            if ($item_model->status == Item::STATUS_LOCKED)
             {
-                case $model::STATUS_PENDING:
-                $model->pending();
-                return $this->render('pending', [
+                return $this->render('create', [
+                    'item_model' => $item_model,
                     'model' => $model,
+                    'id' => $id,
                 ]);
-                break;
-
-                case $model::STATUS_SUCCESS:
-                $model->success();
+            }
+            //  当SaleRecord 交易订单状态为交易成功
+            elseif ($item_model->status== Item::STATUS_SOLD)
+            {
                 return $this->render('success', [
                     'model' => $model,
+                    'id' => $id,
                 ]);
-                break;
-
-                case $model::STATUS_FAILED:
-                $model->failed();
-                return $this->render('failed', [
-                    'model' => $model,
-                ]);
-                break;
-
-                default:
-                throw new NotFoundHttpException('Undefined model status.');
-                break;
+            }
+            //  当SaleRecord 交易订单状态为交易失败
+            elseif ($item_model->status== Item::STATUS_AVAILABLE)
+            {
+                if($model->status == SaleRecord::STATUS_FAILED)
+                {
+                    return $this->render('failed', [
+                        'model' => $model,
+                        'id' => $id,
+                    ]);
+                }
+            }
+            else
+            {
+                throw new NotFoundHttpException("Requested item cannot be found.");
             }
         }
-        else {
-            throw new NotFoundHttpException('The requested model does not exist.');
+        else
+        {
+            throw new NotFoundHttpException("Requested item cannot be found.");
         }
     }
 
     public function actionCancel($id)
     {
         $model = SaleRecord::findOne(['id' => $id]);
-        $model->status = SaleRecord:: STATUS_FAILED;
-        $model->save();
         $model->failed();
 
         return $this->redirect(['store/view', 'id' => $model->store_id]);
@@ -156,23 +148,19 @@ class SaleRecordController extends Controller
     // API Integration
     public function actionPaysuccess($id)
     {
-        $model = SaleRecord::findOne(['item_id'=>$id]);
+        $model = SaleRecord::findOne(['id'=>$id]);
 
         if (!empty($model))
         {
-            $model->status = SaleRecord::STATUS_SUCCESS;
-            $model->save();
             $model->success();
             echo'success';
         }
     }
     public function actionPayfailed($id)
     {
-        $model = SaleRecord::findOne(['item_id'=>$id]);
+        $model = SaleRecord::findOne(['id'=> $id]);;
         if (!empty($model))
         {
-            $model->status = SaleRecord::STATUS_FAILED;
-            $model->save();
             $model->failed();
             echo'failed';
         }
@@ -191,7 +179,7 @@ class SaleRecordController extends Controller
             ->all();
                 if ($models) {
                     foreach ($models as $model) {
-                         if (time()-$model->created_at>=900) {
+                         if (time()-$model->created_at>=1) {
                             $model->status = SaleRecord::STATUS_FAILED;
                             $model->save();
                             $model->failed();
