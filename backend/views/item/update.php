@@ -28,24 +28,5 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <hr />
 
-    <!-- 显示还没成功购买的产品 -->
-    <div class="row">
-        <h3 class="col-sm-12">
-            Available Items
-        </h3>
-    </div>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            // 'store_id',
-            'box.code',
-            'name',
-            ['attribute'=> 'price', 'value' => 'pricing'],
-            ['attribute'=> 'status', 'value' => 'statusText'],
-            'created_at:datetime',
-            'updated_at:datetime',
-        ],
-    ]); ?>
 
 </div>

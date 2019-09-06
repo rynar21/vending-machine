@@ -16,7 +16,7 @@ use common\models\Item;
                 <a href="<?= Url::base()?>/item/view?id=<?= $item->id ?>">
                     <!-- 产品：图片 显示框 -->
                     <div class="row item_image">
-                        <img src="<?= $item->imageUrl ?>" class="img-responsive center-block"/>
+                        <img src="<?=  $item->imageUrl ?>" class="img-responsive center-block"/>
                     </div>
 
                     <!-- 产品：名字 显示框 -->

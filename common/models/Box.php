@@ -6,7 +6,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Html;
-
+use yii\helpers\Url;
 /**
  * This is the model class for table "box".
  * @property int $id
@@ -19,6 +19,7 @@ class Box extends \yii\db\ActiveRecord
 {
 
     public $prefix;
+    public $test;
 
       //盒子状态
       const BOX_STATUS_AVAILABLE = 2;       // 盒子为空
@@ -36,6 +37,7 @@ class Box extends \yii\db\ActiveRecord
         return [
             [['code', 'store_id'], 'integer'],
             [['code'], 'required'],
+            [['name'],'safe'],
             [['status'], 'default', 'value' => self::BOX_STATUS_AVAILABLE],
         ];
     }
@@ -47,6 +49,16 @@ class Box extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
+
+    public function getImageUrl()
+    {
+        if ($this->image && file_exists(Yii::getAlias('@upload') . '/' . $this->image))
+        {
+            return Url::to('@imagePath'). '/' . $this->image;
+        }
+        return Url::to('@imagePath'). '/product.jpg';
+    }
+
     public function getStore_id()
     {
         if (!empty($this->store->id)) {
@@ -64,6 +76,7 @@ class Box extends \yii\db\ActiveRecord
             'id' => 'Box ID',
             'code' => 'Box Code',
             'status' => 'Box Status',
+            'name'=>'Item Name',
             'store_id' => 'Store ID',
         ];
     }
@@ -96,22 +109,35 @@ class Box extends \yii\db\ActiveRecord
         return $this->hasOne(Store::className(), ['id'=>'store_id']);
     }
 
+    
     // 寻找 Item产品 数据表
     public function getItem()
     {
         return $this->hasOne(Item::className(), ['box_id'=>'id'])
-        ->orderBy(['id' => SORT_DESC])
-        ->where(['status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])//用户体验
-        ->limit(1);
+            ->where(['item.status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]); //用户体验
+
+        // ->orderBy(['item.id' => SORT_DESC])
+        // ->where(['item.status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])//用户体验
+        // ->limit(1);
     }
 
     // 寻找 Item 产品 数据表
     public function getItems()
     {
-        return $this->hasMany(Item::className(), ['box_id'=>'id'])
-        ->orderBy(['id' => SORT_DESC])
+        return $this->hasMany(Item::className(), ['box_id'=>'id']);
+
+    }
+
+    public function getAvailableItems()
+    {
+        return $this->getItems()->orderBy(['id' => SORT_DESC])
         ->where(['status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
         ->limit(1);
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(Product::className(), ['id' => 'product_id'])->via('item');
     }
 
     // 判断 盒子 是否包含 产品 >> 连接 Item数据表 功能
@@ -143,4 +169,30 @@ class Box extends \yii\db\ActiveRecord
         }
         return $text;
     }
+
+    // public function getName()
+    // {
+    //     if($this->item)
+    //     {
+    //         return $this->item->product->name;
+    //     }
+    //     else
+    //     {
+    //         return null;
+    //     }
+    // }
+
+    public function getPrice()
+    {
+        if($this->item)
+        {
+            return $this->item->price;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+
 }

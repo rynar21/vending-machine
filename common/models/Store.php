@@ -54,6 +54,7 @@ class Store extends \yii\db\ActiveRecord
         return [
             'id' => 'Store ID',
             'name' => 'Store Name',
+            
             'address' => 'Store Address',
             'contact' => 'Store Contact',
             'prefix' => 'Box Prefix',

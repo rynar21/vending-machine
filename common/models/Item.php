@@ -21,6 +21,8 @@ use yii\helpers\Url;
  */
 class Item extends \yii\db\ActiveRecord
 {
+
+    public $sku;
     // 产品 添加的初始值 & 交易失败
     const STATUS_AVAILABLE = 0;         // 对应 SaleRecord::STATUS_FAILED
     // 产品 被撤除值
@@ -51,6 +53,7 @@ class Item extends \yii\db\ActiveRecord
             [['box_id', 'product_id'], 'required'],
             [['name'], 'string', 'max' => 255],
             [['price'], 'number'],
+            [['sku'], 'safe'],
             [['store_id', 'product_id'], 'integer'],
             [['status'], 'default', 'value' => self::STATUS_AVAILABLE],
 
@@ -93,6 +96,19 @@ class Item extends \yii\db\ActiveRecord
         if (!empty($this->product->name))
         {
             return $this->product->name;
+        }
+    }
+
+
+    public function getPrice()
+    {
+        if (!empty($this->product->price))
+        {
+            return $this->product->price;
+        }
+        else
+        {
+            return null;
         }
     }
 

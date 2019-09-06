@@ -30,14 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->boxcode;
                 }
             ],
-            [
-                'attribute'=> 'status',
-                'value' => 'statusText'
-            ],
+            // [
+            //     'attribute'=> 'status',
+            //     'value' => 'statusText'
+            // ],
             // 'status',
             'store_id',
-            'item.name',
-            'item.product_id',
+            'product.name',
             'created_at:datetime',
             'updated_at:datetime',
             ['class' => 'yii\grid\ActionColumn','header' => 'Action'],

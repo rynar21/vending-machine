@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 
 <!-- 更改产品： 只可应许更改产品出售价格 -->
 <div class="item-form">
-    
+
         <!--运行 Yii ActiveForm 框架 -->
         <?php $form = ActiveForm::begin(); ?>
 
