@@ -34,7 +34,9 @@ class SaleRecordController extends Controller
         $item_model = Item::findOne($id);   // 寻找 Item
         $model = new SaleRecord();
         //if($model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_PENDING]) && $model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_SUCCESS]))
-        if(empty($model->findOne(['item_id'=> $id])) || $model->find()->orderBy(['id'=> SORT_DESC])->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
+        if(empty($model->findOne(['item_id'=> $id])) || $model->find()
+        ->orderBy(['id'=> SORT_DESC])
+        ->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
         {
             // 创建 新订单
             $model->item_id = $id;
@@ -44,10 +46,11 @@ class SaleRecordController extends Controller
             $model->save();
             $model->pending();
         }
-        $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
+        $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
+        ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
         if ($model->id==$salerecord->id)
         {
-            return $this->redirect(['check','id'=>$id]);
+            return $this->redirect(['check','id'=>$salerecord->id]);
         }
         else {
             return $this->render('update', [
@@ -61,8 +64,9 @@ class SaleRecordController extends Controller
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
-        $item_model = Item::findOne($id);
-        $model = SaleRecord::find()->where(['item_id' => $id])->orderBy(['id'=> SORT_DESC])->one();
+
+        $model = SaleRecord::find()->where(['id' => $id])->orderBy(['id'=> SORT_DESC])->one();
+        $item_model = Item::find()->where(['id'=>$model->item_id])->one();
         if ($model!=null)
         {
             if ($item_model->status == Item::STATUS_LOCKED)
@@ -74,7 +78,7 @@ class SaleRecordController extends Controller
                 ]);
             }
             //  当SaleRecord 交易订单状态为交易成功
-            elseif ($item_model->status== Item::STATUS_SOLD)
+            if ($model->status == SaleRecord::STATUS_SUCCESS)
             {
                 return $this->render('success', [
                     'model' => $model,
@@ -82,8 +86,7 @@ class SaleRecordController extends Controller
                 ]);
             }
             //  当SaleRecord 交易订单状态为交易失败
-            elseif ($item_model->status== Item::STATUS_AVAILABLE)
-            {
+
                 if($model->status == SaleRecord::STATUS_FAILED)
                 {
                     return $this->render('failed', [
@@ -91,7 +94,7 @@ class SaleRecordController extends Controller
                         'id' => $id,
                     ]);
                 }
-            }
+
             else
             {
                 throw new NotFoundHttpException("Requested item cannot be found.");
@@ -107,7 +110,6 @@ class SaleRecordController extends Controller
     {
         $model = SaleRecord::findOne(['id' => $id]);
         $model->failed();
-
         return $this->redirect(['store/view', 'id' => $model->store_id]);
     }
 
@@ -150,7 +152,7 @@ class SaleRecordController extends Controller
     {
         $model = SaleRecord::findOne(['id'=>$id]);
 
-        if (!empty($model))
+        if ($model)
         {
             $model->success();
             echo'success';
@@ -159,7 +161,7 @@ class SaleRecordController extends Controller
     public function actionPayfailed($id)
     {
         $model = SaleRecord::findOne(['id'=> $id]);;
-        if (!empty($model))
+        if ($model)
         {
             $model->failed();
             echo'failed';
@@ -167,27 +169,23 @@ class SaleRecordController extends Controller
     }
 
     //检查状态
-    public  function actionInspection()
-    {
-            // $sale= new SaleRecord();
-            $models = SaleRecord::find()
-            ->where([
-                // 'and',
-                'status' => 9,
-                // [' between','created_at',$sale->created_at+900,$sale->created_at],
-            ])
-            ->all();
-                if ($models) {
-                    foreach ($models as $model) {
-                         if (time()-$model->created_at>=1) {
-                            $model->status = SaleRecord::STATUS_FAILED;
-                            $model->save();
-                            $model->failed();
-                            echo "failure";
-                         }
+   public  function actionInspection()
+   {
 
-                    }
-              }
+       $models = SaleRecord::find()->where([
+           'status' => 9,
+       ])->andWhere(['<', 'created_at', time()-1])->all();
+               if ($models) {
+                   foreach ($models as $model) {
+                        // if (time()-$model->created_at>=1) {
+                           $model->failed();
+                           //echo "failure";
+                           echo $model->id . "\n";
+                        // }
 
-     }
+                   }
+             }
+
+    }
+
 }

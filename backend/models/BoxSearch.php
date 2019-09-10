@@ -50,39 +50,22 @@ class BoxSearch extends Box
      */
 
 
-    public function search($params)
+    public function search($params,$id)
     {
-        $query = Box::find();
-        //->where(['store_id'  =>$st->id]);
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query
-
-            //Box::find()->where(['store_id'  =>1])
-        ]);
-
+        $query = Box::find()->where(['box.store_id'=>$id]);
+        $dataProvider = new ActiveDataProvider(['query' => $query,]);
         $this->load($params);
-
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-            // 'id' => $this->id,
-            // 'code' => $this->code,
-            // 'box.status' => $this->status,
-            'box.store_id' => $this->store_id,
-            'product.name' => $this->name,
-        ]);
+        // $query->andFilterWhere([
+        //     'product.name' => $this->name,
+        // ]);
 
         if ($this->name) {
             $query->joinWith('product');
         }
-            // $query->andFilterWhere(['like', 'item.name', $this->name]);
+            $query->andFilterWhere(['like', 'product.name', $this->name]);
             // $query->andFilterWhere(['like', 'item.price', $this->price]);
 
 
