@@ -24,7 +24,7 @@ class BoxSearch extends Box
     public function rules()
     {
         return [
-            [['id', 'code' , 'store_id', 'status'], 'integer'],
+            [['id', 'code' , 'store_id', ], 'integer'],
             // [['status'], 'integer'],
             [['name'], 'safe'],
             [['price'], 'number'],
@@ -53,7 +53,9 @@ class BoxSearch extends Box
     public function search($params,$id)
     {
         $query = Box::find()->where(['box.store_id'=>$id]);
-        $dataProvider = new ActiveDataProvider(['query' => $query,]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query->orderBy(['code'=>SORT_ASC]),
+        ]);
         $this->load($params);
         if (!$this->validate()) {
             return $dataProvider;
