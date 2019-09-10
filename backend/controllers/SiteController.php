@@ -47,13 +47,13 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions'=>['change-password'],
+                        'actions'=>['changepassword'],
                         'allow' => true,
                     ],
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        // 'roles' => ['ac_read'],
+                        'roles' => ['ac_read'],
                     ],
                 ],
             ],
@@ -102,11 +102,7 @@ class SiteController extends Controller
             //return $this->goBack();
             return $this->redirect(Url::to(['store/index']));
         }
-        else
-        {
-            //$model->password = '';
             return $this->render('login', ['model' => $model,]);
-        }
     }
 
     public function actionChangepassword()
@@ -117,8 +113,8 @@ class SiteController extends Controller
 
 
             if( $model->load(Yii::$app->request->post()) && $model->changePassword()){
-                Yii::$app->user->logout();
-                return $this->goHome();
+                // Yii::$app->user->logout();
+                return $this->logout();
             }else{
                 return $this->render('changepassword',['model'=>$model]);
             }

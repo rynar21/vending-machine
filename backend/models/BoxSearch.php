@@ -24,8 +24,8 @@ class BoxSearch extends Box
     public function rules()
     {
         return [
-            [['id', 'code' , 'store_id', 'status'], 'integer'],
-            // [['status'], 'integer'],
+            [['id', 'code' , 'store_id'], 'integer'],
+            [['status'], 'safe'],
             [['name'], 'safe'],
             [['price'], 'number'],
             // [['name'],'string'],
@@ -74,7 +74,7 @@ class BoxSearch extends Box
         $query->andFilterWhere([
             // 'id' => $this->id,
             // 'code' => $this->code,
-            // 'box.status' => $this->status,
+            'box.status' => $this->status,
             'box.store_id' => $this->store_id,
             'product.name' => $this->name,
         ]);

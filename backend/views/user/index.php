@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\common\User;
+use common\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Sign Up', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php //print_r(array_keys($roles));// echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -78,21 +77,21 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Action',
-                'template' => '{Unsuspended} {Suspend} {Terminate}',
+                'template' => '{Unsuspend} {Suspend} {Terminate}',
                 'buttons' => [
                     'Suspend' => function($url, $model, $id)
                     {
-                        return Html::a('Suspend', ['update-status','status'=>8, 'id'=>$id], ['class' => 'btn btn-danger']);
+                        return Html::a('Suspend', ['update-status','status'=> User::STATUS_SUSPEND, 'id'=>$id], ['class' => 'btn btn-danger']);
                     },
 
-                    'Unsuspended' => function($url, $model, $id)
+                    'Unsuspend' => function($url, $model, $id)
                     {
-                        return Html::a('Unsuspended', ['update-status','status'=>10,'id'=>$id], ['class' => 'btn btn-primary']);
+                        return Html::a('Unsuspend', ['update-status','status'=> User::STATUS_ACTIVE,'id'=>$id], ['class' => 'btn btn-primary']);
                     },
 
                     'Terminate' => function($url, $model, $id)
                     {
-                        return Html::a('Terminate', ['update-status','status'=>0,'id'=>$id], ['class' => 'btn btn-danger']);
+                        return Html::a('Terminate', ['update-status','status'=> User::STATUS_DELETED,'id'=>$id], ['class' => 'btn btn-danger']);
                     },
                 ],
             ],
