@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'sku',
             'name',
-            'price',
+            'price:currency',
             'image',
             [
               'attribute'=>'image',

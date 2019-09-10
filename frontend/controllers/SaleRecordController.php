@@ -20,9 +20,9 @@ class SaleRecordController extends Controller
     // 显示 其中一个订单 详情
     public function actionView($id)
     {
-        $model = SaleRecord::findOne(['item_id' => $id]);   // 寻找 SaleRecord
+        $model = SaleRecord::findOne(['id' => $id]);   // 寻找 SaleRecord
         return $this->render('view', [
-            'item_model' => Item::findOne($id),
+            'item_model' => Item::findOne(['id'=>$model->item_id]),
             'model' => $model,
         ]);
     }
@@ -50,7 +50,7 @@ class SaleRecordController extends Controller
         ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
         if ($model->id==$salerecord->id)
         {
-            return $this->redirect(['check','id'=>$salerecord->id]);
+            return $this->redirect(['check','id'=>$model->id]);
         }
         else {
             return $this->render('update', [
@@ -65,11 +65,12 @@ class SaleRecordController extends Controller
     public function actionCheck($id)
     {
 
-        $model = SaleRecord::find()->where(['id' => $id])->orderBy(['id'=> SORT_DESC])->one();
-        $item_model = Item::find()->where(['id'=>$model->item_id])->one();
+        // $sale_model = SaleRecord::findOne($id);
+        $model = SaleRecord::find()->where(['id' => $id])->one();
+        $item_model = item::find()->where(['id' => $model->item_id])->one();
         if ($model!=null)
         {
-            if ($item_model->status == Item::STATUS_LOCKED)
+            if ($model->status == SaleRecord::STATUS_PENDING)
             {
                 return $this->render('create', [
                     'item_model' => $item_model,
@@ -78,7 +79,7 @@ class SaleRecordController extends Controller
                 ]);
             }
             //  当SaleRecord 交易订单状态为交易成功
-            if ($model->status == SaleRecord::STATUS_SUCCESS)
+            elseif ($model->status== SaleRecord::STATUS_SUCCESS)
             {
                 return $this->render('success', [
                     'model' => $model,
@@ -86,15 +87,13 @@ class SaleRecordController extends Controller
                 ]);
             }
             //  当SaleRecord 交易订单状态为交易失败
-
-                if($model->status == SaleRecord::STATUS_FAILED)
-                {
-                    return $this->render('failed', [
-                        'model' => $model,
-                        'id' => $id,
-                    ]);
-                }
-
+            elseif ($model->status== SaleRecord::STATUS_FAILED)
+            {
+                  return $this->render('failed', [
+                      'model' => $model,
+                      'id' => $id,
+                  ]);
+            }
             else
             {
                 throw new NotFoundHttpException("Requested item cannot be found.");
