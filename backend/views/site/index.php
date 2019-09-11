@@ -17,13 +17,6 @@ $total=0;
       sort($labels);
     }
 
-// for ($j=1; $j < count($labels)+1; $j++) {
-//   $model_count = SaleRecord::find()
-//   ->where(['between', 'updated_at', strtotime(-(24*60*60*$j-$j) .'seconds'),strtotime(-(24*60*60*($j-1)-($j-1)) .'seconds')])
-//   ->andWhere(['status'=> 10])
-//   ->count();
-// $data[]=$model_count;
-// }
     for ($j=count($labels); $j>=1 ; $j--)
      {
       $model_count = SaleRecord::find()
@@ -32,6 +25,7 @@ $total=0;
       ->count();
       $data[]=$model_count;
     }
+    
     for ($j=count($labels); $j >=1 ; $j--)
      {
         $sale_record = SaleRecord::find()->where(['status' => 10])
@@ -43,7 +37,6 @@ $total=0;
             foreach ($item as $price )
              {
                 $total+=$price->price ;
-                // $total+=$total ;
             }
           }
           $data_amount[]=$total;
