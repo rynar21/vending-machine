@@ -1,71 +1,131 @@
+
+
 <?php
-use Yii;
 use common\models\SaleRecord;
-use backend\models\SaleRecordSearch;
+use common\models\Item;
+use frontend\controllers\SaleRecordController;
+
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
 ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
+
+
+<canvas id="myChart" width="100" height="50"></canvas>
+<?php
+
+
+?>
+
+
+</script>
+<?php
+$labels = [];
+$data = [];
+$pricesum=[];
+
+$model_time = SaleRecord::find()->where(['status' => 10])->all();
+
+
+for ($i=0; $i < 7 ; $i++) {
+  $labels[] = date('"Y-m-d "', strtotime(-$i.'day'));
+  sort($labels);
+}
+
+for ($i=count($labels); $i >=1 ; $i--) {
+  $model_count = SaleRecord::find()
+  ->where(['between', 'updated_at', strtotime(-$i .'days'),strtotime(1-$i .'days')   ])
+  ->andWhere(['status'=> 10])
+  ->count();
+ $data[]=$model_count;
+}
+for ($j=count($labels); $j >=1 ; $j--) {
+
+    $total = 0;
+    $models = SaleRecord::find()->where(['status' => 10])
+    ->andWhere(['between', 'created_at' , strtotime(-$j. 'days')  ,strtotime(1-$j .'days') ])
+    ->all();
+     foreach ($models as $model) {
+        $model1=Item::find()->where(['id'=>$model->item_id])->all();
+            foreach ($model1 as $itemmodel ) {
+            $arr= $itemmodel->price ;
+            $total += $arr;
+    }
+  }
+     $pricesum[]=$total;
+}
+
+// print_r($labels);
+//
+// print_r($data);
+
+?>
+<canvas id="myChart1"></canvas>
+
+<canvas id="myChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 <div class="site-index">
 
-    <!-- <div class="jumbotron">
-        <h1>Congratulations!</h1>
+    <div class="body-content">
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+        <div class="row">
+            <div class="col-lg-4">
+<script>
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var chart = new Chart(ctx, {
+        type: 'line',
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div> -->
-<canvas id="myChart" width="100" height="50"></canvas>
-<script>
-// Any of the following formats may be used
-var ctx = document.getElementById('myChart');
-var ctx = document.getElementById('myChart').getContext('2d');
-var ctx = $('#myChart');
-var ctx = 'myChart';
-</script>
-<script>
-var ctx = document.getElementById('myChart');
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ['red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        data: {
+
+        labels: [<?= implode($labels, ',') ?>],
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
+            label: 'No. of success transaction',
+            backgroundColor:'transparent',
+            borderColor: 'rgb(0, 0, 0)',
+            data: [<?= implode($data, ',') ?> ],
+
+        },
+        {
+            label: 'Total Amount (RM)',
+             backgroundColor: 'transparent',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [<?= implode($pricesum, ',') ?> ]
+        }
+    ]
     },
 
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
+    options: {},
 });
-
 </script>
+   </div>
+  </div>
 
+  <div class="row">
+      <div class="col-lg-4">
+<script>
+var ctx = document.getElementById('myChart1').getContext('2d');
+var chart = new Chart(ctx, {
+  type: 'line',
 
+  data: {
+
+  labels: [<?= implode($labels, ',') ?>],
+  datasets: [{
+      label: 'No. of success transaction',
+       backgroundColor: 'transparent',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [<?= implode($pricesum, ',') ?> ]
+  }]
+},
+
+options: {},
+});
+</script>
+</div>
+</div>
+  </div>
 </div>

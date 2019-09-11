@@ -183,10 +183,32 @@ class SaleRecordController extends Controller
 
     }
 
-    public  function actionPrice()
+    public  function actionIn()
+    {
+
+
+        $models = SaleRecord::find()->where([
+            'status' => 10,
+        ])
+        ->andWhere(['between', 'created_at' , strtotime('-10 days')  ,strtotime(date("Y-m-d"),time()) ])
+        ->count();
+        print_r($models);
+        die();
+                if ($models) {
+                    foreach ($models as $model) {
+                            $model->failed();
+                            echo $model->id . "\n";
+                    }
+              }
+
+     }
+
+    public  function actionPricesum($day)
     {
         $total = 0;
-        $models = SaleRecord::find()->where(['status' => 10])->all();
+        $models = SaleRecord::find()->where(['status' => 10])
+        ->andWhere(['between', 'created_at' , strtotime(-$day. 'days')  ,strtotime(1-$day .'days') ])
+        ->all();
                 if ($models) {
                     foreach ($models as $model) {
                             $model1=Item::find()->where(['id'=>$model->item_id])->all();
