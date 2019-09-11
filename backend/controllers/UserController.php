@@ -42,6 +42,7 @@ class UserController extends Controller
                     [
                         'actions' => ['index', 'view'],
                         'allow' => true,
+                        'roles'=> ['ac_read'],
                     ],
                     [
                         'actions' => ['assign'],
@@ -127,17 +128,17 @@ class UserController extends Controller
         {
             switch($status)
             {
-                 case 8:
+                 case User::STATUS_SUSPEND:
                     $model->status=User::STATUS_SUSPEND;
                     $model->save();
                     Yii::$app->session->setFlash('success', "Suspend Success.");
                     break;
-                 case 10:
+                 case User::STATUS_ACTIVE:
                     $model->status=User::STATUS_ACTIVE;
                     $model->save();
                     Yii::$app->session->setFlash('success', "Unsuspend Success.");
                     break;
-                 case 0:
+                 case User::STATUS_DELETED:
                     $model->status=User::STATUS_DELETED;
                     $model->save();
                     Yii::$app->session->setFlash('success', "Termimate Success.");
@@ -166,7 +167,9 @@ class UserController extends Controller
     public function actionAssign($role, $id)
     {
         $auth = Yii::$app->authManager;
+        $user = User::findOne(['id'=> $id, 'status'=> User::STATUS_ACTIVE]);
         // $str=$auth->getUserIdsByRole('admin');
+      if($user){
         if ($auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
               if (!$auth->checkAccess($id,'admin'))
               {
@@ -196,11 +199,16 @@ class UserController extends Controller
                      Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
                   }
               }
-              else
-              {
-                 Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
-              }
+              // else
+              // {
+              //    Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
+              // }
           }
+        }
+        else
+        {
+          Yii::$app->session->setFlash('danger', "Inactive account cannot assign Role");
+        }
             return $this->redirect(['index']);
         }
     //To revoke user Role
