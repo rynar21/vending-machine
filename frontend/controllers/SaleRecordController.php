@@ -20,9 +20,9 @@ class SaleRecordController extends Controller
     // 显示 其中一个订单 详情
     public function actionView($id)
     {
-        $model = SaleRecord::findOne(['item_id' => $id]);   // 寻找 SaleRecord
+        $model = SaleRecord::findOne(['id' => $id]);   // 寻找 SaleRecord
         return $this->render('view', [
-            'item_model' => Item::findOne($id),
+            'item_model' => Item::findOne(['id'=>$model->item_id]),
             'model' => $model,
         ]);
     }
@@ -61,10 +61,9 @@ class SaleRecordController extends Controller
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
-
         // $sale_model = SaleRecord::findOne($id);
-        $model = SaleRecord::find()->where(['id' => $id])->one();
-        $item_model = item::find()->where(['id' => $model->item_id])->one();
+        $model = SaleRecord::findOne(['id' => $id]);
+        $item_model = item::findOne(['id' => $model->item_id]);
         if ($model!=null)
         {
             if ($model->status == SaleRecord::STATUS_PENDING)

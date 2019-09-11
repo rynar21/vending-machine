@@ -27,7 +27,7 @@ $this->title = 'Payment Progress';
             </div>
 
             <div class="modal-footer"  style="width:100%; border-top:2px solid black;">
-                <a href="view?id=<?= $model->item_id ?>">
+                <a href="view?id=<?= $model->id ?>">
                     <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style="font-size:25px; font-weight:bold;">
                         Next
                     </div>
