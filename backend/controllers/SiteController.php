@@ -17,6 +17,8 @@ use backend\models\UserSearch;
 use backend\models\AdminPasswordForm;
 use backend\models\ChangePasswordForm;
 use yii\web\NotFoundHttpException;
+use common\models\SaleRecord;
+use common\models\Item;
 
 
 
@@ -85,7 +87,60 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $labels = [];
+        $data = [];
+        $data_amount=[];
+
+        // $model_time = SaleRecord::find()->where(['status' => 10])->all();
+        for ($i=0; $i <7  ; $i++)
+        {
+            $labels[] = date('"Y-m-d "', strtotime(-$i .'days'));
+            sort($labels);
+        }
+
+        for ($j=count($labels)-1; $j >= 0; $j--)
+        {
+            $model_count = SaleRecord::find()
+            ->where([
+                'between',
+                'updated_at',
+                 strtotime(date('Y-m-d',strtotime(-$j.' day'))),
+                 strtotime(date('Y-m-d',strtotime(1-$j.' day')))
+             ])
+            ->andWhere(['status'=> 10])
+            ->count();
+            $data[]=$model_count;
+        }
+
+        for ($j=count($labels)-1; $j >=0 ; $j--)
+        {
+             $total=0;
+              $sale_record = SaleRecord::find()
+              ->where(['status' => 10])
+              ->andWhere([
+                  'between',
+                  'updated_at',
+                  strtotime(date('Y-m-d',strtotime(-$j.' day'))),
+                  strtotime(date('Y-m-d',strtotime(1-$j.' day')))])
+              ->all();
+
+                foreach ($sale_record as $model)
+                {
+                    $item=Item::find()->where(['id'=>$model->item_id])->all();
+
+                    foreach ($item as $price )
+                    {
+                      $total+=$price->price ;
+                    }
+                }
+                $data_amount[]=$total;
+        }
+
+        return $this->render('index', [
+          'labels' => $labels,
+          'data' => $data,
+          'data_amount' => $data_amount
+      ]);
     }
 
     /**
