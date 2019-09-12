@@ -183,14 +183,14 @@ class SaleRecordController extends Controller
 
     }
 
-    public  function actionIn()
+    public  function actionKip()
     {
 
 
         $models = SaleRecord::find()->where([
-            'status' => 10,
+            'status' => 8,
         ])
-        ->andWhere(['between', 'created_at' , strtotime('-10 days')  ,strtotime(date("Y-m-d"),time()) ])
+         ->andWhere(['between', 'created_at' , strtotime('-2 days')  ,strtotime('-1 days') ])
         ->count();
         print_r($models);
         die();
@@ -201,6 +201,11 @@ class SaleRecordController extends Controller
                     }
               }
 
+     }
+
+     public function actionLps()
+     {
+         echo "string";
      }
 
     public  function actionPricesum($day)

@@ -3,7 +3,7 @@
 <?php
 use common\models\SaleRecord;
 use common\models\Item;
-use frontend\controllers\SaleRecordController;
+
 
 /* @var $this yii\web\View */
 
@@ -26,11 +26,11 @@ $labels = [];
 $data = [];
 $pricesum=[];
 
-$model_time = SaleRecord::find()->where(['status' => 10])->all();
+
 
 
 for ($i=0; $i < 7 ; $i++) {
-  $labels[] = date('"Y-m-d "', strtotime(-$i.'day'));
+  $labels[] = date('"Y-m-d "', strtotime(-$i.'days'));
   sort($labels);
 }
 
