@@ -34,7 +34,9 @@ class SaleRecordController extends Controller
         $item_model = Item::findOne($id);   // 寻找 Item
         $model = new SaleRecord();
         //if($model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_PENDING]) && $model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_SUCCESS]))
-        if(empty($model->findOne(['item_id'=> $id])) || $model->find()->orderBy(['id'=> SORT_DESC])->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
+        if(empty($model->findOne(['item_id'=> $id])) || $model->find()
+        ->orderBy(['id'=> SORT_DESC])
+        ->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
         {
             // 创建 新订单
             $model->item_id = $id;
@@ -44,7 +46,8 @@ class SaleRecordController extends Controller
             $model->save();
             $model->pending();
         }
-        $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
+        $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
+        ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
         if ($model->id==$salerecord->id)
         {
             return $this->redirect(['check','id'=>$model->id]);
@@ -147,7 +150,7 @@ class SaleRecordController extends Controller
     {
         $model = SaleRecord::findOne(['id'=>$id]);
 
-        if (!empty($model))
+        if ($model)
         {
             $model->success();
             echo'success';
@@ -156,7 +159,7 @@ class SaleRecordController extends Controller
     public function actionPayfailed($id)
     {
         $model = SaleRecord::findOne(['id'=> $id]);;
-        if (!empty($model))
+        if ($model)
         {
             $model->failed();
             echo'failed';
@@ -164,27 +167,69 @@ class SaleRecordController extends Controller
     }
 
     //检查状态
-    public  function actionInspection()
+   public  function actionInspection()
+   {
+
+       $models = SaleRecord::find()->where([
+           'status' => 9,
+       ])->andWhere(['<', 'created_at', time()-1])->all();
+               if ($models) {
+                   foreach ($models as $model) {
+                           $model->failed();
+                           echo $model->id . "\n";
+                   }
+             }
+
+    }
+
+    public  function actionKip()
     {
-            // $sale= new SaleRecord();
-            $models = SaleRecord::find()
-            ->where([
-                // 'and',
-                'status' => 9,
-                // [' between','created_at',$sale->created_at+900,$sale->created_at],
-            ])
-            ->all();
+
+
+        $models = SaleRecord::find()->where([
+            'status' => 10,
+        ])
+         ->andWhere(['between', 'created_at' , strtotime(date('Y-m-d',strtotime('-2 day')))  ,strtotime(date('Y-m-d',strtotime('-1 day'))) ])
+        ->count();
+        print_r($models);
+        die();
                 if ($models) {
                     foreach ($models as $model) {
-                         if (time()-$model->created_at>=1) {
-                            $model->status = SaleRecord::STATUS_FAILED;
-                            $model->save();
                             $model->failed();
-                            echo "failure";
-                         }
-
+                            echo $model->id . "\n";
                     }
               }
 
      }
+
+     public function actionKomn()
+     {
+         echo "string";
+
+     }
+
+    public  function actionPricesum()
+    {
+        $total = 0;
+        $models = SaleRecord::find()->where(['status' => 10])
+        // ->andWhere(['between', 'created_at' , strtotime(-$day. 'days')  ,strtotime(1-$day .'days') ])
+        ->all();
+                if ($models) {
+                    foreach ($models as $model) {
+                            $model1=Item::find()->where(['id'=>$model->item_id])->all();
+                            if ($model1) {
+                                foreach ($model1 as $itemmodel ) {
+                                $arr= $itemmodel->price ;
+                                $total += $arr;
+                                }
+                            }
+                    }
+                    print_r($arr);
+
+                    die();
+                    $i =  array($total );
+                    echo array_sum($i) . "\n";
+              }
+     }
+
 }
