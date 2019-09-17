@@ -188,9 +188,9 @@ class SaleRecordController extends Controller
 
 
         $models = SaleRecord::find()->where([
-            'status' => 8,
+            'status' => 10,
         ])
-         ->andWhere(['between', 'created_at' , strtotime('-2 days')  ,strtotime('-1 days') ])
+         ->andWhere(['between', 'created_at' , strtotime(date('Y-m-d',strtotime('-2 day')))  ,strtotime(date('Y-m-d',strtotime('-1 day'))) ])
         ->count();
         print_r($models);
         die();
@@ -203,16 +203,17 @@ class SaleRecordController extends Controller
 
      }
 
-     public function actionLps()
+     public function actionKomn()
      {
          echo "string";
+
      }
 
-    public  function actionPricesum($day)
+    public  function actionPricesum()
     {
         $total = 0;
         $models = SaleRecord::find()->where(['status' => 10])
-        ->andWhere(['between', 'created_at' , strtotime(-$day. 'days')  ,strtotime(1-$day .'days') ])
+        // ->andWhere(['between', 'created_at' , strtotime(-$day. 'days')  ,strtotime(1-$day .'days') ])
         ->all();
                 if ($models) {
                     foreach ($models as $model) {
@@ -224,6 +225,9 @@ class SaleRecordController extends Controller
                                 }
                             }
                     }
+                    print_r($arr);
+
+                    die();
                     $i =  array($total );
                     echo array_sum($i) . "\n";
               }
