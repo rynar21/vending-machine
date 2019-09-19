@@ -36,7 +36,7 @@ $this->title = 'Data Analysis Graph';
         datasets: [{
             label: 'No. of success transaction',
             backgroundColor:'transparent',
-            borderColor: 'rgb(0, 0, 0)',
+            borderColor:'rgba(54, 162, 235, 1)',
             data: [<?= implode($data, ',') ?> ],
         },
         {
