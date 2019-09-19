@@ -8,10 +8,11 @@ $product=[];
 $data_type=[];
 $array = [];
 
+            // $array=['a'=>1,'b'=>2];
+            // $array['a']=2;
 
-        $product = Product::find()->all();
-        for ($i=1; $i<=count($product) ; $i++)
-        {
+            // print_r($array);
+            // die();
             $data_item = Item::find()
             ->Where([
                 'between',
@@ -19,15 +20,33 @@ $array = [];
                 strtotime(date('Y-m-d',strtotime(-29 .' day'))),
                 strtotime(date('Y-m-d',strtotime(0 .' day')))
             ])
-            ->where(['product_id'=>$i,'status'=>10])
+            ->where(['status'=>10])
             ->all();
             foreach ($data_item as $item)
             {
-                $data_product = Product::find()->where(['id' => $item->product_id])->one();
+                $data_type[]=$item->product->id;
+                if (!array_key_exists($item->product->id,$data_type)) {
+                    $data_type[$item->product->category]=1;
+                }
+                $data_type[$item->product->category]+=1;
             }
-            $data_type[] = "'".$data_product->sku."'";
+            print("<pre>");
+            // print_r(count($product));
+            // print_r($data_product);
+            print_r($data_type);
+            // print_r($array);
+            print("</pre>");
+            die();
+            // foreach ($data_item as$item)
+            // {
+            //     if (array_key_exists($item[$data_product->sku], $count_item)) {
+            //         $count_item[$item[$data_product->sku]]['fund'] += $v['fund'];
+            //     } else {
+            //         $newArr[$v['id']] = $v;
+            //     }
+            // }
+            // $data_type[] = "'".$data_product->sku."'";
             $count_data[] = count($data_item);
-        }
         // $count_data[] = count($data_type);
         for ($z=0; $z <=count($count_data)-1; $z++)
         {
@@ -49,12 +68,12 @@ $array = [];
     <div class="body-content">
         <div class="row">
                 <?php
-                    // print("<pre>");
-                    // // print_r(count($product));
-                    // print_r($count_data);
-                    // print_r($data_type);
+                    print("<pre>");
+                    // print_r(count($product));
+                    // print_r($data_product);
+                    print_r($data_type);
                     // print_r($array);
-                    // print("</pre>");
+                    print("</pre>");
                 ?>
         </div>
     </div>
