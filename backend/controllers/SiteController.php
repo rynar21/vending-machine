@@ -91,8 +91,8 @@ class SiteController extends Controller
         $data = [];
         $data_amount=[];
         $count_data=[];
-        $product=[];
-        $data_type=[];
+        $data_keys=[];
+        $data_values=[];
         $array = [];
 
         // $model_time = SaleRecord::find()->where(['status' => 10])->all();
@@ -150,30 +150,36 @@ class SiteController extends Controller
                     ])
                     ->where(['status'=>10])
                     ->all();
+                //Case:one
+                    // foreach ($data_item as $item)
+                    // {
+                    //     $data_keys[]="'".$item->product->category."'";
+                    // }
+                    // $count_data[]=array_count_values($data_keys);
+                //Case:two
                     foreach ($data_item as $item)
                     {
-                        $data_type[]=$item->product->category;
-                        if (!array_key_exists($item->product->category,$count_data)) {
-                            $count_data[$item->product->category]=1;
+                        $data_keys[]="'".$item->product->category."'";
+                        if (!array_key_exists($item->product->category,$count_data))
+                        {
+                            $count_data[$item->product->category]=0;
                         }
                         $count_data[$item->product->category]+=1;
                     }
-                    // $count_data[] = count($data_item);
-                // }
-                // $count_data[] = count($data_type);
-                for ($z=0; $z <=count($count_data)-1; $z++)
-                {
-                    // if (!empty($count_data[$z]&&$data_type[$z]))
-                    // {
-                        $array[]=array($count_data[$z],$data_type[$z]);
-                    // }
-                }
-                for ($y=0; $y <count($count_data)-1 ; $y++) {
-                    array_multisort(array_column($array,'0'),SORT_DESC,$array);
-                }
-                $count=array_slice($array,0);
-
-
+                    $data_values=array_values($count_data);
+                    // $data_keys=array_keys($count_data);
+                    $data_keys=array_keys(array_flip(array_unique($data_keys)));
+                    for ($z=0; $z <=count($count_data)-1; $z++)
+                    {
+                        if (!empty($data_values[$z]&&$data_keys[$z]))
+                        {
+                            $array[]=array($data_values[$z],$data_keys[$z]);
+                        }
+                    }
+                    for ($y=0; $y <count($count_data)-1 ; $y++) {
+                        array_multisort(array_column($array,'0'),SORT_DESC,$array);
+                    }
+                    $count=array_slice($array,0,5);
 
         return $this->render('index', [
           'labels' => $labels,
