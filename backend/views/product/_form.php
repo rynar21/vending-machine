@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
+// use common\models\Product;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
@@ -16,6 +17,7 @@ use yii\web\UploadedFile;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'sku')->textInput() ?>
+    <?= $form->field($model, 'category')->dropDownList($model->getCategories()) ?>
     <?= $form->field($model, 'price')->textInput() ?>
     <?= $form->field($model, 'imageFile')->fileInput() ?>
     <div class="form-group">

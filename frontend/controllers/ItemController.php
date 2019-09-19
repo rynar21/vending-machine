@@ -15,7 +15,7 @@ class ItemController extends Controller
     public function actionView($id)
     {
         $model=Item::findOne(['id'=>$id]);
-        if ($model)
+        if ($model && $model->status!=10)
         {
             return $this->render('view', [
                 'model' => $model,

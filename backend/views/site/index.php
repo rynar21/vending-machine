@@ -49,87 +49,6 @@ $this->title = 'Data Analysis Graph';
 
 </script>
 <?php
-    $labels = [];
-    $data = [];
-    $pricesum=[];
-    $sk=[];
-    $kunum=[];
-
-
-
-
-        $model_product = Product::find()->all();
-            for ($i = 1; $i <= count($model_product); $i++) {
-                $s = Item::find()->where(['product_id'=>$i,'status'=>10])->all();
-                if ($s) {
-                    foreach ($s as $sok) {
-                        $modelsk=Product::find()->where(['id'=>$sok->product_id])->one();
-                    }
-                    $sk[]="'".$modelsk->sku."'";
-                    //asort($sk);
-                }
-                $kunum[]=count($s);
-            //    bubble_sort($kunum);
-            }
-
-
-
-
-         print_r($kunum)."\n";
-         echo "<br />";
-          print_r($sk)."\n";
-
-
-
-
-        for ($i=0; $i < 7 ; $i++) {
-          $labels[] = date('"Y-m-d "', strtotime(-$i.'days'));
-          sort($labels);
-        }
-
-        for ($i=count($labels); $i >=1 ; $i--)
-        {
-          $model_count = SaleRecord::find()
-          ->where([
-              'between',
-              'updated_at',
-              strtotime(date('Y-m-d',strtotime(1-$i.' day'))),
-              strtotime(date('Y-m-d',strtotime(2-$i.' day')))
-           ])
-          ->andWhere(['status'=> 10])
-          ->count();
-          $data[]=$model_count;
-        }
-
-        for ($j=count($labels); $j >=1 ; $j--) {
-            $total = 0;
-            $models = SaleRecord::find()
-            ->where(['status' => 10])
-            ->andWhere([
-                'between',
-                'created_at' ,
-                strtotime(date('Y-m-d',strtotime(1-$j.' day'))),
-                strtotime(date('Y-m-d',strtotime(2-$j.' day')))
-            ])
-            ->all();
-
-            foreach ($models as $model)
-             {
-                $model1=Item::find()->where(['id'=>$model->item_id])->all();
-                    foreach ($model1 as $itemmodel )
-                     {
-                        $arr= $itemmodel->price ;
-                        $total += $arr;
-                     }
-            }
-              $pricesum[]=$total;
-        }
-
-
-
-// print_r($labels);
-//
-// print_r($data);
 
 ?>
 
@@ -158,7 +77,7 @@ $this->title = 'Data Analysis Graph';
             label: 'Total Amount (RM)',
             backgroundColor: 'transparent',
             borderColor: 'rgb(255, 99, 132)',
-            data: [<?= implode($pricesum, ',') ?> ]
+            data: [<?= implode($data_amount, ',') ?> ]
         }
     ]
     },
@@ -183,7 +102,7 @@ var chart = new Chart(ctx, {
       label: 'No. of success transaction',
       backgroundColor: 'transparent',
       borderColor: 'rgb(255, 99, 132)',
-      data: [<?= implode($pricesum, ',') ?> ]
+      data: [<?= implode($data_amount, ',') ?> ]
   }]
 },
 
@@ -202,7 +121,7 @@ type: 'bar',
 
 data: {
 
-labels: [<?= implode($sk,',')?>],
+labels: [<?= implode(array_column($count,'1'),',')?>],
 datasets: [{
     label: 'No. of success transaction',
     backgroundColor: [
@@ -221,7 +140,7 @@ datasets: [{
        'rgba(153, 102, 255, 1)',
        // 'rgba(255, 159, 64, 1)'
     ],
-    data: [<?= implode($kunum,',')?>,'0']
+    data: [<?= implode(array_column($count,'0'),',')?>,'0']
 }]
 },
 
@@ -241,7 +160,7 @@ type: 'pie',
 
 data: {
 
-labels: [<?= implode($sk,',')?>],
+labels: [<?= implode(array_column($count,'1'),',')?>],
 datasets: [{
     label: 'No. of success transaction',
     backgroundColor: [
@@ -260,7 +179,7 @@ datasets: [{
        'rgba(153, 102, 255, 1)',
        'rgba(255, 159, 64, 1)'
     ],
-    data: [<?= implode($kunum,',')?> ]
+    data: [<?= implode(array_column($count,'0'),',')?>,'0']
 }]
 },
 

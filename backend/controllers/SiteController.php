@@ -19,7 +19,7 @@ use backend\models\ChangePasswordForm;
 use yii\web\NotFoundHttpException;
 use common\models\SaleRecord;
 use common\models\Item;
-
+use common\models\Product;
 
 
 /**
@@ -90,6 +90,10 @@ class SiteController extends Controller
         $labels = [];
         $data = [];
         $data_amount=[];
+        $count_data=[];
+        $product=[];
+        $data_type=[];
+        $array = [];
 
         // $model_time = SaleRecord::find()->where(['status' => 10])->all();
         for ($i=0; $i <7  ; $i++)
@@ -136,10 +140,47 @@ class SiteController extends Controller
                 $data_amount[]=$total;
         }
 
+        //For category Chart
+        $data_item = Item::find()
+                    ->Where([
+                        'between',
+                        'updated_at',
+                        strtotime(date('Y-m-d',strtotime(-29 .' day'))),
+                        strtotime(date('Y-m-d',strtotime(0 .' day')))
+                    ])
+                    ->where(['status'=>10])
+                    ->all();
+                    foreach ($data_item as $item)
+                    {
+                        $data_type[]=$item->product->category;
+                        if (!array_key_exists($item->product->category,$count_data)) {
+                            $count_data[$item->product->category]=1;
+                        }
+                        $count_data[$item->product->category]+=1;
+                    }
+                    // $count_data[] = count($data_item);
+                // }
+                // $count_data[] = count($data_type);
+                for ($z=0; $z <=count($count_data)-1; $z++)
+                {
+                    // if (!empty($count_data[$z]&&$data_type[$z]))
+                    // {
+                        $array[]=array($count_data[$z],$data_type[$z]);
+                    // }
+                }
+                for ($y=0; $y <count($count_data)-1 ; $y++) {
+                    array_multisort(array_column($array,'0'),SORT_DESC,$array);
+                }
+                $count=array_slice($array,0);
+
+
+
         return $this->render('index', [
           'labels' => $labels,
           'data' => $data,
-          'data_amount' => $data_amount
+          'data_amount' => $data_amount,
+          'count' => $count
+
       ]);
     }
 

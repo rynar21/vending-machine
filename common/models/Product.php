@@ -42,6 +42,7 @@ class Product extends \yii\db\ActiveRecord
             [['name', 'price','sku'], 'required'],
             ['sku', 'unique'],
             [['price'], 'number'],
+            [['category'], 'string'],
             [['name'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
@@ -55,10 +56,24 @@ class Product extends \yii\db\ActiveRecord
             'sku'=>'sku',
             'name' => 'Name',
             'price' => 'Price',
+            'category'=> 'Category',
             'image' => 'Image',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getCategories(){
+        return[
+            'food_beverage' => 'Food & Beverage',
+            'home_living' => 'Home & Living',
+            'electronic' => 'Electronic & Accessories',
+            'mobile_accessory' => 'Mobile & Accessories',
+            'watch' => 'Watch',
+            'entertainment' => 'Entertainment'
+        ];
+
+        // return $this->category='2';
     }
 
     // 搜索 对应产品的 Item产品

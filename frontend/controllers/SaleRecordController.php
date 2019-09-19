@@ -66,9 +66,9 @@ class SaleRecordController extends Controller
     {
         // $sale_model = SaleRecord::findOne($id);
         $model = SaleRecord::findOne(['id' => $id]);
-        $item_model = item::findOne(['id' => $model->item_id]);
         if ($model!=null)
         {
+            $item_model = item::findOne(['id' => $model->item_id]);
             if ($model->status == SaleRecord::STATUS_PENDING)
             {
                 return $this->render('create', [

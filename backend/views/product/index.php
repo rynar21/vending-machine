@@ -29,13 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'sku',
             'name',
+            'category',
             'price:currency',
 
 
 
             ['class' => 'yii\grid\ActionColumn','header' => 'Action'],
         ],
-        
+
     ]); ?>
 
 
