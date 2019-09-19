@@ -86,20 +86,9 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
-        $query = Box::find()->where(['store_id' =>$id]);
 
         $boxsearch = new BoxSearch();
-        $boxsearch->store_id = $id;
-        // $query->andFilterWhere([
-        //
-        //     'product.name' => $boxsearch->name,
-        // ]);
-        $modeldata = new ActiveDataProvider([
-            'query' => $query,
-
-        ]);
-
-        $dataProvider = $boxsearch->search(Yii::$app->request->queryParams);
+        $dataProvider = $boxsearch->search(Yii::$app->request->queryParams, $id);
 
         return $this->render('view', [
             'model' => $this->findModel($id),

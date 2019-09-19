@@ -1,0 +1,1 @@
+yii test/inspection

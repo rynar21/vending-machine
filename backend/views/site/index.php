@@ -1,105 +1,269 @@
+
+
 <?php
-/* @var $this yii\web\View */
 use common\models\SaleRecord;
 use common\models\Item;
 use common\models\Product;
-$this->title = 'chart';
-$product=[];
-$data_type=[];
-$array = [];
+use backend\models\ProductSearch;
 
-            // $array=['a'=>1,'b'=>2];
-            // $array['a']=2;
 
-            // print_r($array);
-            // die();
-            $data_item = Item::find()
-            ->Where([
-                'between',
-                'updated_at',
-                strtotime(date('Y-m-d',strtotime(-29 .' day'))),
-                strtotime(date('Y-m-d',strtotime(0 .' day')))
-            ])
-            ->where(['status'=>10])
-            ->all();
-            foreach ($data_item as $item)
-            {
-                $data_type[]=$item->product->id;
-                if (!array_key_exists($item->product->id,$data_type)) {
-                    $data_type[$item->product->category]=1;
-                }
-                $data_type[$item->product->category]+=1;
-            }
-            print("<pre>");
-            // print_r(count($product));
-            // print_r($data_product);
-            print_r($data_type);
-            // print_r($array);
-            print("</pre>");
-            die();
-            // foreach ($data_item as$item)
-            // {
-            //     if (array_key_exists($item[$data_product->sku], $count_item)) {
-            //         $count_item[$item[$data_product->sku]]['fund'] += $v['fund'];
-            //     } else {
-            //         $newArr[$v['id']] = $v;
-            //     }
-            // }
-            // $data_type[] = "'".$data_product->sku."'";
-            $count_data[] = count($data_item);
-        // $count_data[] = count($data_type);
-        for ($z=0; $z <=count($count_data)-1; $z++)
-        {
-            // if (!empty($count_data[$z]&&$data_type[$z]))
-            // {
-                $array[]=array($count_data[$z],$data_type[$z]);
-            // }
-        }
-        for ($y=0; $y <count($count_data)-1 ; $y++) {
-            array_multisort(array_column($array,'0'),SORT_DESC,$array);
-        }
-        $count=array_slice($array,0,5);
+/* @var $this yii\web\View */
+
+$this->title = 'Data Analysis Graph';
 ?>
-
-<canvas id="myChart"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
 <div class="site-index">
     <div class="body-content">
-        <div class="row">
-                <?php
-                    print("<pre>");
-                    // print_r(count($product));
-                    // print_r($data_product);
-                    print_r($data_type);
-                    // print_r($array);
-                    print("</pre>");
-                ?>
-        </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<h1 class="text-center">Data Analysis Graph</h1>
+<div class="chart-container col-lg-12">
+    <div class="col-lg-6">
+        <h4>Overall Chart</h4>
+        <canvas id="myChart" width="50" height="30"></canvas>
     </div>
+
+    <div class="col-lg-6">
+        <h4>Sale Chart</h4>
+        <canvas id="myChart1" width="50" height="30"></canvas>
+    </div>
+
+
 </div>
+<div class="row">
+    <div class="chart-container col-lg-12">
+<div class="col-lg-6">
+    <h4>Sale Chart</h4>
+    <canvas id="myChart2" width="50" height="30"></canvas>
+</div>
+
+<div class="col-lg-6">
+    <h4>Sale Chart</h4>
+    <canvas id="myChart3" width="50" height="30"></canvas>
+</div>
+</div>
+</div>
+
 <script>
-  var ctx = document.getElementById('myChart').getContext('2d');
-  var chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-            labels: [<?= implode($labels, ',') ?>],
-            datasets: [
-                            {
-                                label: 'No. of success transaction',
-                                backgroundColor: 'transparent',
-                                borderColor: 'rgb(100, 50, 150)',
-                                data: [<?= implode($data, ',') ?> ]
-                            },
-                            {
-                                label: 'Total Amount (RM)',
-                                backgroundColor: 'transparent',
-                                borderColor: 'rgb(0, 0,0 )',
-                                data: [<?= implode($data_amount, ',') ?> ]
-                            }
-                        ]
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+        labels: [<?= implode($labels, ',') ?>],
+        datasets: [{
+            label: 'No. of success transaction',
+            backgroundColor:'transparent',
+            borderColor: 'rgb(0, 0, 0)',
+            data: [<?= implode($data, ',') ?> ],
         },
-            options: {
-            }
-        });
+        {
+            label: 'Total Amount (RM)',
+            backgroundColor: 'transparent',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [<?= implode($data_amount, ',') ?> ]
+        }
+    ]
+    },
+
+    options: {},
+});
+</script>
+<script>
+var ctx = document.getElementById('myChart1').getContext('2d');
+var chart = new Chart(ctx, {
+  type: 'radar',
+
+  data: {
+
+  labels: [<?= implode($labels, ',') ?>],
+  datasets: [{
+      label: 'No. of success transaction',
+      backgroundColor: 'transparent',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [<?= implode($data_amount, ',') ?> ]
+  }]
+},
+
+options: {},
+});
+</script>
+
+<script>
+var ctx = document.getElementById('myChart2').getContext('2d');
+var chart = new Chart(ctx, {
+type: 'bar',
+
+data: {
+
+labels: [<?= implode(array_column($count,'1'),',')?>],
+datasets: [{
+    label: 'No. of success transaction',
+    backgroundColor: [
+        'rgba(255, 99, 132, 0.8)',
+        'rgba(54, 162, 235, 0.8)',
+        'rgba(255, 206, 86, 0.8)',
+        'rgba(75, 192, 192, 0.8)',
+        'rgba(153, 102, 255, 0.8)',
+        // 'rgba(255, 159, 64, 0.8)'
+    ],
+    borderColor: [
+       'rgba(255, 99, 132, 1)',
+       'rgba(54, 162, 235, 1)',
+       'rgba(255, 206, 86, 1)',
+       'rgba(75, 192, 192, 1)',
+       'rgba(153, 102, 255, 1)',
+       // 'rgba(255, 159, 64, 1)'
+    ],
+    data: [<?= implode(array_column($count,'0'),',')?>,'0']
+}]
+},
+
+options: {},
+});
+</script>
+
+<script>
+var ctx = document.getElementById('myChart3').getContext('2d');
+var chart = new Chart(ctx, {
+type: 'pie',
+
+data: {
+
+labels: [<?= implode(array_column($count,'1'),',')?>],
+datasets: [{
+    label: 'No. of success transaction',
+    backgroundColor: [
+        'rgba(255, 99, 132, 0.8)',
+        'rgba(54, 162, 235, 0.8)',
+        'rgba(255, 206, 86, 0.8)',
+        'rgba(75, 192, 192, 0.8)',
+        'rgba(153, 102, 255, 0.8)',
+        'rgba(255, 159, 64, 0.8)'
+    ],
+    borderColor: [
+       'rgba(255, 99, 132, 1)',
+       'rgba(54, 162, 235, 1)',
+       'rgba(255, 206, 86, 1)',
+       'rgba(75, 192, 192, 1)',
+       'rgba(153, 102, 255, 1)',
+       'rgba(255, 159, 64, 1)'
+    ],
+    data: [<?= implode(array_column($count,'0'),',')?>,'0']
+}]
+},
+
+options: {},
+});
+</script>
+
+<script>
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+        labels: [<?= implode($labels, ',') ?>],
+        datasets: [{
+            label: 'No. of success transaction',
+            backgroundColor:'transparent',
+            borderColor: 'rgb(0, 0, 0)',
+            data: [<?= implode($data, ',') ?> ],
+        },
+        {
+            label: 'Total Amount (RM)',
+            backgroundColor: 'transparent',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [<?= implode($data_amount, ',') ?> ]
+        }
+    ]
+    },
+
+    options: {},
+});
+</script>
+
+<script>
+var ctx = document.getElementById('myChart1').getContext('2d');
+var chart = new Chart(ctx, {
+  type: 'radar',
+
+  data: {
+
+  labels: [<?= implode($labels, ',') ?>],
+  datasets: [{
+      label: 'No. of success transaction',
+      backgroundColor: 'transparent',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [<?= implode($data_amount, ',') ?> ]
+  }]
+},
+
+options: {},
+});
+</script>
+
+<script>
+var ctx = document.getElementById('myChart2').getContext('2d');
+var chart = new Chart(ctx, {
+type: 'bar',
+
+data: {
+
+labels: [<?= implode(array_column($count,'1'),',')?>],
+datasets: [{
+    label: 'No. of success transaction',
+    backgroundColor: [
+        'rgba(255, 99, 132, 0.8)',
+        'rgba(54, 162, 235, 0.8)',
+        'rgba(255, 206, 86, 0.8)',
+        'rgba(75, 192, 192, 0.8)',
+        'rgba(153, 102, 255, 0.8)',
+        // 'rgba(255, 159, 64, 0.8)'
+    ],
+    borderColor: [
+       'rgba(255, 99, 132, 1)',
+       'rgba(54, 162, 235, 1)',
+       'rgba(255, 206, 86, 1)',
+       'rgba(75, 192, 192, 1)',
+       'rgba(153, 102, 255, 1)',
+       // 'rgba(255, 159, 64, 1)'
+    ],
+    data: [<?= implode(array_column($count,'0'),',')?>,'0']
+}]
+},
+
+options: {},
+});
+</script>
+
+<script>
+var ctx = document.getElementById('myChart3').getContext('2d');
+var chart = new Chart(ctx, {
+type: 'pie',
+
+data: {
+
+labels: [<?= implode(array_column($count,'1'),',')?>],
+datasets: [{
+    label: 'No. of success transaction',
+    backgroundColor: [
+        'rgba(255, 99, 132, 0.8)',
+        'rgba(54, 162, 235, 0.8)',
+        'rgba(255, 206, 86, 0.8)',
+        'rgba(75, 192, 192, 0.8)',
+        'rgba(153, 102, 255, 0.8)',
+        'rgba(255, 159, 64, 0.8)'
+    ],
+    borderColor: [
+       'rgba(255, 99, 132, 1)',
+       'rgba(54, 162, 235, 1)',
+       'rgba(255, 206, 86, 1)',
+       'rgba(75, 192, 192, 1)',
+       'rgba(153, 102, 255, 1)',
+       'rgba(255, 159, 64, 1)'
+    ],
+    data: [<?= implode(array_column($count,'0'),',')?>,'0']
+}]
+},
+
+options: {},
+});
 </script>
