@@ -55,33 +55,6 @@ $this->title = 'Data Analysis Graph';
     $sk=[];
     $kunum=[];
 
-
-
-
-        $model_product = Product::find()->all();
-            for ($i = 1; $i <= count($model_product); $i++) {
-                $s = Item::find()->where(['product_id'=>$i,'status'=>10])->all();
-                if ($s) {
-                    foreach ($s as $sok) {
-                        $modelsk=Product::find()->where(['id'=>$sok->product_id])->one();
-                    }
-                    $sk[]="'".$modelsk->sku."'";
-                    //asort($sk);
-                }
-                $kunum[]=count($s);
-            //    bubble_sort($kunum);
-            }
-
-
-
-
-         print_r($kunum)."\n";
-         echo "<br />";
-          print_r($sk)."\n";
-
-
-
-
         for ($i=0; $i < 7 ; $i++) {
           $labels[] = date('"Y-m-d "', strtotime(-$i.'days'));
           sort($labels);
@@ -125,11 +98,32 @@ $this->title = 'Data Analysis Graph';
               $pricesum[]=$total;
         }
 
+        
+
+            $s = Item::find()->where(['status'=>10])->all();
+            foreach ($s as $sum) {
+                $sums[]="'".$sum->product->sku."'";
+            }
 
 
-// print_r($labels);
-//
-// print_r($data);
+
+         print_r(array_count_values($sums));
+
+        $kunum =(array_keys((array_count_values($sums))));
+
+        $sk = (array_values((array_count_values($sums))));
+
+         for ($i=0; $i <=count($kunum)-1; $i++)
+         {
+             $a[]=array($kunum[$i],$sk[$i]);
+         }
+         for ($i=0; $i <count($kunum)-1 ; $i++) {
+             array_multisort(array_column($a,'1'),SORT_DESC,$a);
+         }
+        $b=array_slice($a,0,5);
+        // print_r($kunum);
+        // echo "<br />";
+        // print_r($b);
 
 ?>
 
@@ -202,7 +196,7 @@ type: 'bar',
 
 data: {
 
-labels: [<?= implode($sk,',')?>],
+labels: [<?= implode(array_column($b,'0'),',')?>],
 datasets: [{
     label: 'No. of success transaction',
     backgroundColor: [
@@ -221,7 +215,7 @@ datasets: [{
        'rgba(153, 102, 255, 1)',
        // 'rgba(255, 159, 64, 1)'
     ],
-    data: [<?= implode($kunum,',')?>,'0']
+    data: [<?=implode(array_column($b,'1'),',')?>,'0']
 }]
 },
 
@@ -232,43 +226,43 @@ options: {},
 </div>
 
 
-<div class="row">
-    <div class="col-lg-4">
-<script>
-var ctx = document.getElementById('myChart3').getContext('2d');
-var chart = new Chart(ctx, {
-type: 'pie',
+    <div class="row">
+        <div class="col-lg-4">
+    <script>
+    var ctx = document.getElementById('myChart3').getContext('2d');
+    var chart = new Chart(ctx, {
+    type: 'pie',
 
-data: {
+    data: {
 
-labels: [<?= implode($sk,',')?>],
-datasets: [{
-    label: 'No. of success transaction',
-    backgroundColor: [
-        'rgba(255, 99, 132, 0.8)',
-        'rgba(54, 162, 235, 0.8)',
-        'rgba(255, 206, 86, 0.8)',
-        'rgba(75, 192, 192, 0.8)',
-        'rgba(153, 102, 255, 0.8)',
-        'rgba(255, 159, 64, 0.8)'
-    ],
-    borderColor: [
-       'rgba(255, 99, 132, 1)',
-       'rgba(54, 162, 235, 1)',
-       'rgba(255, 206, 86, 1)',
-       'rgba(75, 192, 192, 1)',
-       'rgba(153, 102, 255, 1)',
-       'rgba(255, 159, 64, 1)'
-    ],
-    data: [<?= implode($kunum,',')?> ]
-}]
-},
+    labels: [<?=implode(array_column($a,'0'),',')?> ],
+    datasets: [{
+        label: 'No. of success transaction',
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.8)',
+            'rgba(54, 162, 235, 0.8)',
+            'rgba(255, 206, 86, 0.8)',
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(153, 102, 255, 0.8)',
+            'rgba(255, 159, 64, 0.8)'
+        ],
+        borderColor: [
+           'rgba(255, 99, 132, 1)',
+           'rgba(54, 162, 235, 1)',
+           'rgba(255, 206, 86, 1)',
+           'rgba(75, 192, 192, 1)',
+           'rgba(153, 102, 255, 1)',
+           'rgba(255, 159, 64, 1)'
+        ],
+        data: [<?=implode(array_column($a,'1'),',')?> ]
+    }]
+    },
 
-options: {},
-});
-</script>
-</div>
-</div>
+    options: {},
+    });
+    </script>
+    </div>
+    </div>
 
   </div>
 </div>
