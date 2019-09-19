@@ -139,7 +139,6 @@ class SiteController extends Controller
                 }
                 $data_amount[]=$total;
         }
-
         //For category Chart
         $data_item = Item::find()
                     ->Where([
@@ -166,6 +165,7 @@ class SiteController extends Controller
                         }
                         $count_data[$item->product->category]+=1;
                     }
+
                     $data_values=array_values($count_data);
                     // $data_keys=array_keys($count_data);
                     $data_keys=array_keys(array_flip(array_unique($data_keys)));

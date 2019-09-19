@@ -91,7 +91,6 @@ class Product extends \yii\db\ActiveRecord
         return Url::to('@imagePath'). '/product.jpg';
     }
 
-
     //
     ///上传/修改图片
     ///
