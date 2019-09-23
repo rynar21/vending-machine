@@ -104,7 +104,7 @@ class SiteController extends Controller
         $kunum=[];
 
             for ($i=0; $i < 7 ; $i++) {
-              $labels[] = date('"Y-m-d "', strtotime(-$i.'days'));
+              $labels[] = date('Y-m-d ', strtotime(-$i.'days'));
               sort($labels);
             }
 
@@ -147,7 +147,7 @@ class SiteController extends Controller
             }
                 $s = Item::find()->where(['status'=>10])->all();
                 foreach ($s as $sum) {
-                    $sums[]="'".$sum->product->sku."'";
+                    $sums[]=$sum->product->sku;
                 }
              //print_r(array_count_values($sums));
 
@@ -161,14 +161,11 @@ class SiteController extends Controller
                  array_multisort(array_column($a,'1'),SORT_DESC,$a);
              }
             $b=array_slice($a,0,5);
+            $type = array_column($b,'1');
+            $number = array_column($b,'0');
 
              \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            // $sjs= Json::encode($b);
-             //$jjj=Json::decode($sjs);
-             //return $sjs ;
-            // echo $sjs;
-            //
-            // die();
+
             if (Yii::$app->request->isAjax) {
                 return [
                     'labels' => $labels,
@@ -176,8 +173,8 @@ class SiteController extends Controller
                     'pricesum' => $pricesum,
                     'sk'=> $sk,
                     'kunum'=>$kunum,
-                    'b'=>$b,
-                    'a'=>$a,
+                    'type'=>$type,
+                    'number'=>$number,
                     'code'=> 200,
                 ];
             }
@@ -196,25 +193,6 @@ class SiteController extends Controller
           // return Json
       return \yii\helpers\Json::encode($test);
     }
-    //
-    // public function actionSample()
-    // {
-    //     if (Yii::$app->request->isAjax) {
-    //           $data = Yii::$app->request->post();
-    //           $searchname= explode(":", $data['searchname']);
-    //           $searchby= explode(":", $data['searchby']);
-    //           $searchname= $searchname[0];
-    //           $searchby= $searchby[0];
-    //           $search = // your logic;
-    //           \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-    //           return [
-    //             'search' => $search,
-    //             'code' => 100,
-    //       ];
-    //     }
-    //
-    // }
-
 
 
 
