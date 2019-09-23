@@ -1,138 +1,121 @@
-
-
 <?php
 use common\models\SaleRecord;
 use common\models\Item;
 use common\models\Product;
 use backend\models\ProductSearch;
+use yii\helpers\Json;
+use yii\helpers\BaseJson;
+
 
 
 /* @var $this yii\web\View */
 
 $this->title = 'Data Analysis Graph';
 ?>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
-<h1 class="text-center">Data Analysis Graph</h1>
-<div class="chart-container col-lg-12">
-    <div class="col-lg-6">
-        <h4>Overall Chart</h4>
-        <canvas id="myChart" width="50" height="30"></canvas>
-    </div>
-
-    <div class="col-lg-6">
-        <h4>Sale Chart</h4>
-        <canvas id="myChart1" width="50" height="30"></canvas>
-    </div>
 
 
-</div>
-<div class="row">
-    <div class="chart-container col-lg-12">
-<div class="col-lg-6">
-    <h4>Sale Chart</h4>
-    <canvas id="myChart2" width="50" height="30"></canvas>
-</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+<script type="text/javascript">
 
-<div class="col-lg-6">
-    <h4>Sale Chart</h4>
-    <canvas id="myChart3" width="50" height="30"></canvas>
-</div>
-</div>
-</div>
+      var model;
+        $.ajax({
+            type: 'get',
+            url: 'http://localhost/vending-machine/backend/web/site/sales',
+            success: function (json) {
+                //$("#contentDiv").html("");
+                setTimeout(() => {
+                    model = json.a
+                },0);
 
-<?php
+                //alert(model);
+            }
 
+        });
 
-?>
+        // setTimeout(() => {
+        //     alert(model)
+        // },300);
+        console.log('1');
 
+        setTimeout(function() {
+        console.log('2');
+         });
+    //    Process.nextTick(() => console.log(3));
+
+        Process.on('exit', function() {
+    // 设置一个延迟执行
+            setTimeout(function() {
+                console.log('主事件循环已停止，所以不会执行');
+            }, 0);
+            console.log('退出前执行');
+        });
+        setTimeout(function() {
+            console.log('1');
+        }, 500);
+
+        //代码1
+        // console.log('先执行这里5');
+        // setTimeout(() => {
+        //     console.log('执行啦')
+        // },0);
+        // //代码2
+        // console.log('先执行这里');
+        // setTimeout(() => {
+        //     console.log('执行啦')
+        // },3000);
+
+        // function test(){
+        //      var aa = "test";
+        //      aa +="只声明，但不调用该函数时，该函数会不会执行？"; //添加内容
+        //      alert(aa);
+        //      aa = "该函数的变量不会执行！";
+        //      alert(aa);
+        //    }
+        //  test();
 
 </script>
-<?php
-    $labels = [];
-    $data = [];
-    $pricesum=[];
-    $sk=[];
-    $kunum=[];
-
-        for ($i=0; $i < 7 ; $i++) {
-          $labels[] = date('"Y-m-d "', strtotime(-$i.'days'));
-          sort($labels);
-        }
-
-        for ($i=count($labels); $i >=1 ; $i--)
-        {
-          $model_count = SaleRecord::find()
-          ->where([
-              'between',
-              'updated_at',
-              strtotime(date('Y-m-d',strtotime(1-$i.' day'))),
-              strtotime(date('Y-m-d',strtotime(2-$i.' day')))
-           ])
-          ->andWhere(['status'=> 10])
-          ->count();
-          $data[]=$model_count;
-        }
-
-        for ($j=count($labels); $j >=1 ; $j--) {
-            $total = 0;
-            $models = SaleRecord::find()
-            ->where(['status' => 10])
-            ->andWhere([
-                'between',
-                'created_at' ,
-                strtotime(date('Y-m-d',strtotime(1-$j.' day'))),
-                strtotime(date('Y-m-d',strtotime(2-$j.' day')))
-            ])
-            ->all();
-
-            foreach ($models as $model)
-             {
-                $model1=Item::find()->where(['id'=>$model->item_id])->all();
-                    foreach ($model1 as $itemmodel )
-                     {
-                        $arr= $itemmodel->price ;
-                        $total += $arr;
-                     }
-            }
-              $pricesum[]=$total;
-        }
-
-        
-
-            $s = Item::find()->where(['status'=>10])->all();
-            foreach ($s as $sum) {
-                $sums[]="'".$sum->product->sku."'";
-            }
 
 
 
-         print_r(array_count_values($sums));
-
-        $kunum =(array_keys((array_count_values($sums))));
-
-        $sk = (array_values((array_count_values($sums))));
-
-         for ($i=0; $i <=count($kunum)-1; $i++)
-         {
-             $a[]=array($kunum[$i],$sk[$i]);
-         }
-         for ($i=0; $i <count($kunum)-1 ; $i++) {
-             array_multisort(array_column($a,'1'),SORT_DESC,$a);
-         }
-        $b=array_slice($a,0,5);
-        // print_r($kunum);
-        // echo "<br />";
-        // print_r($b);
-
-?>
 
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-<div class="site-index">
 
-    <div class="body-content">
+
+
+
+
+<h1 class="text-center">Data Analysis Graph</h1>
+
+<div class="row">
+    <div class="chart-container col-lg-12">
+
+
+        <div class="col-lg-6">
+            <h4>Sale Chart</h4>
+            <canvas id="myChart1" width="50" height="30"></canvas>
+        </div>
+    </div>
+</div>
+<div class="row">
+     <div class="chart-container col-lg-12">
+        <div class="col-lg-6">
+            <h4>Sale Chart</h4>
+            <canvas id="myChart2" width="50" height="30"></canvas>
+        </div>
+
+        <div class="col-lg-6">
+            <h4>Sale Chart</h4>
+            <canvas id="myChart3" width="50" height="30"></canvas>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
         <div class="row">
             <div class="col-lg-4">
@@ -141,7 +124,8 @@ $this->title = 'Data Analysis Graph';
       var chart = new Chart(ctx, {
         type: 'line',
         data: {
-        labels: [<?= implode($labels, ',') ?>],
+        labels:[correctUsage] ,
+        <?= die();?>
         datasets: [{
             label: 'No. of success transaction',
             backgroundColor:'transparent',
@@ -168,7 +152,7 @@ $this->title = 'Data Analysis Graph';
 <script>
 var ctx = document.getElementById('myChart1').getContext('2d');
 var chart = new Chart(ctx, {
-  type: 'radar',
+  type: 'line',
 
   data: {
 
@@ -178,7 +162,14 @@ var chart = new Chart(ctx, {
       backgroundColor: 'transparent',
       borderColor: 'rgb(255, 99, 132)',
       data: [<?= implode($pricesum, ',') ?> ]
-  }]
+  },
+  {
+      label: 'Total Amount (RM)',
+      backgroundColor: 'transparent',
+      borderColor: 'rgb(100, 99, 132)',
+      data: [<?= implode($data, ',') ?> ]
+  }
+]
 },
 
 options: {},
@@ -235,7 +226,9 @@ options: {},
 
     data: {
 
-    labels: [<?=implode(array_column($a,'0'),',')?> ],
+    labels: [
+        //<
+        //?=implode(array_column($a,'0'),',')?> ],
     datasets: [{
         label: 'No. of success transaction',
         backgroundColor: [
@@ -254,7 +247,9 @@ options: {},
            'rgba(153, 102, 255, 1)',
            'rgba(255, 159, 64, 1)'
         ],
-        data: [<?=implode(array_column($a,'1'),',')?> ]
+        data: [
+            //<
+            //?=implode(array_column($a,'1'),',')?> ]
     }]
     },
 
@@ -263,6 +258,8 @@ options: {},
     </script>
     </div>
     </div>
+
+
 
   </div>
 </div>

@@ -16,6 +16,10 @@ return [
 
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'parsers' => [
+            'application/json' => 'yii\web\JsonParser',
+            'text/json' => 'yii\web\JsonParser',
+            ],
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',

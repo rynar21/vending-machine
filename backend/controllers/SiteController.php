@@ -17,6 +17,11 @@ use backend\models\UserSearch;
 use backend\models\AdminPasswordForm;
 use backend\models\ChangePasswordForm;
 use yii\web\NotFoundHttpException;
+use common\models\SaleRecord;
+use common\models\Item;
+use common\models\Product;
+use yii\helpers\BaseJson;
+use yii\helpers\Json;
 
 
 
@@ -51,7 +56,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index','sales','ajax'],
                         'allow' => true,
                         'roles' => ['ac_read'],
                     ],
@@ -85,8 +90,133 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        //return $this->redirect(['sales']);
         return $this->render('index');
     }
+
+
+    public function actionSales()
+    {
+        $labels = [];
+        $data = [];
+        $pricesum=[];
+        $sk=[];
+        $kunum=[];
+
+            for ($i=0; $i < 7 ; $i++) {
+              $labels[] = date('"Y-m-d "', strtotime(-$i.'days'));
+              sort($labels);
+            }
+
+            for ($i=count($labels); $i >=1 ; $i--)
+            {
+              $model_count = SaleRecord::find()
+              ->where([
+                  'between',
+                  'updated_at',
+                  strtotime(date('Y-m-d',strtotime(1-$i.' day'))),
+                  strtotime(date('Y-m-d',strtotime(2-$i.' day')))
+               ])
+              ->andWhere(['status'=> 10])
+              ->count();
+              $data[]=$model_count;
+            }
+
+            for ($j=count($labels); $j >=1 ; $j--) {
+                $total = 0;
+                $models = SaleRecord::find()
+                ->where(['status' => 10])
+                ->andWhere([
+                    'between',
+                    'created_at' ,
+                    strtotime(date('Y-m-d',strtotime(1-$j.' day'))),
+                    strtotime(date('Y-m-d',strtotime(2-$j.' day')))
+                ])
+                ->all();
+
+                foreach ($models as $model)
+                 {
+                    $model1=Item::find()->where(['id'=>$model->item_id])->all();
+                        foreach ($model1 as $itemmodel )
+                         {
+                            $arr= $itemmodel->price ;
+                            $total += $arr;
+                         }
+                }
+                  $pricesum[]=$total;
+            }
+                $s = Item::find()->where(['status'=>10])->all();
+                foreach ($s as $sum) {
+                    $sums[]="'".$sum->product->sku."'";
+                }
+             //print_r(array_count_values($sums));
+
+            $kunum =(array_keys((array_count_values($sums))));
+            $sk = (array_values((array_count_values($sums))));
+             for ($i=0; $i <=count($kunum)-1; $i++)
+             {
+                 $a[]=array($kunum[$i],$sk[$i]);
+             }
+             for ($i=0; $i <count($kunum)-1 ; $i++) {
+                 array_multisort(array_column($a,'1'),SORT_DESC,$a);
+             }
+            $b=array_slice($a,0,5);
+
+             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            // $sjs= Json::encode($b);
+             //$jjj=Json::decode($sjs);
+             //return $sjs ;
+            // echo $sjs;
+            //
+            // die();
+            if (Yii::$app->request->isAjax) {
+                return [
+                    'labels' => $labels,
+                    'data' => $data ,
+                    'pricesum' => $pricesum,
+                    'sk'=> $sk,
+                    'kunum'=>$kunum,
+                    'b'=>$b,
+                    'a'=>$a,
+                    'code'=> 200,
+                ];
+            }
+
+    }
+    public function actionAjax()
+    {
+          if(Yii::$app->request->post('test'))
+          {
+            $test = "Ajax Worked!";
+            // do your query stuff here
+          }else{
+            $test = "Ajax failed";
+            // do your query stuff here
+          }
+          // return Json
+      return \yii\helpers\Json::encode($test);
+    }
+    //
+    // public function actionSample()
+    // {
+    //     if (Yii::$app->request->isAjax) {
+    //           $data = Yii::$app->request->post();
+    //           $searchname= explode(":", $data['searchname']);
+    //           $searchby= explode(":", $data['searchby']);
+    //           $searchname= $searchname[0];
+    //           $searchby= $searchby[0];
+    //           $search = // your logic;
+    //           \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    //           return [
+    //             'search' => $search,
+    //             'code' => 100,
+    //       ];
+    //     }
+    //
+    // }
+
+
+
 
     /**
      * Login action.
