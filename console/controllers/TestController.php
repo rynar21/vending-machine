@@ -16,7 +16,7 @@ class TestController extends Controller {
     {
 
         $models = SaleRecord::find()->where([
-            'status' => 9,
+            'status' => SaleRecord::STATUS_PENDING,
         ])->andWhere(['<', 'created_at', time()-900])->all();
                 if ($models) {
                     foreach ($models as $model) {

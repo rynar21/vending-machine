@@ -117,7 +117,7 @@ class SiteController extends Controller
                   strtotime(date('Y-m-d',strtotime(1-$i.' day'))),
                   strtotime(date('Y-m-d',strtotime(2-$i.' day')))
                ])
-              ->andWhere(['status'=> 10])
+              ->andWhere(['status'=> SaleRecord::STATUS_SUCCESS])
               ->count();
               $data[]=$model_count;
             }
@@ -145,7 +145,7 @@ class SiteController extends Controller
                 }
                   $pricesum[]=$total;
             }
-                $s = Item::find()->where(['status'=>10])->all();
+                $s = Item::find()->where(['status'=>Item::STATUS_SOLD])->all();
                 foreach ($s as $sum) {
                     $sums[]=$sum->product->sku;
                 }

@@ -45,26 +45,17 @@ $this->title = 'Data Analysis Graph';
 
 <h1 class="text-center">Data Analysis Graph</h1>
 
-<div class="row">
-    <div class="chart-container col-lg-12">
 
-
-        <div class="col-lg-6">
-            <h4>Sale Chart</h4>
-            <canvas id="myChart1" width="50" height="30"></canvas>
-        </div>
-    </div>
-</div>
 <div class="row">
      <div class="chart-container col-lg-12">
         <div class="col-lg-6">
             <h4>Sale Chart</h4>
-            <canvas id="myChart2" width="50" height="30"></canvas>
+            <canvas id="myChart1" width="50" height="30"></canvas>
         </div>
 
         <div class="col-lg-6">
             <h4>Sale Chart</h4>
-            <canvas id="myChart3" width="50" height="30"></canvas>
+            <canvas id="myChart2" width="50" height="30"></canvas>
         </div>
     </div>
 </div>
@@ -73,11 +64,11 @@ $this->title = 'Data Analysis Graph';
     <div class="col-lg-4">
 <script type="text/javascript">
 
-    var model_labels;
-    var model_pricesum;
-    var model_data;
-    var model_type;
-    var mode_number;
+    // var model_labels;
+    // var model_pricesum;
+    // var model_data;
+    // var model_type;
+    // var mode_number;
         $.ajax({
             type: 'get',
             url: 'http://localhost/vending-machine/backend/web/site/sales',
@@ -86,14 +77,15 @@ $this->title = 'Data Analysis Graph';
                     model_pricesum =json.pricesum
                     model_data=json.data
                     model_type=json.type
-                    mode_number=json.number
+                    model_number=json.number
+                    Suju();
+                    Suji();
+
             }
 
         });
-
-        setTimeout(() => {
-            console.log(model_type);
-            var ctx = document.getElementById('myChart1').getContext('2d');
+        function Suju(){
+            var ctx = document.getElementById("myChart1").getContext('2d');
             var chart = new Chart(ctx, {
               type: 'line',
 
@@ -117,12 +109,16 @@ $this->title = 'Data Analysis Graph';
 
             options: {},
             });
-            var ctx = document.getElementById('myChart2').getContext('2d');
+        }
+
+        function Suji(){
+
+            var ctx = document.getElementById("myChart2").getContext('2d');
             var chart = new Chart(ctx, {
             type: 'bar',
 
             data: {
-            labels: mode_number ,
+            labels: model_number ,
             datasets: [{
                 label: 'No. of success transaction',
                 backgroundColor: [
@@ -154,7 +150,7 @@ $this->title = 'Data Analysis Graph';
                    }
             },
             });
-        },300);
+        }
 
 
 </script>
@@ -164,42 +160,7 @@ $this->title = 'Data Analysis Graph';
 
 
 
-<div class="row">
-    <div class="col-lg-4">
-<script>
-var ctx = document.getElementById('myChart3').getContext('2d');
-var chart = new Chart(ctx, {
-type: 'bar',
 
-data: {
-
-labels: [2,5],
-datasets: [{
-    label: 'No. of success transaction',
-    backgroundColor: [
-        'rgba(255, 99, 132, 0.8)',
-        'rgba(54, 162, 235, 0.8)',
-        'rgba(255, 206, 86, 0.8)',
-        'rgba(75, 192, 192, 0.8)',
-        'rgba(153, 102, 255, 0.8)',
-        // 'rgba(255, 159, 64, 0.8)'
-    ],
-    borderColor: [
-       'rgba(255, 99, 132, 1)',
-       'rgba(54, 162, 235, 1)',
-       'rgba(255, 206, 86, 1)',
-       'rgba(75, 192, 192, 1)',
-       'rgba(153, 102, 255, 1)',
-       // 'rgba(255, 159, 64, 1)'
-    ],
-    data: [1,3,0],
-}]
-},
-options: {},
-});
-</script>
-</div>
-</div>
 
   </div>
 </div>
