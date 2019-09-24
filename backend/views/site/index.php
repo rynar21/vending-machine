@@ -26,30 +26,60 @@ $this->title = 'Data Analysis Graph';
             </div>
         </div>
 </div>
+<!-- <form action="https://ry92.requestcatcher.com" method="post">
+Name: <input type="text" name="name"><br>
+<input type="submit">
+</form> -->
 
 <script>
-      var ctx = document.getElementById('salesChart').getContext('2d');
-      var chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-        labels: [<?= implode($labels, ',') ?>],
-        datasets: [{
-            label: 'No. of success transaction',
-            backgroundColor:'transparent',
-            borderColor:'rgba(54, 162, 235, 1)',
-            data: [<?= implode($data, ',') ?> ],
-        },
-        {
-            label: 'Total Amount (RM)',
-            backgroundColor: 'transparent',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [<?= implode($data_amount, ',') ?> ]
-        }
-    ]
-    },
+var formData = JSON.stringify($("#myForm").serializeArray());
 
-    options: {},
+$.ajax({
+    type: "GET",
+    url: 'http://localhost/vending-machine/backend/web/site/ajax',
+        success: function (data) {
+            renderChart(data.labels , data.data , data.data_amount);
+        }
+
 });
+
+$.ajax({
+    type: "POST",
+    // cache: false,
+    url: "https://ry92.requestcatcher.com/",
+    data:  {"text":"Hello, World!"},
+    // crossDomain: true,
+    contentType: "application/json",
+    // contentType: "application/json; charset=utf-8",
+    dataType: "json",
+});
+
+    function renderChart(label, data, amount)
+    {
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+          labels: label,
+          datasets: [{
+              label: 'No. of success transaction',
+              backgroundColor:'transparent',
+              borderColor:'rgba(54, 162, 235, 1)',
+              data: data,
+          },
+          {
+              label: 'Total Amount (RM)',
+              backgroundColor: 'transparent',
+              borderColor: 'rgb(255, 99, 132)',
+              data: amount
+          }
+      ]
+      },
+
+      options: {},
+        });
+    }
+
 
         var ctx = document.getElementById('bestSellChart').getContext('2d');
         var chart = new Chart(ctx, {
@@ -57,7 +87,7 @@ $this->title = 'Data Analysis Graph';
 
         data: {
 
-        labels: [<?= implode(array_column($count,'1'),',')?>],
+        labels: [],
         datasets: [{
             label: 'No. of sold item',
             backgroundColor: [
@@ -76,10 +106,11 @@ $this->title = 'Data Analysis Graph';
                'rgba(153, 102, 255, 1)',
                // 'rgba(255, 159, 64, 1)'
             ],
-            data: [<?= implode(array_column($count,'0'),',')?>,'0']
+            data: []
         }]
     },
 
     options: {},
 });
+
 </script>
