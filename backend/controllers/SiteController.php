@@ -56,9 +56,9 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','sales','ajax'],
+                        'actions' => ['index','sales','ajax','posturl'],
                         'allow' => true,
-                        'roles' => ['ac_read'],
+                        //'roles' => ['ac_read'],
                     ],
                 ],
             ],
@@ -180,6 +180,27 @@ class SiteController extends Controller
             }
 
     }
+
+    public function actionPosturl(){
+            $s = Item::find()->where(['id'=>5])->one();
+            $b=$s->price;
+            $a=["price"=>$b."You make my heart smile"];
+            $url= 'https://fy.requestcatcher.com/';
+            $data  = json_encode($a);
+            $headerArray =array("Content-type:application/json;charset='utf-8'","Accept:application/json");
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,FALSE);
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($curl);
+            curl_close($curl);
+            return json_decode($output,true);
+    }
+
     public function actionAjax()
     {
           if(Yii::$app->request->post('test'))

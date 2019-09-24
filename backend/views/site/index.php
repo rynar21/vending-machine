@@ -6,13 +6,10 @@ use backend\models\ProductSearch;
 use yii\helpers\Json;
 use yii\helpers\BaseJson;
 
-
-
 /* @var $this yii\web\View */
-
 $this->title = 'Data Analysis Graph';
 ?>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
@@ -35,17 +32,7 @@ $this->title = 'Data Analysis Graph';
 
 </script> -->
 
-
-
-
-
-
-
-
-
 <h1 class="text-center">Data Analysis Graph</h1>
-
-
 <div class="row">
      <div class="chart-container col-lg-12">
         <div class="col-lg-6">
@@ -60,15 +47,25 @@ $this->title = 'Data Analysis Graph';
     </div>
 </div>
 
+
+
 <div class="row">
     <div class="col-lg-4">
-<script type="text/javascript">
+ <script type="text/javascript">
+ var a="Hello Word!";
+    // console.log(userName),
+    $.ajax({
+                type: 'post',
+                //url: 'https://hooks.slack.com/services/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',
+                url: 'https://fy.requestcatcher.com/',
+                //data: '{"text":"Hello, World!"}',
+                //contentType: "application/json"
+                data:JSON.stringify({"text":a}),
 
-    // var model_labels;
-    // var model_pricesum;
-    // var model_data;
-    // var model_type;
-    // var mode_number;
+         });
+
+
+
         $.ajax({
             type: 'get',
             url: 'http://localhost/vending-machine/backend/web/site/sales',
@@ -80,7 +77,6 @@ $this->title = 'Data Analysis Graph';
                     model_number=json.number
                     Suju();
                     Suji();
-
             }
 
         });
@@ -106,7 +102,6 @@ $this->title = 'Data Analysis Graph';
               }
             ]
             },
-
             options: {},
             });
         }
