@@ -149,87 +149,21 @@ class SaleRecordController extends Controller
     public function actionPaysuccess($id)
     {
         $model = SaleRecord::findOne(['id'=>$id]);
-
         if ($model)
         {
             $model->success();
             echo'success';
         }
     }
+
     public function actionPayfailed($id)
     {
-        $model = SaleRecord::findOne(['id'=> $id]);;
+        $model = SaleRecord::findOne(['id'=> $id]);
         if ($model)
         {
             $model->failed();
             echo'failed';
         }
     }
-
-    //检查状态
-   public  function actionInspection()
-   {
-
-       $models = SaleRecord::find()->where([
-           'status' => 9,
-       ])->andWhere(['<', 'created_at', time()-1])->all();
-               if ($models) {
-                   foreach ($models as $model) {
-                           $model->failed();
-                           echo $model->id . "\n";
-                   }
-             }
-
-    }
-
-    public  function actionKip()
-    {
-
-
-        $models = SaleRecord::find()->where([
-            'status' => 10,
-        ])
-         ->andWhere(['between', 'created_at' , strtotime(date('Y-m-d',strtotime('-2 day')))  ,strtotime(date('Y-m-d',strtotime('-1 day'))) ])
-        ->count();
-        print_r($models);
-        die();
-                if ($models) {
-                    foreach ($models as $model) {
-                            $model->failed();
-                            echo $model->id . "\n";
-                    }
-              }
-
-     }
-
-     public function actionKomn()
-     {
-         echo "string";
-
-     }
-
-    public  function actionPricesum()
-    {
-        $total = 0;
-        $models = SaleRecord::find()->where(['status' => 10])
-        // ->andWhere(['between', 'created_at' , strtotime(-$day. 'days')  ,strtotime(1-$day .'days') ])
-        ->all();
-                if ($models) {
-                    foreach ($models as $model) {
-                            $model1=Item::find()->where(['id'=>$model->item_id])->all();
-                            if ($model1) {
-                                foreach ($model1 as $itemmodel ) {
-                                $arr= $itemmodel->price ;
-                                $total += $arr;
-                                }
-                            }
-                    }
-                    print_r($arr);
-
-                    die();
-                    $i =  array($total );
-                    echo array_sum($i) . "\n";
-              }
-     }
 
 }
