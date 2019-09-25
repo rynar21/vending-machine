@@ -20,7 +20,7 @@ use yii\web\NotFoundHttpException;
 use common\models\SaleRecord;
 use common\models\Item;
 use common\models\Product;
-use yii\web\response;
+
 
 /**
  * Site controller
@@ -53,7 +53,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','ajax'],
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['ac_read'],
                     ],
@@ -86,11 +86,6 @@ class SiteController extends Controller
      * @return string
      */
     public function actionIndex()
-    {
-        return $this->render('index');
-    }
-
-    public function actionAjax()
     {
         $labels = [];
         $data = [];
@@ -185,21 +180,15 @@ class SiteController extends Controller
                         array_multisort(array_column($array,'0'),SORT_DESC,$array);
                     }
                     $count=array_slice($array,0,5);
-        // if (Yii::$app->request->isAjax)
-        // {
-            \Yii::$app->response->format = Response::FORMAT_JSON;
-            // echo json_encode([]);
-            return [
-              'labels' => $labels,
-              'data' => $data,
-              'data_amount' => $data_amount,
-              'count' => $count
 
-          ];
-        // }
+        return $this->render('index', [
+          'labels' => $labels,
+          'data' => $data,
+          'data_amount' => $data_amount,
+          'count' => $count
+
+      ]);
     }
-
-
 
     /**
      * Login action.
