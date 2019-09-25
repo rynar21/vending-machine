@@ -131,8 +131,6 @@ class SaleRecord extends \yii\db\ActiveRecord
         else {
             return '0';
         }
-
-
         // 更新 Item产品 的状态属性 为购买失败/初始值
 
     }

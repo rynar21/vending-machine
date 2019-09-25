@@ -22,6 +22,7 @@ use common\models\Item;
 use common\models\Product;
 
 
+
 /**
  * Site controller
  */
@@ -33,6 +34,19 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
+                'corsFilter' => [
+                'class' => \yii\filters\Cors::className(),
+                'cors' => [
+                    // restrict access to
+                    'Access-Control-Allow-Origin' => ['*'],
+                    // Allow only POST and PUT methods
+                    'Access-Control-Request-Method' => ['POST', 'HEAD','GET'],
+                    // Allow only headers 'X-Wsse'
+                    'Access-Control-Request-Headers' => ['*'],
+                    // Allow credentials (cookies, authorization headers, etc.) to be exposed to the browser
+                    'Access-Control-Allow-Credentials' => true,
+                ],
+            ],
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
@@ -53,7 +67,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index','data','curl-post'],
                         'allow' => true,
                         'roles' => ['ac_read'],
                     ],
@@ -87,6 +101,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        return $this->render('index');
+    }
+
+    public function actionData()
+    {
         $labels = [];
         $data = [];
         $data_amount=[];
@@ -98,7 +117,7 @@ class SiteController extends Controller
         // $model_time = SaleRecord::find()->where(['status' => 10])->all();
         for ($i=0; $i <7  ; $i++)
         {
-            $labels[] = date('"Y-m-d "', strtotime(-$i .'days'));
+            $labels[] = date('Y-m-d', strtotime(-$i .'days'));
             sort($labels);
         }
 
@@ -150,44 +169,95 @@ class SiteController extends Controller
                     ->where(['status'=>10])
                     ->all();
                 //Case:one
+                    foreach ($data_item as $item)
+                    {
+                        $data_keys[]=$item->product->category;
+                    }
+                    $count_data=array_count_values($data_keys);
+                //Case:two
                     // foreach ($data_item as $item)
                     // {
                     //     $data_keys[]="'".$item->product->category."'";
+                    //     if (!array_key_exists($item->product->category,$count_data))
+                    //     {
+                    //         $count_data[$item->product->category]=0;
+                    //     }
+                    //     $count_data[$item->product->category]+=1;
                     // }
-                    // $count_data[]=array_count_values($data_keys);
-                //Case:two
-                    foreach ($data_item as $item)
-                    {
-                        $data_keys[]="'".$item->product->category."'";
-                        if (!array_key_exists($item->product->category,$count_data))
-                        {
-                            $count_data[$item->product->category]=0;
-                        }
-                        $count_data[$item->product->category]+=1;
-                    }
-
+                    //
                     $data_values=array_values($count_data);
-                    // $data_keys=array_keys($count_data);
-                    $data_keys=array_keys(array_flip(array_unique($data_keys)));
-                    for ($z=0; $z <=count($count_data)-1; $z++)
-                    {
-                        if (!empty($data_values[$z]&&$data_keys[$z]))
-                        {
-                            $array[]=array($data_values[$z],$data_keys[$z]);
+                    $data_keys=array_keys($count_data);
+                    //Case:one
+                    // $data_keys=array_keys(array_flip(array_unique($data_keys)));
+                    // for ($z=0; $z <=count($count_data)-1; $z++)
+                    // {
+                    //     if (!empty($data_values[$z]&&$data_keys[$z]))
+                    //     {
+                    //         $array[]=array($data_values[$z],$data_keys[$z]);
+                    //     }
+                    // }
+                    // for ($y=0; $y <count($count_data)-1 ; $y++) {
+                    //     array_multisort(array_column($array,'0'),SORT_DESC,$array);
+                    // }
+                    // $data_values=array_column($data_values,'0');
+                    // $data_keys=array_column($data_keys,'1');
+
+                    //Case:two
+                    for ($i=0; $i < count($data_values); $i++) {
+                        for ($j=0; $j <= $i; $j++) {
+                            if ($data_values[$i]>$data_values[$j]) {
+                                //对值排序
+                                $array=$data_values[$i];
+                                $data_values[$i]=$data_values[$j];
+                                $data_values[$j]=$array;
+                                //对键排序
+                                $array=$data_keys[$i];
+                                $data_keys[$i]=$data_keys[$j];
+                                $data_keys[$j]=$array;
+                            }
                         }
                     }
-                    for ($y=0; $y <count($count_data)-1 ; $y++) {
-                        array_multisort(array_column($array,'0'),SORT_DESC,$array);
-                    }
-                    $count=array_slice($array,0,5);
+                    $data_values=array_slice($data_values,0,5);
+                    $data_keys=array_slice($data_keys,0,5);
+        if (Yii::$app->request->isAjax)
+        {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return [
+              'labels' => $labels,
+              'data'=>$data,
+              'data_amount' => $data_amount,
+              'data_keys'=>$data_keys,
+              'data_values'=>$data_values,
+              // 'code' => 100,
+          ];
+        }
+    }
 
-        return $this->render('index', [
-          'labels' => $labels,
-          'data' => $data,
-          'data_amount' => $data_amount,
-          'count' => $count
 
-      ]);
+    // $this->actionCurlPost([
+    //     'data' => [
+    //         'text' => 'Hello, World!'
+    //     ],
+    //     'text' => 'test'
+    // ]);
+
+    public function actionCurlPost($config)
+    {
+        $url = ArrayHelper::getValue($config, 'url', 'https://hooks.slack.com/services/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');
+        $data = ArrayHelper::getValue($config, 'data', []);
+        $ch = curl_init(); //初始化CURL句柄
+        curl_setopt($ch, CURLOPT_URL, $url); //设置请求的URL
+        curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Content-type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); //设为TRUE把curl_exec()结果转化为字串，而不是直接输出
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST,"POST"); //设置请求方式
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));//设置提交的字符串
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        //禁用后cURL将终止从服务端进行验证。使用CURLOPT_CAINFO选项设置证书使用CURLOPT_CAPATH选项设置证书目录 如果CURLOPT_SSL_VERIFYPEER(默认值为2)被启用，CURLOPT_SSL_VERIFYHOST需要被设置成TRUE否则设置为FALSE。
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,FALSE);
+        //1 检查服务器SSL证书中是否存在一个公用名(common name).公用名(Common Name)一般来讲就是填写你将要申请SSL证书的域名 (domain)或子域名(sub domain)。2 检查公用名是否存在，并且是否与提供的主机名匹配。
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($output,true);
     }
 
     /**
