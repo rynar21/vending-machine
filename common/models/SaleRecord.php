@@ -85,56 +85,48 @@ class SaleRecord extends \yii\db\ActiveRecord
     // 交易状态： 购买当中
     public function pending()
     {
-        // 更新 Item产品 的状态属性 为购买当中
-        $this->status=SaleRecord::STATUS_PENDING;
-        $this->save();
-        $this->item->status = Item::STATUS_LOCKED;
-        $this->item->save();
+        if ($this->status !=SaleRecord::STATUS_SUCCESS && $this->status !=SaleRecord::STATUS_FAILED)
+        {
+           // 更新 Item产品 的状态属性 为购买当中
+           $this->status=SaleRecord::STATUS_PENDING;
+           $this->save();
+           $this->item->status = Item::STATUS_LOCKED;
+           $this->item->save();
+        }
+        return $this->save() && $this->item->save();
     }
 
     // 交易状态：购买成功
     public function success()
     {
-
-        if ($this->status != SaleRecord::STATUS_FAILED) {
-            $this->status = SaleRecord::STATUS_SUCCESS;
-            $this->save();
-            $this->item->status = Item::STATUS_SOLD;
-            $this->item->save();
-
-            // 更新 Box盒子 的状态属性 为空
-            $this->box->status = Box::BOX_STATUS_AVAILABLE;
-            $this->box->save();
-        }
-        else {
-            return '0';
-        }
-        // 更新 Item产品 的状态属性 为购买成功
+        if ($this->status == SaleRecord::STATUS_PENDING)
+        {
+             // 更新 Item产品 的状态属性 为购买成功
+             $this->status = SaleRecord::STATUS_SUCCESS;
+             $this->save();
+             // 更新 Box盒子 的状态属性 为空
+             $this->box->status = Box::BOX_STATUS_AVAILABLE;
+             $this->box->save();
+         }
+         return $this->save() && $this->item->save() && $this->box->save();
     }
 
     // 交易状态： 购买失败
     public function failed()
     {
-
-        if ($this->status != SaleRecord::STATUS_SUCCESS) {
-
+        if ($this->status == SaleRecord::STATUS_PENDING)
+        {
+            // 更新 Item产品 的状态属性 为购买失败/初始值
             $this->status = SaleRecord::STATUS_FAILED;
             $this->save();
-            if ($this->status = SaleRecord::STATUS_FAILED) {
-                $this->item->status = Item::STATUS_AVAILABLE;
-                $this->item->save();
+
+            if ($this->item->status != Item::STATUS_SOLD)
+            {
+              $this->item->status = Item::STATUS_AVAILABLE;
+              $this->item->save();
             }
-
-            return $this->save() && $this->item->save();
-        }
-
-        else {
-            return '0';
-        }
-
-
-        // 更新 Item产品 的状态属性 为购买失败/初始值
-
+         }
+         return $this->save() && $this->item->save();
     }
 
 }
