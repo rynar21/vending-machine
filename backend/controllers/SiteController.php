@@ -34,19 +34,6 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
-                'corsFilter' => [
-                'class' => \yii\filters\Cors::className(),
-                'cors' => [
-                    // restrict access to
-                    'Access-Control-Allow-Origin' => ['*'],
-                    // Allow only POST and PUT methods
-                    'Access-Control-Request-Method' => ['POST', 'HEAD','GET'],
-                    // Allow only headers 'X-Wsse'
-                    'Access-Control-Request-Headers' => ['*'],
-                    // Allow credentials (cookies, authorization headers, etc.) to be exposed to the browser
-                    'Access-Control-Allow-Credentials' => true,
-                ],
-            ],
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [

@@ -160,6 +160,17 @@ class SaleRecordController extends Controller
         {
             $model->success();
             echo'success';
+            return  Yii::$app->slack->send([
+                 'data'=>[
+                     'text'=>'Store name'.':'.$model->store->name.','.
+                             'Address'.':'.$model->store->address.','.
+                             'Transaction ID'.':'.$model->id.','.
+                             'Purchased Time'.':'.$model->updated_at.','.
+                             'Box'.':'.$model->box->code.','.
+                             'Item'.':'.$model->item->name,
+                 ],
+                 // 'url'=>'https://pcl.requestcatcher.com',
+             ]);
         }
     }
 
