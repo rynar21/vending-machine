@@ -39,7 +39,7 @@ class SaleRecordController extends Controller
         ->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
         {
             // 创建 新订单
-            $model->item_id = $id;
+            $model->item_id = $item_model->id;
             $model->box_id = $item_model->box_id;
             $model->store_id = $item_model->store_id;
             $model->sell_price = $item_model->price;
@@ -48,16 +48,23 @@ class SaleRecordController extends Controller
         }
         $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
         ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
-        if ($model->id==$salerecord->id)
+        if ($model->id && $salerecord->id)
         {
-            return $this->redirect(['check','id'=>$model->id]);
+            if ($model->id==$salerecord->id)
+            {
+                return $this->redirect(['check','id'=>$model->id]);
+            }
+            else {
+                return $this->render('update', [
+                    'item_model' => $item_model,
+                    'model' => $model,
+                    'id' => $id,
+                ]);
+            }
         }
-        else {
-            return $this->render('update', [
-                'item_model' => $item_model,
-                'model' => $model,
-                'id' => $id,
-            ]);
+        else
+        {
+            throw new NotFoundHttpException("Requested item cannot be found.");
         }
     }
 

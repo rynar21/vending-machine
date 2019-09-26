@@ -114,7 +114,15 @@ class SaleRecord extends \yii\db\ActiveRecord
          return $this->save() && $this->item->save() && $this->box->save() &&
          $this->curlPost([
              'data'=>[
-                 // 'text'=>[
+                 // 'text'=>implode([
+                 //     'Store name'=>$this->store->name,
+                 //     'Address'=>$this->store->address,
+                 //     'Transaction ID'=>$this->id,
+                 //     'Purchased Time'=>$this->updated_at,
+                 //     'Box'=>$this->box->code,
+                 //     'Item'=>$this->item->name,
+                 // ]),
+                 // 'message'=>[
                  //     'Store name'=>$this->store->name,
                  //     'Address'=>$this->store->address,
                  //     'Transaction ID'=>$this->id,
@@ -136,7 +144,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function curlPost($config)
     {
         $url = ArrayHelper::getValue($config, 'url', 'https://hooks.slack.com/services/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');
-        $data = ArrayHelper::getValue($config, 'data', []);
+        $data = ArrayHelper::getValue($config, 'data', ['text'=>'Hello, World!']);
         $ch = curl_init(); //初始化CURL句柄
         curl_setopt($ch, CURLOPT_URL, $url); //设置请求的URL
         curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Content-type:application/json'));
