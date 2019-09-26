@@ -54,7 +54,8 @@ class BoxSearch extends Box
     {
         $query = Box::find()->where(['box.store_id'=>$id]);
         $dataProvider = new ActiveDataProvider([
-            'query' => $query->orderBy(['code'=>SORT_ASC]),
+            'query' => $query->orderBy(['id'=>SORT_ASC]),
+            // 'pagination' =>['pageSize'=>20]
         ]);
         $this->load($params);
         if (!$this->validate()) {
