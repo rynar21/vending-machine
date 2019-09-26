@@ -237,7 +237,6 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login())
         {

@@ -25,7 +25,7 @@ class StoreController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
             'id' => $id,
-            
+
             'item_searchModel' => $item_searchModel,
             'item_dataProvider' => $item_dataProvider,
         ]);
