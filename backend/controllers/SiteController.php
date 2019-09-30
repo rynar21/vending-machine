@@ -157,31 +157,33 @@ class SiteController extends Controller
              {
                  $a[]=array($kunum[$i],$sk[$i]);
              }
-             for ($i=0; $i <count($kunum)-1 ; $i++) {
+             for ($i=0; $i <count($kunum)-1 ; $i++)
+              {
                  array_multisort(array_column($a,'1'),SORT_DESC,$a);
-             }
-            $b=array_slice($a,0,5);
-            $type = array_column($b,'1');
-            $number = array_column($b,'0');
+              }
+                $b=array_slice($a,0,5);
+                $type = array_column($b,'1');
+                $number = array_column($b,'0');
 
              \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-            if (Yii::$app->request->isAjax) {
-                return [
-                    'labels' => $labels,
-                    'data' => $data ,
-                    'pricesum' => $pricesum,
-                    'sk'=> $sk,
-                    'kunum'=>$kunum,
-                    'type'=>$type,
-                    'number'=>$number,
-                    'code'=> 200,
-                ];
-            }
+                if (Yii::$app->request->isAjax) {
+                    return [
+                        'labels' => $labels,
+                        'data' => $data ,
+                        'pricesum' => $pricesum,
+                        'sk'=> $sk,
+                        'kunum'=>$kunum,
+                        'type'=>$type,
+                        'number'=>$number,
+                        'code'=> 200,
+                    ];
+                }
+            
 
     }
 
-    
+
 
     public function actionAjax()
     {

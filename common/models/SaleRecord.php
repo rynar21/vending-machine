@@ -19,7 +19,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     const STATUS_PENDING = 9;    //购买中
     const STATUS_SUCCESS = 10;   //购买成功
     const STATUS_FAILED = 8;  //购买失败
-
+    const KEY_SIGNATURE='ojsdjSDASsda213SDMmkxncmcs'; //钥匙
     // 数据表名称
     public static function tableName()
     {

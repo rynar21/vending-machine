@@ -35,6 +35,11 @@ return [
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
+        
+        // 'slack' =>[
+        //     'class'=>'common\commontans\Slack',
+        //     'url'=>'https://hooks.slack.com/services/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',
+        // ]
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',

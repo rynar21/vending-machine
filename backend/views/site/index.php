@@ -34,8 +34,8 @@ $this->title = 'Data Analysis Graph';
 
 <h1 class="text-center">Data Analysis Graph</h1>
 <div class="row">
-     <div class="chart-container col-lg-12">
-        <div class="col-lg-6">
+     <div class="chart-container col-lg-12" >
+        <div class="col-lg-6" id="myDiv">
             <h4>Sale Chart</h4>
             <canvas id="myChart1" width="50" height="30"></canvas>
         </div>
@@ -48,22 +48,9 @@ $this->title = 'Data Analysis Graph';
 </div>
 
 
-
 <div class="row">
     <div class="col-lg-4">
  <script type="text/javascript">
- var a="Hello Word!";
-    // console.log(userName),
-    $.ajax({
-                type: 'post',
-                //url: 'https://hooks.slack.com/services/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',
-                url: 'https://fy.requestcatcher.com/',
-                //data: '{"text":"Hello, World!"}',
-                //contentType: "application/json"
-                data:JSON.stringify({"text":a}),
-
-         });
-
 
 
         $.ajax({
@@ -80,6 +67,7 @@ $this->title = 'Data Analysis Graph';
             }
 
         });
+
         function Suju(){
             var ctx = document.getElementById("myChart1").getContext('2d');
             var chart = new Chart(ctx, {
@@ -99,8 +87,7 @@ $this->title = 'Data Analysis Graph';
                   backgroundColor: 'transparent',
                   borderColor: 'rgb(100, 99, 132)',
                   data: model_pricesum
-              }
-            ]
+              }]
             },
             options: {},
             });

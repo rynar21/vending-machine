@@ -14,6 +14,7 @@ use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
+use yii\authclient\signature\BaseMethod;
 
 
  //SaleRecordController implements the CRUD actions for SaleRecord model.
@@ -45,14 +46,17 @@ class SaleRecordController extends Controller
             $model->item_id = $id;
             $model->box_id = $item_model->box_id;
             $model->store_id = $item_model->store_id;
-            $model->sell_price = $item_model->price;
+            $model->sell_price =$item_model->price;
             $model->save();
+            //创建订单时的key发送给iot；
+            Yii::$app->slack->Skey(['price'=>$item_model->price,'id'=>$model->id,]);
             $model->pending();
+
         }
         $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
         ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
         if ($model->id==$salerecord->id)
-        {
+        {   //Yii::$app->slack->Skey(['price'=>$item_model->price,'id'=>$model->id,]);
             return $this->redirect(['check','id'=>$model->id]);
         }
         else {
@@ -63,11 +67,27 @@ class SaleRecordController extends Controller
             ]);
         }
     }
+    //模拟支付
+    public function actionIot($salerecord_id,$price,$key)
+    {
+        $newkey=md5($price.$salerecord_id.SaleRecord::KEY_SIGNATURE);
+        if ($newkey==$key) {
+         return $this->redirect(['paysuccess',
+                'id'=>$salerecord_id,
+                'priceiot'=>$price
+            ]);
+            //echo "1";
+        }
+        else {
+            echo "0";
+        }
+
+    }
+
 
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
-
         // $sale_model = SaleRecord::findOne($id);
         $model = SaleRecord::find()->where(['id' => $id])->one();
         $item_model = item::find()->where(['id' => $model->item_id])->one();
@@ -149,83 +169,33 @@ class SaleRecordController extends Controller
         // exit;
     }
 
-    //出售消息
-    public function postUrl($array)
-    {
-            $url = ArrayHelper::getValue($array, 'url', 'https://fy.requestcatcher.com/');
-            $data=ArrayHelper::getValue($array,'data','Hello World!');
-            if(is_array($data))
-            {
-                $e=$this->eopLo($data);//键值分离，转换为字符串
-                $a=["text"=>$e];
-            }
-            if(!is_array($data))
-            {
-                $a=["text"=>$data];
-            }
-            $data  = json_encode($a);
-            $headerArray =array("Content-type:application/json;charset='utf-8'","Accept:application/json");//设置格式
-            $curl = curl_init();//初始化CURL句柄
-            curl_setopt($curl, CURLOPT_URL, $url);//设置请求的URL
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);//验证证书
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,FALSE);//针对主机验证证书的名称
-            curl_setopt($curl, CURLOPT_POST, 1);//如果你想PHP去做一个正规的HTTP POST，设置这个选项为一个非零值。
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);//传递一个作为HTTP “POST”操作的所有数据的字符串。
-            curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);//设置自定义HTTP标头
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);//讲curl_exec()获取的信息以文件流的形式返回，而不是直接输出。
-            $output = curl_exec($curl); //执行一个cURL会话
-            curl_close($curl);//关闭一个cURL会话
-            return json_decode($output,true);
-    }
-
     public function actionKomn()
     {
-        $this->Posturl([
-           // 'url'=>'https://hooks.slack.com/services/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',
-            'data'=>[
-                   "stoe_name"=>'one',
-                    "item_name"=>'col',
-                     "price"=>'12RM',
-            ],
-        ]);
 
-
-    }
-    //一维数组键值分离......并转换为字符串
-    public function eopLo($data)
-    {
-        $kunum =(array_keys($data));
-        $sk = (array_values($data));
-        for ($i=0; $i <=count($kunum)-1; $i++)
-        {
-            $d[]=array($kunum[$i],$sk[$i]);
-        }
-        foreach ($d as $val) {
-        $val = join(":",$val);
-        $temp_array[] = $val;
-        }
-        $e=implode(",",$temp_array);
-        return $e;
+        $i=generateSignature("ajdasd",$key);
+        echo $i;
     }
 
     // API Integration
     public function actionPaysuccess($id)
+    //,$priceiot)
     {
+
         $model = SaleRecord::findOne(['id'=>$id]);
-        $item_model=Item::findOne(['box_id'=>$model->box_id]);
-        $store_model=Store::findOne(['id'=>$model->store_id]);
         if ($model)
         {
+            $item_model=Item::findOne(['box_id'=>$model->box_id]);
+            $store_model=Store::findOne(['id'=>$model->store_id]);
             $model->success();
-            $this->Posturl([
-                'url'=>'https://hooks.slack.com/services/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',
+            Yii::$app->slack->Posturl([
+                //'url'=>'https://hooks.slack.com/services/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',
                 'data'=>[
                        "stoe_name"=>$store_model->name,
                         "item_id"=>$model->item_id,
                          "BOX_id"=>$model->box_id,
                          "item_name"=>$item_model->name,
                          "price"=>$item_model->price."RM",
-
+                         //'iotprice'=>$priceiot.'RM',
                 ],
             ]);
             //echo'success';
