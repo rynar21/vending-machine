@@ -19,7 +19,7 @@ class StoreSearch extends Store
     {
         return [
             [['id'], 'integer'],
-            [['name', 'address'], 'safe'],
+            [['name', 'address'], 'string'],
             ['contact', 'number'],
         ];
     }
@@ -55,7 +55,8 @@ class StoreSearch extends Store
         }
 
         // grid filtering conditions
-        $query->andFilterWhere(['id' => $this->id,'contact' => $this->contact,])
+        $query->andFilterWhere(['id' => $this->id, 'contact' => $this->contact])
+            // ->andFilterWhere(['like', 'contact', $this->contact,])
             ->andFilterWhere(['like', 'name', $this->name,])
             ->andFilterWhere(['like', 'address', $this->address,]);
 

@@ -17,7 +17,25 @@ class SaleRecordSearch extends SaleRecord
     public function rules()
     {
         return [
-            [['id', 'box_id', 'item_id','store_id', 'status'], 'integer'],
+            [['id', 'box_id', 'item_id','store_id'], 'integer'],
+            [['status'], 'filter', 'filter' => function($text)
+            {
+                switch ($text)
+                {
+                    case 'success':
+                        $this->status = 10;
+                        break;
+                    case 'failed':
+                        $this->status = 8;
+                        break;
+                    case 'pending':
+                        $this->status = 9;
+                        break;
+                    default:
+                        break;
+                }
+                return $this->status;
+            }],
         ];
     }
 

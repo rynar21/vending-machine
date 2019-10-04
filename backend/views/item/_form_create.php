@@ -23,7 +23,7 @@ use yii\web\JsExpression;
             <div class="col-sm-1">
                 Box Code:
             </div>
-            <?= $model->box_id ?>
+            <?= $model->box->code ?>
         </div>
 
         <!-- 商店 ID -->
@@ -40,9 +40,7 @@ use yii\web\JsExpression;
         <?php
 
         $str = Product::find()
-
-        ->select(['sku as value', 'name as  label','id as id'])
-        // ->where(['% 2 =', 'id', 1])
+        ->select(['sku as value', 'name as label', 'id as id'])
         ->asArray()
         ->all(); ?>
 
@@ -51,7 +49,6 @@ use yii\web\JsExpression;
              $form->field($model, 'sku')->widget(\yii\jui\AutoComplete::classname(), [
 
                  'clientOptions' => [
-                        'name'=>'2',
                        'source' => $str,
                        'options' => ['class' => 'form-control'],
                       // 'minLength'=>'2',

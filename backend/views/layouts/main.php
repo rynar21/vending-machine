@@ -40,7 +40,7 @@ AppAsset::register($this);
             if (!Yii::$app->user->isGuest)
             {
             $menuItems = [
-                ['label' => 'Home', 'url' => ['/site/index']],
+                ['label' => 'Statistic', 'url' => ['/site/index']],
                 ['label' => 'User', 'url' => ['/user/index']],
                 ['label' => 'Store', 'url' => ['/store/index']],
                 // ['label' => 'Box', 'url' => ['/box/index?id=1']],

@@ -25,9 +25,28 @@ class BoxSearch extends Box
     {
         return [
             [['id', 'code' , 'store_id'], 'integer'],
-            [['status'], 'safe'],
+            // [['status'], 'safe'],
             [['name'], 'safe'],
             [['price'], 'number'],
+            [['status'], 'filter', 'filter' => function($text)
+            {
+                switch ($text)
+                {
+                    case 'Available':
+                    case 'available':
+                        $this->status = 1;
+                        break;
+
+                    case 'Not Available':
+                    case 'not available':
+                        $this->status = 2;
+                        break;
+
+                    default:
+                        break;
+                }
+                return $this->status;
+            }],
             // [['name'],'string'],
         ];
     }
@@ -54,7 +73,7 @@ class BoxSearch extends Box
     {
         $query = Box::find()->where(['box.store_id'=>$id]);
         $dataProvider = new ActiveDataProvider([
-            'query' => $query->orderBy(['id'=>SORT_ASC]),
+            'query' => $query,
             // 'pagination' =>['pageSize'=>20]
         ]);
         $this->load($params);
@@ -68,7 +87,8 @@ class BoxSearch extends Box
         if ($this->name) {
             $query->joinWith('product');
         }
-            $query->andFilterWhere(['like', 'product.name', $this->name]);
+            $query->andFilterWhere(['like', 'product.name', $this->name])
+            ->andFilterWhere(['status'=>$this->status]);
             // $query->andFilterWhere(['like', 'item.price', $this->price]);
 
 

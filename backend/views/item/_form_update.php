@@ -18,9 +18,9 @@ use yii\widgets\ActiveForm;
         <!-- 盒子 ID -->
         <div class="row f_label">
             <div class="col-sm-1">
-                Box ID:
+                Box Code:
             </div>
-            <?= $model->box_id ?>
+            <?= $model->box->code ?>
         </div>
 
         <!-- 商店 ID -->
