@@ -1,38 +1,65 @@
 <?php
-use yii\helpers\Url;
-use yii\helpers\Html;
-use yii\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $searchModel frontend\models\SaleRecordSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+use yii\helpers\Html;
+use yii\helpers\Url;
+use common\models\Item;
+use common\models\SaleRecord;
+use yii\web\NotFoundHttpException;
+
 
 $this->title = 'Payment Progress';
 ?>
+<div class="sale-record-update">
 
-<div class="sale-record-pending" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <!-- <div class="modal-header"> </div> -->
-
-            <div class="modal-body text-center">
-                <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%; max-width:100%;" />
-                <br/>
-                <h3 class="modal-title" >
-                    <b>Payment Pending</b>
-                </h3>
-                <p style="color:red;">
-                    Please follow the steps listed to make payment successfully.
-                </p>
-            </div>
-
-            <div class="modal-footer"  style="width:100%; border-top:2px solid black;">
-                <a href="create?id=<?= $model->item_id ?>">
-                    <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style="font-size:25px;font-weight:bold;">
-                        Return
-                    </div>
-                </a>
-            </div>
+    <!-- 页面标题 -->
+    <div class="row">
+        <div class="col-sm-offset-2 col-sm-10 headline">
+            Payment
         </div>
     </div>
-</div>
+
+    <!-- 分隔线 -->
+    <div class="row">
+        <div class="col-sm-12" >
+            <hr/>
+        </div>
+    </div>
+
+    <!-- 产品信息 -->
+    <?= $this->render('/item/details',[
+            'model' => $item_model,
+    ]) ?>
+    <br/>
+    <br/>
+
+    <!-- 购买流程 -->
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8">
+            <h4>
+                Please follow the following steps to make payment:
+                <br/>
+                <br/>
+                1. Scan QR Code shown at the vending machine.
+                <br/>
+                2. Select your payment method.
+                <br/>
+                3. After payment, tab on 'Next' button to proceed.
+            </h4>
+        </div>
+    </div>
+
+    <!-- 检查订单状态按钮 -->
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
+            <?= Html::a('Cancel',['cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel",
+            'data' => [
+                'confirm' => 'Are you sure you want to exit this Store?',
+                'method' => 'post']])?>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        setTimeout("location.reload();",10000);
+    </script>
+ </div>

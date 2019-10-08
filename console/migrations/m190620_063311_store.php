@@ -15,6 +15,7 @@ class m190620_063311_store extends Migration
           $this->createTable('store',[
             'id'=>$this->primaryKey(),
             'name'=>$this->string()->notNull(),
+            'description'=>$this->string(),
             'address'=>$this->string()->notNull(),
             'contact'=>$this->string()->notNull(),
             'prefix' =>$this->string(),

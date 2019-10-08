@@ -16,6 +16,7 @@ use yii\helpers\ArrayHelper;
  */
 class SaleRecord extends \yii\db\ActiveRecord
 {
+    // public $transactionNumber;
     // 交易订单 状态
     const STATUS_PENDING = 9;    //购买中
     const STATUS_SUCCESS = 10;   //购买成功
@@ -50,7 +51,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'transactionNumber' => 'TransactionNumber',
             'store_id' => 'Store ID',
             'box_id' => 'Box ID',
             'item_id' => 'Item ID',
@@ -108,6 +109,10 @@ class SaleRecord extends \yii\db\ActiveRecord
         }
         return $text;
     }
+    public function getTransactionNumber()
+    {
+        // $transactionNumber=$this->updated_at . $this->id;
+        return $this->updated_at . $this->id;
 
     // 寻找 Item产品 数据表
     public function getItem()
@@ -123,6 +128,7 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     public function getStore()
     {
+        //return $this->hasOne(Store::className(), ['id' => 'store_id']);
         return $this->hasOne(Store::className(), ['id' => 'store_id'])->via('box');
     }
 
@@ -172,15 +178,15 @@ class SaleRecord extends \yii\db\ActiveRecord
     {
         if ($this->status == SaleRecord::STATUS_PENDING)
         {
-             // 更新 Item产品 的状态属性 为购买成功
-             $this->status = SaleRecord::STATUS_SUCCESS;
-             $this->save();
-             // 更新 Box盒子 的状态属性 为空
-             $this->box->status = Box::BOX_STATUS_AVAILABLE;
-             $this->box->save();
-             // 更新 Item产品 的状态属性 为已售出
-             $this->item->status =  Item::STATUS_SOLD;
-             $this->item->save();
+            // 更新 Item产品 的状态属性 为购买成功
+            $this->status = SaleRecord::STATUS_SUCCESS;
+            $this->save();
+            // 更新 Item产品 的状态属性 为购买成功
+            $this->item->status = Item::STATUS_SOLD;
+            $this->item->save();
+            // 更新 Box盒子 的状态属性 为空
+            $this->box->status = Box::BOX_STATUS_AVAILABLE;
+            $this->box->save();
          }
 
          return $this->save() && $this->item->save() && $this->box->save() && Yii::$app->slack->curlPost([
@@ -192,7 +198,6 @@ class SaleRecord extends \yii\db\ActiveRecord
              // 'url' => "https://ry92.requestcatcher.com/",
          ]);
     }
-
     // 交易状态： 购买失败
     public function failed()
     {
@@ -204,32 +209,10 @@ class SaleRecord extends \yii\db\ActiveRecord
 
             if ($this->item->status != Item::STATUS_SOLD)
             {
-              $this->item->status = Item::STATUS_AVAILABLE;
-              $this->item->save();
+                $this->item->status = Item::STATUS_AVAILABLE;
+                $this->item->save();
             }
-         }
-         return $this->save() && $this->item->save();
+        }
+        return $this->save() && $this->item->save();
     }
-
-
-    // public function curlPost($config){
-    //     $url = ArrayHelper::getValue($config, 'url', 'https://hooks.slack.com/services/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');
-    //     $data = ArrayHelper::getValue($config, 'data');
-    //     $ch = curl_init();
-    //
-    //     curl_setopt($ch, CURLOPT_URL, $url); // set URL
-    //     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); //Set HTTP Header for POST request
-    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); //Get data from browser
-    //     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST'); //set custom request method to POST
-    //     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));  //To post a file
-    //     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); //FALSE to stop cURL from verifying the peer's certificate
-    //     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); //To check the existence of a common name in the SSL peer certificate
-    //
-    //     // grab URL and pass it to the browser
-    //     $result = curl_exec($ch);
-    //
-    //     // Close cURL session handle || close cURL resource, and free up system resources
-    //     curl_close($ch);
-    // }
-
 }

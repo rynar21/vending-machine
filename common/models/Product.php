@@ -77,10 +77,10 @@ class Product extends \yii\db\ActiveRecord
     }
 
     // 搜索 对应产品的 Item产品
-    public function getItems()
-    {
-      return $this->hasMany(Item::className(), ['product_id' => 'id']);
-    }
+    // public function getItems()
+    // {
+    //   return $this->hasMany(Item::className(), ['product_id' => 'id']);
+    // }
 
     public function getImageUrl()
     {
@@ -90,7 +90,6 @@ class Product extends \yii\db\ActiveRecord
         }
         return Url::to('@imagePath'). '/product.jpg';
     }
-
 
     //
     ///上传/修改图片

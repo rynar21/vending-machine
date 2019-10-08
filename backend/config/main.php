@@ -31,6 +31,17 @@ return [
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
+        // $user = Yii::$app->user
+        //
+        // $user = new \yii\web\User;
+        // $user->identityClass = 'common\models\User'
+        // $user->enableAutoLogin = true;
+        // $user->identityCookie = ['name' => '_identity....' ....]
+        // 'slack' => [
+        //     'class' => 'common\components\Slack',
+        //     'url' => 'https://hooks.slack.com/services/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',
+        // ],
+        // Yii::$app->slack->send(['text' => 'hello world!']);
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
