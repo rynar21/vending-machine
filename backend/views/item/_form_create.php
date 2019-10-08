@@ -33,14 +33,11 @@ use yii\web\JsExpression;
             </div>
             <?= $model->store_id ?>
         </div>
-
         <!-- 产品名称 -->
 
-
         <?php
-
         $str = Product::find()
-        ->select(['sku as value', 'name as label', 'id as id'])
+        ->select(['sku as value', 'CONCAT_WS(" - ", name, sku) as label' , 'id as id'])
         ->asArray()
         ->all(); ?>
 

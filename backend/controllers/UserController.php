@@ -42,7 +42,7 @@ class UserController extends Controller
                     [
                         'actions' => ['index', 'view'],
                         'allow' => true,
-                        'roles'=> ['ac_read'],
+                        'roles'=> ['ac_user_read'],
                     ],
                     [
                         'actions' => ['assign'],
