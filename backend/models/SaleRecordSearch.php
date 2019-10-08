@@ -14,10 +14,13 @@ class SaleRecordSearch extends SaleRecord
     /**
      * {@inheritdoc}
      */
+     public $text;
+
     public function rules()
     {
         return [
             [['id', 'box_id', 'item_id','store_id', 'status'], 'integer'],
+            [['text'], 'safe'],
         ];
     }
 
@@ -62,8 +65,10 @@ class SaleRecordSearch extends SaleRecord
             'item_id' => $this->item_id,
             'status' => $this->status,
             'store_id' => $this->store_id,
-        ]);
-
+        ])
+         ->andFilterWhere(['like', 'created_at', $this->text])
+         ->orFilterWhere(['like','item_id',$this->text])
+         ->orFilterWhere(['like','id',$this->text]);
         return $dataProvider;
     }
 }

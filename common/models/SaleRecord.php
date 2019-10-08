@@ -13,9 +13,12 @@ use yii\behaviors\TimestampBehavior;
  * @property int $item_id
  * @property int $status
  */
+
 class SaleRecord extends \yii\db\ActiveRecord
 {
+    //public $text;
     // 交易订单 状态
+
     const STATUS_PENDING = 9;    //购买中
     const STATUS_SUCCESS = 10;   //购买成功
     const STATUS_FAILED = 8;  //购买失败
@@ -38,8 +41,9 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['box_id', 'item_id'], 'required'],
-            [['box_id', 'item_id'], 'integer'],
+            [['box_id', 'item_id',], 'required'],
+            [['box_id', 'item_id',], 'integer'],
+            [['text'], 'string'],
             [['sell_price'], 'number'],
             [['status'], 'default', 'value' => self::STATUS_PENDING],
         ];
@@ -55,9 +59,18 @@ class SaleRecord extends \yii\db\ActiveRecord
             'item_id' => 'Item ID',
             'status' => 'Status',
             'sell_price' => 'Price',
+            'text'=>'SaleRecord_ID',
+
+
         ];
     }
 
+    public function getText()
+    {
+        return
+         // date('Ymd',
+         $this->created_at.$this->id.'_'.$this->item_id;
+    }
     // 寻找 Item产品 数据表
     public function getItem()
     {
@@ -131,8 +144,6 @@ class SaleRecord extends \yii\db\ActiveRecord
         else {
             return '0';
         }
-
-
         // 更新 Item产品 的状态属性 为购买失败/初始值
 
     }

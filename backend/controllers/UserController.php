@@ -16,6 +16,7 @@ use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use yii\filters\AccessControl;
 use yii\web\MethodNotAllowedHttpException;
+use yii\helpers\Url;
 
 
 /**
@@ -42,7 +43,7 @@ class UserController extends Controller
                     [
                         'actions' => ['index', 'view'],
                         'allow' => true,
-                        'roles'=> ['ac_read'],
+                        'roles'=> ['ac_user_read'],
                     ],
                     [
                         'actions' => ['assign'],
@@ -95,6 +96,7 @@ class UserController extends Controller
         ]);
     }
 
+
     /**
      * Creates a new user model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -105,7 +107,8 @@ class UserController extends Controller
         $model = new SignUp();
         if ($model->load(Yii::$app->request->post()) && $model->SignUp()) {
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->goHome();
+
+            return $this->redirect(Url::to(['site/login']));
         }
         return $this->render('create', [
             'model' => $model,

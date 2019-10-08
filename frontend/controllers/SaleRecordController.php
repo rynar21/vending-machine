@@ -6,6 +6,7 @@ use Yii;
 use mpdf;
 use common\models\Store;
 use common\models\Item;
+use common\models\Box;
 use common\models\SaleRecord;
 use frontend\models\SaleRecordSearch;
 use yii\web\Controller;
@@ -49,15 +50,21 @@ class SaleRecordController extends Controller
             $model->sell_price =$item_model->price;
             $model->save();
             //创建订单时的key发送给iot；
-            Yii::$app->slack->Skey(['price'=>$item_model->price,'id'=>$model->id,]);
+            Yii::$app->slack->Skey([
+            'url'=>'https://fy.requestcatcher.com/',
+            'price'=>$item_model->price,'id'=>$model->id,]);
             $model->pending();
+
 
         }
         $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
         ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
+
         if ($model->id==$salerecord->id)
-        {   //Yii::$app->slack->Skey(['price'=>$item_model->price,'id'=>$model->id,]);
-            return $this->redirect(['check','id'=>$model->id]);
+        {
+            //Yii::$app->slack->Skey(['price'=>1->price,'id'=>$model->id,]);
+            return $this->redirect(['check','id'=>$model->created_at]);
+
         }
         else {
             return $this->render('update', [
@@ -89,7 +96,7 @@ class SaleRecordController extends Controller
     public function actionCheck($id)
     {
         // $sale_model = SaleRecord::findOne($id);
-        $model = SaleRecord::find()->where(['id' => $id])->one();
+        $model = SaleRecord::find()->where(['created_at' => $id])->one();
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         if ($model!=null)
         {
@@ -171,8 +178,10 @@ class SaleRecordController extends Controller
 
     public function actionKomn()
     {
-
-        $i=generateSignature("ajdasd",$key);
+        $a="sha256";
+        $b='123456sa';
+        $key=1;
+        $i=hash_hmac ($a , $b , $key [$raw_output=FALSE]);
         echo $i;
     }
 
@@ -272,6 +281,18 @@ class SaleRecordController extends Controller
                     $i =  array($total );
                     echo array_sum($i) . "\n";
               }
+     }
+
+     public function actionRemind()
+     {
+         $model_store=Store::find()->all();
+         $model_box=Box::find()->where(['status'=>Box::BOX_STATUS_AVAILABLE,'store_id'=>1])->count();
+         $model_boxr=Box::find()->where(['store_id'=>1])->count();
+         echo count($model_store);
+        // echo $model_boxr;
+         if ($model_box>=$model_boxr*0.8) {
+             echo "1";
+         }
      }
 
 }

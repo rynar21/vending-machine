@@ -23,6 +23,7 @@ class Item extends \yii\db\ActiveRecord
 {
 
     public $sku;
+
     // 产品 添加的初始值 & 交易失败
     const STATUS_AVAILABLE = 0;         // 对应 SaleRecord::STATUS_FAILED
     // 产品 被撤除值
@@ -99,6 +100,7 @@ class Item extends \yii\db\ActiveRecord
         }
     }
 
+    
 
     public function getPrice()
     {

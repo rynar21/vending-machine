@@ -16,17 +16,20 @@ class Slack
     //发送加密信息给iot
     public function Skey($array)
     {
+        $a="sha256";
+        $key=100;
         $url = ArrayHelper::getValue($array, 'url', Yii::$app->slack->url);
-        $price=md5(ArrayHelper::getValue($array,'price','Hello World!'));
-        $id=md5(ArrayHelper::getValue($array,'id','Hello World!'));
-        $key=md5($price.$id.SaleRecord::KEY_SIGNATURE);
+        $price=ArrayHelper::getValue($array,'price','Hello World!');
+        $id=ArrayHelper::getValue($array,'id','Hello World!');
+        $price=hash_hmac ($a,$price,$key [$raw_output=FALSE]);
+        $id=hash_hmac ($a,$id,$key [$raw_output=FALSE]);
+        $keys=hash_hmac($a,$price.$id.SaleRecord::KEY_SIGNATURE,$key[$raw_output=FALSE]);
         Yii::$app->slack->Posturl([
-            //'url'=>'https://fy.requestcatcher.com/',
+            'url'=>$url,
             'data'=>[
-
                     "iotprice"=>$price,
                     "salerecord_id"=>$id,
-                    'key'=>$key,
+                    'key'=>$keys,
             ],
         ]);
     }

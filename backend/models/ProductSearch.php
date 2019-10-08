@@ -16,6 +16,7 @@ class ProductSearch extends Product
      * {@inheritdoc}
      */
          public $imageFile;
+        
 
     public function rules()
     {
@@ -23,7 +24,7 @@ class ProductSearch extends Product
 
             [['sku'], 'string'],
             [['name', 'image'], 'safe'],
-            [['price'], 'number'],
+            [['price'], 'string'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
 
         ];
@@ -65,13 +66,14 @@ class ProductSearch extends Product
         $query->andFilterWhere([
             'id' => $this->id,
             'sku'=>$this->sku,
-            'price' => $this->price,
+            // 'price' => $this->price,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'image', $this->image]);
+            ->andFilterWhere(['like', 'image', $this->image])
+            ->andFilterWhere(['like', 'price', $this->price]);
 
         return $dataProvider;
     }

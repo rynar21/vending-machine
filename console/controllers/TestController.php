@@ -2,6 +2,8 @@
 
 namespace console\controllers;
 use common\models\SaleRecord;
+use common\models\Box;
+use common\models\Store;
 use yii\console\Controller;
 
 class TestController extends Controller {
@@ -11,7 +13,7 @@ class TestController extends Controller {
         echo "hello_world";
     }
 
-    // 检查状态
+    // 检查支付状态
     public  function actionInspection()
     {
 
@@ -26,6 +28,12 @@ class TestController extends Controller {
               }
 
      }
+     //检查某店的商品
+     // public function actionRemind()
+     // {
+     //     $model_box=Box::find()->where(['status'=>Box::BOX_STATUS_AVAILABLE,'store_id'=>1])->count();
+     // }
+
 
 
 

@@ -28,7 +28,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            
+           'text',
+            // [
+            //     'label'=>'text',
+            //     'format' => 'raw' ,
+            //     'value' => function ($model)
+            //     {
+            //         return $model->created_at.'_'.$model->id;
+            //
+            //     },
+            //
+            //
+            // ],
             'box_id',
             'item_id',
             'store_id',

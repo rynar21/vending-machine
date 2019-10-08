@@ -38,14 +38,10 @@ use yii\web\JsExpression;
 
 
         <?php
-
         $str = Product::find()
-        ->select(['sku as value', 'name  as  label' ,'id as id'])
-        // ->where(['% 2 =', 'id', 1])
+        ->select(['sku as value', 'CONCAT_WS(" - ",name,sku) as  label' ,'id as id'])
         ->asArray()
         ->all(); ?>
-
-
             <?=
              $form->field($model, 'sku')->widget(\yii\jui\AutoComplete::classname(), [
 
@@ -55,9 +51,6 @@ use yii\web\JsExpression;
                        'options' => ['class' => 'form-control'],
                       // 'minLength'=>'2',
                       'autoFill'=>true,
-                      // 'select' => new JsExpression("function( event, ui ) {
-                      //               $('#item-id').val(ui.item.sku);
-                      //            }"),
                                ],
                              ]); ?>
             </div>
