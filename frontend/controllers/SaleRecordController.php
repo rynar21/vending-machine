@@ -12,6 +12,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
+
 
  //SaleRecordController implements the CRUD actions for SaleRecord model.
 class SaleRecordController extends Controller
@@ -78,10 +80,11 @@ class SaleRecordController extends Controller
             $item_model = item::findOne(['id' => $model->item_id]);
             if ($model->status == SaleRecord::STATUS_PENDING)
             {
-                return $this->render('create', [
-                    'item_model' => $item_model,
-                    'model' => $model,
-                    'id' => $id,
+                $generate_signature=Yii::$app->signature->generateSignature(['data'=>$model->id.$model->sell_price]);
+                return $this->render('pending', [
+                        'item_model' => $item_model,
+                        'model' => $model,
+                        'id' => $id,
                 ]);
             }
             //  当SaleRecord 交易订单状态为交易成功
@@ -153,35 +156,101 @@ class SaleRecordController extends Controller
     }
 
     // API Integration
-    public function actionPaysuccess($id)
+    public function PayStatus($config)
     {
-        $model = SaleRecord::findOne(['id'=>$id]);
-        if ($model)
+        $id = ArrayHelper::getValue($config, 'id','');
+        $price = ArrayHelper::getValue($config, 'price','');
+        $status = ArrayHelper::getValue($config, 'status','');
+        $signature=ArrayHelper::getValue($config, 'signature','');
+        $generate_signature=Yii::$app->signature->generateSignature(['data'=>$status]);
+        if ($generate_signature==$signature)
         {
-            $model->success();
-            echo'success';
-            return  Yii::$app->slack->send([
-                 'data'=>[
-                     'text'=>'Store name'.':'.$model->store->name.','.
-                             'Address'.':'.$model->store->address.','.
-                             'Transaction ID'.':'.$model->id.','.
-                             'Purchased Time'.':'.$model->updated_at.','.
-                             'Box'.':'.$model->box->code.','.
-                             'Item'.':'.$model->item->name,
-                 ],
-                 // 'url'=>'https://pcl.requestcatcher.com',
-             ]);
+            $model = SaleRecord::findOne(['id'=>$id]);
+            if ($status=='success')
+            {
+                $model->success();
+                return  Yii::$app->slack->send([
+                     'data'=>[
+                         'text'=>'Store name'.':'.$model->store->name.','.
+                                 'Address'.':'.$model->store->address.','.
+                                 'Transaction ID'.':'.$id.','.
+                                 'Purchased Time'.':'.$model->updated_at.','.
+                                 'Box'.':'.$model->box->code.','.
+                                 'Item'.':'.$model->item->name.','.
+                                 'price'.':'.$model->item->price.','.
+                                 'Payment Amount'.':'.$price,
+                     ],
+                 ]);
+            }
+            if ($status=='failed')
+            {
+                $model->failed();
+            }
+        }
+        else {
+            return false;
         }
     }
 
-    public function actionPayfailed($id)
-    {
-        $model = SaleRecord::findOne(['id'=> $id]);
-        if ($model)
-        {
-            $model->failed();
-            echo'failed';
-        }
-    }
+   //  function actionRandomStr($len=32,$special=true){
+   //     $chars = array(
+   //         "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
+   //         "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
+   //         "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G",
+   //         "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+   //         "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2",
+   //         "3", "4", "5", "6", "7", "8", "9"
+   //     );
+   //
+   //     if($special){
+   //         $chars = array_merge($chars, array(
+   //             "!", "@", "#", "$", "?", "|", "{", "/", ":", ";",
+   //             "%", "^", "&", "*", "(", ")", "-", "_", "[", "]",
+   //             "}", "<", ">", "~", "+", "=", ",", "."
+   //         ));
+   //     }
+   //
+   //     $charsLen = count($chars) - 1;
+   //     shuffle($chars);                            //打乱数组顺序
+   //     $str = '';
+   //     for($i=0; $i<$len; $i++){
+   //         $str .= $chars[mt_rand(0, $charsLen)];    //随机取出一位
+   //     }
+   //     echo $str;
+   // }
 
+    // public function actionHash()
+    // {
+    //     $id=112;
+    //     $price=10;
+    //     $data=$id.$price;
+    //     $signature='s.OPa4c%j!F%P@8~1+D[,2Rl|%?Klmbh';
+    //     // $data=sha1(md5($id.$price.$signature));
+    //     $generate_signature=hash_hmac('sha256',$data,$signature);
+    //     // echo $data;
+    //     echo $generate_signature;
+    // }
+    // public function Pay($config)
+    // {
+    //     // $id = ArrayHelper::getValue($config, 'id','');
+    //     // $price = ArrayHelper::getValue($config, 'price','');
+    //     // $id=108;
+    //     // $price=17;
+    //     $str = ArrayHelper::getValue($config, 'str','');
+    //     $signature='s.OPa4c%j!F%P@8~1+D[,2Rl|%?Klmbh';
+    //     $generate_signature=sha1($id.$price.$signature);
+    //     if ($str==$generate_signature) {
+    //         return $this->PayStatus([
+    //             'id'=>$id,
+    //             'price'=>$price,
+    //             'status'=>'success',
+    //         ]);
+    //     }
+    //     if ($str!==$generate_signature) {
+    //         return $this->PayStatus([
+    //             'id'=>$id,
+    //             'status'=>'failed',
+    //         ]);
+    //     }
+    // }
 }

@@ -38,10 +38,8 @@ use yii\web\JsExpression;
 
 
         <?php
-
         $str = Product::find()
-
-        ->select(['sku as value', 'name as  label','id as id'])
+        ->select(['sku as value', 'CONCAT_WS(" - ",name,sku) as label','id as id'])
         // ->where(['% 2 =', 'id', 1])
         ->asArray()
         ->all(); ?>

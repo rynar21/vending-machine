@@ -23,41 +23,6 @@ $this->title = 'Data Analysis Graph';
 </div>
 
 <script type="text/javascript">
-
-// var isLoaded = false;
-// function reqs(opts) {
-//     $.ajax({
-//         type: 'get',
-//         url: '<?php //echo Yii::$app->request->baseUrl. '/site/data' ?>',
-//         dataType: 'json',
-//         beforeSend: function() {
-//             if(opts.init === 1) {
-//                 $('.salesChart').show();
-//             }
-//             isLoaded = false;
-//         },
-//         success: function(data) {
-//             data=[data.labels,data.data,data.data_amount,data.data_keys,data.data_values,'']
-//             id=['salesChart','bestSellChart']
-//             console.log(data);
-//             renderChart(data);
-//         },
-//         complete: function() {
-//             if(opts.init === 1) {
-//                 $('.salesChart').hide();
-//             }
-//             isLoaded = true;
-//         },
-//         error: function() {
-//             console.log('请求失败~');
-//         }
-//     });
-// }
-//         reqs({"init": 1});
-//         setInterval(function() {
-//             isLoaded && reqs({"init": 0});
-//         }, 3000);
-
         $.ajax({
             url: '<?php echo Yii::$app->request->baseUrl. '/site/data' ?>',
             type: 'get',

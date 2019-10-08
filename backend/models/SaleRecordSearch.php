@@ -11,6 +11,8 @@ use common\models\SaleRecord;
  */
 class SaleRecordSearch extends SaleRecord
 {
+    // public $transactionNumber;
+
     /**
      * {@inheritdoc}
      */
@@ -18,6 +20,7 @@ class SaleRecordSearch extends SaleRecord
     {
         return [
             [['id', 'box_id', 'item_id','store_id', 'status'], 'integer'],
+            [['transactionNumber'], 'safe'],
         ];
     }
 
@@ -57,12 +60,14 @@ class SaleRecordSearch extends SaleRecord
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            // 'id' => $this->id,
             'box_id' => $this->box_id,
             'item_id' => $this->item_id,
             'status' => $this->status,
             'store_id' => $this->store_id,
+            // 'updated_at'=>$this->transactionNumber,
         ]);
+        // $query->andFilterWhere(['like', 'created_at', $this->created_at]) ;
 
         return $dataProvider;
     }

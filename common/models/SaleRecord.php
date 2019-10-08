@@ -5,8 +5,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-
-// use yii\helpers\ArrayHelper;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "sale_record".
@@ -17,6 +16,7 @@ use yii\behaviors\TimestampBehavior;
  */
 class SaleRecord extends \yii\db\ActiveRecord
 {
+    // public $transactionNumber;
     // 交易订单 状态
     const STATUS_PENDING = 9;    //购买中
     const STATUS_SUCCESS = 10;   //购买成功
@@ -51,13 +51,19 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'transactionNumber' => 'TransactionNumber',
             'store_id' => 'Store ID',
             'box_id' => 'Box ID',
             'item_id' => 'Item ID',
             'status' => 'Status',
             'sell_price' => 'Price',
         ];
+    }
+
+    public function getTransactionNumber()
+    {
+        // $transactionNumber=$this->updated_at . $this->id;
+        return $this->updated_at . $this->id;
     }
 
     // 寻找 Item产品 数据表
@@ -131,5 +137,4 @@ class SaleRecord extends \yii\db\ActiveRecord
         }
         return $this->save() && $this->item->save();
     }
-
 }

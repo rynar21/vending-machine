@@ -20,19 +20,25 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php Html::a('Create Sale Record', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            // ['class' => 'yii\grid\SerialColumn'],
+            // [
+            //     'label'=>'TransactionNumber',
+            //     'format'=>'raw',
+            //     'value'=>function($model)
+            //     {
+            //         return date('Y/m/d',$model->created_at).'_'.$model->id;
+            //     }
+            // ],
+            'transactionNumber',
             'box_id',
             'item_id',
             'store_id',
-            // 'trans_id',
             'status',
             'created_at:datetime',
             'updated_at:datetime',

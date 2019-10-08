@@ -40,10 +40,17 @@ class Store extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'address', 'contact'], 'required'],
+            ['name', 'unique','message'=>'This storename has already been taken.'],
+            [['name','address','user_id'], 'required',],
             [['contact'], 'integer'],
-            [['prefix'], 'safe'],
-            [['name', 'address'], 'string', 'max' => 255],
+            ['contact', 'required'],
+            ['contact', 'filter', 'filter' => 'trim'],
+            ['contact','match','pattern'=>'/^[0][1][0-9]{8,9}$/'],
+            ['contact', 'unique','message' => '手机号已被使用'],
+            [['prefix','description'], 'safe'],
+            [['name', 'address','description'], 'string', 'max' => 30],
+            [['address'], 'string', 'max' => 60],
+            [['description'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
@@ -54,7 +61,7 @@ class Store extends \yii\db\ActiveRecord
         return [
             'id' => 'Store ID',
             'name' => 'Store Name',
-            
+            // 'description'=>'Store Description'
             'address' => 'Store Address',
             'contact' => 'Store Contact',
             'prefix' => 'Box Prefix',

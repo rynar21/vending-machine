@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Store;
 use common\models\Item;
+use Yii;
 
 /**
  * StoreSearch represents the model behind the search form of `common\models\Store`.
@@ -40,7 +41,14 @@ class StoreSearch extends Store
      */
     public function search($params)
     {
-        $query = Store::find();
+        if ( Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'staff'))
+        {
+            $query = Store::find();
+        }
+        else
+        {
+            $query = Store::find()->where(['user_id'=>Yii::$app->user->identity->id]);
+        }
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
