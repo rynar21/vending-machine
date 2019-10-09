@@ -113,7 +113,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     {
         // $transactionNumber=$this->updated_at . $this->id;
         return $this->updated_at . $this->id;
-
+    }
     // 寻找 Item产品 数据表
     public function getItem()
     {

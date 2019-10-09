@@ -243,7 +243,9 @@ class SiteController extends Controller
             //return $this->goBack();
             return $this->redirect(Url::to(['store/index']));
         }
+        else{
             return $this->render('login', ['model' => $model,]);
+        }
     }
 
     public function actionChangepassword()
@@ -255,7 +257,7 @@ class SiteController extends Controller
 
             if( $model->load(Yii::$app->request->post()) && $model->changePassword()){
                 // Yii::$app->user->logout();
-                return $this->logout();
+                return Yii::$app->user->logout() && $this->redirect('login');
             }else{
                 return $this->render('changepassword',['model'=>$model]);
             }
@@ -277,7 +279,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->actionLogin();
+        return $this->redirect('login');
     }
     /**
      * Signs user up.
