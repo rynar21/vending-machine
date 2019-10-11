@@ -32,10 +32,11 @@ return [
         'user' => [
             'class'=>'yii\web\User',
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'enableAutoLogin' => false,
+            'authTimeout'     => 600,
+            'identityCookie' => ['name' => '_identity-backend','httpOnly' => true],
         ],
-        
+
         // 'slack' =>[
         //     'class'=>'common\commontans\Slack',
         //     'url'=>'https://hooks.slack.com/services/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',
@@ -43,6 +44,7 @@ return [
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
+            'timeout' => 5,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -145,12 +145,13 @@ class SiteController extends Controller
                 }
                   $pricesum[]=$total;
             }
+            // print_r($pricesum);
+            // die();
                 $s = Item::find()->where(['status'=>Item::STATUS_SOLD])->all();
                 foreach ($s as $sum) {
                     $sums[]=$sum->product->sku;
                 }
              //print_r(array_count_values($sums));
-
             $kunum =(array_keys((array_count_values($sums))));
             $sk = (array_values((array_count_values($sums))));
              for ($i=0; $i <=count($kunum)-1; $i++)
@@ -179,8 +180,6 @@ class SiteController extends Controller
                         'code'=> 200,
                     ];
                 }
-            
-
     }
 
 
@@ -212,23 +211,41 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login())
         {
+             $user=Yii::$app->user->identity;
+              if ($user->login_status==0) {
+                $user->login_status=1;
+                $user->save();
+                return $this->redirect(Url::to(['store/index']));
+            }
+            if($user->login_status==1){
+                $user->login_status=0;
+                $user->save();
+                return $this->redirect(Url::to(['store/index'],
+                Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere')));
+            }
+            else {
+                return $this->redirect(Url::to(['site/login'],
+                Yii::$app->session->setFlash('error', 'User login has been capped')));
+            }
+            //return $this->runAction('logout');
             //return $this->goBack();
-            return $this->redirect(Url::to(['store/index']));
+
         }
-            return $this->render('login', ['model' => $model,]);
+        return $this->render('login', ['model' => $model,]);
     }
 
     public function actionChangepassword()
     {
-
         $model = new ChangePasswordForm();
-        if (Yii::$app->user->identity!=null) {
-
-
-            if( $model->load(Yii::$app->request->post()) && $model->changePassword()){
-                // Yii::$app->user->logout();
-                return $this->logout();
-            }else{
+        if (Yii::$app->user->identity!=null)
+         {
+            if( $model->load(Yii::$app->request->post()) && $model->changePassword())
+            {
+                 Yii::$app->user->logout();
+                 return $this->redirect(Url::to(['site/login'],Yii::$app->session->setFlash('success', 'password has been updated.')));
+            }
+            else
+            {
                 return $this->render('changepassword',['model'=>$model]);
             }
         }
@@ -247,9 +264,13 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
+        $user=Yii::$app->user->identity;
+        // if ($user->login_status==1) {
+            $user->login_status=0;
+            $user->save();
+        //}
         Yii::$app->user->logout();
-
-        return $this->actionLogin();
+        return $this->redirect('login');
     }
     /**
      * Signs user up.
@@ -334,8 +355,8 @@ class SiteController extends Controller
         }
         if ($user = $model->verifyEmail()) {
             if (Yii::$app->user->Logout($user)) {
-                Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
-                return $this->actionLogin();
+
+                 return $this->redirect(Url::to(['site/login'],Yii::$app->session->setFlash('success', 'Your email has been confirmed!.')));
             }
         }
 

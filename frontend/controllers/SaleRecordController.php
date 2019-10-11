@@ -178,11 +178,12 @@ class SaleRecordController extends Controller
 
     public function actionKomn()
     {
-        $a="sha256";
-        $b='123456sa';
-        $key=1;
-        $i=hash_hmac ($a , $b , $key [$raw_output=FALSE]);
-        echo $i;
+        // $a="sha256";
+        // $b='123456sa';
+        // $key=1;
+        // $i=hash_hmac ($a , $b , $key [$raw_output=FALSE]);
+        // echo $i;
+        
     }
 
     // API Integration
