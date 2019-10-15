@@ -33,7 +33,7 @@ return [
             'class'=>'yii\web\User',
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => false,
-            'authTimeout'     => 600,
+            'authTimeout'     => 6000,
             'identityCookie' => ['name' => '_identity-backend','httpOnly' => true],
         ],
 
@@ -44,7 +44,7 @@ return [
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
-            'timeout' => 5,
+            'timeout' => 60,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

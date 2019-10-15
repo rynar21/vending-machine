@@ -16,7 +16,7 @@ class ProductSearch extends Product
      * {@inheritdoc}
      */
          public $imageFile;
-        
+
 
     public function rules()
     {

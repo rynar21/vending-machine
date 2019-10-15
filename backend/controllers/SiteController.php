@@ -68,6 +68,9 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
+            'checker' => [
+               'class' => 'backend\libs\CheckerFilter',
+              ],
         ];
     }
 
@@ -207,32 +210,45 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+      $model = new LoginForm();
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login())
-        {
-             $user=Yii::$app->user->identity;
-              if ($user->login_status==0) {
-                $user->login_status=1;
-                $user->save();
-                return $this->redirect(Url::to(['store/index']));
-            }
-            if($user->login_status==1){
-                $user->login_status=0;
-                $user->save();
-                return $this->redirect(Url::to(['store/index'],
-                Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere')));
-            }
-            else {
-                return $this->redirect(Url::to(['site/login'],
-                Yii::$app->session->setFlash('error', 'User login has been capped')));
-            }
-            //return $this->runAction('logout');
-            //return $this->goBack();
+      if ($model->load(Yii::$app->request->post()) && $model->login()) {
 
+          //使用session和表tbl_admin_session记录登录账号的token:time&id&ip,并进行MD5加密
+          $id = Yii::$app->user->id;     //登录用户的ID
+          $username = Yii::$app->user->identity->username;; //登录账号
+          $ip = Yii::$app->request->userIP; //登录用户主机IP
+          $token = md5(sprintf("%s&%s&%s",time(),$id,$ip));  //将用户登录时的时间、用户ID和IP联合加密成token存入表
+
+          $session = Yii::$app->session;
+          $session->set(md5(sprintf("%s&%s",$id,$username)),$token);  //将token存到session变量中
+          //存session token值没必要取键名为$id&$username ,目的是标识用户登录token的键，$id或$username就可以
+
+          $model->insertSession($id,$token);//将token存到tbl_admin_session
+          //获取当前登录用户的IP地址。
+          // $dz=  Yii::$app->request->serverName;
+          // Yii::$app->slack->Posturl([
+          //     'url'=>'https://forgetof.requestcatcher.com',
+          //     'data'=>[
+          //             'ip'=>$dz,
+          //     ],
+          // ]);
+         // return $this->goBack();
+          return $this->redirect(Url::to(['store/index']));//去到用户所拥有的店
+      }
+     // return $this->render('login', ['model' => $model,]);
+      else {
+          return $this->render('login', [
+              'model' => $model,
+               //Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere'),
+           ]
+         );
         }
-        return $this->render('login', ['model' => $model,]);
+
     }
+
+
+
 
     public function actionChangepassword()
     {
@@ -264,14 +280,12 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        $user=Yii::$app->user->identity;
-        // if ($user->login_status==1) {
-            $user->login_status=0;
-            $user->save();
-        //}
         Yii::$app->user->logout();
-        return $this->redirect('login');
+        return $this->redirect(Url::to(['site/login']));
     }
+
+
+
     /**
      * Signs user up.
      *

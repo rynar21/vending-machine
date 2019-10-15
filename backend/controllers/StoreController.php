@@ -59,7 +59,11 @@ class StoreController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+
             ],
+            'checker' => [
+               'class' => 'backend\libs\CheckerFilter',
+              ],
         ];
     }
 

@@ -51,6 +51,9 @@ class SaleRecordController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'checker' => [
+               'class' => 'backend\libs\CheckerFilter',
+              ],
         ];
     }
 

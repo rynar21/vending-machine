@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use common\models\Item;
+
 /*
     1. Views > store > view.php
     2. Views > box > _list.php
@@ -9,7 +10,8 @@ use common\models\Item;
 */
 ?>
 
-<?php if($item):?>
+<?php if($item):
+     ?>
         <div class="col-sm-3 col-xs-6 box_row ">
              <!-- 产品 显示框 -->
             <div class="box_item thumbnail  ">

@@ -51,8 +51,9 @@ class SaleRecordController extends Controller
             $model->save();
             //创建订单时的key发送给iot；
             Yii::$app->slack->Skey([
-            'url'=>'https://fy.requestcatcher.com/',
-            'price'=>$item_model->price,'id'=>$model->id,]);
+            'url'=>'https://forgetof.requestcatcher.com',
+            'price'=>$item_model->price,
+            'id'=>$model->id,]);
             $model->pending();
 
 
@@ -63,7 +64,7 @@ class SaleRecordController extends Controller
         if ($model->id==$salerecord->id)
         {
             //Yii::$app->slack->Skey(['price'=>1->price,'id'=>$model->id,]);
-            return $this->redirect(['check','id'=>$model->created_at]);
+            return $this->redirect(['check','id'=>$model->id]);
 
         }
         else {
@@ -96,7 +97,7 @@ class SaleRecordController extends Controller
     public function actionCheck($id)
     {
         // $sale_model = SaleRecord::findOne($id);
-        $model = SaleRecord::find()->where(['created_at' => $id])->one();
+        $model = SaleRecord::find()->where(['id' => $id])->one();
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         if ($model!=null)
         {
@@ -183,7 +184,7 @@ class SaleRecordController extends Controller
         // $key=1;
         // $i=hash_hmac ($a , $b , $key [$raw_output=FALSE]);
         // echo $i;
-        
+
     }
 
     // API Integration
