@@ -65,6 +65,7 @@ class SaleRecord extends \yii\db\ActiveRecord
         ];
     }
 
+
     public function getText()
     {
         return

@@ -9,6 +9,7 @@ use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\Pagination;
+use yii\data\ActiveDataProvider;
 /**
  * StoreController implements the CRUD actions for Store model.
  */
@@ -20,26 +21,32 @@ class StoreController extends Controller
     public function actionView($id)
     {
         $item_searchModel = new ItemSearch();
-        $item_count=Item::find()->where(['status'=>0,'store_id'=>$id]);
-        $countQuery = clone $item_count; //数据总条数
-        $pages = new Pagination([    //数据分页
-            'totalCount'=>$countQuery->count(),//分页对象
-            'defaultPageSize'=>10,//每页放几条内容
-        ]);
+
+        //$item_count = $item_dataProvider->search(Yii::$app->request->queryParams);
+        $data = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
+        //$item_count=Item::find()->where(['status'=>0,'store_id'=>$id]);
+        $count= $data->query->count(); //数据总条数
+        // $pages = new Pagination([    //数据分页
+        //     'totalCount'=>$countQuery->query->count(),//分页对象
+        //     'defaultPageSize'=>10,//每页放几条内容
+        // ]);
+        $pagination = new Pagination([
+            'totalCount' => $count,
+            'defaultPageSize'=>10]);  //每页放几条内容
        //连贯查询每页的数据
-        $item_dataProvider = $item_count->orderBy('id ASC')    //正序连贯查询
-            ->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();
+        $articles = $data->query->offset($pagination->offset)
+       ->limit($pagination->limit)
+       ->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
             'id' => $id,
-            'pages'=>$pages,
+            'pages'=>$pagination,
             'item_searchModel' => $item_searchModel,
-            'item_dataProvider' => $item_dataProvider,
+            'item_dataProvider' => $articles,
         ]);
     }
-    
+
+
     protected function findModel($id)
     {
         if (($model = Store::findOne($id)) !== null) {

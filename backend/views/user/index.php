@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'header' => 'Roles',
+                'format' => 'raw' ,
                 'value' => function($data) {
                     $roles = Yii::$app->authManager->getRolesByUser($data->id);
                     if ($roles) {
@@ -43,8 +44,11 @@ $this->params['breadcrumbs'][] = $this->title;
                       if (count($roles)>=2) {
                       return  ($array[1]);
                       }
-                    } else {
-                        return 'no roles';
+                    }
+                    if (empty($roles)) {
+                        return 'No roles';
+                    }else {
+                        return '<span style="color:#CD0000">' .'no roles'.'';
                     }
                 }
             ],

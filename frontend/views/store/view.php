@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
+use backend\models\ItemSearch;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Store */
@@ -19,7 +20,9 @@ $this->title = 'Vending Machine';
     <hr/>
 
     <div class="row">
-        <?php echo $this->render('/item/_search', [
+        <?php
+        $item_searchModel = new ItemSearch();
+         echo $this->render('/item/_search', [
             'id' => $id,
             'item_searchModel' => $item_searchModel,
             ]); ?>
