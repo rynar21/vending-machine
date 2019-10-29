@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'store_id:text:Store number',
             // 'trans_id',
             //'status',
+            'sell_price',
             [
                 'attribute'=>'status',
                 'format' => 'raw' ,

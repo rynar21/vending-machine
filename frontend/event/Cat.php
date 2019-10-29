@@ -19,7 +19,8 @@ class Cat extends \yii\base\Component
      */
     public function shout()
     {
-        echo '1 <br />';
+        echo '9 <br />';
+
 
         // 猫叫了之后 触发猫的 miao 事件
         $this->trigger('miao');

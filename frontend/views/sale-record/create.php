@@ -41,9 +41,7 @@ $this->title = 'Payment Progress';
                 <br/>
                 1. Scan QR Code shown at the vending machine.
                 <br/>
-                2. Select your payment method.
-                <br/>
-                3. After payment, tab on 'Next' button to proceed.
+            
             </h4>
         </div>
     </div>

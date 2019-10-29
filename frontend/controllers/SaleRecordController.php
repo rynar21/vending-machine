@@ -17,11 +17,10 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\authclient\signature\BaseMethod;
 
-
  //SaleRecordController implements the CRUD actions for SaleRecord model.
 class SaleRecordController extends Controller
 {
-
+    public $imodel;
     // 显示 其中一个订单 详情
     public function actionView($id)
     {
@@ -31,6 +30,58 @@ class SaleRecordController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionGouwu()
+    {
+        $sum =0;
+        $test = "ok!";
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if(Yii::$app->request->post())
+        {
+          $data=Yii::$app->request->post();
+          $id= $_POST["id"];
+
+         for ($i=0; $i <=count($id)-1 ; $i++) {
+             $sum+=Item::find()->where(['id'=>$id[$i]])->one()->price;
+             $this->redirect(Url::to(['item/view','id'=>$id[$i]]));
+         }
+        //   $this->runAction('create',['id'=>$id[$i]]);
+          // do your query stuff here\
+                // return [
+                //     'label' => $test,
+                //     'price'=>$sum,
+                //     'id'=>$id ,
+                // ];
+        }
+
+        if (Yii::$app->request->isAjax) {
+
+            $model= Item::find()->where(['id'=>25])->one();
+            return [
+               'label' => $test,
+               'item_name'=>$model->name,
+            ];
+        }
+
+
+        else {
+            return 0;
+        }
+    }
+
+
+    public function actionApax()
+    {
+        $test = "ok!";
+        // do your query stuff here\
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            return [
+               'label' => $test,
+            ];
+        }
+    }
+
 
     // 如果产品ID没有在于 SaleRecord 表里：创新新订单
     // 运行 购买流程

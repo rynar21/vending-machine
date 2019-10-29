@@ -37,7 +37,7 @@ $this->title = 'Vending Machine';
     </div>
 
     <?=
-    $this->render('/box/_list', [
+    $this->render('/box/list', [
             'model' => $model,
             'item_dataProvider' => $item_dataProvider,
             'pages'=>$pages,

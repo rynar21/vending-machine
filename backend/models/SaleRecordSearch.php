@@ -80,6 +80,7 @@ class SaleRecordSearch extends SaleRecord
             'item_id' => $this->item_id,
             'status' => $this->stu,
             'store_id' => $this->store_id,
+            'sell_price'=>$this->sell_price,
         ])
          ->andFilterWhere(['like', 'created_at', $this->text])
          ->orFilterWhere(['like','item_id',$this->text])

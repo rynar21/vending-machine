@@ -23,6 +23,7 @@ class Item extends \yii\db\ActiveRecord
 {
 
     public $sku;
+    public $checkbox = false;
 
     // 产品 添加的初始值 & 交易失败
     const STATUS_AVAILABLE = 0;         // 对应 SaleRecord::STATUS_FAILED
@@ -39,6 +40,15 @@ class Item extends \yii\db\ActiveRecord
         return 'item';
     }
 
+    public  function getItemid()
+    {
+        if ( $checkbox = true) {
+            return $this->id;
+        }
+        if ( $checkbox = false) {
+            return 0;
+        }
+    }
     // YII 自带时间值 功能
     public function behaviors()
     {
@@ -100,7 +110,7 @@ class Item extends \yii\db\ActiveRecord
         }
     }
 
-    
+
 
     public function getPrice()
     {
