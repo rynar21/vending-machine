@@ -63,10 +63,11 @@ use yii\widgets\LinkPager;
                 </div>
             </div>
         <?php endforeach; ?>
+
         </div>
     </div>
     </label>
-
+    <input type="text"   name="store_id" value="<?= $store_id?>"  style="display:none" />
      <!-- <button v-on:click="greet" class="glyphicon glyphicon-shopping-cart btn btn-primary ">cart  <span class="badge">{{selected.length}}</span></button><br /><br /> -->
      <?= Html::submitButton('cart  <span class="badge">{{selected.length}}</span>', ['class' => 'glyphicon glyphicon-shopping-cart btn btn-primary', ]) ?><br /><br />
 </div>

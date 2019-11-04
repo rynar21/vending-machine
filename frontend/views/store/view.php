@@ -12,9 +12,9 @@ $this->title = 'Vending Machine';
 ?>
 <div class="store-view">
     <div class="row">
-        <h1 class="col-sm-12">
+        <h4 class="col-sm-12">
             <?= $model->name ?>
-        </h1>
+        </h4>
     </div>
 
     <hr/>
@@ -30,17 +30,18 @@ $this->title = 'Vending Machine';
 
     <hr/>
 
-    <div class="row">
+    <!-- <div class="row">
           <div class="col-sm-12" style="color: #6A6A6A; ">
                 Select Item to Purchase:
           </div>
-    </div>
+    </div> -->
 
     <?=
     $this->render('/box/list', [
             'model' => $model,
             'item_dataProvider' => $item_dataProvider,
             'pages'=>$pages,
+            'store_id'=>$id,
         ]);
 
 

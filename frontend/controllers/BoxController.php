@@ -34,28 +34,36 @@ class BoxController extends Controller
     {
         $sum =0;
         $model = new Item();
+        $store_id = Yii::$app->request->post('store_id');
         if ($model->load(Yii::$app->request->post()))
         {
-
-             $id= Yii::$app->request->post('ok');
-             for ($i=0; $i <=count($id)-1 ; $i++) {
-                 $sum+=Item::find()->where(['id'=>$id[$i]])->one()->price;
-             }
-             $item_model=Item::find()->where(['id'=>$id])->all();
-             //return  $this->redirect(Url::to(['item/view','id'=>$id]));
-             $this->A(['a'=>$id]);
-             return $this->render('ordergroup', [
-                 'sum'=>$sum,
-                 'item_model'=>$item_model,
-                 'id'=> $_POST['ok'],
-             ]);
-
+            if ( Yii::$app->request->post('ok')) {
+                $id= Yii::$app->request->post('ok');
+                for ($i=0; $i <=count($id)-1 ; $i++) {
+                    $sum+=Item::find()->where(['id'=>$id[$i]])->one()->price;
+                }
+                $item_model=Item::find()->where(['id'=>$id])->all();
+                //return  $this->redirect(Url::to(['item/view','id'=>$id]));
+                return $this->render('ordergroup', [
+                    'sum'=>$sum,
+                    'item_model'=>$item_model,
+                    'id'=> $_POST['ok'],
+                    'store_id'=>$store_id,
+                ]);
+            }
+            //返回主页
+            else {
+                return  $this->redirect(Url::to(['store/view','id'=>$store_id],
+                Yii::$app->session->setFlash('error', 'Sorry, You must choose at least one item.')));
+            }
+        }
+        else {
+            return  $this->redirect(Url::to(['store/view','id'=>$store_id],
+            Yii::$app->session->setFlash('error','Sorry, You must choose at least one item.')));
         }
 
-
-
-    //return  $this->redirect(Url::to(['item/view','id'=>13]));
     }
+    //数组对比取不同值
     function RestaDeArrays($vectorA,$vectorB)
     {
       $cantA=count($vectorA);
@@ -83,12 +91,8 @@ class BoxController extends Controller
         $request = \Yii::$app->request;//获取商品信息
         $id =array($request->get('id'));
         $a=$request->get('item_id');
+        $store_id=$request->get('store_id');
         $b=$this->restadearrays($a,$id);
-        // print_r($id);
-        // print_r($a);
-        //
-        //  var_dump($b);
-        //  print_r($b);
         $sum =0;
         $model = new Item();
 
@@ -101,55 +105,64 @@ class BoxController extends Controller
                  'sum'=>$sum,
                  'item_model'=>$item_model,
                  'id'=> $b,
+                 'store_id'=>$store_id,
              ]);
-        
-
-
-        // print_r($id);
-        // print_r($a);
-    }
-
-    public function A($array)
-    {
-        $a=ArrayHelper::getValue($array,'a',[]);
-        $b=ArrayHelper::getValue($array,'b',[]);
-        return $b;
     }
 
     public  function actionGpay()
     {
-        $sum =0;
+
         $request = \Yii::$app->request;//获取商品信息
         $id =$request->get('id');
+        $store_id=$request->get('store_id');
         //print_r($id);
-         for ($i=0; $i <=count($id)-1 ; $i++) {
-                 $item_model = Item::findOne($id[$i]); // 寻找 Item
-                 $model = new SaleRecord(); // 创建 新订单
-                 $model->item_id = $id[$i];
-                 $model->box_id = $item_model->box_id;
-                 $model->store_id = $item_model->store_id;
-                 $model->sell_price =$item_model->price;
-                 $model->save();
-                 // $salerecord=SaleRecord::find()->where(['item_id' => $id[$i], 'status'=> SaleRecord::STATUS_PENDING])
-                 // ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
-                 //
-                 // if ($model->id==$salerecord->id)
-                 // {
-                 //     //Yii::$app->slack->Skey(['price'=>1->price,'id'=>$model->id,]);
-                 //     return $this->redirect(['sale-record/check','id'=>$model->id]);
-                 //
-                 // }
+        // $salerecord_id=[];
+        if ($id) {
+            $sum =0;
+            for ($i=0; $i <=count($id)-1 ; $i++){
+                $item_model = Item::findOne($id[$i]); // 寻找 Item
+                $model = new SaleRecord(); // 创建 新订单
+                $model->item_id = $id[$i];
+                $model->box_id = $item_model->box_id;
+                $model->store_id = $item_model->store_id;
+                $model->sell_price =$item_model->price;
+                $model->save();
+                $salerecord_id[]=$model->id;
+            }
+            // print_r($salerecord_id);
+            // die();
+            for ($i=0; $i <=count($id)-1 ; $i++) {
+                $sum+=Item::find()->where(['id'=>$id[$i]])->one()->price;
+            }
+            $item_model=Item::find()->where(['id'=>$id])->all();
+            return $this->render('orderpay',[
+                'id'=>$id,
+                'sum'=>$sum,
+                'item_model'=>$item_model,
+                 'store_id'=>$store_id,
+                 'salerecord_id'=>$salerecord_id,
+            ]);
+        }
+        if (empty($id)) {
+            return  $this->redirect(Url::to(['store/view','id'=>$store_id],
+            Yii::$app->session->setFlash('error','Sorry,you Choose at least one item.')));
+        }
+    }
 
-         }
-         for ($i=0; $i <=count($id)-1 ; $i++) {
-             $sum+=Item::find()->where(['id'=>$id[$i]])->one()->price;
-         }
-         $item_model=Item::find()->where(['id'=>$id])->all();
-         return $this->render('orderpay',[
-             'sum'=>$sum,
-             'item_model'=>$item_model,
-         ]);
-         // return $this->redirect(Url::to(['salerecord/create','id'=>12]));
+
+    public function actionCancelb()
+    {
+        $request = \Yii::$app->request;//获取商品信息
+        $id =$request->get('salerecord_id');
+        $store_id=$request->get('store_id');
+        if ($id) {
+            for ($i=0; $i <=count($id)-1 ; $i++){
+                $model = SaleRecord::findOne(['id' => $id[$i]]);
+                $model->failed();
+            }
+        }
+
+        return  $this->redirect(Url::to(['store/view','id'=>$store_id]));
     }
 
 }

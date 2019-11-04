@@ -20,7 +20,7 @@ use yii\widgets\LinkPager;
 <?php $form = ActiveForm::begin(['action' => ['box/gpay'],'method'=>'post',]); ?>
 <div class="row">
     <div class="row">
-        <div class="col-sm-offset-2 col-sm-10 headline">
+        <div class="col-sm-offset-2 col-sm-10 headline" style="font-size:20px;">
             Payment
         </div>
     </div>
@@ -28,7 +28,9 @@ use yii\widgets\LinkPager;
     <hr />
     <div class="col-sm-12 " id='inner1'>
         <!-- 产品 输入 -->
-
+        <div class=" outer-container col-lg-12 " >
+            <!-- 产品 输入 -->
+            <div class=" inner-containe col-lg-12  " >
         <?php foreach ($item_model as $item):?>
             <div class="col-sm-12 col-xs-12 " >
                  <!-- 产品 显示框 -->
@@ -60,6 +62,7 @@ use yii\widgets\LinkPager;
             </div>
 
         <?php endforeach; ?>
+    </div></div>
         </div>
 
         <div class="col-sm-12">
@@ -82,7 +85,7 @@ use yii\widgets\LinkPager;
 
 
 <div class="row " >
-    <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
+    <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:-30px;">
         <br/>
         <br/>
             <div class="row">
@@ -98,12 +101,36 @@ use yii\widgets\LinkPager;
                 </div>
             </div>
             <br/><br/>
-        <a href="<?= Url::base()?>/store/view?id=1"  class="btn btn-default btn-cancel" >
-            Cancel
-        </a>
+            <?= Html::a('Cancel',  ['cancelb',  'salerecord_id'=>$salerecord_id,'store_id'=>$store_id],['class'=>"btn btn-default btn-cancel"], [
+                'data' => [
+                    'method' => 'post',
+                    'params' => [
+                        'params_key' => 'params_val'
+                    ]
+                ]
+            ])?>
     </div>
 </div>
 <?php ActiveForm::end(); ?>
+<style>
+
+.outer-container{
+                width: 100%;
+                 height: 50vh;
+                 position: relative;
+                 overflow: hidden;
+                 margin:0 auto;
+     }
+     .inner-containe{
+         position: absolute;
+         left: 0;
+         top: 0;
+         /* right: -17px; */
+         bottom: 0;
+         overflow-x: hidden;
+         overflow-y: scroll;
+     }
+</style>
 <!-- <script type="text/javascript">
     setTimeout("location.reload();",10000);
 </script> -->

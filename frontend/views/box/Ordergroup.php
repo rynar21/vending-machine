@@ -14,33 +14,25 @@ use yii\widgets\LinkPager;
     3. Views > box > _view.php
 */
 ?>
-<script>
-function turnoff(obj){
-document.getElementById(obj).style.display="none";
-}
-
-function turnon(obj,e){
- document.getElementById(obj).style.display="block";
-}
-</script>
 
 
 <?php $form = ActiveForm::begin(['action' => ['box/gpay'],'method'=>'post',]); ?>
 <div class="row">
     <div class="row">
-        <div class="col-sm-offset-2 col-sm-10 headline">
+        <div class="col-sm-offset-2 col-sm-10 headline"style="font-size:20px;">
             Payment
         </div>
     </div>
 
     <hr />
-    <div class="col-sm-12 " id='inner1'>
+    <div class=" outer-container col-lg-12 " >
         <!-- 产品 输入 -->
-
+        <div class=" inner-containe col-lg-12  " >
         <?php foreach ($item_model as $item):?>
-            <div class="col-sm-12 col-xs-12 " >
+            <div class=" col-sm-12 col-xs-12 " >
                  <!-- 产品 显示框 -->
-                 <?= Html::a('X',  ['box',  'id' => $item->id,'item_id'=>$id],['style'=>"float:right"], [
+                 <?= Html::a('X',  ['box',  'id' => $item->id,'item_id'=>$id,'store_id'=>$store_id],['style'=>"float:right;"],
+                  [
                      'data' => [
                          'method' => 'post',
                          'params' => [
@@ -63,7 +55,7 @@ function turnon(obj,e){
                         <!-- 产品：购买的按钮 -->
                         <div class="col-sm-3 col-xs-3 ">
                             <span class="">
-                                <?= $item->pricing ?>    <?= $item->id ?>
+                                <?= $item->pricing ?>
                             </span>
                         </div>
                         <div class="col-sm-1 col-xs-1 ">
@@ -77,6 +69,7 @@ function turnon(obj,e){
 
         <?php endforeach; ?>
         </div>
+    </div>
 
         <div class="col-sm-12">
             <div class="col-sm-12 col-xs-12 text-center" >
@@ -102,7 +95,7 @@ function turnon(obj,e){
         <br/>
         <br/>
             <!-- <input type="text"   name="id[]" value=" {'1','2'}"   style="display:none" /> -->
-            <?= Html::a('Pay',  ['gpay',  'id' => $id],['class' => ' btn btn-primary btn-available '], [
+            <?= Html::a('Pay',  ['gpay',  'id' => $id,'store_id'=>$store_id],['class' => ' btn btn-primary btn-available '], [
                 'data' => [
                     'method' => 'post',
                     'params' => [
@@ -117,3 +110,22 @@ function turnon(obj,e){
     </div>
 </div>
 <?php ActiveForm::end(); ?>
+<style>
+
+.outer-container{
+                width: 100%;
+                 height: 50vh;
+                 position: relative;
+                 overflow: hidden;
+                 margin:0 auto;
+     }
+     .inner-containe{
+         position: absolute;
+         left: 0;
+         top: 0;
+         /* right: -17px; */
+         bottom: 0;
+         overflow-x: hidden;
+         overflow-y: scroll;
+     }
+</style>
