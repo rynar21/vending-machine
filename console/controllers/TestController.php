@@ -33,6 +33,15 @@ class TestController extends Controller {
      // {
      //     $model_box=Box::find()->where(['status'=>Box::BOX_STATUS_AVAILABLE,'store_id'=>1])->count();
      // }
+     public function actionReplace()
+     {
+         //$models = Product::find()->where
+         if (file_exists(Yii::getAlias('C:\Users\user\Desktop\image') . '/' . $this->image))
+         {
+             unlink(Yii::getAlias('@upload') . '/' . $this->image);
+         }
+          $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+     }
 
 
 

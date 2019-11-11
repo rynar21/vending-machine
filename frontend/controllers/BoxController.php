@@ -6,16 +6,20 @@ use Yii;
 use common\models\Box;
 use backend\models\BoxSearch;
 use common\models\SaleRecord;
+use common\models\Product;
 use yii\web\Controller;
 use common\models\Item;
 use yii\data\Pagination;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 // BoxController implements the CRUD actions for Box model.
 class BoxController extends Controller
 {
     // 显示所有Item 数据
+
+
     public function actionIndex()
     {
         // 获取 ItemSearch 数据表
@@ -163,6 +167,96 @@ class BoxController extends Controller
         }
 
         return  $this->redirect(Url::to(['store/view','id'=>$store_id]));
+    }
+    //jiaoben.......
+    public function actionReplace()
+    {
+        //$array=[];
+        $turl=Yii::getAlias('@url');//上传的新文件的目录
+        $txt = file_exists($turl);//检查文件或目录是否存在
+        if ($txt)
+        {
+                $path = $turl;///当前目录
+                $handles = opendir($path); //当前目录
+                while (false !== ($file = readdir($handles)))
+                { //遍历该php文件所在目录
+                    list($filesname,$kzm)=explode(".",$file);//获取扩展名
+                    if($kzm=="jpeg"  | $kzm=="png" | $kzm=="jpg" )
+                    { //文件过滤
+                        if (!is_dir('./'.$file)) //文件夹过滤
+                        {
+                               //$array[]=$file;//把符合条件的文件名存入数组
+                               $name = strstr($file,'.',true);//取文件的名字
+                               $ext = explode(".", $file);//拆分获取图片名
+                               $ext = $ext[count($ext) - 1];//取图片的后缀名
+                               //print_r($ext);
+                               $model = Product::find()->where(['sku'=>$name])->one();
+                               if ($model)
+                               {
+                                   if($model->image){
+                                       if (file_exists(Yii::getAlias('@upload') . '/' . $model->image))
+                                       {
+                                            $filename='D:\wamp64\www\vending-machine\backend\web\mel-img\a.txt';//创建文本文档记录旧文件路径
+                                            $handle=fopen($filename,"a+");
+                                            $str=fwrite($handle,$model->image.'_'.$model->id."\n");//写入旧文件路径到文本文档
+                                            fclose($handle);
+                                       }
+                                   }
+                                   //die();
+                                       $model->image =  $name .'.'. $ext;//数据库写入新文件路径
+                                       $model->save();
+                                       echo "1";
+                                       $src = $turl.'/'.$file;//替换的文件的目录
+                                       $dst = Yii::getAlias('@upload').'/'.$model->image;//新文件目录
+                                       rename($src, $dst);//文件移动到指定目录
+
+                               }
+
+                        }
+                    }
+                }
+
+          }
+          else {
+              return false;
+          }
+
+    }
+
+    public function actionSo()
+    {
+        $turl='D:\wamp64\www\vending-machine\backend\web\mel-img\a.txt';//文本路径
+        $txt = file_exists($turl);//检查文件或目录是否存在
+        if ($txt)
+        {
+               $lines=file($turl);//逐行读取内容
+               foreach ($lines as $file) {
+               //$line=explode(",",$file);
+               $name = substr($file,0,strrpos($file,'_'));//取文件的名字
+               $ext = explode("_", $file);//拆分获取图片名
+               $id= $ext[count($ext) - 1];//获取文件的id
+               $model = Product::find()->where(['id'=>$id])->one();
+                   if ($model)
+                   {
+                       if($model->image){
+                           if (file_exists(Yii::getAlias('@upload') . '/' . $model->image))
+                           {
+                                unlink(Yii::getAlias('@upload') . '/' . $model->image);//删除原来的文件
+                                $model->image = $name ;//替换数据库路径
+                                $model->save();//保存
+                                echo "1";
+                           }
+                       }
+
+                   }
+
+            }
+            file_put_contents($turl,"");//清空文本
+
+          }
+          else {
+              return false;
+          }
     }
 
 }

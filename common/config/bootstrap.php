@@ -8,3 +8,5 @@ Yii::setAlias('@console', dirname(dirname(__DIR__)) . '/console');
 Yii::setAlias('@upload', 'D:\wamp64\www\vending-machine\backend\web\mel-img');  //保存图片入境
 
 Yii::setAlias('@imagePath', 'http://localhost/vending-machine/backend/web/mel-img'); // localhost 加载图片入境
+
+Yii::setAlias('@url' , 'C:\Users\user\Desktop\up');

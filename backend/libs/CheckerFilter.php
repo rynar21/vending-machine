@@ -42,10 +42,7 @@ class CheckerFilter extends ActionFilter
                 //Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere');
                 //执行登出操作
                 echo "<script>alert('Your account has been logged in elsewhere');window.location.href='http://localhost/vending-machine/backend/web/site/login';</script>";
-               // Yii::$app->run();
-
-
-
+                // Yii::$app->run();
                 // //Yii::$app->response->redirect(Url::to(['site/login'],Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere')));
                 //Yii::$app->request(Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere'));
 

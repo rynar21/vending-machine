@@ -41,7 +41,7 @@ $this->title = 'Payment Progress';
                 <br/>
                 1. Scan QR Code shown at the vending machine.
                 <br/>
-            
+
             </h4>
         </div>
     </div>
