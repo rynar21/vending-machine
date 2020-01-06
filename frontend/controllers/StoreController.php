@@ -21,15 +21,8 @@ class StoreController extends Controller
     public function actionView($id)
     {
         $item_searchModel = new ItemSearch();
-
-        //$item_count = $item_dataProvider->search(Yii::$app->request->queryParams);
         $data = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
-        //$item_count=Item::find()->where(['status'=>0,'store_id'=>$id]);
         $count= $data->query->count(); //数据总条数
-        // $pages = new Pagination([    //数据分页
-        //     'totalCount'=>$countQuery->query->count(),//分页对象
-        //     'defaultPageSize'=>10,//每页放几条内容
-        // ]);
         $pagination = new Pagination([
             'totalCount' => $count,
             'defaultPageSize'=>10]);  //每页放几条内容

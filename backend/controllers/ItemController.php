@@ -25,7 +25,7 @@ class ItemController extends Controller
                 'rules' => [
                     [
                         'actions' => ['index','view'],
-                        'allow' => false,
+                        'allow' => true,
                     ],
                     // [
                     //     'actions' => ['index', 'view'],

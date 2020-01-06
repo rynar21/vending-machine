@@ -11,11 +11,7 @@ use backend\models\ItemSearch;
 $this->title = 'Vending Machine';
 ?>
 <div class="store-view">
-    <div class="row">
-        <h4 class="col-sm-12">
-            <?= $model->name ?>
-        </h4>
-    </div>
+
 
     <hr/>
 
@@ -46,6 +42,7 @@ $this->title = 'Vending Machine';
 
 
         ?>
+
 
 
 </div>

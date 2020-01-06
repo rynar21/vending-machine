@@ -6,14 +6,33 @@ body {
 ======================== COMPONENTS LIST ================================
 ************************************************************************/
 /* --------------------- Store/View Controller --------------------- */
-
-
+.box-buy{
+    margin-top: 19vh;
+    width: 100%;
+    background-color: #FE5802;
+    color: white;
+}
+.box-code-id{
+    width: 30%;
+    height: 6vh;
+    line-height:6vh;
+    background-color: #FE5802;
+    margin-left: -15px;
+}
+.box-number{
+    font-size: 18px;
+    color: white;
+}
+.bt-search{
+    background-color: #FE5802;
+    border-color: white;
+}
 
 .box_item{
   width: auto;
   height: 28vh;
   box-shadow: 2px 0px 10px #CDCDB4;
-  padding: 15px;
+
 }
 
 .box_item > a{
@@ -277,6 +296,9 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
+.nav-color{
+    background-color: #FE5802;
+}
 /* align the logout "link" (button in form) of the navbar */
 .nav li > form > button.logout {
     padding: 15px;

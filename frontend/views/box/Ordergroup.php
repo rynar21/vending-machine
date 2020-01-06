@@ -40,7 +40,7 @@ use yii\widgets\LinkPager;
                          ]
                      ]
                  ])?>
-                <div class=""style="width:100%; margin-bottom:2px;height:100px; box-shadow: 0px 2px 4px #CDCDB4;border: 1px solid #FFFFFF;">
+                <div class=""style="width:86vw; margin-bottom:2px;height:100px; box-shadow: 0px 2px 4px #CDCDB4;border: 1px solid #FFFFFF;">
 
                         <!-- 产品：图片 显示框 -->
                         <div class=" col-sm-4 col-xs-4 img-responsive center-block align-self-center" style="height:90%;margin-top:2px;">

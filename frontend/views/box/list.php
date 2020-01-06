@@ -28,50 +28,31 @@ use yii\widgets\LinkPager;
     }
     //$("#pro").hide();
 </script>
-<?php $form = ActiveForm::begin(['action' => ['box/list'],'method'=>'post',]); ?>
-<div id="app">
-    <label for="aaa">
+
         <div class="row">
             <div class="col-sm-12" >
         <?php foreach ($item_dataProvider as $item):?>
-            <div class="col-sm-3 col-xs-6 box_row "  >
+            <div class="col-sm-3 col-xs-6 box_row b-color "  >
+
                  <!-- 产品 显示框 -->
-                <div class="box_item thumbnail"  style="width:110%; margin-bottom: 10px;">
+                <div class=" col-sm-3 col-xs-6 box_item "  style="width:110%; margin-bottom: 10px;">
+                    <div class="box-code-id text-center b-color">
+                        <div class="box-number"><?=$model->prefix . $item->box_id ?></div>
+                    </div>
 
                     <a href="<?= Url::base()?>/item/view?id=<?= $item->id ?>">
-
-                        <!-- 产品：图片 显示框 -->
-                        <div class="row item_image" >
-                            <img src="<?=  $item->imageUrl ?>" class="img-responsive center-block"  />
-                        </div>
-
-                        <!-- 产品：名字 显示框 -->
-                        <div class="row item_name">
-                            <?= $item->name ?>
-
-                        </div>
-
-                        <!-- 产品：购买的按钮 -->
-                        <div class="row" style=" margin-top:-5px;">
-                            <span class="item_price" >
-                                <?= $item->pricing ?>
-                            </span>
-                        </div>
+                    <div class="box-buy text-center b-color">
+                        BUY
+                    </div>
                     </a>
-                    <?= $form->field($item, 'id')->checkbox([ 'label'=>'','style'=>'margin-top:-15px;','v-model'=>"selected",'value'=>$item->id]) ?>
-                        <input type="checkbox"  id='pro' name="ok[]" value="<?= $item->id?>" v-model="selected"  style="display:none" />
                 </div>
             </div>
         <?php endforeach; ?>
 
         </div>
     </div>
-    </label>
-    <input type="text"   name="store_id" value="<?= $store_id?>"  style="display:none" />
-     <!-- <button v-on:click="greet" class="glyphicon glyphicon-shopping-cart btn btn-primary ">cart  <span class="badge">{{selected.length}}</span></button><br /><br /> -->
-     <?= Html::submitButton('cart  <span class="badge">{{selected.length}}</span>', ['class' => 'glyphicon glyphicon-shopping-cart btn btn-primary', ]) ?><br /><br />
 </div>
-<?php ActiveForm::end(); ?>
+
 
 
 

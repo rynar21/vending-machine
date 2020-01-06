@@ -36,12 +36,20 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
+
             'access' => [
                 'class' => AccessControl::className(),
+                'only' => ['logout', 'signup','login'],
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','test','logout','changepassword'],
+                        'actions' => ['login', 'error','test','logout','changepassword','captcha'],
                         'allow' => true,
+
+                    ],
+                    [
+                        'actions' => ['login','captcha'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                     [
                         'actions' => ['request-password-reset','reset-password'],
@@ -70,7 +78,9 @@ class SiteController extends Controller
             ],
             'checker' => [
                'class' => 'backend\libs\CheckerFilter',
-              ],
+            ],
+
+
         ];
     }
 
@@ -82,6 +92,19 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'backColor'=>0x16589,//背景颜色
+                'maxLength' => 4, //最大显示个数
+                'minLength' => 4,//最少显示个数
+                'padding' => 5,//间距
+                'height'=>34,//高度
+                'width' => 130,  //宽度
+                'foreColor'=>0xffffff,     //字体颜色
+                'offset'=>4,  //设置字符偏移量 有效果
+                //'controller'=>'login',        //拥有这个动作的controller
             ],
         ];
     }
@@ -398,5 +421,7 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
+    //public function
 
 }

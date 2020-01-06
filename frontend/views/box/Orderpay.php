@@ -85,7 +85,7 @@ use yii\widgets\LinkPager;
 
 
 <div class="row " >
-    <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:-30px;">
+    <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 " style="margin-top:-30px;margin-left:7vw;">
         <br/>
         <br/>
             <div class="row">
