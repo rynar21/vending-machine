@@ -59,6 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 },
             ],
+            'unique_id',
             'created_at:datetime:Creation time',
             'updated_at:datetime:End Time',
             ['class' => 'yii\grid\ActionColumn','header' => 'Action'],

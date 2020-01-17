@@ -33,7 +33,7 @@ class BoxController extends Controller
             'dataProvider' => $dataProvider,    // 搜索Item数据
         ]);
     }
-
+    //把商品加入购物车
     public  function actionList()
     {
         $sum =0;
@@ -89,6 +89,7 @@ class BoxController extends Controller
        return $nuevo_array;
 
     }
+    //购物车删减商品
     public function actionBox()
     {
 
@@ -112,10 +113,9 @@ class BoxController extends Controller
                  'store_id'=>$store_id,
              ]);
     }
-
+    // 购物车创建订单
     public  function actionGpay()
     {
-
         $request = \Yii::$app->request;//获取商品信息
         $id =$request->get('id');
         $store_id=$request->get('store_id');
@@ -153,7 +153,7 @@ class BoxController extends Controller
         }
     }
 
-
+    //购物车返回商店
     public function actionCancelb()
     {
         $request = \Yii::$app->request;//获取商品信息
@@ -173,7 +173,7 @@ class BoxController extends Controller
     {
 
 
-
+        die();
         $turl='C:\Users\user\Desktop\up';//上传的新文件的目录
 
         $txt = file_exists($turl);//检查文件或目录是否存在

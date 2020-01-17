@@ -19,10 +19,10 @@ class Slack
         $a="sha256";
         $key=100;
         $url = ArrayHelper::getValue($array, 'url', Yii::$app->slack->url);
-        $price=ArrayHelper::getValue($array,'price','Hello World!');
-        $id=ArrayHelper::getValue($array,'id','Hello World!');
-        $price=hash_hmac ($a,$price,$key [$raw_output=FALSE]);
-        $id=hash_hmac ($a,$id,$key [$raw_output=FALSE]);
+        $price=ArrayHelper::getValue($array,'price','null');
+        $id=ArrayHelper::getValue($array,'id','null');
+        // $price=hash_hmac ($a,$price,$key [$raw_output=FALSE]);
+        // $id=hash_hmac ($a,$id,$key [$raw_output=FALSE]);
         $keys=hash_hmac($a,$price.$id.SaleRecord::KEY_SIGNATURE,$key[$raw_output=FALSE]);
         Yii::$app->slack->Posturl([
             'url'=>$url,

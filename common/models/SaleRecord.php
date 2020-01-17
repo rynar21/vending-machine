@@ -44,6 +44,7 @@ class SaleRecord extends \yii\db\ActiveRecord
             [['box_id', 'item_id',], 'required'],
             [['box_id', 'item_id',], 'integer'],
             [['text'], 'string'],
+            [['unique_id'],'unique'],
             [['sell_price'], 'number'],
             [['status'], 'default', 'value' => self::STATUS_PENDING],
         ];

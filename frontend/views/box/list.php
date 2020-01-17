@@ -17,29 +17,29 @@ use yii\widgets\LinkPager;
 <script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
 <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
 <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
-<script type="text/javascript">
-    window.onload = function(){
-        var app = new Vue({
-          el: '#app',
-          data:{
-             selected:[],
-          },
-      })
-    }
-    //$("#pro").hide();
-</script>
-
         <div class="row">
             <div class="col-sm-12" >
         <?php foreach ($item_dataProvider as $item):?>
-            <div class="col-sm-3 col-xs-6 box_row b-color "  >
-
+            <div class="col-sm-3 col-xs-6 box_row "  >
                  <!-- 产品 显示框 -->
-                <div class=" col-sm-3 col-xs-6 box_item "  style="width:110%; margin-bottom: 10px;">
+                <div class=" box_item "  >
                     <div class="box-code-id text-center b-color">
-                        <div class="box-number"><?=$model->prefix . $item->box_id ?></div>
+                        <div class="box-number"><?=$model->prefix . Box::find()->where(['id'=>$item->box_id])->one()->code;  ?></div>
                     </div>
-
+                    <!-- 产品：图片 显示框 -->
+                       <div class="row item_image" >
+                           <img src="<?=  $item->imageUrl ?>" class="img-responsive center-block"  />
+                       </div>
+                       <!-- 产品：名字 显示框 -->
+                       <div class="row item_name text-center">
+                           <?= $item->name ?>
+                       </div>
+                       <!-- 产品：购买的按钮 -->
+                       <div class="row text-center item-price  " >
+                           <span class="item_price font-color" >
+                               <?= $item->pricing ?>
+                           </span>
+                       </div>
                     <a href="<?= Url::base()?>/item/view?id=<?= $item->id ?>">
                     <div class="box-buy text-center b-color">
                         BUY
@@ -53,11 +53,8 @@ use yii\widgets\LinkPager;
     </div>
 </div>
 
-
-
-
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12 font-color">
     <?php
         echo LinkPager::widget([
         'pagination' => $pages,

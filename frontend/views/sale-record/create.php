@@ -13,7 +13,7 @@ $this->title = 'Payment Progress';
 
     <!-- 页面标题 -->
     <div class="row">
-        <div class="col-sm-offset-2 col-sm-10 headline">
+        <div class="col-sm-offset-2 col-sm-10 headline font-color font-size">
             Payment
         </div>
     </div>
@@ -26,17 +26,28 @@ $this->title = 'Payment Progress';
     </div>
 
     <!-- 产品信息 -->
-    <?= $this->render('/item/details',[
-            'model' => $item_model,
-    ]) ?>
-    <br/>
-    <br/>
+    <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 item_details_box">
+        <div class="row item_details">
+            <div class="item_details_image col-sm-5 col-lg-4 col-xs-6">
+                <img src="<?php echo $item_model->imageUrl ?>"/>
 
-    <!-- 购买流程 -->
-    <div class="row">
-        <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8">
+            </div>
+            <div class="item_details_name  col-sm-7 col-lg-8 col-xs-6">
+                <?= $item_model->name ?>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row text-center item_details_price font-color">
+            <div class="col-sm-12">
+                <?= $item_model->pricing ?>
+            </div>
+        </div>
+        <hr />
+        <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 p-color w-color">
             <h4>
-                Please follow the following steps to make payment:
+                <div class="h-color">Please follow the following steps to make payment:</div>
                 <br/>
                 <br/>
                 1. Scan QR Code shown at the vending machine.
@@ -44,19 +55,15 @@ $this->title = 'Payment Progress';
 
             </h4>
         </div>
-    </div>
+  </div>
+    <br/>
+    <br/>
 
-    <?php
-        // $model = new SaleRecord();
-        // $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
-        // print_r($model->id);
-        // die();
-    ?>
 
     <!-- 检查订单状态按钮 -->
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
-            <?= Html::a('Cancel',['cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel",
+            <?= Html::a('Cancel',['cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel font-color",
             'data' => [
                 'confirm' => 'Are you sure you want to exit this Store?',
                 'method' => 'post']])?>

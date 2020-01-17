@@ -16,9 +16,9 @@ $this->title = 'Payment Progress';
             <!-- <div class="modal-header"> </div> -->
 
             <div class="modal-body text-center">
-                <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block" style="max-height:100%; max-width:100%;" />
+                <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block pay-image"  />
                 <br/>
-                <h3 class="modal-title" >
+                <h3 class="modal-title "  style="color: red">
                     <b>Payment Failed</b>
                 </h3>
                 <div style="color:red;">
@@ -28,10 +28,10 @@ $this->title = 'Payment Progress';
                 </div>
             </div>
 
-            <div class="modal-footer"  style="width:100%; border-top:2px solid black;">
-                <a href="<?= Url::base()?>/store/view?id=<?= $model->store_id ?>">
-                    <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8" style="font-size:25px;font-weight:bold;">
-                        Home
+            <div class="modal-footer" >
+                <a href="<?= Url::base()?>/item/view?id=<?= $model->item_id ?>">
+                    <div class="text-center col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 font-color font-pay" >
+                        Cancel
                     </div>
                 </a>
             </div>

@@ -16,6 +16,7 @@ class m190806_170123_product extends Migration
           'id'=>$this->primaryKey(),
           'sku'=>$this->string()->notNull(),
           'name'=>$this->string()->notNull(),
+          'description'=>$this->string(),
           'price'=>$this->float(10,2)->notNull(),
           'image'=>$this->string(),
           'created_at' =>$this->integer()->notNull(),

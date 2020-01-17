@@ -20,7 +20,7 @@ use yii\widgets\LinkPager;
 <?php $form = ActiveForm::begin(['action' => ['box/gpay'],'method'=>'post',]); ?>
 <div class="row">
     <div class="row">
-        <div class="col-sm-offset-2 col-sm-10 headline" style="font-size:20px;">
+        <div class="col-sm-offset-2 col-sm-10 headline font-color " style="font-size:20px;">
             Payment
         </div>
     </div>

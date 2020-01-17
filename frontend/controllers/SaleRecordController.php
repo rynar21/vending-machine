@@ -62,8 +62,6 @@ class SaleRecordController extends Controller
                'item_name'=>$model->name,
             ];
         }
-
-
         else {
             return 0;
         }
@@ -89,7 +87,6 @@ class SaleRecordController extends Controller
     {
         $item_model = Item::findOne($id);   // 寻找 Item
         $model = new SaleRecord();
-        //if($model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_PENDING]) && $model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_SUCCESS]))
         if(empty($model->findOne(['item_id'=> $id])) || $model->find()
         ->orderBy(['id'=> SORT_DESC])
         ->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
@@ -99,6 +96,7 @@ class SaleRecordController extends Controller
             $model->box_id = $item_model->box_id;
             $model->store_id = $item_model->store_id;
             $model->sell_price =$item_model->price;
+            $model->unique_id = $tiem.$box_id.$store_id;
             $model->save();
             //创建订单时的key发送给iot；
             Yii::$app->slack->Skey([
@@ -112,7 +110,7 @@ class SaleRecordController extends Controller
         $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
         ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
 
-        if ($model->id==$salerecord->id)
+        if ($model->id == $salerecord->id)
         {
             //Yii::$app->slack->Skey(['price'=>1->price,'id'=>$model->id,]);
             return $this->redirect(['check','id'=>$model->id]);
@@ -127,22 +125,34 @@ class SaleRecordController extends Controller
         }
     }
     //模拟支付
-    public function actionIot($salerecord_id,$price,$key)
+    //$salerecord_id,$price,$key
+    public function actionIot($salerecord_id,$price,$key_old)
     {
-        $newkey=md5($price.$salerecord_id.SaleRecord::KEY_SIGNATURE);
-        if ($newkey==$key) {
+        $a="sha256";
+        $key=100;
+        $newkey = hash_hmac($a,$price.$salerecord_id.SaleRecord::KEY_SIGNATURE,$key[$raw_output=FALSE]);
+        if ($newkey==$key_old) {
          return $this->redirect(['paysuccess',
                 'id'=>$salerecord_id,
                 'priceiot'=>$price
             ]);
-            //echo "1";
         }
         else {
-            echo "0";
+            return $this->redirect(['payfailed',
+                   'id'=>$salerecord_id,
+               ]);
         }
-
     }
 
+    public function actionPays()
+    {
+        // $this->runAction('actionIot',[
+        //     'salerecord_id'=> ,
+        //     'price'=> ,
+        //     'key_old'=>
+        // ]);
+        return $this->render('loding');
+    }
 
     // 判断 交易订单 的状态
     public function actionCheck($id)
@@ -240,27 +250,14 @@ class SaleRecordController extends Controller
 
     // API Integration
     public function actionPaysuccess($id)
-    //,$priceiot)
     {
-
         $model = SaleRecord::findOne(['id'=>$id]);
         if ($model)
         {
             $item_model=Item::findOne(['box_id'=>$model->box_id]);
             $store_model=Store::findOne(['id'=>$model->store_id]);
             $model->success();
-            Yii::$app->slack->Posturl([
-                //'url'=>'https://hooks.slack.com/services/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',
-                'data'=>[
-                       "stoe_name"=>$store_model->name,
-                        "item_id"=>$model->item_id,
-                         "BOX_id"=>$model->box_id,
-                         "item_name"=>$item_model->name,
-                         "price"=>$item_model->price."RM",
-                         //'iotprice'=>$priceiot.'RM',
-                ],
-            ]);
-            //echo'success';
+            echo'success';
         }
 
     }

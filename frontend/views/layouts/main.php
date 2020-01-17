@@ -34,14 +34,14 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
+<div class="wrap c-color">
     <?php
     NavBar::begin([
         'brandLabel' =>  Html::img('@web/img/logo.png'),
         'brandOptions' => ['class' => 'myclass'], //options of the brand
         'brandUrl' => '#',
         'options' => [
-            'class' => ' navbar-fixed-top nav-color',
+            'class' => ' navbar-fixed-top b-color',
         ],
     ]);
     // $menuItems = [
@@ -76,11 +76,11 @@ AppAsset::register($this);
     </div>
 </div>
 
-<footer class="footer">
-    <div class="container" style="position:relative;">
-        <a href="site/about" style=" position: absolute; left:60vw">About Us</a>
+<footer class="footer ">
+    <div class="container " style="position:relative;">
+        <a href="site/about" class="font-color" style=" position: absolute; left:60vw">About Us</a>
 
-        <a href="site/contact" style=" position: absolute; right:6vw">Contact Us</a>
+        <a href="site/contact" class="font-color" style=" position: absolute; right:6vw">Contact Us</a>
     </div>
 </footer>
 
