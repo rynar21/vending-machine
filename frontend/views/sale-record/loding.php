@@ -8,9 +8,13 @@ use yii\web\NotFoundHttpException;
 
 
 $this->title = 'Loding';
-//$id $time
+ //$time = time();
 ?>
+<form id="demo" action="http://localhost/vending-machine/frontend/web/sale-record/create">
+    <input name="id" value="<?=$id?>" type="hidden" >
+    <input name="time" value="<?=$time?>" type="hidden">
+</form>
 
-<script type="text/javascript">
-    setTimeout("window.location.href = 'http://localhost/vending-machine/frontend/web/sale-record/create?=5';",10);
-</script>
+<?php $this->registerJs("
+    $('#demo').submit();
+") ?>

@@ -37,7 +37,6 @@ $this->title = 'Payment Progress';
             </div>
         </div>
 
-        <hr />
 
         <div class="row text-center item_details_price font-color">
             <div class="col-sm-12">

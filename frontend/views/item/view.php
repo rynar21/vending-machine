@@ -9,6 +9,7 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 $this->title = 'My Yii Application';
+$time=time();
 ?>
 
 <div class="item-view">
@@ -23,8 +24,8 @@ $this->title = 'My Yii Application';
 
         <?= $this->render('/item/details',[
                 'model' => $model,
-                $time=time();
-            ]) ?>
+
+            ])    ?>
 
        <br/> <br/>
 
@@ -33,8 +34,15 @@ $this->title = 'My Yii Application';
                 <br/>
                 <br/>
                 <?php if($model->status == $model::STATUS_AVAILABLE):?>
-                    <?= Html::a('Pay',['/sale-record/pays'],['class'=>"btn btn-primary btn-available b-color"])?>
-
+                    <?= Html::a('Pay',  ['/sale-record/pays',  'id' => $model->id,'time'=>$time],['class'=>"btn btn-primary btn-available b-color"],
+                     [
+                        'data' => [
+                            'method' => 'post',
+                            'params' => [
+                                'params_key' => 'params_val'
+                            ]
+                        ]
+                    ])?>
                     <br/><br/>
                 <?php else: ?>
                     <a class="btn btn-unavailable " disabled="disabled">

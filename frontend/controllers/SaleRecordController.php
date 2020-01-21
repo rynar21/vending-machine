@@ -83,7 +83,7 @@ class SaleRecordController extends Controller
 
     // 如果产品ID没有在于 SaleRecord 表里：创新新订单
     // 运行 购买流程
-    public function actionCreate($id)
+    public function actionCreate($id,$time)
     {
         $item_model = Item::findOne($id);   // 寻找 Item
         $model = new SaleRecord();
@@ -96,7 +96,7 @@ class SaleRecordController extends Controller
             $model->box_id = $item_model->box_id;
             $model->store_id = $item_model->store_id;
             $model->sell_price =$item_model->price;
-            $model->unique_id = $tiem.$box_id.$store_id;
+            $model->unique_id = $time;
             $model->save();
             //创建订单时的key发送给iot；
             Yii::$app->slack->Skey([
@@ -124,17 +124,23 @@ class SaleRecordController extends Controller
             ]);
         }
     }
+    public $enableCsrfValidation = false;
     //模拟支付
     //$salerecord_id,$price,$key
-    public function actionIot($salerecord_id,$price,$key_old)
+    public function actionIot()
     {
+
+        $request = \Yii::$app->request;//获取商品信息
+        $salerecord_id = $_POST['salerecord_id'];
+        $price = $_POST['price'];
+        $key_old =$_POST['key_old'];
         $a="sha256";
         $key=100;
         $newkey = hash_hmac($a,$price.$salerecord_id.SaleRecord::KEY_SIGNATURE,$key[$raw_output=FALSE]);
         if ($newkey==$key_old) {
          return $this->redirect(['paysuccess',
                 'id'=>$salerecord_id,
-                'priceiot'=>$price
+                //'priceiot'=>$price //金额
             ]);
         }
         else {
@@ -146,12 +152,13 @@ class SaleRecordController extends Controller
 
     public function actionPays()
     {
-        // $this->runAction('actionIot',[
-        //     'salerecord_id'=> ,
-        //     'price'=> ,
-        //     'key_old'=>
-        // ]);
-        return $this->render('loding');
+        $request = \Yii::$app->request;//获取商品信息
+        $id = $request->get('id');
+        $time = $request->get('time');
+        return $this->render('loding',[
+            'id' => $id,
+            'time' => $time,
+        ]);
     }
 
     // 判断 交易订单 的状态

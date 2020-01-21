@@ -37,13 +37,14 @@ $this->title = 'Payment Success';
                 </div>
             </div>
 
-            <hr />
+
 
             <div class="row text-center item_details_price font-color">
                 <div class="col-sm-12">
                     <?= $item_model->pricing ?>
                 </div>
             </div>
+            <hr />
             <h5>
                 Transaction No:
             </h5>

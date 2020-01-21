@@ -36,7 +36,7 @@ class BoxController extends Controller
     //把商品加入购物车
     public  function actionList()
     {
-        $sum =0;
+        $sum = 0;
         $model = new Item();
         $store_id = Yii::$app->request->post('store_id');
         if ($model->load(Yii::$app->request->post()))
@@ -70,21 +70,21 @@ class BoxController extends Controller
     //数组对比取不同值
     function RestaDeArrays($vectorA,$vectorB)
     {
-      $cantA=count($vectorA);
-      $cantB=count($vectorB);
-      $nuevo_array=[];
-      $No_saca=0;
-      for($i=0;$i<$cantA;$i++)
+      $cantA = count($vectorA);
+      $cantB = count($vectorB);
+      $nuevo_array = [];
+      $No_saca = 0;
+      for($i = 0;$i <$cantA;$i++)
       {
-        for($j=0;$j<$cantB;$j++)
+        for($j = 0;$j <$cantB;$j++)
         {
-         if($vectorA[$i]==$vectorB[$j])
-         $No_saca=1;
+         if($vectorA[$i] == $vectorB[$j])
+         $No_saca = 1;
         }
-       if($No_saca==0)
-       $nuevo_array[]=$vectorA[$i];
+       if($No_saca == 0)
+       $nuevo_array[] = $vectorA[$i];
        else
-       $No_saca=0;
+       $No_saca = 0;
        }
        return $nuevo_array;
 
@@ -94,23 +94,23 @@ class BoxController extends Controller
     {
 
         $request = \Yii::$app->request;//获取商品信息
-        $id =array($request->get('id'));
-        $a=$request->get('item_id');
-        $store_id=$request->get('store_id');
-        $b=$this->restadearrays($a,$id);
-        $sum =0;
+        $id = array($request->get('id'));
+        $a = $request->get('item_id');
+        $store_id = $request->get('store_id');
+        $b = $this->restadearrays($a,$id);
+        $sum = 0;
         $model = new Item();
 
-             for ($i=0; $i <=count($b)-1 ; $i++) {
-                 $sum+=Item::find()->where(['id'=>$b[$i]])->one()->price;
+             for ($i = 0; $i <=  count($b)-1 ; $i++) {
+                 $sum += Item::find()->where(['id' => $b[$i]])->one()->price;
              }
-             $item_model=Item::find()->where(['id'=>$b])->all();
+             $item_model = Item::find()->where(['id' => $b])->all();
              //return  $this->redirect(Url::to(['item/view','id'=>$id]))
              return $this->render('ordergroup', [
-                 'sum'=>$sum,
-                 'item_model'=>$item_model,
-                 'id'=> $b,
-                 'store_id'=>$store_id,
+                 'sum' => $sum,
+                 'item_model' => $item_model,
+                 'id' => $b,
+                 'store_id' => $store_id,
              ]);
     }
     // 购物车创建订单
@@ -129,9 +129,9 @@ class BoxController extends Controller
                 $model->item_id = $id[$i];
                 $model->box_id = $item_model->box_id;
                 $model->store_id = $item_model->store_id;
-                $model->sell_price =$item_model->price;
+                $model->sell_price = $item_model->price;
                 $model->save();
-                $salerecord_id[]=$model->id;
+                $salerecord_id[] = $model->id;
             }
             // print_r($salerecord_id);
             // die();

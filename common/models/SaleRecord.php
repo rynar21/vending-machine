@@ -71,7 +71,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     {
         return
          // date('Ymd',
-         $this->created_at.$this->id.'_'.$this->item_id;
+         $this->id.'_'.$this->item_id;
     }
     // 寻找 Item产品 数据表
     public function getItem()
