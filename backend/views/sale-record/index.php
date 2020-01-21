@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\models\SaleRecord;
 
 
 
@@ -18,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?php Html::a('Create Sale Record', ['create'], ['class' => 'btn btn-success']) ?>
+
     </p>
 
     <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -25,31 +27,57 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        //'options' =>['id'=>'grid'],
         'columns' => [
-            // ['class' => 'yii\grid\SerialColumn'],
-            // [
-            //     'label'=>'TransactionNumber',
-            //     'format'=>'raw',
-            //     'value'=>function($model)
-            //     {
-            //         return date('Y/m/d',$model->created_at).'_'.$model->id;
-            //     }
-            // ],
-            'transactionNumber',
-            'box_id',
-            'item_id',
-            'store_id',
-            // 'status',
-            [
-                'attribute'=> 'status',
-                'value'=> 'statusText'
+            ['class' => 'yii\grid\SerialColumn',
+            // 'name'=>'id',
             ],
-            'created_at:datetime',
-            'updated_at:datetime',
+           'text:text:Order number',
+            'box_id:text:Box number',
+            'item_id:text:Item number',
+            'store_id:text:Store number',
+            // 'trans_id',
+            //'status',
+            'sell_price',
+            [
+                'attribute'=>'status',
+                'format' => 'raw' ,
+                'value' => function ($model)
+                {
+                    if ($model->status==SaleRecord::STATUS_SUCCESS) {
+                        //return 'Success';
+                        return '<span style="color:#11ff06">' .'Success'.'';
+                    }
+                    if ($model->status==SaleRecord::STATUS_FAILED) {
+                        //return 'Failure';
+                        return '<span style="color:#CD0000">' .'Failure'.'';
+                    }
+                    if ($model->status==SaleRecord::STATUS_PENDING) {
+                        //return 'Failure';
+                        return '<span style="color:#2a5caa">' .'Pending'.'';
+                    }
 
+                },
+            ],
+            'unique_id',
+            'created_at:datetime:Creation time',
+            'updated_at:datetime:End Time',
             ['class' => 'yii\grid\ActionColumn','header' => 'Action'],
         ],
-    ]); ?>
+
+        // 'rowOptions'=>function($model){
+        //     if($model->status == 10){
+        //         return
+        //         // 'contentOptions' => ['style'=>'color:green;'];
+        //          ['style'=>'color:green;'];
+        //
+        //     }
+        //     if ($model->status==8) {
+        //         return ['style'=>'color:red;'];
+        //     }
+        //     },
+    ]);
+     ?>
 
 
 </div>

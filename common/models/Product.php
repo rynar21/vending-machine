@@ -44,6 +44,7 @@ class Product extends \yii\db\ActiveRecord
             [['price'], 'number'],
             [['category'], 'string'],
             [['name'], 'string', 'max' => 255],
+            [['description'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
@@ -55,6 +56,7 @@ class Product extends \yii\db\ActiveRecord
             'id' => 'ID',
             'sku'=>'sku',
             'name' => 'Name',
+            'description'=>'Description',
             'price' => 'Price',
             'category'=> 'Category',
             'image' => 'Image',

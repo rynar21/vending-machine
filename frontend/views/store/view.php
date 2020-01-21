@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
+use backend\models\ItemSearch;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Store */
@@ -10,16 +11,14 @@ use yii\widgets\ActiveForm;
 $this->title = 'Vending Machine';
 ?>
 <div class="store-view">
-    <div class="row">
-        <h1 class="col-sm-12">
-            <?= $model->name ?>
-        </h1>
-    </div>
+
 
     <hr/>
 
     <div class="row">
-        <?php echo $this->render('/item/_search', [
+        <?php
+        $item_searchModel = new ItemSearch();
+         echo $this->render('/item/_search', [
             'id' => $id,
             'item_searchModel' => $item_searchModel,
             ]); ?>
@@ -27,15 +26,23 @@ $this->title = 'Vending Machine';
 
     <hr/>
 
-    <div class="row">
+    <!-- <div class="row">
           <div class="col-sm-12" style="color: #6A6A6A; ">
                 Select Item to Purchase:
           </div>
-    </div>
+    </div> -->
 
-    <?= $this->render('/box/_list', [
+    <?=
+    $this->render('/box/list', [
             'model' => $model,
             'item_dataProvider' => $item_dataProvider,
-        ]) ?>
+            'pages'=>$pages,
+            'store_id'=>$id,
+        ]);
+
+
+        ?>
+
+
 
 </div>

@@ -4,6 +4,7 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use backend\models\AdminSession;
 
 /**
  * Login form
@@ -14,7 +15,7 @@ class LoginForm extends Model
     public $password;
     public $user_id;
     public $rememberMe = true;
-
+    public $verifyCode;
     private $_user;
 
     /**
@@ -29,9 +30,15 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+
+            ['verifyCode', 'captcha'],
         ];
     }
-
+    public function attributeLabels() {
+         return [
+              'verifyCode' => '', //验证码的名称，根据个人喜好设定
+         ];
+     }
     /**
      * Validates the password.
      * This method serves as the inline validation for password.
@@ -79,6 +86,21 @@ class LoginForm extends Model
 
         return $this->_user;
     }
+    public function insertSession($id,$sessionToken)
+   {
+       $loginAdmin = AdminSession::findOne(['id' => $id]); //查询admin_session表中是否有用户的登录记录
+       if(!$loginAdmin){ //如果没有记录则新建此记录
+           $sessionModel = new AdminSession();
+           $sessionModel->id = $id;
+           $sessionModel->session_token = $sessionToken;
+           $result = $sessionModel->save();
+       }else{          //如果存在记录（则说明用户之前登录过）则更新用户登录token
+           $loginAdmin->session_token = $sessionToken;
+           $result = $loginAdmin->update();
+       }
+       return $result;
+   }
+
 
     // protected function getId()
     // {

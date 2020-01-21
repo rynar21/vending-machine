@@ -33,10 +33,6 @@ class ProductController extends Controller
                         'actions' => ['index', 'view'],
                         'allow' => Yii::$app->user->can('ac_product_read'),
                     ],
-                    // [
-                    //     'actions' => ['index', 'view'],
-                    //     'allow' =>true,
-                    // ],
                     [
                         'actions' => ['update'],
                         'allow' => true,
@@ -47,13 +43,11 @@ class ProductController extends Controller
                         'allow' => true,
                         'roles' => ['ac_product_create'],
                     ],
-
                     [
                         'actions' => ['delete'],
                         'allow' => true,
                         'roles' => ['ac_delete'],
                     ],
-
                 ],
             ],
             'verbs' => [
@@ -62,6 +56,9 @@ class ProductController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'checker' => [
+               'class' => 'backend\libs\CheckerFilter',
+              ],
         ];
     }
 
@@ -129,7 +126,8 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())&&$model->save()) {
+        if ($model->load(Yii::$app->request->post())&&$model->save())
+        {
            return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('update', [
@@ -147,69 +145,11 @@ class ProductController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-
         // 判断产品是否存在 在于Item表单中
         //如果存在，Product不可被删除
         if($model->items)
         {
             Yii::$app->session->setFlash('error', 'Product cannot be deleted');
-
-            $text_item_available = '';
-            $text_item_void = '';
-            $text_item_locked = '';
-            $text_item_sold = '';
-            $text = '';
-            $text_string = array();
-
-            foreach ($model->items as $item)
-            {
-                switch($item->status)
-                {
-                    case Item::STATUS_AVAILABLE:
-                        if($text_item_available !== 'AVAILABLE Item')
-                        {
-                            $text_item_available = 'AVAILABLE Item';
-                            array_push($text_string, 'AVAILABLE Item');
-                        }
-                    break;
-
-                    case Item::STATUS_VOID:
-                        if($text_item_void !== 'VOID Item')
-                        {
-                            $text_item_void = 'VOID Item';
-                            array_push($text_string, 'VOID Item');
-                        }
-                    break;
-
-                    case Item::STATUS_LOCKED:
-                        if($text_item_locked !== 'LOCKED Item')
-                        {
-                            $text_item_locked = 'LOCKED Item';
-                            array_push($text_string, 'LOCKED Item');
-                        }
-                    break;
-
-                    case Item::STATUS_SOLD:
-                        if($text_item_sold !== 'SOLD Item')
-                        {
-                            $text_item_sold = 'SOLD Item';
-                            array_push($text_string, 'SOLD Item');
-                        }
-                    break;
-
-                    default:
-                    break;
-                }
-            }
-
-            for($x=0; $x < count($text_string)-1; $x++)
-            {
-                $text = $text.$text_string[$x].', ';
-            }
-
-            $text = 'Tips: <br>'.'Contains '.$text.$text_string[count($text_string)-1].'.';
-
-            Yii::$app->session->addFlash('info', $text);
         }
         else
         {
@@ -223,8 +163,8 @@ class ProductController extends Controller
                     }
                 }
             }
+            Yii::$app->session->setFlash('success', 'successfully deleted.');
         }
-
         return $this->redirect(['index']);
     }
 

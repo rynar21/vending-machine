@@ -17,6 +17,7 @@ class m190620_063302_sales_record extends Migration
               'item_id' =>$this->integer()->notNull(),
               'trans_id' =>$this->integer()->notNull(),
               'status' =>$this->smallInteger()->notNull()->defaultValue(10),
+
           ]);
     }
 

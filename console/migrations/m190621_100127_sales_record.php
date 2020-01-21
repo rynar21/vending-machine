@@ -21,6 +21,7 @@ class m190621_100127_sales_record extends Migration
           'item_id' =>$this->integer()->notNull(),
           'sell_price' =>$this->float(10,2)->notNull(),
           'status' =>$this->smallInteger()->notNull(),
+          'unique_id' =>$this->string(20)->notNull()->unique(),
           'created_at' => $this->integer()->notNull(),
           'updated_at' => $this->integer()->notNull(),
       ]);

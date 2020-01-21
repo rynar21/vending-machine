@@ -13,6 +13,7 @@ use common\models\Product;
 class ItemSearch extends Item
 {
      public $name;
+
     /**
      * {@inheritdoc}
      */

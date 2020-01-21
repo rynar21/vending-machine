@@ -17,13 +17,14 @@ class ProductSearch extends Product
      */
          public $imageFile;
 
+
     public function rules()
     {
         return [
 
             [['sku'], 'string'],
             [['name', 'image'], 'safe'],
-            [['price'], 'number'],
+            [['price'], 'string'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
 
         ];
@@ -52,6 +53,9 @@ class ProductSearch extends Product
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize'=>30,
+            ],
         ]);
 
         $this->load($params);
@@ -65,6 +69,7 @@ class ProductSearch extends Product
         $query->andFilterWhere([
             'id' => $this->id,
             'sku'=>$this->sku,
+            // 'price' => $this->price,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

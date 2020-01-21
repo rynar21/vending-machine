@@ -16,7 +16,7 @@ $this->title = 'Invoice';
 
 <div class="sale-record-receipt">
 
-    <div class="header" style="margin: 10px 100px 5px 100px; padding: 20px; border: 1px solid black;">
+    <div class="header c-download b-color" style="margin: 10px 100px 5px 100px; padding: 20px;">
         <div class="container">
             <div class="row">
 
@@ -86,7 +86,7 @@ $this->title = 'Invoice';
         <hr/>
 
         <br/>
-        <?= Html::a('Download as PDF', ['download', 'id' => $model->id], ['class' => 'btn btn-success btn-block']) ?>
+        <?= Html::a('Download as PDF', ['download', 'id' => $model->id], ['class' => 'btn btn-success btn-block b-color']) ?>
     </div>
 
 
@@ -94,10 +94,14 @@ $this->title = 'Invoice';
 </div>
 
 <style>
+.btn-success {
+    background-color: #FE5802;
+    border-color: #FE5802;
+}
  .header{
-    border: 1px solid black;
-    background-color: #282828;
+    border: 0px solid red;
     color: #F0FFFF;
+    background-color: #FE5802;
     border-radius: 5px;
 }
 
@@ -144,8 +148,9 @@ p {
 
 /*  Define the background color for all the EVEN table columns  */
 .transaction-details tr td:nth-child(even){
-    background: #dae5f4;
+    background: #FE5802;
     text-align:right;
+    color: #FFFFFF;
 }
 
 .Total{
@@ -168,9 +173,10 @@ p {
 
 /*  Define the background color for all the EVEN table columns  */
 .Total tr td:nth-child(even){
-    background: #dae5f4;
+    background: #FE5802;
     text-align:right;
     font-size: 22px;
+    color: #FFFFFF;
 }
 
 </style>

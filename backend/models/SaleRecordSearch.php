@@ -16,29 +16,14 @@ class SaleRecordSearch extends SaleRecord
     /**
      * {@inheritdoc}
      */
+     public $text;
+     public $stu;
     public function rules()
     {
         return [
-            [['id', 'box_id', 'item_id','store_id'], 'integer'],
-            [['status'], 'filter', 'filter' => function($text)
-            {
-                switch ($text)
-                {
-                    case 'success':
-                        $this->status = 10;
-                        break;
-                    case 'failed':
-                        $this->status = 8;
-                        break;
-                    case 'pending':
-                        $this->status = 9;
-                        break;
-                    default:
-                        break;
-                }
-                return $this->status;
-            }],
-            [['transactionNumber'], 'safe'],
+            [['id', 'box_id', 'item_id','store_id', ], 'integer'],
+            [['text'], 'safe'],
+            [['status'], 'string'],
         ];
     }
 
@@ -61,32 +46,48 @@ class SaleRecordSearch extends SaleRecord
     public function search($params)
     {
         $query = SaleRecord::find();
-
-        // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
         $this->load($params);
-
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
+        //$domain = strstr($this->status, 's');
+        if (strstr($this->status, 's')||strstr($this->status, 'S')) {
+            $this->stu=SaleRecord::STATUS_SUCCESS;
+        }
+        if (strstr($this->status, 'f')||strstr($this->status, 'F')) {
+            $this->stu=SaleRecord::STATUS_FAILED;
+        }
+        if (strstr($this->status, 'p')||strstr($this->status, 'P')) {
+            $this->stu=SaleRecord::STATUS_PENDING;
+        }
 
         // grid filtering conditions
+        // if ($this->status=='success'||$this->status=='Success'||$this->status=='S'||$this->status=='s') {
+        //     $this->stu=SaleRecord::STATUS_SUCCESS;
+        // }
+        // if ($this->status=='failure'||$this->status=='Failure'||$this->status=='f'||$this->status=='F') {
+        //     $this->stu=SaleRecord::STATUS_FAILED;
+        // }
+        // if ($this->status=='pending'||$this->status=='Pending'||$this->status=='p'||$this->status=='P') {
+        //     $this->stu=SaleRecord::STATUS_PENDING;
+        // }
         $query->andFilterWhere([
             // 'id' => $this->id,
             'box_id' => $this->box_id,
             'item_id' => $this->item_id,
-            'status' => $this->status,
+            'status' => $this->stu,
             'store_id' => $this->store_id,
-            // 'updated_at'=>$this->transactionNumber,
-        ]);
-        // $query->andFilterWhere(['like', 'created_at', $this->created_at]) ;
-
+            'sell_price'=>$this->sell_price,
+        ])
+         ->andFilterWhere(['like', 'created_at', $this->text])
+         ->orFilterWhere(['like','item_id',$this->text])
+         ->orFilterWhere(['like','id',$this->text]);
         return $dataProvider;
     }
+
 }

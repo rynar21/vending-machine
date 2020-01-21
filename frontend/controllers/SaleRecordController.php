@@ -6,19 +6,21 @@ use Yii;
 use mpdf;
 use common\models\Store;
 use common\models\Item;
+use common\models\Box;
 use common\models\SaleRecord;
 use frontend\models\SaleRecordSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
+use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
-
+use yii\authclient\signature\BaseMethod;
 
  //SaleRecordController implements the CRUD actions for SaleRecord model.
 class SaleRecordController extends Controller
 {
-
+    public $imodel;
     // 显示 其中一个订单 详情
     public function actionView($id)
     {
@@ -29,13 +31,62 @@ class SaleRecordController extends Controller
         ]);
     }
 
+    public function actionGouwu()
+    {
+        $sum =0;
+        $test = "ok!";
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if(Yii::$app->request->post())
+        {
+          $data=Yii::$app->request->post();
+          $id= $_POST["id"];
+
+         for ($i=0; $i <=count($id)-1 ; $i++) {
+             $sum+=Item::find()->where(['id'=>$id[$i]])->one()->price;
+             $this->redirect(Url::to(['item/view','id'=>$id[$i]]));
+         }
+        //   $this->runAction('create',['id'=>$id[$i]]);
+          // do your query stuff here\
+                // return [
+                //     'label' => $test,
+                //     'price'=>$sum,
+                //     'id'=>$id ,
+                // ];
+        }
+
+        if (Yii::$app->request->isAjax) {
+
+            $model= Item::find()->where(['id'=>25])->one();
+            return [
+               'label' => $test,
+               'item_name'=>$model->name,
+            ];
+        }
+        else {
+            return 0;
+        }
+    }
+
+
+    public function actionApax()
+    {
+        $test = "ok!";
+        // do your query stuff here\
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            return [
+               'label' => $test,
+            ];
+        }
+    }
+
+
     // 如果产品ID没有在于 SaleRecord 表里：创新新订单
     // 运行 购买流程
-    public function actionCreate($id)
+    public function actionCreate($id,$time)
     {
         $item_model = Item::findOne($id);   // 寻找 Item
         $model = new SaleRecord();
-        //if($model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_PENDING]) && $model->find()->where(['item_id'=> $id, 'status' != SaleRecord::STATUS_SUCCESS]))
         if(empty($model->findOne(['item_id'=> $id])) || $model->find()
         ->orderBy(['id'=> SORT_DESC])
         ->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
@@ -44,30 +95,67 @@ class SaleRecordController extends Controller
             $model->item_id = $item_model->id;
             $model->box_id = $item_model->box_id;
             $model->store_id = $item_model->store_id;
-            $model->sell_price = $item_model->price;
+            $model->sell_price =$item_model->price;
+            $model->unique_id = $time;
             $model->save();
+            //创建订单时的key发送给iot；
+            Yii::$app->slack->Skey([
+            'url'=>'https://forgetof.requestcatcher.com',
+            'price'=>$item_model->price,
+            'id'=>$model->id,]);
             $model->pending();
+
+
         }
         $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
         ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
-        if ($model->id && $salerecord->id)
+
+        if ($model->id == $salerecord->id)
         {
-            if ($model->id==$salerecord->id)
-            {
-                return $this->redirect(['check','id'=>$model->id]);
-            }
-            else {
-                return $this->render('update', [
-                    'item_model' => $item_model,
-                    'model' => $model,
-                    'id' => $id,
-                ]);
-            }
+            //Yii::$app->slack->Skey(['price'=>1->price,'id'=>$model->id,]);
+            return $this->redirect(['check','id'=>$model->id]);
+
         }
         else
         {
             throw new NotFoundHttpException("Requested item cannot be found.");
         }
+    }
+    public $enableCsrfValidation = false;
+    //模拟支付
+    //$salerecord_id,$price,$key
+    public function actionIot()
+    {
+
+        $request = \Yii::$app->request;//获取商品信息
+        $salerecord_id = $_POST['salerecord_id'];
+        $price = $_POST['price'];
+        $key_old =$_POST['key_old'];
+        $a="sha256";
+        $key=100;
+        $newkey = hash_hmac($a,$price.$salerecord_id.SaleRecord::KEY_SIGNATURE,$key[$raw_output=FALSE]);
+        if ($newkey==$key_old) {
+         return $this->redirect(['paysuccess',
+                'id'=>$salerecord_id,
+                //'priceiot'=>$price //金额
+            ]);
+        }
+        else {
+            return $this->redirect(['payfailed',
+                   'id'=>$salerecord_id,
+               ]);
+        }
+    }
+
+    public function actionPays()
+    {
+        $request = \Yii::$app->request;//获取商品信息
+        $id = $request->get('id');
+        $time = $request->get('time');
+        return $this->render('loding',[
+            'id' => $id,
+            'time' => $time,
+        ]);
     }
 
     // 判断 交易订单 的状态
@@ -155,40 +243,36 @@ class SaleRecordController extends Controller
         // exit;
     }
 
+    public function actionKomn()
+    {
+        // $a="sha256";
+        // $b='123456sa';
+        // $key=1;
+        // $i=hash_hmac ($a , $b , $key [$raw_output=FALSE]);
+        // echo $i;
+
+    }
+
     // API Integration
     public function PayStatus($config)
     {
-        $id = ArrayHelper::getValue($config, 'id','');
-        $price = ArrayHelper::getValue($config, 'price','');
-        $status = ArrayHelper::getValue($config, 'status','');
-        $signature=ArrayHelper::getValue($config, 'signature','');
-        $generate_signature=Yii::$app->signature->generateSignature(['data'=>$status]);
-        if ($generate_signature==$signature)
+        $model = SaleRecord::findOne(['id'=>$id]);
+        if ($model)
         {
-            $model = SaleRecord::findOne(['id'=>$id]);
-            if ($status=='success')
-            {
-                $model->success();
-                return  Yii::$app->slack->send([
-                     'data'=>[
-                         'text'=>'Store name'.':'.$model->store->name.','.
-                                 'Address'.':'.$model->store->address.','.
-                                 'Transaction ID'.':'.$id.','.
-                                 'Purchased Time'.':'.$model->updated_at.','.
-                                 'Box'.':'.$model->box->code.','.
-                                 'Item'.':'.$model->item->name.','.
-                                 'price'.':'.$model->item->price.','.
-                                 'Payment Amount'.':'.$price,
-                     ],
-                 ]);
-            }
-            if ($status=='failed')
-            {
-                $model->failed();
-            }
+            $item_model=Item::findOne(['box_id'=>$model->box_id]);
+            $store_model=Store::findOne(['id'=>$model->store_id]);
+            $model->success();
+            echo'success';
         }
-        else {
-            return false;
+
+    }
+    public function actionPayfailed($id)
+    {
+        $model = SaleRecord::findOne(['id'=> $id]);;
+        if ($model)
+        {
+            $model->failed();
+            echo'failed';
         }
     }
 
@@ -198,76 +282,57 @@ class SaleRecordController extends Controller
     {
 
         $models = SaleRecord::find()->where([
-            'status' => 9,
-            ])->andWhere(['<', 'created_at', time()-1])->all();
-            if ($models) {
-                foreach ($models as $model) {
-                       $model->failed();
-                       echo $model->id . "\n";
-               }
+            'status' => 10,
+        ])
+         ->andWhere(['between', 'created_at' , strtotime(date('Y-m-d',strtotime('-2 day')))  ,strtotime(date('Y-m-d',strtotime('-1 day'))) ])
+        ->count();
+        print_r($models);
+        die();
+                if ($models) {
+                    foreach ($models as $model) {
+                            $model->failed();
+                            echo $model->id . "\n";
+                    }
+              }
+
+     }
+
+
+
+    public  function actionPricesum()
+    {
+        $total = 0;
+        $models = SaleRecord::find()->where(['status' => 10])
+        // ->andWhere(['between', 'created_at' , strtotime(-$day. 'days')  ,strtotime(1-$day .'days') ])
+        ->all();
+                if ($models) {
+                    foreach ($models as $model) {
+                            $model1=Item::find()->where(['id'=>$model->item_id])->all();
+                            if ($model1) {
+                                foreach ($model1 as $itemmodel ) {
+                                $arr= $itemmodel->price ;
+                                $total += $arr;
+                                }
+                            }
+                    }
+                    print_r($arr);
+
+                    die();
+                    $i =  array($total );
+                    echo array_sum($i) . "\n";
+              }
+     }
+
+     public function actionRemind()
+     {
+         $model_store=Store::find()->all();
+         $model_box=Box::find()->where(['status'=>Box::BOX_STATUS_AVAILABLE,'store_id'=>1])->count();
+         $model_boxr=Box::find()->where(['store_id'=>1])->count();
+         echo count($model_store);
+        // echo $model_boxr;
+         if ($model_box>=$model_boxr*0.8) {
+             echo "1";
          }
+     }
 
-}
-
-   //  function actionRandomStr($len=32,$special=true){
-   //     $chars = array(
-   //         "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
-   //         "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
-   //         "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G",
-   //         "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-   //         "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2",
-   //         "3", "4", "5", "6", "7", "8", "9"
-   //     );
-   //
-   //     if($special){
-   //         $chars = array_merge($chars, array(
-   //             "!", "@", "#", "$", "?", "|", "{", "/", ":", ";",
-   //             "%", "^", "&", "*", "(", ")", "-", "_", "[", "]",
-   //             "}", "<", ">", "~", "+", "=", ",", "."
-   //         ));
-   //     }
-   //
-   //     $charsLen = count($chars) - 1;
-   //     shuffle($chars);                            //打乱数组顺序
-   //     $str = '';
-   //     for($i=0; $i<$len; $i++){
-   //         $str .= $chars[mt_rand(0, $charsLen)];    //随机取出一位
-   //     }
-   //     echo $str;
-   // }
-
-    // public function actionHash()
-    // {
-    //     $id=112;
-    //     $price=10;
-    //     $data=$id.$price;
-    //     $signature='s.OPa4c%j!F%P@8~1+D[,2Rl|%?Klmbh';
-    //     // $data=sha1(md5($id.$price.$signature));
-    //     $generate_signature=hash_hmac('sha256',$data,$signature);
-    //     // echo $data;
-    //     echo $generate_signature;
-    // }
-    // public function Pay($config)
-    // {
-    //     // $id = ArrayHelper::getValue($config, 'id','');
-    //     // $price = ArrayHelper::getValue($config, 'price','');
-    //     // $id=108;
-    //     // $price=17;
-    //     $str = ArrayHelper::getValue($config, 'str','');
-    //     $signature='s.OPa4c%j!F%P@8~1+D[,2Rl|%?Klmbh';
-    //     $generate_signature=sha1($id.$price.$signature);
-    //     if ($str==$generate_signature) {
-    //         return $this->PayStatus([
-    //             'id'=>$id,
-    //             'price'=>$price,
-    //             'status'=>'success',
-    //         ]);
-    //     }
-    //     if ($str!==$generate_signature) {
-    //         return $this->PayStatus([
-    //             'id'=>$id,
-    //             'status'=>'failed',
-    //         ]);
-    //     }
-    // }
 }

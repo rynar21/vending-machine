@@ -7,4 +7,6 @@ Yii::setAlias('@console', dirname(dirname(__DIR__)) . '/console');
 //需按照 自己电脑入境 做出对应修改
 Yii::setAlias('@upload', 'C:\wamp64\www\vending-machine\backend\image');
 
-Yii::setAlias('@imagePath', 'http://localhost/vending-machine/backend/image/');
+Yii::setAlias('@imagePath', 'http://localhost/vending-machine/backend/web/mel-img'); // localhost 加载图片入境
+
+Yii::setAlias('@url' , 'C:\Users\user\Desktop\up');

@@ -6,21 +6,78 @@ body {
 ======================== COMPONENTS LIST ================================
 ************************************************************************/
 /* --------------------- Store/View Controller --------------------- */
-
-.box_row{
-  margin: 10px 0px;
-  padding: 5px 7px;
+/* .pagination > .active > span:focus {
+    color: #FE5802;
+} */
+.pagination >li >a{
+    color: #FE5802;
+}
+.pagination > li > a:hover{
+    color: #FE5802;
+}
+.pagination > .active > a{
+    background-color: #FE5802;
+    border-color: #FE5802;
+}
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 0px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0px 1px rgba(0, 0, 0, 0.5);
+    outline: 0;
+}
+.p-color{
+    
+    padding-top: 2vh;
+    height: 25vh;
+    background-color: #FFFFFF;
+    color: #6F6F6F;
+}
+.h-color{
+    color: #727272;
+}
+.c-color{
+    background-color: #F2F2F2;
+}
+.font-color{
+    color: #FE5802;
 }
 
+.box-buy{
+    height: 2.8vh;
+    margin-top: 2.8vh;
+    width: 100%;
+    color: white;
+    line-height:2.8vh;
+}
+.box-code-id{
+    width: 20%;
+    height: 5vh;
+    line-height:5vh;
+    float: left;
+    position: absolute;
+}
+.box-number{
+    font-size: 16px;
+    color: white;
+}
+.bt-search{
+    border-color: white;
+}
 .box_item{
-  width: auto;
+  width: 100%;
   height: 28vh;
-  box-shadow: 2px 0px 10px #CDCDB4;
-  padding: 15px;
+  margin-bottom: 2vh;
+  box-shadow: 0.5px 0px 0.5px #CDCDB4;
+  background-color: #FFFFFF;
 }
 
 .box_item > a{
     text-decoration: none;
+}
+.box_row {
+    padding: 6px;
 }
 
 .item_image{
@@ -32,14 +89,12 @@ body {
     height: 100%;
     width: auto;
     padding: 5px;
-    margin: 0 auto;
 }
 
 .item_name{
     padding: 0px 15px;
     font-size: auto;
     color: black;
-
     overflow: hidden;
     font-family: Arial;
     text-overflow: ellipsis;
@@ -51,7 +106,7 @@ body {
 }
 
 .item_buy{
-    margin-top: 5px;
+    margin-top: 0px;
     padding: 0px 15px;
     border: 0px solid purple;
 }
@@ -62,30 +117,24 @@ body {
 
 .item_price{
     font-family: Arial;
-    color: black;
     font-size: 22px;
-    font-weight: bold;
+/* ---font-weight: bold;---- */
 }
-
 /* --------------------- Payment Headline Component --------------------- */
 .headline{
     font-size: 35px;
 }
 /* --------------------- item/details.php ------------------------------ */
 .item_details_box{
-    margin-top: 12px;
+
     border: 1px solid #FFFFFF;
-    box-shadow: 0px 0px 20px #CDCDB4;
+    box-shadow: 0px 0px 1px #CDCDB4;
     padding: 10px 20px;
+    background-color: #FFFFFF;
 }
 
 .item_details{
     padding: 15px;
-    border: 0px solid black;
-}
-
-.item_details_image{
-    border: 0px solid red;
 }
 
 .item_details_image > img{
@@ -93,11 +142,15 @@ body {
     max-width: 100%;
     margin: 0 auto;
 }
-
+.font-pay{
+    font-size:25px;font-weight:bold;
+}
+.pay-image{
+    max-height:100%;
+    max-width:100%;
+}
 .item_details_name{
-    font-weight: bold;
-    white-space: wrap;
-    border: 0px solid purple;
+    font-size: 18px;
 }
 
 .item_details_box > .col-sm-12 > hr{
@@ -108,19 +161,18 @@ body {
 .item_details_price{
     margin: 5px 0px;
     font-size: 25px;
-    color: green;
     font-weight: bold;
-    border: 0px solid green;
 }
 /* --------------------- Buttons Components ------------------------------ */
 .btn-available{
     width:100%;
     height:40px;
-    background-color:#1C86EE;
     border:0px solid;
     line-height: 30px;
 }
-
+.btn-available:hover{
+    background-color: #909090;
+}
 .btn-unavailable{
     width:100%;
     height:40px;
@@ -134,7 +186,6 @@ body {
     width:100%;
     height:40px;
     background-color:#FFFFFF;
-    color:black;
 }
 
 /* --------------------- ------------------------------ --------------------- */
@@ -164,6 +215,7 @@ body {
     border-radius: 0px 0px 0px 0px;
     color:#575757;
     border: solid 0px;
+
 }
 a.thumbnail:hover{
   border-color: #7FFFD4;
@@ -373,4 +425,7 @@ a.desc:after {
          .fadeInUp {
            -webkit-animation-name: fadeInUp;
            animation-name: fadeInUp;
+         }
+         .b-color{
+             background-color: #FE5802;
          }

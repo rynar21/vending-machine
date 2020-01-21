@@ -14,14 +14,16 @@ use yii\helpers\ArrayHelper;
  * @property int $item_id
  * @property int $status
  */
+
 class SaleRecord extends \yii\db\ActiveRecord
 {
-    // public $transactionNumber;
+    //public $text;
     // 交易订单 状态
+
     const STATUS_PENDING = 9;    //购买中
     const STATUS_SUCCESS = 10;   //购买成功
     const STATUS_FAILED = 8;  //购买失败
-
+    const KEY_SIGNATURE='ojsdjSDASsda213SDMmkxncmcs'; //钥匙
     // 数据表名称
     public static function tableName()
     {
@@ -40,8 +42,10 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['box_id', 'item_id'], 'required'],
-            [['box_id', 'item_id'], 'integer'],
+            [['box_id', 'item_id',], 'required'],
+            [['box_id', 'item_id',], 'integer'],
+            [['text'], 'string'],
+            [['unique_id'],'unique'],
             [['sell_price'], 'number'],
             [['status'], 'default', 'value' => self::STATUS_PENDING],
         ];
@@ -57,62 +61,18 @@ class SaleRecord extends \yii\db\ActiveRecord
             'item_id' => 'Item ID',
             'status' => 'Status',
             'sell_price' => 'Price',
+            'text'=>'SaleRecord_ID',
+
+
         ];
     }
 
-    public function getStatusText()
+
+    public function getText()
     {
-        // if($this->status)
-        // {
-        //     // 如果 Box盒子 包含 Item产品
-        //     if($this->sale_record)
-        //     {
-        //         $text = "Success"; // 盒子包含产品
-        //         $this->status = self::STATUS_SUCCESS;
-        //         $this->save();
-        //     }
-        //     if($this->sale_record){
-        //         $text = "Pending"; // 盒子包含产品
-        //         $this->status = self::STATUS_PENDING;
-        //         $this->save();
-        //     }
-        //     // 相反：如果 Box盒子 没有包含 Item产品
-        //     if($this->sale_record)
-        //     {
-        //         $text = "Failed"; // 盒子为空
-        //         $this->status = self::STATUS_FAILED;
-        //         $this->save();
-        //     }
-        // }
-        switch ($this->status) {
-            case '10':
-            $text = "Success"; // 盒子包含产品
-            $this->status = self::STATUS_SUCCESS;
-            $this->save();
-            break;
-
-            case '9':
-            $text = "Pending";
-            $this->status = self::STATUS_PENDING;
-            $this->save();
-            break;
-
-            case '8':
-            $text = "Failed";
-            $this->status = self::STATUS_FAILED;
-            $this->save();
-            break;
-
-            default:
-                // code...
-                break;
-        }
-        return $text;
-    }
-    public function getTransactionNumber()
-    {
-        // $transactionNumber=$this->updated_at . $this->id;
-        return $this->updated_at . $this->id;
+        return
+         // date('Ymd',
+         $this->id.'_'.$this->item_id;
     }
     // 寻找 Item产品 数据表
     public function getItem()
@@ -213,6 +173,7 @@ class SaleRecord extends \yii\db\ActiveRecord
                 $this->item->save();
             }
         }
-        return $this->save() && $this->item->save();
+        // 更新 Item产品 的状态属性 为购买失败/初始值
+
     }
 }

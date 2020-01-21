@@ -51,6 +51,9 @@ class SaleRecordController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'checker' => [
+               'class' => 'backend\libs\CheckerFilter',
+              ],
         ];
     }
 
@@ -62,10 +65,11 @@ class SaleRecordController extends Controller
     {
         $searchModel = new SaleRecordSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
+
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+
         ]);
     }
 

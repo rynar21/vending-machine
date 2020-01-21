@@ -8,7 +8,8 @@ use common\models\Item;
 use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-
+use yii\data\Pagination;
+use yii\data\ActiveDataProvider;
 /**
  * StoreController implements the CRUD actions for Store model.
  */
@@ -20,16 +21,24 @@ class StoreController extends Controller
     public function actionView($id)
     {
         $item_searchModel = new ItemSearch();
-        $item_dataProvider = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
-
+        $data = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
+        $count= $data->query->count(); //数据总条数
+        $pagination = new Pagination([
+            'totalCount' => $count,
+            'defaultPageSize'=>10]);  //每页放几条内容
+       //连贯查询每页的数据
+        $articles = $data->query->offset($pagination->offset)
+       ->limit($pagination->limit)
+       ->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
             'id' => $id,
-
+            'pages'=>$pagination,
             'item_searchModel' => $item_searchModel,
-            'item_dataProvider' => $item_dataProvider,
+            'item_dataProvider' => $articles,
         ]);
     }
+
 
     protected function findModel($id)
     {

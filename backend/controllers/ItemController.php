@@ -24,6 +24,14 @@ class ItemController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
+                        'actions' => ['index','view'],
+                        'allow' => true,
+                    ],
+                    // [
+                    //     'actions' => ['index', 'view'],
+                    //     'allow' => Yii::$app->user->can('supervisor'),
+                    // ],
+                    [
                         'actions' => ['update'],
                         'allow' => true,
                         'roles' => ['ac_item_update'],
@@ -32,6 +40,11 @@ class ItemController extends Controller
                         'actions' => ['create'],
                         'allow' => true,
                         'roles' => ['ac_item_create'],
+                    ],
+                    [
+                        'actions' => ['delete'],
+                        'allow' => true,
+                        'roles' => ['ac_delete'],
                     ],
 
                     [
@@ -49,6 +62,9 @@ class ItemController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'checker' => [
+               'class' => 'backend\libs\CheckerFilter',
+              ],
         ];
     }
 

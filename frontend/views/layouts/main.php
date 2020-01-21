@@ -25,16 +25,23 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
+<!-- <style>
+.my-navbar{
+    background-color: #FE5802;
+    border: 0 solid;
+}
+</style> -->
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
+<div class="wrap c-color">
     <?php
     NavBar::begin([
         'brandLabel' =>  Html::img('@web/img/logo.png'),
         'brandOptions' => ['class' => 'myclass'], //options of the brand
+        'brandUrl' => '#',
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => ' navbar-fixed-top b-color',
         ],
     ]);
     // $menuItems = [
@@ -69,10 +76,11 @@ AppAsset::register($this);
     </div>
 </div>
 
-<footer class="footer">
-    <div class="container" style="position:relative;">
-        <a href="site/about" style=" position: absolute; right:8vw">About Us</a>
-        <a href="site/contact" style=" position: absolute; right:1.5vw">Contact Us</a>
+<footer class="footer ">
+    <div class="container " style="position:relative;">
+        <a href="site/about" class="font-color" style="">About Us</a>
+
+        <a href="site/contact" class="font-color" style="">Contact Us</a>
     </div>
 </footer>
 

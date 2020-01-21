@@ -9,12 +9,13 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 $this->title = 'My Yii Application';
+$time=time();
 ?>
 
 <div class="item-view">
 
         <div class="row">
-            <div class="col-sm-offset-2 col-sm-10 headline">
+            <div class="col-sm-offset-2 col-sm-10 headline font-color font-size">
                 Payment
             </div>
         </div>
@@ -23,19 +24,28 @@ $this->title = 'My Yii Application';
 
         <?= $this->render('/item/details',[
                 'model' => $model,
-            ]) ?>
+
+            ])    ?>
 
        <br/> <br/>
 
         <div class="row" >
-            <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
+            <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" >
                 <br/>
                 <br/>
-                <?php if($model->status === $model::STATUS_AVAILABLE):?>
-                    <?= Html::a('Pay',['/sale-record/create', 'id' => $model->id],['class'=>"btn btn-primary btn-available"])?>
+                <?php if($model->status == $model::STATUS_AVAILABLE):?>
+                    <?= Html::a('Pay',  ['/sale-record/pays',  'id' => $model->id,'time'=>$time],['class'=>"btn btn-primary btn-available b-color"],
+                     [
+                        'data' => [
+                            'method' => 'post',
+                            'params' => [
+                                'params_key' => 'params_val'
+                            ]
+                        ]
+                    ])?>
                     <br/><br/>
                 <?php else: ?>
-                    <a class="btn btn-unavailable" disabled="disabled">
+                    <a class="btn btn-unavailable " disabled="disabled">
                         Pay
                     </a>
                     <h5 class="text-left" style="margin:0px; color:red;">
@@ -44,7 +54,7 @@ $this->title = 'My Yii Application';
                     <br/>
                 <?php endif; ?>
 
-                <a href="<?= Url::base()?>/store/view?id=<?= $model->store_id?>"  class="btn btn-default btn-cancel" >
+                <a href="<?= Url::base()?>/store/view?id=<?= $model->store_id?>"  class="font-color btn btn-default btn-cancel " >
                     Cancel
                 </a>
             </div>

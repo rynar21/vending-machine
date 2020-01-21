@@ -55,6 +55,9 @@ class BoxController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'checker' => [
+               'class' => 'backend\libs\CheckerFilter',
+              ],
         ];
     }
 

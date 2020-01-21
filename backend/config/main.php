@@ -16,6 +16,10 @@ return [
 
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'parsers' => [
+            'application/json' => 'yii\web\JsonParser',
+            'text/json' => 'yii\web\JsonParser',
+            ],
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
@@ -28,23 +32,19 @@ return [
         'user' => [
             'class'=>'yii\web\User',
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'enableAutoLogin' => false,
+            'authTimeout'     => 6000,
+            'identityCookie' => ['name' => '_identity-backend','httpOnly' => true],
         ],
-        // $user = Yii::$app->user
-        //
-        // $user = new \yii\web\User;
-        // $user->identityClass = 'common\models\User'
-        // $user->enableAutoLogin = true;
-        // $user->identityCookie = ['name' => '_identity....' ....]
-        // 'slack' => [
-        //     'class' => 'common\components\Slack',
-        //     'url' => 'https://hooks.slack.com/services/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',
-        // ],
-        // Yii::$app->slack->send(['text' => 'hello world!']);
+
+        // 'slack' =>[
+        //     'class'=>'common\commontans\Slack',
+        //     'url'=>'https://hooks.slack.com/services/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',
+        // ]
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
+            'timeout' => 60,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
