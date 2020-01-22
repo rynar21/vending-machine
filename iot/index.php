@@ -16,16 +16,15 @@ if (isset($_POST['submit']))
     $data = [
         // 'merchantId' => 'M100001040', // To be replace by integration merchant ID
          'merchantId' => 'M100001040',
-        // 'qrCode' => $barcode,
-        // 'curType' => 'RM',
-        // 'notifyURL' => 'https://google.com/',
-        'merOrderNo' => '21',
-        // 'goodsName' => '',
-        // 'detailURL' => '',
-        // 'orderAmt' => '0.10',
-        // 'remark' => '',
-        // 'transactionType' => '1',
-        //'sign' => '',
+         'qrCode' => $barcode,
+         'curType' => 'RM',
+         'notifyURL' => 'https://google.com/',
+         'merOrderNo' => '20',
+         'goodsName' => '',
+         'detailURL' => '',
+         'orderAmt' => '',
+         'remark' => '',
+         'transactionType' => '1',
         //'orderNo' => 'ZF202001211000041297',
         // 'tranFlowNo' => 'ZF202001151000041152',
         // 'date' => '20200117155937',
@@ -40,7 +39,7 @@ if (isset($_POST['submit']))
     print_r('<pre>');
     print_r($array);
     $orderStatus = $array->{'orderStatus'};
-    $orderAmt      = $array->{'orderAmt'};
+    $orderAmt    = $array->{'orderAmt'};
     echo $orderStatus."\n".$orderAmt;
 
 

@@ -1,4 +1,5 @@
 <?php
+namespace iot\plugins;
 /**
  * Sarawak Pay module
  */

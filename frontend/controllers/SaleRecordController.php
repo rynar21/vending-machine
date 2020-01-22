@@ -16,7 +16,10 @@ use yii\db\Expression;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\authclient\signature\BaseMethod;
-
+use iot\plugins\Encryption;
+use iot\plugins\SarawakPay;
+// require_once('D:\wamp64\www\vending-machine\iot\plugins\Encryption.php');
+// require_once('D:\wamp64\www\vending-machine\iot\plugins\SarawakPay.php');
  //SaleRecordController implements the CRUD actions for SaleRecord model.
 class SaleRecordController extends Controller
 {
@@ -112,9 +115,11 @@ class SaleRecordController extends Controller
 
         if ($model->id == $salerecord->id)
         {
-            //Yii::$app->slack->Skey(['price'=>1->price,'id'=>$model->id,]);
-            return $this->redirect(['check','id'=>$model->id]);
-
+            return $this->render('lodings',[
+                'salerecord_id' => $model->id,
+                'price' =>$item_model->price,
+            ]);
+            //return $this->redirect(['check','id'=>$model->id]);
         }
         else {
             return $this->render('update', [
@@ -150,14 +155,48 @@ class SaleRecordController extends Controller
         }
     }
 
+    public function actionPaycheck()
+    {
+
+        $request = \Yii::$app->request;
+        $salerecord_id = $_POST['salerecord_id'];
+        $barcode = $_POST['barcode'];
+        $price = $_POST['price'];
+        //echo $barcode;
+        //die();
+        $data = [
+             'merchantId' => 'M100001040',
+             'qrCode' => $barcode,
+             'curType' => 'RM',
+             'notifyURL' => 'https://google.com/',
+             'merOrderNo' => $salerecord_id,
+             'goodsName' => '',
+             'detailURL' => '',
+             'orderAmt' => $price,
+             'remark' => '',
+             'transactionType' => '1',
+        ];
+
+        $data      = json_encode($data, 320);
+        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/BarCodePaymentAction.createOrder.do', $data);
+        // $array     = json_decode($string);
+        // print_r('<pre>');
+        // print_r($array);
+        // $orderStatus = $array->{'orderStatus'};
+        // $orderAmt      = $array->{'orderAmt'};
+        // echo $orderStatus."\n".$orderAmt;
+        // return $this->redirect(['check','id'=>$salerecord_id]);
+    }
     public function actionPays()
     {
         $request = \Yii::$app->request;//获取商品信息
         $id = $request->get('id');
         $time = $request->get('time');
+        $price = $request->get('price');
         return $this->render('loding',[
             'id' => $id,
             'time' => $time,
+            'price' =>$price,
         ]);
     }
 

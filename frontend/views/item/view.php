@@ -34,7 +34,7 @@ $time=time();
                 <br/>
                 <br/>
                 <?php if($model->status == $model::STATUS_AVAILABLE):?>
-                    <?= Html::a('Pay',  ['/sale-record/pays',  'id' => $model->id,'time'=>$time],['class'=>"btn btn-primary btn-available b-color"],
+                    <?= Html::a('Pay',  ['/sale-record/pays',  'id' => $model->id,'time'=>$time,'price'=>$model->price],['class'=>"btn btn-primary btn-available b-color"],
                      [
                         'data' => [
                             'method' => 'post',

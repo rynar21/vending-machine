@@ -1,5 +1,6 @@
 <?php
-require_once('log.php');
+namespace iot\plugins;
+// require_once('log.php');
 /**
  * Sarawak Pay module
  */
