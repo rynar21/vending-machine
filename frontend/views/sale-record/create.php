@@ -71,6 +71,6 @@ $this->title = 'Payment Progress';
     </div>
 
     <script type="text/javascript">
-        setTimeout("location.reload();",10000);
+        setTimeout("location.reload();",5000);
     </script>
  </div>

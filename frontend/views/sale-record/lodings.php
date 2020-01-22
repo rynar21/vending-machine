@@ -19,8 +19,3 @@ echo $salerecord_id;
     <input name="price" value="<?= $price?>" type="hidden" >
     <input type="submit" name="submit">
 </form>
-
-<?php
-
-
-?>
