@@ -208,14 +208,6 @@ class SaleRecordController extends Controller
         $data      = json_encode($data, 320);
         $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/BarCodePaymentAction.queryOrder.do', $data);
         $array     = json_decode($string);
-        //print_r('<pre>');
-        //print_r($array);
-        //die();
-        // if (empty($orderStatus) ) {
-        //     return $this->redirect(['payfailed',
-        //            'id' => $id,
-        //     ]);
-        // }
         $orderStatus   = $array->{'orderStatus'};
         $orderAmt      = $array->{'orderAmt'};
 
