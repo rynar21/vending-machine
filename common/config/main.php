@@ -11,6 +11,9 @@ return [
             'class' => 'yii\caching\FileCache',
 
         ],
+        'signature' => [
+            'class' => 'common\components\Signature',
+        ],
 
         // 'urlManager' => [
         //      'enablePrettyUrl' => true,
