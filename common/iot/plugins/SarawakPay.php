@@ -1,4 +1,6 @@
 <?php
+namespace common\iot\plugins;
+use Yii;
 
 // require_once('log.php');
 /**
@@ -6,9 +8,9 @@
  */
 class SarawakPay
 {
-    const SP_PUBLIC_KEY          = "keys/sarawakpay_public_key.pem";
-    const MERCHANT_PUBLIC_KEY    = "keys/merchant_public_key.key";
-    const MERCHANT_PRIVATE_KEY   = "keys/merchant_private_key.key";
+    const SP_PUBLIC_KEY          = "D:\wamp64\www/vending-machine\common\iot\keys/sarawakpay_public_key.pem";
+    const MERCHANT_PUBLIC_KEY    = "D:\wamp64\www/vending-machine\common\iot\keys/merchant_public_key.key";
+    const MERCHANT_PRIVATE_KEY   = "D:\wamp64\www/vending-machine\common\iot\keys/merchant_private_key.key";
 
     /**
      * @param  string  $url   Sarawak pay api

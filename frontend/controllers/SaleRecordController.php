@@ -16,7 +16,10 @@ use yii\db\Expression;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\authclient\signature\BaseMethod;
-
+use common\iot\plugins\Encryption;
+use common\iot\plugins\SarawakPay;
+// require_once('D:\wamp64\www\vending-machine\iot\plugins\Encryption.php');
+// require_once('D:\wamp64\www\vending-machine\iot\plugins\SarawakPay.php');
  //SaleRecordController implements the CRUD actions for SaleRecord model.
 class SaleRecordController extends Controller
 {
@@ -112,9 +115,11 @@ class SaleRecordController extends Controller
 
         if ($model->id == $salerecord->id)
         {
-            //Yii::$app->slack->Skey(['price'=>1->price,'id'=>$model->id,]);
-            return $this->redirect(['check','id'=>$model->id]);
-
+            return $this->render('lodings',[
+                'salerecord_id' => $model->id,
+                'price' =>$item_model->price,
+            ]);
+            //return $this->redirect(['check','id'=>$model->id]);
         }
         else
         {
@@ -147,50 +152,118 @@ class SaleRecordController extends Controller
         }
     }
 
+    public function actionPaycheck()
+    {
+
+        $request = \Yii::$app->request;
+        $salerecord_id = $_POST['salerecord_id'];
+        $barcode = $_POST['barcode'];
+        $price = $_POST['price'];
+        //echo $barcode;
+        //die();
+        $data = [
+             'merchantId' => 'M100001040',
+             'qrCode' => $barcode,
+             'curType' => 'RM',
+             'notifyURL' => 'https://google.com/',
+             'merOrderNo' => $salerecord_id,
+             'goodsName' => '',
+             'detailURL' => '',
+             'orderAmt' => $price,
+             'remark' => '',
+             'transactionType' => '1',
+        ];
+        $data      = json_encode($data, 320);
+        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/BarCodePaymentAction.createOrder.do', $data);
+        // $array     = json_decode($string);
+        // print_r('<pre>');
+        // print_r($array);
+        // $orderStatus = $array->{'orderStatus'};
+        // $orderAmt      = $array->{'orderAmt'};
+        // echo $orderStatus."\n".$orderAmt;
+         return $this->redirect(['check','id'=>$salerecord_id]);
+    }
     public function actionPays()
     {
         $request = \Yii::$app->request;//获取商品信息
         $id = $request->get('id');
         $time = $request->get('time');
+        $price = $request->get('price');
         return $this->render('loding',[
             'id' => $id,
             'time' => $time,
+            'price' =>$price,
         ]);
     }
 
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
-        // $sale_model = SaleRecord::findOne($id);
-        $model = SaleRecord::findOne(['id' => $id]);
+        $model = SaleRecord::find()->where(['id' => $id])->one();
+        $item_model = item::find()->where(['id' => $model->item_id])->one();
+        $data = [
+             'merchantId' => 'M100001040',
+             'merOrderNo' => $id,
+        ];
+        $data      = json_encode($data, 320);
+        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/BarCodePaymentAction.queryOrder.do', $data);
+        $array     = json_decode($string);
+        //print_r('<pre>');
+        //print_r($array);
+        //die();
+        // if (empty($orderStatus) ) {
+        //     return $this->redirect(['payfailed',
+        //            'id' => $id,
+        //     ]);
+        // }
+        $orderStatus   = $array->{'orderStatus'};
+        $orderAmt      = $array->{'orderAmt'};
+
+        //echo $orderStatus."\n".$orderAmt;
+        //die();
         if ($model!=null)
         {
-            $item_model = item::findOne(['id' => $model->item_id]);
-            if ($model->status == SaleRecord::STATUS_PENDING)
-            {
-                $generate_signature=Yii::$app->signature->generateSignature(['data'=>$model->id.$model->sell_price]);
-                return $this->render('pending', [
-                        'item_model' => $item_model,
-                        'model' => $model,
-                        'id' => $id,
-                ]);
-            }
-            //  当SaleRecord 交易订单状态为交易成功
-            elseif ($model->status== SaleRecord::STATUS_SUCCESS)
-            {
-                return $this->render('success', [
+            if ($orderStatus == 0) {
+                return $this->render('create', [
+                    'item_model' => $item_model,
                     'model' => $model,
                     'id' => $id,
                 ]);
             }
-            //  当SaleRecord 交易订单状态为交易失败
-            elseif ($model->status== SaleRecord::STATUS_FAILED)
-            {
-                  return $this->render('failed', [
-                      'model' => $model,
-                      'id' => $id,
-                  ]);
+            elseif ($orderStatus == 1) {
+                return $this->redirect(['paysuccess',
+                       'id'=>$id,
+                   ]);
             }
+            elseif($orderStatus == 2 || $orderStatus == 4) {
+                return $this->redirect(['payfailed',
+                       'id' => $id,
+                ]);
+            }
+            // if ($model->status == SaleRecord::STATUS_PENDING)
+            // {
+            //     return $this->render('create', [
+            //         'item_model' => $item_model,
+            //         'model' => $model,
+            //         'id' => $id,
+            //     ]);
+            // }
+            // //  当SaleRecord 交易订单状态为交易成功
+            // elseif ($model->status== SaleRecord::STATUS_SUCCESS)
+            // {
+            //     return $this->render('success', [
+            //         'model' => $model,
+            //         'id' => $id,
+            //     ]);
+            // }
+            // //  当SaleRecord 交易订单状态为交易失败
+            // elseif ($model->status== SaleRecord::STATUS_FAILED)
+            // {
+            //       return $this->render('failed', [
+            //           'model' => $model,
+            //           'id' => $id,
+            //       ]);
+            // }
             else
             {
                 throw new NotFoundHttpException("Requested item cannot be found.");
@@ -262,7 +335,11 @@ class SaleRecordController extends Controller
             $item_model=Item::findOne(['box_id'=>$model->box_id]);
             $store_model=Store::findOne(['id'=>$model->store_id]);
             $model->success();
-            echo'success';
+            return $this->render('success',[
+                'model'=>$model,
+                'id'=>$id,
+            ]);
+            //echo'success';
         }
 
     }
@@ -272,7 +349,11 @@ class SaleRecordController extends Controller
         if ($model)
         {
             $model->failed();
-            echo'failed';
+            return $this->render('failed',[
+                'model'=>$model,
+                'id'=>$id,
+            ]);
+            //echo'failed';
         }
     }
 

@@ -24,7 +24,7 @@ if (isset($_POST['submit']))
          'qrCode' => $barcode,
          'curType' => 'RM',
          'notifyURL' => 'https://google.com/',
-         'merOrderNo' => '70',
+         'merOrderNo' => '20',
          'goodsName' => '',
          'detailURL' => '',
          'orderAmt' => '',
