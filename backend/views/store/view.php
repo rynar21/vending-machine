@@ -64,10 +64,20 @@ $this->params['breadcrumbs'][] = $this->title;
         </h3>
     </div>
     <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-success pull-left']) ?>
-    <?= Html::a('Edit Box', ['box/edit', 'id' => $model->id], [
+    <?= Html::a('Edit Box', ['store/edit', 'id' => $model->id],
+        [
         'class' => 'btn btn-primary',
-        'data' => [
-
+        'data-method' => 'POST',
+        'data-params' => [
+            'modify' => true,
+        ],
+    ]) ?>
+    <?= Html::a('Close Edit', ['store/edit', 'id' => $model->id],
+        [
+        'class' => 'btn btn-danger',
+        'data-method' => 'POST',
+        'data-params' => [
+            'modify' => 0,
         ],
     ]) ?>
     <div class="col-sm-12">
@@ -111,7 +121,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                [
                                    'label'=>'Action',
                                    'format' => 'raw',
-                                   'visible' => Yii::$app->user->can('staff'),
+                                   'visible' => $modify,
                                    'value' => function ($model)
                                    {
                                        return $model->action;
@@ -124,3 +134,4 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+<!-- -->

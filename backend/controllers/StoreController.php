@@ -33,7 +33,7 @@ class StoreController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view'],
+                        'actions' => ['index', 'view', 'edit'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
@@ -90,6 +90,29 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
+        $boxsearch = new BoxSearch();
+        $dataProvider = $boxsearch->search(Yii::$app->request->queryParams, $id);
+        $modify = false;
+
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
+            'boxSearch' => $boxsearch,
+            'modify' => $modify,
+            // 'modelData'=>$modeldata,
+        ]);
+    }
+
+    public function actionEdit($id)
+    {
+        // if (Yii::$app->user->can('staff')){
+        //     $modify = true;
+        // }
+        // else
+        // {
+            // $modify = false;
+        // }
+        $modify = Yii::$app->request->post('modify', null);
 
         $boxsearch = new BoxSearch();
         $dataProvider = $boxsearch->search(Yii::$app->request->queryParams, $id);
@@ -98,6 +121,7 @@ class StoreController extends Controller
             'model' => $this->findModel($id),
             'dataProvider' => $dataProvider,
             'boxSearch' => $boxsearch,
+            'modify' => $modify,
             // 'modelData'=>$modeldata,
         ]);
     }
