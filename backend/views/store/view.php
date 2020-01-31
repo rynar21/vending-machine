@@ -64,6 +64,12 @@ $this->params['breadcrumbs'][] = $this->title;
         </h3>
     </div>
     <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-success pull-left']) ?>
+    <?= Html::a('Edit Box', ['box/edit', 'id' => $model->id], [
+        'class' => 'btn btn-primary',
+        'data' => [
+
+        ],
+    ]) ?>
     <div class="col-sm-12">
         <?php
          // echo $this->render('/box/_list', [
@@ -105,6 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                [
                                    'label'=>'Action',
                                    'format' => 'raw',
+                                   'visible' => Yii::$app->user->can('staff'),
                                    'value' => function ($model)
                                    {
                                        return $model->action;
