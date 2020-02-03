@@ -92,31 +92,11 @@ class StoreController extends Controller
     {
         $boxsearch = new BoxSearch();
         $dataProvider = $boxsearch->search(Yii::$app->request->queryParams, $id);
-        $modify = false;
-
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'dataProvider' => $dataProvider,
-            'boxSearch' => $boxsearch,
-            'modify' => $modify,
-            // 'modelData'=>$modeldata,
-        ]);
-    }
-
-    public function actionEdit($id)
-    {
-        // if (Yii::$app->user->can('staff')){
-        //     $modify = true;
-        // }
-        // else
-        // {
-            // $modify = false;
-        // }
+        if (empty($modify)) {
+            $modify = false;
+        }
         $modify = Yii::$app->request->post('modify', null);
 
-        $boxsearch = new BoxSearch();
-        $dataProvider = $boxsearch->search(Yii::$app->request->queryParams, $id);
-
         return $this->render('view', [
             'model' => $this->findModel($id),
             'dataProvider' => $dataProvider,
@@ -125,6 +105,23 @@ class StoreController extends Controller
             // 'modelData'=>$modeldata,
         ]);
     }
+
+    // public function actionEdit($id)
+    // {
+    //
+    //     $modify = Yii::$app->request->post('modify', null);
+    //
+    //     $boxsearch = new BoxSearch();
+    //     $dataProvider = $boxsearch->search(Yii::$app->request->queryParams, $id);
+    //
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //         'dataProvider' => $dataProvider,
+    //         'boxSearch' => $boxsearch,
+    //         'modify' => $modify,
+    //         // 'modelData'=>$modeldata,
+    //     ]);
+    // }
 
     /**
      * Creates a new Store model.
