@@ -21,7 +21,7 @@ class SaleRecordSearch extends SaleRecord
         return [
             [['id', 'box_id', 'item_id','store_id', ], 'integer'],
             [['text'], 'safe'],
-            [['status'], 'string'],
+            [['status','box_code','item_name','store_name'], 'string'],
         ];
     }
 
@@ -80,11 +80,15 @@ class SaleRecordSearch extends SaleRecord
             'item_id' => $this->item_id,
             'status' => $this->stu,
             'store_id' => $this->store_id,
-            'sell_price'=>$this->sell_price,
+            'sell_price' => $this->sell_price,
+            'box_code' => $this->box_code,
+
         ])
-         ->andFilterWhere(['like', 'created_at', $this->text])
-         ->orFilterWhere(['like','item_id',$this->text])
-         ->orFilterWhere(['like','id',$this->text]);
+         ->andFilterWhere(['like','item_name' , $this->item_name])
+         ->orFilterWhere(['like', 'store_name', $this->store_name])
+         ->orFilterWhere(['like', 'created_at', $this->text])
+         ->orFilterWhere(['like','box_code',$this->text])
+         ->orFilterWhere(['like','unique_id',$this->unique_id]);
         return $dataProvider;
     }
 

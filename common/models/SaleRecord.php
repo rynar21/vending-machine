@@ -69,9 +69,7 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     public function getText()
     {
-        return
-         // date('Ymd',
-         $this->id.'_'.$this->item_id;
+        return $this->box_code.$this->unique_id;
     }
     // 寻找 Item产品 数据表
     public function getItem()
@@ -130,7 +128,6 @@ class SaleRecord extends \yii\db\ActiveRecord
     // 交易状态： 购买失败
     public function failed()
     {
-
         if ($this->status != SaleRecord::STATUS_SUCCESS) {
 
             $this->status = SaleRecord::STATUS_FAILED;
@@ -147,7 +144,6 @@ class SaleRecord extends \yii\db\ActiveRecord
             return '0';
         }
         // 更新 Item产品 的状态属性 为购买失败/初始值
-
     }
 
 }

@@ -9,28 +9,10 @@ use yii\helpers\BaseJson;
 /* @var $this yii\web\View */
 $this->title = 'Data Analysis Graph';
 ?>
-<!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script> -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
-
-<!-- <div id="app">
-<button v-on:click="counter +=1">shuzhi:{{counter}}</button>
-
-</div>
-<script type="text/javascript">
-
-        var vm =new Vue(
-            {
-                  el:"#app",
-                  data:{
-                      counter:0,
-                      name:"Vue"
-                  },
-            }
-        );
-
-</script> -->
 
 <h1 class="text-center">Data Analysis Graph</h1>
 <div class="row">
@@ -55,7 +37,7 @@ $this->title = 'Data Analysis Graph';
 
         $.ajax({
             type: 'get',
-            url: 'http://localhost/vending-machine/backend/web/site/sales',
+            url: 'http://localhost/vending-machine/backend/web/site/store_sales',
             success: function (json) {
                     model_labels = json.labels
                     model_pricesum =json.pricesum
@@ -109,7 +91,6 @@ $this->title = 'Data Analysis Graph';
                     'rgba(255, 206, 86, 0.8)',
                     'rgba(75, 192, 192, 0.8)',
                     'rgba(153, 102, 255, 0.8)',
-                    // 'rgba(255, 159, 64, 0.8)'
                 ],
                 borderColor: [
                    'rgba(255, 99, 132, 1)',
@@ -117,7 +98,6 @@ $this->title = 'Data Analysis Graph';
                    'rgba(255, 206, 86, 1)',
                    'rgba(75, 192, 192, 1)',
                    'rgba(153, 102, 255, 1)',
-                   // 'rgba(255, 159, 64, 1)'
                 ],
                 data:model_type,
             }]
@@ -133,16 +113,9 @@ $this->title = 'Data Analysis Graph';
             },
             });
         }
-
-
 </script>
-
   </div>
 </div>
-
-
-
-
 
   </div>
 </div>

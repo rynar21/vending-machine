@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use common\models\SaleRecord;
 /* @var $this yii\web\View */
 /* @var $model common\models\SaleRecord */
 
@@ -13,14 +13,16 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sale-record-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <h1></h1>
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
+        <?= Html::a('Open Box',
+        ['#',
+        // 'id' => $model->id
+        ],
+         [
+            'class' => 'btn btn-success',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Are you sure you want to open this box?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,12 +31,35 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'box_id',
-            'item_id',
-            'unique_id',
+            'text:text:Order number',
+            'store_name',
+            'box_code',
+            'item_name',
+            //'box_id',
+            //'item_id',
+            //'unique_id',
             // 'trans_id',
-            'status',
+            //'status',
+            [
+                'attribute'=>'status',
+                'format' => 'raw' ,
+                'value' => function ($model)
+                {
+                    if ($model->status==SaleRecord::STATUS_SUCCESS) {
+                        //return 'Success';
+                        return '<span style="color:#11ff06">' .'Success'.'';
+                    }
+                    if ($model->status==SaleRecord::STATUS_FAILED) {
+                        //return 'Failure';
+                        return '<span style="color:#CD0000">' .'Failure'.'';
+                    }
+                    if ($model->status==SaleRecord::STATUS_PENDING) {
+                        //return 'Failure';
+                        return '<span style="color:#2a5caa">' .'Pending'.'';
+                    }
+
+                },
+            ],
             'created_at:datetime',
             'updated_at:datetime',
         ],

@@ -64,7 +64,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','sales','ajax','posturl'],
+                        'actions' => ['index','sales','ajax','posturl','Store_sales'],
                         'allow' => true,
                         //'roles' => ['ac_read'],
                     ],
@@ -128,7 +128,6 @@ class SiteController extends Controller
         $pricesum=[];
         $sk=[];
         $kunum=[];
-
             for ($i=0; $i < 7 ; $i++) {
               $labels[] = date('Y-m-d ', strtotime(-$i.'days'));
               sort($labels);
@@ -422,6 +421,91 @@ class SiteController extends Controller
         ]);
     }
 
-    //public function
+    public function actionStore_sales()
+    {
+        $labels = [];
+        $data = [];
+        $pricesum=[];
+        $sk=[];
+        $kunum=[];
+        $id=1;
+            for ($i=0; $i < 7 ; $i++) {
+              $labels[] = date('Y-m-d ', strtotime(-$i.'days'));
+              sort($labels);
+            }
+
+            for ($i=count($labels); $i >=1 ; $i--)
+            {
+              $model_count = SaleRecord::find()
+              ->where([
+                  'between',
+                  'updated_at',
+                  strtotime(date('Y-m-d',strtotime(1-$i.' day'))),
+                  strtotime(date('Y-m-d',strtotime(2-$i.' day')))
+               ])
+              ->andWhere(['status'=> SaleRecord::STATUS_SUCCESS,'store_id'=> $id])
+              ->count();
+              $data[]=$model_count;
+            }
+
+            for ($j=count($labels); $j >=1 ; $j--) {
+                $total = 0;
+                $models = SaleRecord::find()
+                ->where(['status' => 10,'store_id'=> $id])
+                ->andWhere([
+                    'between',
+                    'created_at' ,
+                    strtotime(date('Y-m-d',strtotime(1-$j.' day'))),
+                    strtotime(date('Y-m-d',strtotime(2-$j.' day')))
+                ])
+                ->all();
+
+                foreach ($models as $model)
+                 {
+                    $model1=Item::find()->where(['id'=>$model->item_id,'store_id'=>$id])->all();
+                        foreach ($model1 as $itemmodel )
+                         {
+                            $arr= $itemmodel->price ;
+                            $total += $arr;
+                         }
+                }
+                  $pricesum[]=$total;
+            }
+            // print_r($pricesum);
+            // die();
+                $s = Item::find()->where(['status'=>Item::STATUS_SOLD,'store_id'=> $id])->all();
+                foreach ($s as $sum) {
+                    $sums[]=$sum->product->sku;
+                }
+             //print_r(array_count_values($sums));
+            $kunum =(array_keys((array_count_values($sums))));
+            $sk = (array_values((array_count_values($sums))));
+             for ($i=0; $i <=count($kunum)-1; $i++)
+             {
+                 $a[]=array($kunum[$i],$sk[$i]);
+             }
+             for ($i=0; $i <count($kunum)-1 ; $i++)
+              {
+                 array_multisort(array_column($a,'1'),SORT_DESC,$a);
+              }
+                $b=array_slice($a,0,5);
+                $type = array_column($b,'1');
+                $number = array_column($b,'0');
+
+             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+                if (Yii::$app->request->isAjax) {
+                    return [
+                        'labels' => $labels,
+                        'data' => $data ,
+                        'pricesum' => $pricesum,
+                        'sk'=> $sk,
+                        'kunum'=>$kunum,
+                        'type'=>$type,
+                        'number'=>$number,
+                        'code'=> 200,
+                    ];                    
+                }
+    }
 
 }

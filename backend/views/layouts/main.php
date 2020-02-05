@@ -42,12 +42,12 @@ AppAsset::register($this);
             {
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'User', 'url' => ['/user/index']],
+                ['label' => 'User', 'url' => ['/user/index'],'visible' => Yii::$app->user->can('staff'),],
                 ['label' => 'Store', 'url' => ['/store/index']],
                 // ['label' => 'Box', 'url' => ['/box/index?id=1']],
                 // ['label' => 'Item', 'url' => ['/item/index']],
-                ['label' => 'Record', 'url' => ['/sale-record/index']],
-                ['label' => 'Product', 'url' => ['/product/index']],
+                ['label' => 'Record', 'url' => ['/sale-record/index'],'visible' => Yii::$app->user->can('supervisor'),],
+                ['label' => 'Product', 'url' => ['/product/index'] ,'visible' => Yii::$app->user->can('admin'),],
             ];
             }
             if (Yii::$app->user->isGuest) {

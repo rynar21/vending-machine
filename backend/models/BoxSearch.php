@@ -70,8 +70,9 @@ class BoxSearch extends Box
         if ($this->name) {
             $query->joinWith('product');
         }
-            $query->andFilterWhere(['like', 'product.name', $this->name]);
-            // $query->andFilterWhere(['like', 'item.price', $this->price]);
+            $query->andFilterWhere(['like', 'product.name', $this->name])
+            ->andFilterWhere(['code' => $this->boxcode,]);
+                // $query->andFilterWhere(['like', 'item.price', $this->price]);
 
 
         return $dataProvider;

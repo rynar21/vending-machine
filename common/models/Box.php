@@ -81,6 +81,21 @@ class Box extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getAction()
+   {
+       // 如果 Box盒子 包含 Item产品
+       if ($this->item)
+       {
+           // 修改 产品 信息
+           return Html::a('Modify Item', ['/item/update', 'id' => $this->item->id], ['class' => 'btn btn-success']);
+       }
+       // 相反：Box盒子 没有包含 Item产品
+       else
+       {
+           // 添加新Item产品
+           return Html::a('Add Item', ['item/create', 'id' => $this->id], ['class' => 'btn btn-primary']);
+       }
+   }
     // 状态属性 以文字 展示
     public function getStatusText()
     {
@@ -141,22 +156,6 @@ class Box extends \yii\db\ActiveRecord
     }
 
     // 判断 盒子 是否包含 产品 >> 连接 Item数据表 功能
-    public function getAction()
-    {
-        // 如果 Box盒子 包含 Item产品
-        if ($this->item)
-        {
-            // 修改 产品 信息
-            return Html::a('Modify Item', ['/item/update', 'id' => $this->item->id], ['class' => 'btn btn-success']);
-        }
-        // 相反：Box盒子 没有包含 Item产品
-        else
-        {
-            // 添加新Item产品
-            return Html::a('Add Item', ['item/create', 'id' => $this->id], ['class' => 'btn btn-primary']);
-        }
-    }
-
     public function getBoxcode()
     {
         if(empty($this->store->prefix))
@@ -165,7 +164,7 @@ class Box extends \yii\db\ActiveRecord
         }
         else
         {
-            $text = $this->store->prefix.'-'.$this->code; // 盒子包含产品
+            $text = $this->store->prefix.$this->code; // 盒子包含产品
         }
         return $text;
     }

@@ -110,7 +110,7 @@ class ItemController extends Controller
         {
             // 如果没有输入价格
             //print_r($model->sku);
-            $getsku=Product::find()->where(['sku' =>$model->sku])->one();
+            $getsku = Product::find()->where(['sku' =>$model->sku])->one();
 
             if($getsku)
             {
@@ -131,11 +131,6 @@ class ItemController extends Controller
             if (empty($getsku)) {
                 Yii::$app->session->setFlash('error', 'Non exist item.');
             }
-
-
-            // print_r($model->product_id);
-            // die();
-
         }
 
         // 查询当前店 所有未成功卖出的产品

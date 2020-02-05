@@ -4,6 +4,9 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
+use common\models\User;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Store */
@@ -17,63 +20,73 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- 显示 店名为标题 -->
     <div class="row">
         <h1 class="col-sm-12">
-            <?= Html::encode($this->title) ?>
-        </h1>
+            <?= Html::encode($this->title);
+            //echo $md;
+            ?>
     </div>
-
-    <p>
-        <?= Html::a('Update Store', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete Store', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this Store?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
     <?php echo DetailView::widget([
           'model' => $model,
           'attributes' => [
-              // 'id',
-              'name',
-              'address',
-              'contact',
-              // 'prefix',
-
               [
-                  'attribute'=>'image',
-                  'value'=> $model->imageUrl,
-                  'format'=>['image', ['width'=>'250', 'height'=>'250']]
+                  'attribute'=>'name',
+                  'format' => 'raw' ,
+                   'visible' => Yii::$app->user->can('admin'),
+                  'value' => function ($model)
+                  {
+                    return $model->name.' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
+                    Html::a('detailed', ['store/store_detailed', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6 ']).
+                    Html::a('Sales', ['site/index', ], ['class' => 'btn btn-sm  btn-primary col-lg-6  ']).' </div>';
+                  }
               ],
-
-              // 'created_at:datetime',
-              // 'updated_at:datetime',
+              [
+                  'attribute'=>'Manager',
+                  'format' => 'raw' ,
+                  'visible' => Yii::$app->user->can('admin'),
+                  'value' => function ($model)
+                  {
+                    return $model->user;
+                  }
+              ],
+              [
+                  'attribute'=>'Profit today',
+                  'format' => 'raw' ,
+                  'value' => function ($model)
+                  {
+                    return 'MYR:'.$model->profit_today;
+                  }
+              ],
+              [
+                  'attribute'=>'Yesterday earnings',
+                  'format' => 'raw' ,
+                  'value' => function ($model)
+                  {
+                    return 'MYR:'.$model->yesterday_earnings;
+                  }
+              ],
           ],
      ]); ?>
 
-    <hr/>
-
     <!-- PHP: 展示时间 -->
-    <?php //echo Yii::$app->formatter->asDateTime($model->created_at); ?>
+    <?php //echo Yii::$app->formatter->asDateTime($model->created_at);
+        $auth = Yii::$app->authManager;
+        if ($auth->checkAccess(Yii::$app->user->identity->id,'user')) {
+            $str =' none';
+        };
+        if ($auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
+            $str =' ';
+        } ;
+    ?>
 
     <!-- 显示商店拥有的盒子 -->
-    <div class="row">
-        <h3 class="col-sm-12">
-            Available Boxes
-        </h3>
-    </div>
-    <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-success pull-left']) ?>
+<div class="btn-group mr-2 pull-left" role="group" aria-label="Second group">
+
+    <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-success','style'=>"display:"."$str"]) ?>
+    <?= Html::a('Lockup Box', ['store/kaiqi','id' => $model->id ], ['class' => 'btn btn-primary','style'=>"display:"."$str"]) ?>
+    <?= Html::a('Open Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-danger','style'=>"display:"."$str"]) ?>
+
+</div>
+
     <div class="col-sm-12">
-        <?php
-         // echo $this->render('/box/_list', [
-
-            // 'model' => $model ,
-            // 'query'=>$query,
-            // 'dataProvider' => $dataProvider,
-        // ]);
-         ?>
-
          <div class="row">
 
                  <?= GridView::widget([
@@ -81,7 +94,6 @@ $this->params['breadcrumbs'][] = $this->title;
                           'filterModel' => $boxSearch,
                            'columns' => [
                                ['class' => 'yii\grid\SerialColumn'],
-                               // 'id',
                                [
                                    'label'=> 'Box Code',
                                    'format' => 'raw',
@@ -94,14 +106,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                    'attribute'=> 'status',
                                    'value' => 'statusText'
                                ],
-                               // 'status',
                                [
                                  'attribute' => 'name',
                                  'value' => 'product.name'
                                  ],
                                'item.price:currency',
-                               // 'created_at:datetime',
-                               // 'updated_at:datetime',
                                [
                                    'label'=>'Action',
                                    'format' => 'raw',

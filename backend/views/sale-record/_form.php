@@ -12,13 +12,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'box_id')->textInput() ?>
+    <?= $form->field($model, 'box_id')->textInput(['disabled' => true]) ?>
 
-    <?= $form->field($model, 'item_id')->textInput() ?>
+    <?= $form->field($model, 'item_id')->textInput(['disabled' => true]) ?>
 
-    
 
-    <?= $form->field($model, 'status')->textInput() ?>
+
+    <?= $form->field($model, 'status')->textInput(['disabled' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

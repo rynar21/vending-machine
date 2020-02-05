@@ -22,6 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'imageFile')->fileInput() ?>
 
+
     <!-- 信息提交 -->
     <div class="row form-group">
           <div class="col-sm-1 col-xs-3">

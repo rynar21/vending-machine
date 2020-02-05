@@ -3,8 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\SaleRecord;
-
-
+use common\models\User;
+use common\models\Box;
+use yii\filters\AccessControl;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\SaleRecordSearch */
@@ -30,15 +31,24 @@ $this->params['breadcrumbs'][] = $this->title;
         //'options' =>['id'=>'grid'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',
+
             // 'name'=>'id',
             ],
            'text:text:Order number',
-            'box_id:text:Box number',
-            'item_id:text:Item number',
-            'store_id:text:Store number',
+            'box_code:text:Box Code',
+            // [
+            //     'attribute'=>'Box number',
+            //     'format' => 'raw' ,
+            //     'value' => function ($model)
+            //     {
+            //         Box::find()->where(['id'=>$model->box_id])->one()->boxcode;
+            //     },
+            // ],
+            'item_name:text:Item Name',
+            'store_name:text:Store Name',
             // 'trans_id',
             //'status',
-            'sell_price',
+            'sell_price:currency',
             [
                 'attribute'=>'status',
                 'format' => 'raw' ,
@@ -59,10 +69,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 },
             ],
-            'unique_id',
+            //'unique_id',
             'created_at:datetime:Creation time',
             'updated_at:datetime:End Time',
-            ['class' => 'yii\grid\ActionColumn','header' => 'Action'],
+            [   'class' => 'yii\grid\ActionColumn',
+                'header' => 'Action' ,
+                'visible' => Yii::$app->user->can('admin'),
+                'template' => ' {view}',
+            ],
         ],
 
         // 'rowOptions'=>function($model){

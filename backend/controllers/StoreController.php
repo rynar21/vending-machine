@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Store;
 use common\models\Box;
+use common\models\User;
 use backend\models\StoreSearch;
 use backend\models\BoxSearch;
 use yii\web\Controller;
@@ -25,6 +26,7 @@ class StoreController extends Controller
      * {@inheritdoc}
      */
 
+     public $username;
      public  $name;
     public function behaviors()
     {
@@ -33,7 +35,7 @@ class StoreController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view'],
+                        'actions' => ['index', 'view','kaiqi','store_detailed','manager_revoke','add_update','manager_update'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
@@ -90,7 +92,6 @@ class StoreController extends Controller
      */
     public function actionView($id)
     {
-
         $boxsearch = new BoxSearch();
         $dataProvider = $boxsearch->search(Yii::$app->request->queryParams, $id);
 
@@ -99,6 +100,20 @@ class StoreController extends Controller
             'dataProvider' => $dataProvider,
             'boxSearch' => $boxsearch,
             // 'modelData'=>$modeldata,
+        ]);
+    }
+    public function actionKaiqi($id)
+    {
+        //return $this->redirect(['view' ,'id' => '1']);
+        //return $this->redirect(['view', 'id' => $id,'md'=>'1']);
+        $boxsearch = new BoxSearch();
+        $dataProvider = $boxsearch->search(Yii::$app->request->queryParams, $id);
+
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
+            'boxSearch' => $boxsearch,
+            'md'    => '4564651',
         ]);
     }
 
@@ -186,6 +201,51 @@ class StoreController extends Controller
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionStore_detailed($id)
+    {
+        return $this->render('detailed', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+    public function actionManager_revoke($id)
+    {
+        //Store::update()->
+        Store::updateAll(['user_id'=>''],['id'=>$id]);
+        return $this->actionIndex();
+        //return $this->actionView($id);
+    }
+    //add/update mannager
+    public function actionAdd_update($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $getuser = User::find()->where(['username' => $model->username])->one();
+            if($getuser)
+            {
+                $model->user_id = $getuser->id;
+                if($model->save())
+                {
+                    return $this->actionIndex();
+                }
+            }
+            if (empty($getuser))
+            {
+                Yii::$app->session->setFlash('error', 'Non exist username.');
+            }
+        }
+        return $this->render('store_manager', [
+        'model' => $this->findModel($id),
+        ]);
+    }
+    public function actionManager_update()
+    {
+        $username = $_POST['username'];
+        $id = $_POST['id'];
+        store::updateAll(['user_id'=>user::find()->where(['name'=>$username])->one()->id],['id'=>$id]);
+        return $this->actionIndex();
     }
 
 }
