@@ -95,14 +95,15 @@ class SaleRecordController extends Controller
         ->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
         {
             // 创建 新订单
-            $model->item_id    = $id;
-            $model->box_id     = $item_model->box_id;
-            $model->store_id   = $item_model->store_id;
-            $model->sell_price =$item_model->price;
-            $model->unique_id  = $time;
-            $model->store_name = Store::find()->where(['id'=>$item_model->store_id])->one()->name;
-            $model->item_name  = $item_model->name;
-            $model->box_code   = Store::find()->where(['id'=>$item_model->store_id])->one()->prefix.Box::find()->where(['id'=>$item_model->box_id])->one()->code;
+            $model->item_id      = $id;
+            $model->order_number = Store::find()->where(['id'=>$item_model->store_id])->one()->prefix.Box::find()->where(['id'=>$item_model->box_id])->one()->code.$time;
+            $model->box_id       = $item_model->box_id;
+            $model->store_id     = $item_model->store_id;
+            $model->sell_price   = $item_model->price;
+            $model->unique_id    = $time;
+            $model->store_name   = Store::find()->where(['id'=>$item_model->store_id])->one()->name;
+            $model->item_name    = $item_model->name;
+            $model->box_code     = Store::find()->where(['id'=>$item_model->store_id])->one()->prefix.Box::find()->where(['id'=>$item_model->box_id])->one()->code;
             $model->save();
             //创建订单时的key发送给iot；
             Yii::$app->slack->Skey([

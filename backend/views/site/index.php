@@ -37,7 +37,7 @@ $this->title = 'Data Analysis Graph';
 
         $.ajax({
             type: 'get',
-            url: 'http://localhost/vending-machine/backend/web/site/store_sales',
+            url: 'http://localhost/vending-machine/backend/web/site/sales',
             success: function (json) {
                     model_labels = json.labels
                     model_pricesum =json.pricesum

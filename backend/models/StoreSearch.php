@@ -6,21 +6,24 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Store;
 use common\models\Item;
-
+use common\models\User;
 /**
  * StoreSearch represents the model behind the search form of `common\models\Store`.
  */
 class StoreSearch extends Store
 {
+    public $manager;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id','status'], 'integer'],
+            [['manager'], 'safe'],
             [['name', 'address'], 'safe'],
             ['contact', 'number'],
+
         ];
     }
 
@@ -55,7 +58,15 @@ class StoreSearch extends Store
         }
 
         // grid filtering conditions
+        $query->andFilterWhere([
+            'status' => $this->status,
+
+        ]);
+        if ($this->manager) {
+            $query->joinWith('user');
+        }
         $query->andFilterWhere(['id' => $this->id,'contact' => $this->contact,])
+            ->andFilterWhere(['like', 'user.username', $this->manager])
             ->andFilterWhere(['like', 'name', $this->name,])
             ->andFilterWhere(['like', 'address', $this->address,]);
 

@@ -20,7 +20,10 @@ use yii\helpers\Url;
  */
 class Store extends \yii\db\ActiveRecord
 {
-    public $username;
+
+    //public $manager;
+    public $username;//添加管理员
+
     public $imageFile;
     //初始0
     const STATUS_INITIAL = 0;
@@ -43,10 +46,11 @@ class Store extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'address', 'contact',], 'required'],
-            [['contact','user_id'], 'integer'],
-            [['prefix','username'], 'safe'],
+            [['contact','user_id','status'], 'integer'],
+            [['prefix','username',], 'safe'],
             [['name', 'address'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
+            [['manager'],'safe'],
         ];
     }
 
@@ -59,10 +63,12 @@ class Store extends \yii\db\ActiveRecord
             'address' => 'Store Address',
             'contact' => 'Store Contact',
             'prefix' => 'Box Prefix',
+            'manager' => 'Manager',
+            'status' => 'Status',
         ];
     }
 
-    public function getUser()
+    public function getUser_name()
     {
         if (empty($this->user_id)) {
             return '<span style="color:#CD0000">' .'Null'.'';
@@ -171,5 +177,14 @@ class Store extends \yii\db\ActiveRecord
             // $this->imageFile->saveAs($path, true);
         }
         return parent::afterSave($insert,$changedAttributes);
+    }
+    public function getUser()
+    {
+        // return $this->hasOne(common\models\Auth::className(), ['uid' => 'id']);
+         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    public  function getAddress()
+    {
+        return $this->address;
     }
 }

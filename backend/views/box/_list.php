@@ -53,7 +53,7 @@ $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
                       [
                         'attribute' => 'name',
                         'value' => 'product.name'
-                        ],
+                      ],
                       'item.price:currency',
                       // 'created_at:datetime',
                       // 'updated_at:datetime',

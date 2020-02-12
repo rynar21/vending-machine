@@ -12,7 +12,7 @@ use yii\filters\AccessControl;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Sale Records';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sale-record-index">
 
@@ -44,8 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
             //         Box::find()->where(['id'=>$model->box_id])->one()->boxcode;
             //     },
             // ],
-            'item_name:text:Item Name',
             'store_name:text:Store Name',
+            'item_name:text:Item Name',
             // 'trans_id',
             //'status',
             'sell_price:currency',

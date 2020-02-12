@@ -29,7 +29,7 @@ AppAsset::register($this);
     <body>
       <?php $this->beginBody() ?>
 
-        <div class="wrap">
+        <div class="wrap ">
             <?php
             NavBar::begin([
                 'brandLabel' => 'Vending Machine',
@@ -42,7 +42,8 @@ AppAsset::register($this);
             {
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'User', 'url' => ['/user/index'],'visible' => Yii::$app->user->can('staff'),],
+                ['label' => 'User', 'url' => ['/user/index'],'visible' => Yii::$app->user->can('supervisor'),],
+                ['label' => 'Finance', 'url' => ['/finance/index'],'visible' => Yii::$app->user->can('supervisor'),],
                 ['label' => 'Store', 'url' => ['/store/index']],
                 // ['label' => 'Box', 'url' => ['/box/index?id=1']],
                 // ['label' => 'Item', 'url' => ['/item/index']],

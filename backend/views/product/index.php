@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Products';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-index">
 
@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'sku',
             'name',
             'price:currency',
+            'cost:currency',
             ['class' => 'yii\grid\ActionColumn','header' => 'Action'],
         ],
 

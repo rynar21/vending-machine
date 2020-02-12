@@ -168,214 +168,214 @@ class BoxController extends Controller
 
         return  $this->redirect(Url::to(['store/view','id'=>$store_id]));
     }
-    //jiaoben.......
-    public function actionReplace()
-    {
+    // //jiaoben.......
+    // public function actionReplace()
+    // {
+    //
+    //
+    //     die();
+    //     $turl='C:\Users\user\Desktop\up';//上传的新文件的目录
+    //
+    //     $txt = file_exists($turl);//检查文件或目录是否存在
+    //     $arr = scandir($turl);
+    //     $all = count($arr)-2;
+    //     //echo $all;
+    //     if ($txt)
+    //     {
+    //            $path = 'C:\Users\user\Desktop\up';///当前目录
+    //             $handle = opendir($path); //当前目录
+    //             while (false !== ($file = readdir($handle))) { //遍历该php文件所在目录
+    //
+    //                 list($filesname,$kzm)=explode(".",$file);//获取扩展名
+    //
+    //                 if($kzm=="gif" or $kzm=="jpg" or $kzm=="JPG") { //文件过滤
+    //
+    //                     if (!is_dir('./'.$file)) { //文件夹过滤
+    //
+    //                         $array[]=$file;//把符合条件的文件名存入数组
+    //                         $name[] = strstr($file,'.',true);//取文件的名字
+    //                         // if ( Product::find()->where(['name'=>$name])->one()) {
+    //                         //     $pname[]=$name;
+    //                         // }
+    //                         $ext = explode(".", $file);//拆分获取图片名
+    //                         $extt[] = $ext[count($ext) - 1];//取图片的后缀名
+    //
+    //                     }
+    //
+    //                 }
+    //
+    //             }
+    //             print_r($name);
+    //             die();
+    //             $model = Product::find()->where(['name'=>$name])->all();
+    //             foreach ($model as $pr) {
+    //                 // echo "<pre/>";
+    //                 // print_r($pr->id);
+    //                 // echo "<pre/>";
+    //                 $filename='D:\wamp64\www\vending-machine\backend\web\mel-img\a.txt';//创建文本文档记录旧文件路径
+    //                 $handle=fopen($filename,"a+");
+    //                 $str=fwrite($handle,$pr->image.'_'.$pr->id."\n");//写入旧文件路径到文本文档
+    //                 fclose($handle);
+    //             }
+    //             echo "1";
+    //             die();
+    //             if ($model)
+    //             {
+    //                 if($model->image){
+    //                     if (file_exists(Yii::getAlias('@upload') . '/' . $model->image))
+    //                     {
+    //                          $filename='D:\wamp64\www\vending-machine\backend\web\mel-img\a.txt';//创建文本文档记录旧文件路径
+    //                          $handle=fopen($filename,"a+");
+    //                          $str=fwrite($handle,$model->image.'_'.$model->id."\n");//写入旧文件路径到文本文档
+    //                          fclose($handle);
+    //                     }
+    //                 }
+    //                 //die();
+    //                     $model->image =  $name .'.'. $ext;//数据库写入新文件路径
+    //                     $model->save();
+    //                     echo "1";
+    //                     $src = $turl.'/'.$file;//替换的文件的目录
+    //                     $dst = Yii::getAlias('@upload').'/'.$model->image;//新文件目录
+    //                     rename($src, $dst);//文件移动到指定目录
+    //
+    //             }
+    //
+    //       }
+    //       else {
+    //           return false;
+    //       }
+    //
+    // }
+    //
+    // public function actionSo()
+    // {
+    //     $turl='D:\wamp64\www\vending-machine\backend\web\mel-img\a.txt';//文本路径
+    //     $txt = file_exists($turl);//检查文件或目录是否存在
+    //     if ($txt)
+    //     {
+    //            $lines=file($turl);//逐行读取内容
+    //            foreach ($lines as $file) {
+    //            //$line=explode(",",$file);
+    //            $name = substr($file,0,strrpos($file,'_'));//取文件的名字
+    //            $ext = explode("_", $file);//拆分获取图片名
+    //            $id= $ext[count($ext) - 1];//获取文件的id
+    //            //print_r($id);
+    //            $model = Product::find()->where(['id'=>$id])->one();
+    //                if ($model)
+    //                {
+    //                    //echo "2";
+    //                    if($model->image){
+    //                        if (file_exists(Yii::getAlias('@upload') . '/' . $model->image))
+    //                        {
+    //                             print_r($model->image);
+    //                             //echo "3";
+    //
+    //                             unlink(Yii::getAlias('@upload') . '/' . $model->image);//删除原来的文件
+    //                             $model->image = $name ;//替换数据库路径
+    //                             $model->save();//保存
+    //                             echo $id;
+    //                        }
+    //                    }
+    //
+    //                }
+    //                //die();
+    //         }
+    //         die();
+    //         file_put_contents($turl,"");//清空文本
+    //       }
+    //       else {
+    //           return false;
+    //       }
+    // }
+    //
+    // public function actionGenerate()
+    // {
+    //     $turl='C:\Users\user\Desktop\image\apple.jpg';
+    //     $url='C:\Users\user\Desktop\up';
+    //     $arr = scandir($url);
+    //     $all = count($arr)-2;
+    //     if ($all<=1000) {
+    //         for ($i=1; $i <1001-$all ; $i++) {
+    //             copy($turl,$url.'/'. uniqid() .'.jpg');
+    //         }
+    //     }
+    //     echo 1000-$all;
+    // }
 
-
-        die();
-        $turl='C:\Users\user\Desktop\up';//上传的新文件的目录
-
-        $txt = file_exists($turl);//检查文件或目录是否存在
-        $arr = scandir($turl);
-        $all = count($arr)-2;
-        //echo $all;
-        if ($txt)
-        {
-               $path = 'C:\Users\user\Desktop\up';///当前目录
-                $handle = opendir($path); //当前目录
-                while (false !== ($file = readdir($handle))) { //遍历该php文件所在目录
-
-                    list($filesname,$kzm)=explode(".",$file);//获取扩展名
-
-                    if($kzm=="gif" or $kzm=="jpg" or $kzm=="JPG") { //文件过滤
-
-                        if (!is_dir('./'.$file)) { //文件夹过滤
-
-                            $array[]=$file;//把符合条件的文件名存入数组
-                            $name[] = strstr($file,'.',true);//取文件的名字
-                            // if ( Product::find()->where(['name'=>$name])->one()) {
-                            //     $pname[]=$name;
-                            // }
-                            $ext = explode(".", $file);//拆分获取图片名
-                            $extt[] = $ext[count($ext) - 1];//取图片的后缀名
-
-                        }
-
-                    }
-
-                }
-                print_r($name);
-                die();
-                $model = Product::find()->where(['name'=>$name])->all();
-                foreach ($model as $pr) {
-                    // echo "<pre/>";
-                    // print_r($pr->id);
-                    // echo "<pre/>";
-                    $filename='D:\wamp64\www\vending-machine\backend\web\mel-img\a.txt';//创建文本文档记录旧文件路径
-                    $handle=fopen($filename,"a+");
-                    $str=fwrite($handle,$pr->image.'_'.$pr->id."\n");//写入旧文件路径到文本文档
-                    fclose($handle);
-                }
-                echo "1";
-                die();
-                if ($model)
-                {
-                    if($model->image){
-                        if (file_exists(Yii::getAlias('@upload') . '/' . $model->image))
-                        {
-                             $filename='D:\wamp64\www\vending-machine\backend\web\mel-img\a.txt';//创建文本文档记录旧文件路径
-                             $handle=fopen($filename,"a+");
-                             $str=fwrite($handle,$model->image.'_'.$model->id."\n");//写入旧文件路径到文本文档
-                             fclose($handle);
-                        }
-                    }
-                    //die();
-                        $model->image =  $name .'.'. $ext;//数据库写入新文件路径
-                        $model->save();
-                        echo "1";
-                        $src = $turl.'/'.$file;//替换的文件的目录
-                        $dst = Yii::getAlias('@upload').'/'.$model->image;//新文件目录
-                        rename($src, $dst);//文件移动到指定目录
-
-                }
-
-          }
-          else {
-              return false;
-          }
-
-    }
-
-    public function actionSo()
-    {
-        $turl='D:\wamp64\www\vending-machine\backend\web\mel-img\a.txt';//文本路径
-        $txt = file_exists($turl);//检查文件或目录是否存在
-        if ($txt)
-        {
-               $lines=file($turl);//逐行读取内容
-               foreach ($lines as $file) {
-               //$line=explode(",",$file);
-               $name = substr($file,0,strrpos($file,'_'));//取文件的名字
-               $ext = explode("_", $file);//拆分获取图片名
-               $id= $ext[count($ext) - 1];//获取文件的id
-               //print_r($id);
-               $model = Product::find()->where(['id'=>$id])->one();
-                   if ($model)
-                   {
-                       //echo "2";
-                       if($model->image){
-                           if (file_exists(Yii::getAlias('@upload') . '/' . $model->image))
-                           {
-                                print_r($model->image);
-                                //echo "3";
-
-                                unlink(Yii::getAlias('@upload') . '/' . $model->image);//删除原来的文件
-                                $model->image = $name ;//替换数据库路径
-                                $model->save();//保存
-                                echo $id;
-                           }
-                       }
-
-                   }
-                   //die();
-            }
-            die();
-            file_put_contents($turl,"");//清空文本
-          }
-          else {
-              return false;
-          }
-    }
-
-    public function actionGenerate()
-    {
-        $turl='C:\Users\user\Desktop\image\apple.jpg';
-        $url='C:\Users\user\Desktop\up';
-        $arr = scandir($url);
-        $all = count($arr)-2;
-        if ($all<=1000) {
-            for ($i=1; $i <1001-$all ; $i++) {
-                copy($turl,$url.'/'. uniqid() .'.jpg');
-            }
-        }
-        echo 1000-$all;
-    }
-
-    public function actionCountp()
-    {
-        $k=8610;
-        $turl='C:\Users\user\Desktop\image\apple.jpg';
-        $url='D:\wamp64\www\vending-machine\backend\web\mel-img\img';
-        // $arr = scandir($url);
-        // $all = count($arr)-2;
-        // if($all<=5000){
-        //     for ($i=1; $i <=5000; $i++) {
-        //         //copy($turl,$url.'/'. $i .'.jpg');
-        //         $model = new Product();
-        //         $model->sku='SKU0000'.$i;
-        //         $model->name= "$i";
-        //         $model->price= 2;
-        //         $model->image= '\img'.'/'.$i.'.jpg';
-        //         $model->save();
-        //     }
-        //     echo "1";
-        // // }
-
-        // $sql = $queryBuilder->batchInsert('product', ['sku', 'name','price','image'], [
-        //     ['SKU0000'.$i, "$i",2,'\img'.'/'.$i.'.jpg'],
-        // ]);
-
-
-
-        $modelkey =['id','sku','name','price','image','created_at','updated_at'];//测试数据键
-        for ($i=1; $i <=$k ; $i++) {
-            $modelvale[] = array($i,'SKU0000'.$i, "$i",5,'/img'.'/'.$i.'.jpg',time(),time());
-        }
-        $res= \Yii::$app->db->createCommand()->batchInsert(Product::tableName(), $modelkey, $modelvale)->execute();
-
-        // for ($i=1; $i <=$k; $i++) {
-        //        copy($turl,$url.'/'. $i .'.jpg');
-        // }
-        // echo "<pre/>";
-        // print_r($model);
-        // echo "<pre/>";
-
-    }
-    public function actionDelete()
-    {
-        array_map('unlink',glob('C:\Users\user\Desktop\up/*'));
-    }
-
-
-    public function actionCp()
-    {
-       $src='C:\Users\user\Desktop\up';//上传的新文件的目录
-       $dst=Yii::getAlias('@upload') ;
-       $dir = opendir($src);
-       @mkdir($dst);
-       while(false !== ( $file = readdir($dir)) ) {
-           if (( $file != '.' ) && ( $file != '..' )) {
-               if ( is_dir($src . '/' . $file) ) {
-                   recurse_copy($src . '/' . $file,$dst . '/' . $file);
-               }
-               else {
-                   rename($src . '/' . $file,$dst . '/' . $file);
-               }
-           }
-       }
-       closedir($dir);
-       echo "1";
-    }
-
-    public  function actionText()
-    {
-        $filename='D:\wamp64\www\vending-machine\backend\web\mel-img\a.txt';//创建文本文档记录旧文件路径
-        for ($i=1; $i <=2 ; $i++) {
-            $handle=fopen($filename,"a+");
-            $str=fwrite($handle,'/img'.'/'.$i.'.jpg'.'_'.$i."\n");//写入旧文件路径到文本文档
-            fclose($handle);
-        }
-            echo "1";
-    }
+    // public function actionCountp()
+    // {
+    //     $k=8610;
+    //     $turl='C:\Users\user\Desktop\image\apple.jpg';
+    //     $url='D:\wamp64\www\vending-machine\backend\web\mel-img\img';
+    //     $arr = scandir($url);
+    //     $all = count($arr)-2;
+    //     if($all<=5000){
+    //         for ($i=1; $i <=5000; $i++) {
+    //             //copy($turl,$url.'/'. $i .'.jpg');
+    //             $model = new Product();
+    //             $model->sku='SKU0000'.$i;
+    //             $model->name= "$i";
+    //             $model->price= 2;
+    //             $model->image= '\img'.'/'.$i.'.jpg';
+    //             $model->save();
+    //         }
+    //         echo "1";
+    //     // }
+    //
+    //     $sql = $queryBuilder->batchInsert('product', ['sku', 'name','price','image'], [
+    //         ['SKU0000'.$i, "$i",2,'\img'.'/'.$i.'.jpg'],
+    //     ]);
+    //
+    //
+    //
+    //     $modelkey =['id','sku','name','price','image','created_at','updated_at'];//测试数据键
+    //     for ($i=1; $i <=$k ; $i++) {
+    //         $modelvale[] = array($i,'SKU0000'.$i, "$i",5,'/img'.'/'.$i.'.jpg',time(),time());
+    //     }
+    //     $res= \Yii::$app->db->createCommand()->batchInsert(Product::tableName(), $modelkey, $modelvale)->execute();
+    //
+    //     for ($i=1; $i <=$k; $i++) {
+    //            copy($turl,$url.'/'. $i .'.jpg');
+    //     }
+    //     echo "<pre/>";
+    //     print_r($model);
+    //     echo "<pre/>";
+    //
+    // }
+    // public function actionDelete()
+    // {
+    //     array_map('unlink',glob('C:\Users\user\Desktop\up/*'));
+    // }
+    //
+    //
+    // public function actionCp()
+    // {
+    //    $src='C:\Users\user\Desktop\up';//上传的新文件的目录
+    //    $dst=Yii::getAlias('@upload') ;
+    //    $dir = opendir($src);
+    //    @mkdir($dst);
+    //    while(false !== ( $file = readdir($dir)) ) {
+    //        if (( $file != '.' ) && ( $file != '..' )) {
+    //            if ( is_dir($src . '/' . $file) ) {
+    //                recurse_copy($src . '/' . $file,$dst . '/' . $file);
+    //            }
+    //            else {
+    //                rename($src . '/' . $file,$dst . '/' . $file);
+    //            }
+    //        }
+    //    }
+    //    closedir($dir);
+    //    echo "1";
+    // }
+    //
+    // public  function actionText()
+    // {
+    //     $filename='D:\wamp64\www\vending-machine\backend\web\mel-img\a.txt';//创建文本文档记录旧文件路径
+    //     for ($i=1; $i <=2 ; $i++) {
+    //         $handle=fopen($filename,"a+");
+    //         $str=fwrite($handle,'/img'.'/'.$i.'.jpg'.'_'.$i."\n");//写入旧文件路径到文本文档
+    //         fclose($handle);
+    //     }
+    //         echo "1";
+    // }
 }

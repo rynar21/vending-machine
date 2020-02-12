@@ -10,10 +10,7 @@ use yii\bootstrap\NavBar;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Store */
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Stores', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+
 ?>
 
 <div class="store-view">
@@ -44,7 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
                   'visible' => Yii::$app->user->can('admin'),
                   'value' => function ($model)
                   {
-                    return $model->user;
+                    return $model->User_name
+                    .' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
+                    Html::a('Add/update', ['store/add_update', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6']).
+                    Html::a('Revoke', ['store/manager_revoke', 'id' => $model->id], ['class' => 'btn btn-sm  btn-primary col-lg-6 ',
+                    'data' => ['confirm' => 'Are you sure you want to revoke this manager?',],]).' </div>';
                   }
               ],
               [
@@ -114,6 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                [
                                    'label'=>'Action',
                                    'format' => 'raw',
+                                   'visible' => Yii::$app->user->can('admin'),
                                    'value' => function ($model)
                                    {
                                        return $model->action;

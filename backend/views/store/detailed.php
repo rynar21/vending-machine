@@ -6,19 +6,13 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use common\models\User;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\Store */
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Stores', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 
-<div class="store-view">
+<div class="store-detailed col-xs-4 col-sm-12">
     <!-- 显示 店名为标题 -->
     <div class="row">
         <h1 class="col-sm-12">
-            <?= Html::a('Cancel', ['store/view', 'id'=> $model->id], ['class' => 'btn btn-danger']) ?>
+            <?= Html::a('Back', ['store/view', 'id'=> $model->id], ['class' => 'btn btn-primary']) ?>
     </div>
     <?php echo DetailView::widget([
           'model' => $model,

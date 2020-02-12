@@ -8,8 +8,6 @@ use yii\helpers\Url;
 /* @var $searchModel backend\models\StoreSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Stores';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="store-index">
@@ -37,19 +35,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             // 'id',
             'name',
-            'address',
+            //'address',
             [
-                'attribute'=>'Manager',
+                'attribute'=>'address',
                 'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return $model->user
-                  .' <div class="btn-group mr-2 pull-right col-lg-9 " role="group" aria-label="Second group"> '.
-                  Html::a('Add/update', ['store/add_update', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6']).
-                  Html::a('Revoke', ['store/manager_revoke', 'id' => $model->id], ['class' => 'btn btn-sm  btn-primary col-lg-6 ',
-                  'data' => ['confirm' => 'Are you sure you want to revoke this manager?',],]).' </div>';
+                  return '<div style="word-wrap: break-word;white-space: normal;word-break: break-all;">'.$model->address.'</div>';
                 }
+            ],
+            [
+              'attribute' => 'Manager',
+              'value' => 'user.username'
             ],
             'contact',
             // 'created_at:datetime',

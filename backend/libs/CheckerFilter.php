@@ -34,6 +34,9 @@ class CheckerFilter extends ActionFilter
             $username = Yii::$app->user->identity->username;
             $tokenSES = $session->get(md5(sprintf("%s&%s",$id,$username))); //取出session中的用户登录token
             $sessionTBL = AdminSession::findOne(['id' => $id]);
+            if (empty($sessionTBL->session_token)) {
+                return parent::beforeAction($action);
+            }
             $tokenTBL = $sessionTBL->session_token;
             if($tokenSES != $tokenTBL)  //如果用户登录在 session中token不同于数据表中token
             {

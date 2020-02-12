@@ -145,5 +145,17 @@ class SaleRecord extends \yii\db\ActiveRecord
         }
         // 更新 Item产品 的状态属性 为购买失败/初始值
     }
+    public function getNet_profit($id)
+    {
+           $p_id = Item::find()->where(['store_id'=>$id])->one()->product_id;
+           $model = Product ::find()->where(['id'=>$p_id])->one();
+           if (!empty($model->cost)) {
+               $cost_price = $model->cost;
+               return $cost_price;
+           }
+           else {
+               return 0;
+           }
+    }
 
 }

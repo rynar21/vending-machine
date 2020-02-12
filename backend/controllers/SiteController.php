@@ -148,7 +148,6 @@ class SiteController extends Controller
             }
 
             for ($j=count($labels); $j >=1 ; $j--) {
-                $total = 0;
                 $models = SaleRecord::find()
                 ->where(['status' => 10])
                 ->andWhere([
@@ -158,7 +157,7 @@ class SiteController extends Controller
                     strtotime(date('Y-m-d',strtotime(2-$j.' day')))
                 ])
                 ->all();
-
+                $total = 0;
                 foreach ($models as $model)
                  {
                     $model1=Item::find()->where(['id'=>$model->item_id])->all();
@@ -420,7 +419,8 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
-
+        //每间店的销售情况
+        //$ID
     public function actionStore_sales()
     {
         $labels = [];
@@ -504,7 +504,7 @@ class SiteController extends Controller
                         'type'=>$type,
                         'number'=>$number,
                         'code'=> 200,
-                    ];                    
+                    ];
                 }
     }
 

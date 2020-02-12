@@ -57,6 +57,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            [['username'],'string'],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED,self::STATUS_SUSPEND]],
         ];
@@ -230,6 +231,12 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function getStore()
+    {
+        // return $this->hasOne(common\models\Auth::className(), ['uid' => 'id']);
+         return $this->hasOne(Store::className(), ['user_id' => 'id']);
     }
 
 }

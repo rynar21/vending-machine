@@ -7,8 +7,8 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\SaleRecord */
 
 $this->title = 'Create Sale Record';
-$this->params['breadcrumbs'][] = ['label' => 'Sale Records', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = ['label' => 'Sale Records', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sale-record-create">
 

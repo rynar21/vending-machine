@@ -18,6 +18,7 @@ use yii\web\UploadedFile;
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'sku')->textInput() ?>
     <?= $form->field($model, 'price')->textInput() ?>
+    <?= $form->field($model, 'cost')->textInput() ?>
     <?= $form->field($model, 'imageFile')->fileInput() ?>
     <div class="form-group">
         <div class="col-sm-1 col-xs-3">

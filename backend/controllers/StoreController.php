@@ -35,7 +35,7 @@ class StoreController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view','kaiqi','store_detailed','manager_revoke','add_update','manager_update'],
+                        'actions' => ['index', 'view','kaiqi','store_detailed','manager_revoke','add_update','manager_update','user_store'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
@@ -126,10 +126,13 @@ class StoreController extends Controller
     {
         $model = new Store();
         // ActiveForm 提交后
-        if ($model->load(Yii::$app->request->post()) && $model->save())
-        {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+        if ($model->load(Yii::$app->request->post()))
+            if ($model->save()) {
+                {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
+
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -155,7 +158,6 @@ class StoreController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-
         // 显示 Update更新页面
         return $this->render('update', [
             'model' => $model,
@@ -213,8 +215,8 @@ class StoreController extends Controller
     {
         //Store::update()->
         Store::updateAll(['user_id'=>''],['id'=>$id]);
-        return $this->actionIndex();
-        //return $this->actionView($id);
+        //return $this->actionIndex();
+        return $this->actionView($id);
     }
     //add/update mannager
     public function actionAdd_update($id)
@@ -228,7 +230,7 @@ class StoreController extends Controller
                 $model->user_id = $getuser->id;
                 if($model->save())
                 {
-                    return $this->actionIndex();
+                    return $this->actionView($id);
                 }
             }
             if (empty($getuser))
@@ -240,12 +242,6 @@ class StoreController extends Controller
         'model' => $this->findModel($id),
         ]);
     }
-    public function actionManager_update()
-    {
-        $username = $_POST['username'];
-        $id = $_POST['id'];
-        store::updateAll(['user_id'=>user::find()->where(['name'=>$username])->one()->id],['id'=>$id]);
-        return $this->actionIndex();
-    }
+
 
 }

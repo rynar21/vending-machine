@@ -59,6 +59,7 @@ class ItemSearch extends Item
             'id' => $this->id,
             'price' => $this->price,
             'box_id' => $this->box_id,
+            'status' =>$this->status,
         ]);
         $query->joinWith('product');
         $query->andFilterWhere(['like', 'product.name', $this->name]);
@@ -75,7 +76,7 @@ class ItemSearch extends Item
         $query = Item::find();
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query->orderBy(['box_id'=>SORT_ASC])->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED], 'store_id'=> $id]),
+            'query' => $query->orderBy(['box_id'=>SORT_ASC])->where(['item.status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED], 'store_id'=> $id]),
         ]);
 
         $this->load($params);

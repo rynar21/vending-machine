@@ -3,13 +3,15 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\models\SaleRecord;
+use common\models\Product;
+use common\models\Item;
 /* @var $this yii\web\View */
 /* @var $model common\models\SaleRecord */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Sale Records', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+// $this->params['breadcrumbs'][] = ['label' => 'Sale Records', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
+// \yii\web\YiiAsset::register($this);
 ?>
 <div class="sale-record-view">
 
@@ -31,14 +33,32 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            [
+                'attribute'=>'SKU',
+                'format' => 'raw',
+                'value' => function($model)
+                {
+                    return product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->sku;
+                }
+            ],
             'text:text:Order number',
             'store_name',
             'box_code',
             'item_name',
+            'sell_price:currency',
+            [
+                'attribute'=>'cost',
+                'format' => 'raw',
+                'visible' => Yii::$app->user->can('admin'),
+                'value' => function($model)
+                {
+                    return 'MYR '.product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->cost;
+                }
+            ],
             //'box_id',
             //'item_id',
-            //'unique_id',
-            // 'trans_id',
+            'unique_id',
+            //'trans_id',
             //'status',
             [
                 'attribute'=>'status',
