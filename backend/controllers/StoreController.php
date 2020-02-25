@@ -33,7 +33,7 @@ class StoreController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'edit'],
+                        'actions' => ['index', 'view', 'lock'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
@@ -209,4 +209,12 @@ class StoreController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+
+    public function actionLock()
+    {
+        $model = Box::find()->where(['store_id'=>1])->all();
+        print_r("<pre>");
+        print_r($model);
+        die();
+    }
 }
