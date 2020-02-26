@@ -1,24 +1,30 @@
 <?php
 
-namespace common\models;
+namespace backend\models;
 
-use Yii;
+use yii\data\ArrayDataProvider;
 use yii\base\Model;
-
-class StorefinanceSearech extends Model
+use yii\data\ActiveDataProvider;
+use common\models\Store;
+use common\models\Item;
+use common\models\User;
+use common\models\Finance;
+use common\models\SaleRecord;
+use common\models\Product;
+/**
+ * StoreSearch represents the model behind the search form of `common\models\Store`.
+ */
+class StoreFinanceSearch extends Model
 {
+    public $store_name;
     public $store_id;
-    public $date;
-    //public $email;
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            //[['id'], 'integer'],
-            [['store_id', 'date'], 'safe'],
+            [['store_name','store_id'], 'safe'],
         ];
     }
 
@@ -28,9 +34,8 @@ class StorefinanceSearech extends Model
     public function attributeLabels()
     {
         return [
-            'store_id' => 'store id',
-            //'name' => 'Name',
-            'date' => 'Date',
+            'store_name'=> 'Store Name',
+
         ];
     }
 
@@ -38,29 +43,75 @@ class StorefinanceSearech extends Model
      * @param $params
      * @return ArrayDataProvider
      */
-    public function search($params)
+    public function storeAllfinancesearch($params,$date)
     {
-        $items = [
-            ["id"=>1,"name"=>"Cyrus","email"=>"risus@consequatdolorvitae.org"],
-            ["id"=>2,"name"=>"Justin","email"=>"ac.facilisis.facilisis@at.ca"],
-            ["id"=>3,"name"=>"Mason","email"=>"in.cursus.et@arcuacorci.ca"],
-            ["id"=>4,"name"=>"Fulton","email"=>"a@faucibusorciluctus.edu"]
-        ];
+        $query = $this->store_finance($date);
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $query,
+            // 'key' => function ($model) {
+            //     return md5($this->store_id);
+            // },
+            //'pagination' => 30, // 可选 不分页
+            // 'sort' => [
+            //     'attributes' => ['store_id'],
+            // ],
+        ]);
+        //$this->load($params);
+        if (!$this->validate()) {
 
+            return $dataProvider;
+        }
         if ($this->load($params)) {
-            $name = strtolower(trim($this->name));
-            $items = array_filter($items, function ($role) use ($name) {
-                return (empty($name) || strpos((strtolower(is_object($role) ? $role->name : $role['name'])), $name) !== false);
-            });
+            //$this->store_id = strtolower(trim($this->store_id));
+            $filtered = array_filter($query, function($item){
+                             return $item['store_id'] == $this->store_id;
+                        });
+            $dataProvider = new ArrayDataProvider([
+                'allModels' => $filtered,
+            ]);
+
         }
 
-        $dataProvider = new ArrayDataProvider([
-            'key'=>'id',
-            'allModels' => $items,
-            'pagination' => false, // 可选 不分页
-            'sort' => [
-                'attributes' => ['id', 'name', 'email'],
-            ],
-        ]);
+        return $dataProvider;
     }
+
+    public function store_finance($date)       //写入日期查询当天所有卖过商品的店
+    {
+        $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+        ->andWhere(['between','created_at' ,$date,$date+86399])->all();
+        if ($models) {
+            foreach ($models as $salerecord_model) {
+                $store_all_data[] =  array('store_id' =>$salerecord_model->store_id , 'date' =>$date,
+                //'store_name'=> Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['store_name'],
+                //'manager' => Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['store_manager'],
+                // 'quantity_of_order'=>Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['quantity_of_order'],
+                // 'total_earn'=>Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['total_earn'],
+                // 'gross_profit'=>Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['total_earn'],
+                // 'net_profit'=>Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['net_profit'],
+                );
+            }
+            $store_all_data = Finance::array_unique_fb($store_all_data);
+            return $store_all_data;
+        }
+
+        else {
+            return array();
+        }
+    }
+
+    //二维数组去重
+    // function array_unique_fb($array2D){
+    //
+    //      foreach ($array2D as $v){
+    //       $v=join(',',$v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
+    //       $temp[]=$v;
+    //      }
+    //      $temp=array_unique($temp); //去掉重复的字符串,也就是重复的一维数组
+    //      foreach ($temp as $k => $v){
+    //        $temp[$k] =  array('store_id' =>explode(',',$v)[0] , 'date' => explode(',',$v)[1]); //再将拆开的数组重新组装
+    //      }
+    //      return $temp;
+    //
+    // }
+
 }

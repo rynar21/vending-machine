@@ -19,11 +19,12 @@ class Box extends \yii\db\ActiveRecord
 {
 
     public $prefix;
-    public $test;
+    public $text;
 
       //盒子状态
-      const BOX_STATUS_AVAILABLE = 2;       // 盒子为空
-      const BOX_STATUS_NOT_AVAILABLE = 1;   // 盒子包含产品
+      const BOX_STATUS_AVAILABLE = 2;      // 盒子为空
+      const BOX_STATUS_NOT_AVAILABLE = 1;  // 盒子包含产品
+       const BOX_STATUS_Lock = 0;  //锁住盒子
 
     // 数据表名称
     public static function tableName()
@@ -99,8 +100,30 @@ class Box extends \yii\db\ActiveRecord
     // 状态属性 以文字 展示
     public function getStatusText()
     {
-        if($this->status)
+        if($this->status==0)
         {
+            // 如果 Box盒子 包含 Item产品
+            if($this->item)
+            {
+                $text = "Available"; // 盒子包含产品
+                $this->status = self::BOX_STATUS_NOT_AVAILABLE;
+                $this->save();
+            }
+            // 相反：如果 Box盒子 没有包含 Item产品
+            if (!($this->item)) {
+                $text = "Not Available"; // 盒子为空
+                $this->status = self::BOX_STATUS_AVAILABLE;
+                $this->save();
+            }
+
+            else {
+                $text = "Lock box"; // 盒子为空
+                $this->status = self::BOX_STATUS_Lock;
+                $this->save();
+            }
+
+        }
+        else {
             // 如果 Box盒子 包含 Item产品
             if($this->item)
             {
@@ -146,7 +169,7 @@ class Box extends \yii\db\ActiveRecord
     public function getAvailableItems()
     {
         return $this->getItems()->orderBy(['id' => SORT_DESC])
-        ->where(['status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
+        ->where(['item.status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])
         ->limit(1);
     }
 
@@ -169,17 +192,7 @@ class Box extends \yii\db\ActiveRecord
         return $text;
     }
 
-    // public function getName()
-    // {
-    //     if($this->item)
-    //     {
-    //         return $this->item->product->name;
-    //     }
-    //     else
-    //     {
-    //         return null;
-    //     }
-    // }
+
 
     public function getPrice()
     {

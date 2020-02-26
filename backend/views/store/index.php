@@ -35,7 +35,6 @@ use yii\helpers\Url;
             ['class' => 'yii\grid\SerialColumn'],
             // 'id',
             'name',
-            //'address',
             [
                 'attribute'=>'address',
                 'format' => 'raw' ,
@@ -45,12 +44,12 @@ use yii\helpers\Url;
                 }
             ],
             [
-              'attribute' => 'Manager',
+              'label' => 'Manager',
+              'attribute' => 'username',
+              'visible' => Yii::$app->user->can('admin'),
               'value' => 'user.username'
             ],
             'contact',
-            // 'created_at:datetime',
-            // 'updated_at:datetime',
             ['class' => 'yii\grid\ActionColumn' , 'template'=>'{view}'],
             [   'class' => 'yii\grid\ActionColumn',
                 'header' => '' ,

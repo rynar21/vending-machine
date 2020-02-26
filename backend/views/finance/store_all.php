@@ -5,85 +5,97 @@ use yii\grid\GridView;
 use yii\widgets\DetailView;
 use common\models\SaleRecord;
 use common\models\Store;
+use common\models\User;
 use common\models\Item;
 use common\models\Product;
+use common\models\Finance;
+use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\FinanceSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Finances';
-// $this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;  http://localhost/vending-machine/backend/web/finance/datecheck"
 ?>
 <div class="store_all">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <!--<form method="GET" action="#">
+        <div class="col-lg-8">
+           <div class="input-group" >
+             <input name="store_name"  type="text" class="form-control" placeholder="Please enter your store name">
+             <span class="input-group-btn">
+               <button cclass="btn btn-default" name="submit" type="submit">Search</button>
+             </span>
+           </div><!-- /input-group -->
+         <!--</div><!-- /.col-lg-6 -->
+    <!--</form> -->
+    <br/>
+        <br/>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => ['store_id' => 1, 'date' => 45698456],
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'date',
             [
-                'attribute'=>'store name',
+                'attribute'=>'date',
+                'format' => 'raw',
+                 'headerOptions' =>['class'=>'col-lg-2',],
+                'visible' => Yii::$app->user->can('admin'),
+                'value' => function ($model)
+                {
+                   return Yii::t('app', ' {0, date}', $model['date']) ;
+                }
+            ],
+            //'store_id',
+            // 'store_name',
+            // 'manager',
+            [
+                'attribute'=>'store',
                 'format' => 'raw' ,
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                   return Store::find()->where(['id'=>$model['store_id']])->one()->name;
+                   return Finance::find_store_one_finance_oneday($model['store_id'],$model['date'])['store_name'];
                 }
             ],
             [
-                'attribute'=>'Quantity Of Order',
+                'attribute'=>'manager',
                 'format' => 'raw' ,
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return SaleRecord::find()->where(['store_id'=>$model['store_id']])
-                  ->andWhere(['between','created_at' ,strtotime($model['date']),(strtotime($model['date'])+86399)])
-                  ->andWhere(['status' => 10])
-                  ->count();
+                   return Finance::find_store_one_finance_oneday($model['store_id'],$model['date'])['store_manager'];
                 }
             ],
             [
-                'attribute'=>'Total Earn',
-                'format' => 'raw' ,
+                'attribute'=>'Order Quantity',
+                'format' => 'raw',
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                    $total = Store::STATUS_INITIAL;
-                    $stroe_model = SaleRecord::find()->where(['store_id'=>$model['store_id']])
-                    ->andWhere(['status' => 10])
-                    ->andWhere(['between','updated_at' ,strtotime($model['date']),(strtotime($model['date'])+86399)])->all();
-                    foreach ($stroe_model as $model) {
-                        $arr = $model->sell_price ;
-                        $total += $arr;
-                    }
-                  return $total;
+                 return Finance::find_store_one_finance_oneday($model['store_id'],$model['date'])['quantity_of_order'];
+                }
+            ],
+            [
+                'attribute'=>'Total Earnings',
+                'format' => 'currency',
+                'visible' => Yii::$app->user->can('admin'),
+                'value' => function ($model)
+                {
+                return Finance::find_store_one_finance_oneday($model['store_id'],$model['date'])['total_earn'];
                 }
             ],
             [
                 'attribute'=>'Net Profit',
-                'format' => 'raw' ,
+                'format' => 'currency',
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                    $total = Store::STATUS_INITIAL;
-                    $cost_price = Store::STATUS_INITIAL;
-                    $stroe_model = SaleRecord::find()->where(['store_id'=>$model['store_id']])
-                    ->andWhere(['status' => 10])
-                    ->andWhere(['between','created_at' ,strtotime($model['date']),(strtotime($model['date'])+86399)])->all();
-                    foreach ($stroe_model as $s_model) {
-                        $total += $s_model->sell_price;
-                        $cost_price += Product ::find()->where(['id'=>Item::find()->where(['id'=>$s_model->item_id])->one()->product_id])->one()->cost;
-
-                    }
-                    $net_profit = $total - $cost_price;
-                    return $net_profit;
+                    return Finance::find_store_one_finance_oneday($model['store_id'],$model['date'])['net_profit'];
                 }
             ],
             //['class' => 'yii\grid\ActionColumn'],
@@ -93,7 +105,9 @@ $this->title = 'Finances';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return Html::a('', ['finance/index'], ['class' => 'btn btn-sm  glyphicon glyphicon-eye-open']);
+                  return Html::a('', ['/sale-record/one_store_all_salerecord',
+                  'store_id'=>$model['store_id'],'date'=>$model['date']],
+                  ['class' => 'btn btn-sm  glyphicon glyphicon-eye-open']);
                 }
             ],
         ],
@@ -101,16 +115,3 @@ $this->title = 'Finances';
 
 
 </div>
-
-<br />
-
-<?php
-// $date = '2020-02-09';
-//
-//
-//      echo "\n";
-//      $catime = strtotime($date);//
-//      echo "\n";
-//      echo $catime;
-
-?>

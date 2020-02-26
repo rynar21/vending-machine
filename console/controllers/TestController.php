@@ -9,6 +9,7 @@ use common\models\Product;
 use common\models\Store;
 use common\models\Item;
 use common\models\Finance;
+use yii\helpers\ArrayHelper;
 use yii\console\Controller;
 
 class TestController extends Controller {
@@ -71,25 +72,89 @@ class TestController extends Controller {
 
      }
 
+     public function actionSales()
+     {
+        $data = $this->store_finance('1581350400');
+        $filtered = array_filter($data, function($item){
+                         return $item['store_id'] == '1';
+                    });
+        print_r($data);
+        echo "\n";
+        print_r($filtered);
+
+     }
+
+     public function store_finance($date)       //写入日期查询当天所有卖过商品的店
+     {
+         $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+         ->andWhere(['between','created_at' ,$date,$date+86399])->all();
+         if ($models) {
+             foreach ($models as $salerecord_model) {
+
+                 $store_all_data[] =  array('store_id' =>$salerecord_model->store_id , 'date' =>$date);
+             }
+             //$a = array_unique($store_id); // 维数组去重复
+             $store_all_data = $this->array_unique_fb($store_all_data);
+             return $store_all_data;
+         }
+
+         if (empty($store_id)) {
+             return false;
+         }
+     }
      ///
      public function actionSale()
      {
 
-         $catime = strtotime('2020-02-11');
-         $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-         ->andWhere(['between','created_at' ,$catime,($catime+86399)])->all();
-         if ($models) {
-             foreach ($models as $salerecord_model) {
-
-                 $store_all_data[] =  array('store_id' =>$salerecord_model->store_id , 'date' =>'2020-02-11');
-             }
-             //$a = array_unique($store_id); // 维数组去重复
-             $store_all_data = $this->array_unique_fb($store_all_data);
-
-             print_r($store_all_data);
-             //return $store_all_data;
-         }
+         $str= '2020-02-01/2020-02-29';
+         $arr = explode('/',$str);
+         $model = array();
+         $datas = $this->get_store_salerecord(['date1'=>$arr[0],'date2'=>$arr[1]]);
+         //$fields = ['date','order_number','box_code','store_name','sell_price','cost','creation_time','end_time'];
+         print_r($datas);
      }
+     public  function get_store_salerecord($array) //导出roder
+     {
+         $date1 = ArrayHelper::getValue($array,'date1',Null);
+         $date2 = ArrayHelper::getValue($array,'date2',Null);
+         $store_id = ArrayHelper::getValue($array,'store_id',Null);
+         $catime1 = strtotime($date1);
+         $catime2 = strtotime($date2);
+        // $all_order = [];
+        // print_r((strtotime($date2)-strtotime($date1)+86400)/86400);
+        // echo "\n";
+         if (empty($store_id)) {
+             for ($i = 1; $i <=(strtotime($date2)-strtotime($date1)+86400)/86400 ; $i++) {
+                 $date = $catime1+86400*($i)-86400;
+                 $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+                 ->andWhere(['between','created_at' ,$date,$date+86399])
+                 ->andWhere(['store_id'=>7])
+                 ->all();
+                 //echo "1";
+                 print_r(count($models));
+                 if ($models) {
+                     foreach ($models as $model) {
+                         $all_order[] = array('date'=>date('d-m-Y',$date),
+                         'order_number' => $model->order_number,
+                         'box_code' =>$model->box_code,
+                         'store_name'=>$model->store->name,
+                         'item_name'=> $model->item->name,
+                         'sell_price' => $model->sell_price,
+                         'cost' => product::find()->where(['id'=>$model->item->product_id])->one()->cost,
+                         'creation_time'=>date('d-m-Y H:i:s', $model->created_at),
+                         'end_time'=>date('d-m-Y H:i:s', $model->updated_at),
+                         );
+                        // echo "2";
+                         //print_r($all_order) ;
+                     }
+                 }
+             }
+
+         }
+         return $all_order;
+     }
+
+
 
      //二维数组去重
      function array_unique_fb($array2D){
@@ -134,6 +199,17 @@ class TestController extends Controller {
                 return 0;
             }
      }
+
+
+
+
+    public function actionUp()
+    {
+        $id = 7;
+        box::updateAll(['status'=>1],['store_id'=>$id]);
+    }
+
+
 
 }
 ?>

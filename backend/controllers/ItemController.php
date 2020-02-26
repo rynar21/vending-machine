@@ -4,8 +4,10 @@ namespace backend\controllers;
 use Yii;
 use common\models\Item;
 use common\models\Box;
+use common\models\Store;
 use common\models\Product;
 use backend\models\ItemSearch;
+use backend\models\BoxSearch;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -126,6 +128,7 @@ class ItemController extends Controller
                 {
                     // 返回 store/view页面 当保存成功
                     return $this->redirect(['store/view', 'id' => $model->store_id]);
+                    //return $this->render('store/view',[ 'id' => $model->store_id]);
                 }
             }
             if (empty($getsku)) {

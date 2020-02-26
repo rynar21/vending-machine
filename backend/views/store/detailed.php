@@ -21,15 +21,7 @@ use common\models\User;
               'name',
               'address',
               'contact',
-              [
-                  'attribute'=>'Manager',
-                  'format' => 'raw' ,
-                  'class' => 'text-center',
-                  'value' => function ($model)
-                  {
-                    return $model->user;
-                  }
-              ],
+              'user.username',
               [
                   'attribute'=>'Total sales amount',
                   'format' => 'raw' ,

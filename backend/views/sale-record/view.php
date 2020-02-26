@@ -45,14 +45,15 @@ $this->title = $model->id;
             'store_name',
             'box_code',
             'item_name',
+            'store.name',
             'sell_price:currency',
             [
                 'attribute'=>'cost',
-                'format' => 'raw',
+                'format' => 'currency',
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function($model)
                 {
-                    return 'MYR '.product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->cost;
+                    return product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->cost;
                 }
             ],
             //'box_id',

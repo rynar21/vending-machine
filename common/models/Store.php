@@ -25,8 +25,11 @@ class Store extends \yii\db\ActiveRecord
     public $username;//添加管理员
 
     public $imageFile;
-    //初始0
-    const STATUS_INITIAL = 0;
+
+    const STATUS_INITIAL = 0;  //初始状态0
+    const STATUS_IN_OPERATION = 10; //运营中
+    const STATUS_SUSPEND_BUSINESS = 9; //暂停营业
+    const STATUS_IN_MAINTENANCE = 8; //维护中
     // Table Name
     public static function tableName()
     {
@@ -73,13 +76,13 @@ class Store extends \yii\db\ActiveRecord
         if (empty($this->user_id)) {
             return '<span style="color:#CD0000">' .'Null'.'';
         }
-        return user::find()->where(['id'=>$this->user_id])->one()->username;
+        return $this->user->username;
     }
     //今日收益
     public function getProfit_today()
     {
         $total = Store::STATUS_INITIAL;
-        $model1 = SaleRecord::find()->where(['store_id'=>$this->id,'status'=>10])
+        $model1 = SaleRecord::find()->where(['store_id'=>$this->id,'status'=>SaleRecord::STATUS_SUCCESS])
         ->andWhere([
             'between',
             'created_at' ,
@@ -97,7 +100,7 @@ class Store extends \yii\db\ActiveRecord
     public function getYesterday_earnings()
     {
         $total = Store::STATUS_INITIAL;
-        $model1 = SaleRecord::find()->where(['store_id'=>$this->id,'status'=>10])
+        $model1 = SaleRecord::find()->where(['store_id'=>$this->id,'status'=>SaleRecord::STATUS_SUCCESS])
         ->andWhere([
             'between',
             'created_at' ,
@@ -115,7 +118,7 @@ class Store extends \yii\db\ActiveRecord
     public function getTotal_sales_amount()
     {
         $total = Store::STATUS_INITIAL;
-        $model1 = SaleRecord::find()->where(['store_id'=>$this->id,'status'=>10])->all();
+        $model1 = SaleRecord::find()->where(['store_id'=>$this->id,'status'=>SaleRecord::STATUS_SUCCESS])->all();
         foreach ($model1 as $model ) {
         $arr = $model->sell_price ;
         $total += $arr;
@@ -178,13 +181,20 @@ class Store extends \yii\db\ActiveRecord
         }
         return parent::afterSave($insert,$changedAttributes);
     }
+
+    public  function getAddress()
+    {
+        return $this->address;
+    }
+
+    // public function getUsername()
+    // {
+    //     return $this->user->username;
+    // }
     public function getUser()
     {
         // return $this->hasOne(common\models\Auth::className(), ['uid' => 'id']);
          return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-    public  function getAddress()
-    {
-        return $this->address;
-    }
+
 }

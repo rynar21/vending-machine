@@ -49,10 +49,6 @@ class CheckerFilter extends ActionFilter
                 // //Yii::$app->response->redirect(Url::to(['site/login'],Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere')));
                 //Yii::$app->request(Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere'));
 
-
-
-
-
             }
         }
         return parent::beforeAction($action);

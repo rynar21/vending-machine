@@ -128,7 +128,7 @@ class SiteController extends Controller
         $pricesum=[];
         $sk=[];
         $kunum=[];
-            for ($i=0; $i < 7 ; $i++) {
+            for ($i=0; $i < 10 ; $i++) {
               $labels[] = date('Y-m-d ', strtotime(-$i.'days'));
               sort($labels);
             }

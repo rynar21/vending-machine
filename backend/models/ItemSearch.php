@@ -88,4 +88,30 @@ class ItemSearch extends Item
         $query->andFilterWhere(['like', 'product.name', $this->name]);
         return $dataProvider;
     }
+    
+    public function searchBoxItem($params, $box_id,$store_id)
+    {
+        $query = Item::find();
+        // add conditions that should always apply here
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $this->load($params);
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'price' => $this->price,
+            'box_id' => $box_id,
+            'status' =>$this->status,
+            'store_id' => $store_id,
+        ]);
+        $query->joinWith('product');
+        $query->andFilterWhere(['like', 'product.name', $this->name]);
+        return $dataProvider;
+    }
 }

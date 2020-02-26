@@ -29,7 +29,7 @@ $this->title = 'Products';
             'name',
             'price:currency',
             'cost:currency',
-            ['class' => 'yii\grid\ActionColumn','header' => 'Action'],
+            ['class' => 'yii\grid\ActionColumn','header' => 'Action','template' => '{view}{update}',],    
         ],
 
     ]); ?>

@@ -66,6 +66,13 @@ class SaleRecord extends \yii\db\ActiveRecord
         ];
     }
 
+   //  public function getStorename()
+   // {
+   //     if (!empty($this->store->id))
+   //     {
+   //         return $this->store->name;
+   //     }
+   // }
 
     public function getText()
     {
@@ -77,6 +84,13 @@ class SaleRecord extends \yii\db\ActiveRecord
         return $this->hasOne(Item::className(), ['id' => 'item_id']);
     }
 
+    public function getProduct()
+    {
+        return $this->hasOne(Product::className(), ['id' => 'product_id'])->via('item');
+        // return $this->hasMany(Video::tableName(), ['video_id' => 'vid'])
+        //     ->viaTable(LessonVideo::tableName(), ['lid' => 'lesson_id']);
+    }
+
     // 寻找 Box盒子 数据表
     public function getBox()
     {
@@ -85,7 +99,7 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     public function getStore()
     {
-        return $this->hasOne(Store::className(), ['id' => 'id'])->via('box');
+        return $this->hasOne(Store::className(), ['id' => 'store_id'])->via('box');
     }
 
     public function getPricing()

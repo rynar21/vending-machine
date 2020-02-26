@@ -12,7 +12,7 @@ use common\models\User;
  */
 class StoreSearch extends Store
 {
-    public $manager;
+    public $username;
     /**
      * {@inheritdoc}
      */
@@ -20,10 +20,8 @@ class StoreSearch extends Store
     {
         return [
             [['id','status'], 'integer'],
-            [['manager'], 'safe'],
-            [['name', 'address'], 'safe'],
+            [['name', 'address','username'], 'safe'],
             ['contact', 'number'],
-
         ];
     }
 
@@ -44,6 +42,7 @@ class StoreSearch extends Store
     public function search($params)
     {
         $query = Store::find();
+
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,20 +55,51 @@ class StoreSearch extends Store
             // uncomment the following line if you do not want to return any records when validation fails
             return $dataProvider;
         }
-
         // grid filtering conditions
-        $query->andFilterWhere([
-            'status' => $this->status,
-
-        ]);
-        if ($this->manager) {
+        if ($this->username) {
             $query->joinWith('user');
         }
-        $query->andFilterWhere(['id' => $this->id,'contact' => $this->contact,])
-            ->andFilterWhere(['like', 'user.username', $this->manager])
+            $query->andFilterWhere(['id' => $this->id,'contact' => $this->contact,])
+            ->andFilterWhere(['like', 'user.username', $this->username])
             ->andFilterWhere(['like', 'name', $this->name,])
             ->andFilterWhere(['like', 'address', $this->address,]);
 
         return $dataProvider;
     }
+
+
+    //用户下的所有的店
+    public function searchUserAllstore($params,$user_id)
+    {
+        $query = Store::find();
+
+        // add conditions that should always apply here
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate())
+        {
+            // uncomment the following line if you do not want to return any records when validation fails
+            return $dataProvider;
+        }
+        // grid filtering conditions
+        if ($this->username) {
+            $query->joinWith('user');
+        }
+        $query->andFilterWhere([
+
+            'user_id' => $user_id,
+
+        ])
+            ->andFilterWhere(['id' => $this->id,'contact' => $this->contact,])
+            ->andFilterWhere(['like', 'user.username', $this->username])
+            ->andFilterWhere(['like', 'name', $this->name,])
+            ->andFilterWhere(['like', 'address', $this->address,]);
+
+        return $dataProvider;
+    }
+
 }

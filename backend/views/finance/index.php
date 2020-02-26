@@ -1,5 +1,5 @@
 <?php
-
+use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -13,10 +13,30 @@ $this->title = 'Finances';
 <div class="finance-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <div class="row col-sm-12">
+        <form method="GET" action="http://localhost/vending-machine/backend/web/finance/datecheck">
+            <input name="date1"  type="date" class=" col-sm-2">
+            <div class="col-sm-1 text-center">-</div>
+            <input name="date2"  type="date"  class=" col-sm-2" >
+            <input type="submit" name="submit" value="ok" class=" btn btn-sm btn-primary col-sm-1 ">
+        </form>
+    </div>
+    <?php  if (empty($dataProvider_all)) {
+        $dataProvider_all = new ArrayDataProvider([
+           'allModels' => array(),
+       ]);
+    }?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider_all,
+        //'filterModel' => '',
+        'columns' => [
+            'date',
+            'quantity_of_order',
+            'total_earn',
+            'gross_profit',
+            'net_profit',
+        ],
+    ]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

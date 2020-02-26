@@ -235,7 +235,6 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getStore()
     {
-        // return $this->hasOne(common\models\Auth::className(), ['uid' => 'id']);
          return $this->hasOne(Store::className(), ['user_id' => 'id']);
     }
 

@@ -8,6 +8,7 @@ use common\models\Box;
 use common\models\User;
 use backend\models\StoreSearch;
 use backend\models\BoxSearch;
+use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +36,8 @@ class StoreController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view','kaiqi','store_detailed','manager_revoke','add_update','manager_update','user_store'],
+                        'actions' => ['index', 'view','kaiqi','store_detailed','manager_revoke','add_update',
+                        'manager_update','user_store','lockup_box','open_box','box_item'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
@@ -76,12 +78,20 @@ class StoreController extends Controller
     public function actionIndex()
     {
         $searchModel = new StoreSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {  //当登录的用户权限是admin时，可以看到所有的商店
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        else { //当登录的用户权限不是admin时，只能看到自己管理的店
+            $dataProvider = $searchModel->searchUserAllstore(Yii::$app->request->queryParams,Yii::$app->user->identity->id);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
     /**
@@ -102,7 +112,7 @@ class StoreController extends Controller
             // 'modelData'=>$modeldata,
         ]);
     }
-    public function actionKaiqi($id)
+    public function actionKaiqi($id)//打开盒子
     {
         //return $this->redirect(['view' ,'id' => '1']);
         //return $this->redirect(['view', 'id' => $id,'md'=>'1']);
@@ -213,9 +223,7 @@ class StoreController extends Controller
     }
     public function actionManager_revoke($id)
     {
-        //Store::update()->
         Store::updateAll(['user_id'=>''],['id'=>$id]);
-        //return $this->actionIndex();
         return $this->actionView($id);
     }
     //add/update mannager
@@ -240,6 +248,33 @@ class StoreController extends Controller
         }
         return $this->render('store_manager', [
         'model' => $this->findModel($id),
+        ]);
+    }
+
+    public function actionLockup_box($id)  //锁盒子
+    {
+        Box::updateAll(['status'=>Box::BOX_STATUS_Lock],['store_id'=>$id]);
+        Store::updateAll(['status'=> Store::STATUS_IN_MAINTENANCE],['id'=>$id]);
+        return $this->redirect(['store/view', 'id' => $id]);
+    }
+    public function actionOpen_box($id)  //开放盒子
+    {
+        Box::updateAll(['status'=>Box::BOX_STATUS_NOT_AVAILABLE],['store_id'=>$id]);
+        Store::updateAll(['status'=> Store::STATUS_IN_OPERATION],['id'=>$id]);
+        return $this->redirect(['store/view', 'id' => $id]);
+    }
+
+    public function actionBox_item($box_id,$store_id)
+    {
+        // 获取 ItemSearch 数据表
+        $searchModel = new ItemSearch();
+        // 使用输入字段 进行搜索功能
+        $dataProvider = $searchModel->searchBoxItem(Yii::$app->request->queryParams,$box_id,$store_id);
+
+        // 当前 显示 index 页面 及 带入相关数据
+        return $this->render('itemdata', [
+            'searchModel' => $searchModel,      // ItemSearch Model
+            'dataProvider' => $dataProvider,    // 搜索Item数据
         ]);
     }
 

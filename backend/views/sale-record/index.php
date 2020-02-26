@@ -30,24 +30,19 @@ $this->title = 'Sale Records';
         'filterModel' => $searchModel,
         //'options' =>['id'=>'grid'],
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn',
-
-            // 'name'=>'id',
-            ],
-           'text:text:Order number',
+            ['class' => 'yii\grid\SerialColumn',],
+            'order_number',
             'box_code:text:Box Code',
-            // [
-            //     'attribute'=>'Box number',
-            //     'format' => 'raw' ,
-            //     'value' => function ($model)
-            //     {
-            //         Box::find()->where(['id'=>$model->box_id])->one()->boxcode;
-            //     },
-            // ],
-            'store_name:text:Store Name',
-            'item_name:text:Item Name',
-            // 'trans_id',
-            //'status',
+            [
+              'label' => 'Store',
+              'attribute' => 'storename',
+              'value' => 'store.name'
+            ],
+            [
+              'label' => 'Item',
+              'attribute' => 'itemname',
+              'value' => 'item.name'
+            ],
             'sell_price:currency',
             [
                 'attribute'=>'status',
@@ -70,8 +65,8 @@ $this->title = 'Sale Records';
                 },
             ],
             //'unique_id',
-            'created_at:datetime:Creation time',
-            'updated_at:datetime:End Time',
+            'created_at:datetime:Order Time',
+            'updated_at:datetime:Payment Time',
             [   'class' => 'yii\grid\ActionColumn',
                 'header' => 'Action' ,
                 'visible' => Yii::$app->user->can('admin'),
@@ -79,17 +74,6 @@ $this->title = 'Sale Records';
             ],
         ],
 
-        // 'rowOptions'=>function($model){
-        //     if($model->status == 10){
-        //         return
-        //         // 'contentOptions' => ['style'=>'color:green;'];
-        //          ['style'=>'color:green;'];
-        //
-        //     }
-        //     if ($model->status==8) {
-        //         return ['style'=>'color:red;'];
-        //     }
-        //     },
     ]);
      ?>
 
