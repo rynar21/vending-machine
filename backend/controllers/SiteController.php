@@ -120,25 +120,23 @@ class SiteController extends Controller
         //return $this->redirect(['sales']);
         return $this->render('index');
     }
-    public function actionBoxStatus()
+    public function actionBoxstatus($store_id)
     {
-        // $models =  Box::find()->where(['store_id'=>$store_id])->all();
-        // foreach ($models as $model) {
-        //     $array[] = $model->code.':'.$model->status;
-        // }
+        $models =  Box::find()->where(['store_id'=>$store_id])->all();
+        foreach ($models as $model) {
+            if ($model->status == Box::BOX_STATUS_NOT_AVAILABLE) {
+                $array[] = array("$model->code"=>'Open');
+            }
+            if ($model->status == Box::BOX_STATUS_AVAILABLE) {
+                $array[] = array("$model->code"=>'Close');
+            }
+        }
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
            if (Yii::$app->request->isAjax) {
                return [
-                   // 'labels' => $labels,
-                   // 'data' => $data ,
-                   // 'pricesum' => $pricesum,
-                   // 'sk'=> $sk,
-                   // 'kunum'=>$kunum,
-                   // 'type'=>$type,
-                   // 'number'=>$number,
-                   'status' => '123',
-                   'code'=> 200,
+                   'status' => $array,
+                   //'code'=> 200,
                ];
            }
     }
@@ -224,6 +222,7 @@ class SiteController extends Controller
                         'type'=>$type,
                         'number'=>$number,
                         'code'=> 200,
+
                     ];
                 }
     }

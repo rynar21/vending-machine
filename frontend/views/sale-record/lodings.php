@@ -13,9 +13,12 @@ $this->title = 'Lodings';
 ?>
 
 
-<form method="POST" action="http://localhost/vending-machine/frontend/web/sale-record/paycheck">
-    Barcode: <input type="text" name="barcode">
+<form id="demo"  method="POST" action="http://localhost/vending-machine/frontend/web/sale-record/paycheck">
+
     <input name="salerecord_id" value="<?= $salerecord_id?>" type="hidden" >
     <input name="price" value="<?= $price?>" type="hidden" >
-    <input type="submit" name="submit">
+
 </form>
+<?php $this->registerJs("
+    $('#demo').submit();
+") ?>
