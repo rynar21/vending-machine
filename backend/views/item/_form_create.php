@@ -62,7 +62,12 @@ use yii\web\JsExpression;
 
               <div class="col-sm-1 col-xs-3">
                   <!-- 取消按钮 -->
-                  <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
+                  <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id],
+                  ['class' => 'btn btn-danger',
+                  'data-method' => 'POST',
+                  'data-params' => [
+                      'modify' => true,]
+                  ]); ?>
               </div>
         </div>
 

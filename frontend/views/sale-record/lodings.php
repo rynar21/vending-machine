@@ -13,7 +13,7 @@ echo $salerecord_id;
 ?>
 
 
-<form method="POST" action="http://localhost/vending-machine/frontend/web/sale-record/paycheck">
+<form method="POST" action="https://spfintech.sains.com.my/xservice/H5PaymentAction.cashier.do">
     Barcode: <input type="text" name="barcode">
     <input name="salerecord_id" value="<?= $salerecord_id?>" type="hidden" >
     <input name="price" value="<?= $price?>" type="hidden" >
