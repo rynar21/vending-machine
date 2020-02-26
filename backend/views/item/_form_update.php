@@ -33,12 +33,7 @@ use yii\widgets\ActiveForm;
 
         <!-- 强行下架产品 为不可出售 -->
         <p>
-            <?= Html::a('Void Item', ['void', 'id'=> $model->id],
-            ['class' => 'btn btn-danger pull-right',
-            'data-method' => 'POST',
-            'data-params' => [
-                'modify' => true,]
-            ]) ?>
+            <?= Html::a('Void Item', ['void', 'id'=> $model->id], ['class' => 'btn btn-danger pull-right']) ?>
         </p>
 
         <!-- 产品名称 -->
@@ -70,12 +65,7 @@ use yii\widgets\ActiveForm;
 
               <div class="col-sm-1 col-xs-3">
                   <!-- 取消按钮 -->
-                  <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id],
-                  ['class' => 'btn btn-danger',
-                  'data-method' => 'POST',
-                  'data-params' => [
-                      'modify' => true,]
-                  ]); ?>
+                  <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
               </div>
         </div>
 

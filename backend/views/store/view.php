@@ -22,6 +22,14 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <p>
+        <?= Html::a('Update Store', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete Store', ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Are you sure you want to delete this Store?',
+                'method' => 'post',
+            ],
+        ]) ?>
     </p>
 
     <?php echo DetailView::widget([
@@ -46,6 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <hr/>
 
+    <!-- PHP: 展示时间 -->
+    <?php //echo Yii::$app->formatter->asDateTime($model->created_at); ?>
+
     <!-- 显示商店拥有的盒子 -->
     <div class="row">
         <h3 class="col-sm-12">
@@ -53,30 +64,15 @@ $this->params['breadcrumbs'][] = $this->title;
         </h3>
     </div>
     <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-success pull-left']) ?>
-
-    <?php if ($modify == false): ?>
-        <?= Html::a('Edit Box', ['store/view', 'id' => $model->id],
-            [
-            'class' => 'btn btn-primary',
-            'data-method' => 'POST',
-            'data-params' => [
-                'modify' => true,
-            ],
-        ]) ?>
-    <?php endif; ?>
-
-    <?php if ($modify == true): ?>
-        <?= Html::a('Close Edit', ['store/view', 'id' => $model->id],
-            [
-            'class' => 'btn btn-danger',
-            'data-method' => 'POST',
-            'data-params' => [
-                'modify' => 0,
-            ],
-        ]) ?>
-    <?php endif; ?>
-
     <div class="col-sm-12">
+        <?php
+         // echo $this->render('/box/_list', [
+
+            // 'model' => $model ,
+            // 'query'=>$query,
+            // 'dataProvider' => $dataProvider,
+        // ]);
+         ?>
 
          <div class="row">
 
@@ -109,13 +105,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                [
                                    'label'=>'Action',
                                    'format' => 'raw',
-                                   'visible' => $modify,
                                    'value' => function ($model)
                                    {
                                        return $model->action;
                                    }
                                ],
-                               
                            ],
                        ]); ?>
          </div>
@@ -123,23 +117,3 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
-<!-- PHP: 展示时间 -->
-<!-- //echo Yii::$app->formatter->asDateTime($model->created_at);  -->
-
-<!-- This code is commended under line 80 -->
-<!--
-// echo $this->render('/box/_list', [
-   // 'model' => $model ,
-   // 'query'=>$query,
-   // 'dataProvider' => $dataProvider,
-// ]); -->
-
-<!-- delete button and update button -->
-<!-- Html::a('Update Store', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-Html::a('Delete Store', ['delete', 'id' => $model->id], [
-    'class' => 'btn btn-danger',
-    'data' => [
-        'confirm' => 'Are you sure you want to delete this Store?',
-        'method' => 'post',
-    ],
-])  -->

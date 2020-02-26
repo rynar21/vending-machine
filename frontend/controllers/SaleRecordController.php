@@ -157,21 +157,24 @@ class SaleRecordController extends Controller
 
         $request = \Yii::$app->request;
         $salerecord_id = $_POST['salerecord_id'];
+        $barcode = $_POST['barcode'];
         $price = $_POST['price'];
-       
+        //echo $barcode;
+        //die();
         $data = [
-             'merchantId' => 'M100001565',
+             'merchantId' => 'M100001040',
+             'qrCode' => $barcode,
              'curType' => 'RM',
              'notifyURL' => 'https://google.com/',
              'merOrderNo' => $salerecord_id,
              'goodsName' => '',
-             'detailURL' => 'https://google.com/',
+             'detailURL' => '',
              'orderAmt' => $price,
              'remark' => '',
              'transactionType' => '1',
         ];
         $data      = json_encode($data, 320);
-        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.createOrder.do', $data);
+        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/BarCodePaymentAction.createOrder.do', $data);
         // $array     = json_decode($string);
         // print_r('<pre>');
         // print_r($array);
@@ -199,11 +202,11 @@ class SaleRecordController extends Controller
         $model = SaleRecord::find()->where(['id' => $id])->one();
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         $data = [
-             'merchantId' => 'M100001565',
+             'merchantId' => 'M100001040',
              'merOrderNo' => $id,
         ];
         $data      = json_encode($data, 320);
-        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.queryOrder.do', $data);
+        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/BarCodePaymentAction.queryOrder.do', $data);
         $array     = json_decode($string);
         $orderStatus   = $array->{'orderStatus'};
         $orderAmt      = $array->{'orderAmt'};

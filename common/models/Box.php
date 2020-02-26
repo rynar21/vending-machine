@@ -165,7 +165,7 @@ class Box extends \yii\db\ActiveRecord
         }
         else
         {
-            $text = $this->store->prefix.$this->code; // 盒子包含产品
+            $text = $this->store->prefix.'-'.$this->code; // 盒子包含产品
         }
         return $text;
     }
