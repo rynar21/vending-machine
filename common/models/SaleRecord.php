@@ -156,7 +156,7 @@ class SaleRecord extends \yii\db\ActiveRecord
             $this->item->status = Item::STATUS_SOLD;
             $this->item->save();
             // 更新 Box盒子 的状态属性 为空
-            $this->box->status = Box::BOX_STATUS_AVAILABLE;
+            $this->box->status = Box::BOX_STATUS_NOT_AVAILABLE;
             $this->box->save();
          }
 

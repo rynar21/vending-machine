@@ -53,7 +53,7 @@ class SaleRecordSearch extends SaleRecord
         $query = SaleRecord::find();
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query' =>  $query->orderBy(['id'=>SORT_ASC]),
             //'query' => SaleRecord::find()->where(['status'=>10])->all(),
 
         ]);

@@ -156,12 +156,17 @@ class SaleRecordController extends Controller
         }
     }
 
+    public function actionRequest()
+    {
+
+    }
+
     public function actionPaycheck()
     {
 
         $request = \Yii::$app->request;
         $salerecord_id = $_POST['salerecord_id'];
-        // $barcode = $_POST['barcode'];
+        //$barcode = $_POST['barcode'];
         $price = $_POST['price'];
         //echo $barcode;
         //die();
@@ -172,21 +177,20 @@ class SaleRecordController extends Controller
              'notifyURL' => 'https://google.com/',
              'merOrderNo' => $salerecord_id,
              'goodsName' => '',
-             'detailURL' => '',
+             'detailURL' => 'https://h5pay.requestcatcher.com/',
              'orderAmt' => $price,
              'remark' => '',
              'transactionType' => '1',
-             'detailURL' =>'#',
+             //'detailURL' =>'#',
         ];
         $data      = json_encode($data, 320);
-        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.createOrder.do', $data);
-        // $array     = json_decode($string);
-        // print_r('<pre>');
-        // print_r($array);
-        // $orderStatus = $array->{'orderStatus'};
-        // $orderAmt      = $array->{'orderAmt'};
-        // echo $orderStatus."\n".$orderAmt;
-         return $this->redirect(['check','id'=>$salerecord_id]);
+
+        $response_data = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
+        //echo $response_data;
+        $get_response = json_decode($response_data);
+        $referenceNo  = $get_response->{'merOrderNo'};
+        $token        = $get_response->{'securityData'};
+        return $this->render('request',['referenceNo'=>$referenceNo,'token'=>$token]);
     }
     public function actionPays()
     {

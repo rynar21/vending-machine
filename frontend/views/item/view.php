@@ -33,7 +33,7 @@ $time=time();
             <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" >
                 <br/>
                 <br/>
-                <?php if($model->status == $model::STATUS_AVAILABLE):?>
+                <?php if($model->status == $model::STATUS_AVAILABLE&&$model->box->status != $model->box::BOX_STATUS_LOCK):?>
                     <?= Html::a('Pay',  ['/sale-record/pays',  'id' => $model->id,'time'=>$time,'price'=>$model->price],['class'=>"btn btn-primary btn-available b-color"],
                      [
                         'data' => [
@@ -44,6 +44,7 @@ $time=time();
                         ]
                     ])?>
                     <br/><br/>
+            
                 <?php else: ?>
                     <a class="btn btn-unavailable " disabled="disabled">
                         Pay

@@ -253,7 +253,7 @@ class StoreController extends Controller
 
     public function actionLockup_box($id)  //锁盒子
     {
-        Box::updateAll(['status'=>Box::BOX_STATUS_Lock],['store_id'=>$id]);
+        Box::updateAll(['status'=>Box::BOX_STATUS_LOCK],['store_id'=>$id]);
         Store::updateAll(['status'=> Store::STATUS_IN_MAINTENANCE],['id'=>$id]);
         return $this->redirect(['store/view', 'id' => $id]);
     }

@@ -22,9 +22,9 @@ class Box extends \yii\db\ActiveRecord
     public $text;
 
       //盒子状态
-      const BOX_STATUS_AVAILABLE = 2;      // 盒子为空
-      const BOX_STATUS_NOT_AVAILABLE = 1;  // 盒子包含产品
-       const BOX_STATUS_Lock = 0;  //锁住盒子
+      const BOX_STATUS_AVAILABLE = 1;      // 盒子可用/包含产品
+      const BOX_STATUS_NOT_AVAILABLE = 2;  // 盒子不可用/
+       const BOX_STATUS_LOCK = 0;  //锁住盒子
 
     // 数据表名称
     public static function tableName()
@@ -106,13 +106,13 @@ class Box extends \yii\db\ActiveRecord
             if($this->item)
             {
                 $text = "Available"; // 盒子包含产品
-                $this->status = self::BOX_STATUS_NOT_AVAILABLE;
+                $this->status = self::BOX_STATUS_AVAILABLE;
                 $this->save();
             }
             // 相反：如果 Box盒子 没有包含 Item产品
             if (!($this->item)) {
                 $text = "Not Available"; // 盒子为空
-                $this->status = self::BOX_STATUS_AVAILABLE;
+                $this->status = self::BOX_STATUS_NOT_AVAILABLE;
                 $this->save();
             }
 
@@ -128,14 +128,14 @@ class Box extends \yii\db\ActiveRecord
             if($this->item)
             {
                 $text = "Available"; // 盒子包含产品
-                $this->status = self::BOX_STATUS_NOT_AVAILABLE;
+                $this->status = self::BOX_STATUS_AVAILABLE;
                 $this->save();
             }
             // 相反：如果 Box盒子 没有包含 Item产品
             else
             {
                 $text = "Not Available"; // 盒子为空
-                $this->status = self::BOX_STATUS_AVAILABLE;
+                $this->status = self::BOX_STATUS_NOT_AVAILABLE;
                 $this->save();
             }
         }

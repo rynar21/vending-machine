@@ -46,9 +46,8 @@ $this->title = 'Payment Progress';
     <!-- 检查订单状态按钮 -->
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
-          <?= Html::a('Cancel',['cancel', 'id' => $item_model->store_id],['class'=>"btn btn-default btn-cancel",
-          'data' => [
-              'method' => 'post']])?>
+          <?= Html::a('Cancel',['/store/view', 'id' => $item_model->store_id],['class'=>"btn btn-default btn-cancel",])?>
+
           </a>
         </br></br>
 

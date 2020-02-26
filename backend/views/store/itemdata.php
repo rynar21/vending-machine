@@ -28,7 +28,7 @@ $this->title = 'Item Records';
              ['attribute'=> 'status', 'value' => 'statusText'],
              'created_at:datetime:Creation Time',
              [
-                 'attribute'=>'Historical goods',
+                 'attribute'=>'information',
                  'format' => 'raw' ,
                  'visible' => Yii::$app->user->can('admin'),
                  'value' => function ($model)

@@ -30,13 +30,20 @@ class StoreController extends Controller
         $articles = $data->query->offset($pagination->offset)
        ->limit($pagination->limit)
        ->all();
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'id' => $id,
-            'pages'=>$pagination,
-            'item_searchModel' => $item_searchModel,
-            'item_dataProvider' => $articles,
-        ]);
+       $model = $this->findModel($id);
+       if ($model->status == $model::STATUS_IN_OPERATION) {
+           return $this->render('view', [
+               'model' =>$model ,
+               'id' => $id,
+               'pages'=>$pagination,
+               'item_searchModel' => $item_searchModel,
+               'item_dataProvider' => $articles,
+           ]);
+       }
+       else {
+           return $this->render('maintain');
+       }
+
     }
 
 
