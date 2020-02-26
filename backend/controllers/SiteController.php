@@ -19,6 +19,7 @@ use backend\models\ChangePasswordForm;
 use yii\web\NotFoundHttpException;
 use common\models\SaleRecord;
 use common\models\Item;
+use common\models\Box;
 use common\models\Product;
 use yii\helpers\BaseJson;
 use yii\helpers\Json;
@@ -64,7 +65,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index','sales','ajax','posturl','Store_sales'],
+                        'actions' => ['index','sales','ajax','posturl','Store_sales','boxstatus'],
                         'allow' => true,
                         //'roles' => ['ac_read'],
                     ],
@@ -119,7 +120,28 @@ class SiteController extends Controller
         //return $this->redirect(['sales']);
         return $this->render('index');
     }
+    public function actionBoxStatus()
+    {
+        // $models =  Box::find()->where(['store_id'=>$store_id])->all();
+        // foreach ($models as $model) {
+        //     $array[] = $model->code.':'.$model->status;
+        // }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
+           if (Yii::$app->request->isAjax) {
+               return [
+                   // 'labels' => $labels,
+                   // 'data' => $data ,
+                   // 'pricesum' => $pricesum,
+                   // 'sk'=> $sk,
+                   // 'kunum'=>$kunum,
+                   // 'type'=>$type,
+                   // 'number'=>$number,
+                   'status' => '123',
+                   'code'=> 200,
+               ];
+           }
+    }
 
     public function actionSales()
     {
