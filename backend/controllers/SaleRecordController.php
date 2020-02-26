@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 /**
  * SaleRecordController implements the CRUD actions for SaleRecord model.
@@ -25,7 +26,7 @@ class SaleRecordController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view'],
+                        'actions' => ['index', 'view','one_store_all_salerecord'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
@@ -65,6 +66,21 @@ class SaleRecordController extends Controller
     {
         $searchModel = new SaleRecordSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index', [
+
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+
+        ]);
+    }
+
+    public function actionOne_store_all_salerecord($store_id,$date)
+    {
+        $searchModel = new SaleRecordSearch();
+        $dataProvider = $searchModel->searchStoreAllsalerecord(Yii::$app->request->queryParams,[
+            'store_id'=> $store_id,
+            'date'=> $date,
+            ]);
         return $this->render('index', [
 
             'searchModel' => $searchModel,

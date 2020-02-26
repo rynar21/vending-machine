@@ -160,7 +160,7 @@ class UserController extends Controller
         {
            Yii::$app->session->setFlash('danger', "Cannot edit admin");
         }
-        return $this->redirect(['index']);
+        return $this->actionView($id);
     }
 
     /**
@@ -217,7 +217,7 @@ class UserController extends Controller
         {
           Yii::$app->session->setFlash('danger', "Inactive account cannot assign Role");
         }
-            return $this->redirect(['index']);
+            return $this->actionView($id);
         }
     //To revoke user Role
     public function actionRevoke($id)
@@ -234,7 +234,8 @@ class UserController extends Controller
             Yii::$app->session->setFlash('danger', "Cannot Revoke Admin.");
         }
 
-        return $this->redirect(['index']);
+        //return $this->redirect(['index']);
+        return $this->actionView($id);
     }
 
     /**

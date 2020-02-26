@@ -29,7 +29,7 @@ AppAsset::register($this);
     <body>
       <?php $this->beginBody() ?>
 
-        <div class="wrap">
+        <div class="wrap ">
             <?php
             NavBar::begin([
                 'brandLabel' => 'Vending Machine',
@@ -41,13 +41,14 @@ AppAsset::register($this);
             if (!Yii::$app->user->isGuest)
             {
             $menuItems = [
-                ['label' => 'Statistic', 'url' => ['/site/index']],
-                ['label' => 'User', 'url' => ['/user/index']],
+                ['label' => 'Home', 'url' => ['/site/index']],
+                ['label' => 'User', 'url' => ['/user/index'],'visible' => Yii::$app->user->can('supervisor'),],
+                ['label' => 'Finance', 'url' => ['/finance/index'],'visible' => Yii::$app->user->can('supervisor'),],
                 ['label' => 'Store', 'url' => ['/store/index']],
                 // ['label' => 'Box', 'url' => ['/box/index?id=1']],
                 // ['label' => 'Item', 'url' => ['/item/index']],
-                ['label' => 'Record', 'url' => ['/sale-record/index']],
-                ['label' => 'Product', 'url' => ['/product/index']],
+                ['label' => 'Record', 'url' => ['/sale-record/index'],'visible' => Yii::$app->user->can('supervisor'),],
+                ['label' => 'Product', 'url' => ['/product/index'] ,'visible' => Yii::$app->user->can('admin'),],
             ];
             }
             if (Yii::$app->user->isGuest) {

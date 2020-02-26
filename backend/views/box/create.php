@@ -8,8 +8,8 @@ use yii\grid\GridView;
 /* @var $model common\models\Box */
 
 $this->title = 'Create Box';
-$this->params['breadcrumbs'][] = ['label' => 'Boxes', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = ['label' => 'Boxes', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="box-create">

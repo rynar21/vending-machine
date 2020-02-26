@@ -59,6 +59,7 @@ class ItemSearch extends Item
             'id' => $this->id,
             'price' => $this->price,
             'box_id' => $this->box_id,
+            'status' =>$this->status,
         ]);
         $query->joinWith('product');
         $query->andFilterWhere(['like', 'product.name', $this->name]);
@@ -75,7 +76,7 @@ class ItemSearch extends Item
         $query = Item::find();
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query->orderBy(['box_id'=>SORT_ASC])->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED], 'store_id'=> $id]),
+            'query' => $query->orderBy(['box_id'=>SORT_ASC])->where(['item.status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED], 'store_id'=> $id]),
         ]);
 
         $this->load($params);
@@ -83,6 +84,32 @@ class ItemSearch extends Item
         if (!$this->validate()) {
             return '';
         }
+        $query->joinWith('product');
+        $query->andFilterWhere(['like', 'product.name', $this->name]);
+        return $dataProvider;
+    }
+    
+    public function searchBoxItem($params, $box_id,$store_id)
+    {
+        $query = Item::find();
+        // add conditions that should always apply here
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $this->load($params);
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'price' => $this->price,
+            'box_id' => $box_id,
+            'status' =>$this->status,
+            'store_id' => $store_id,
+        ]);
         $query->joinWith('product');
         $query->andFilterWhere(['like', 'product.name', $this->name]);
         return $dataProvider;

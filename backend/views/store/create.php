@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $model common\models\Store */
 
 $this->title = 'Create Store';
-$this->params['breadcrumbs'][] = ['label' => 'Stores', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = ['label' => 'Stores', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="store-create">
 

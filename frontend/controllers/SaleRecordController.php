@@ -95,11 +95,15 @@ class SaleRecordController extends Controller
         ->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
         {
             // 创建 新订单
-            $model->item_id = $item_model->id;
-            $model->box_id = $item_model->box_id;
-            $model->store_id = $item_model->store_id;
-            $model->sell_price =$item_model->price;
-            $model->unique_id = $time;
+            $model->item_id      = $id;
+            $model->order_number = Store::find()->where(['id'=>$item_model->store_id])->one()->prefix.Box::find()->where(['id'=>$item_model->box_id])->one()->code.$time;
+            $model->box_id       = $item_model->box_id;
+            $model->store_id     = $item_model->store_id;
+            $model->sell_price   = $item_model->price;
+            $model->unique_id    = $time;
+            $model->store_name   = Store::find()->where(['id'=>$item_model->store_id])->one()->name;
+            $model->item_name    = $item_model->name;
+            $model->box_code     = Store::find()->where(['id'=>$item_model->store_id])->one()->prefix.Box::find()->where(['id'=>$item_model->box_id])->one()->code;
             $model->save();
             //创建订单时的key发送给iot；
             Yii::$app->slack->Skey([
@@ -157,13 +161,13 @@ class SaleRecordController extends Controller
 
         $request = \Yii::$app->request;
         $salerecord_id = $_POST['salerecord_id'];
-        $barcode = $_POST['barcode'];
+        // $barcode = $_POST['barcode'];
         $price = $_POST['price'];
         //echo $barcode;
         //die();
         $data = [
              'merchantId' => 'M100001040',
-             'qrCode' => $barcode,
+             // 'qrCode' => $barcode,
              'curType' => 'RM',
              'notifyURL' => 'https://google.com/',
              'merOrderNo' => $salerecord_id,
@@ -172,9 +176,10 @@ class SaleRecordController extends Controller
              'orderAmt' => $price,
              'remark' => '',
              'transactionType' => '1',
+             'detailURL' =>'#',
         ];
         $data      = json_encode($data, 320);
-        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/BarCodePaymentAction.createOrder.do', $data);
+        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.createOrder.do', $data);
         // $array     = json_decode($string);
         // print_r('<pre>');
         // print_r($array);
@@ -206,13 +211,10 @@ class SaleRecordController extends Controller
              'merOrderNo' => $id,
         ];
         $data      = json_encode($data, 320);
-        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/BarCodePaymentAction.queryOrder.do', $data);
+        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.queryOrder.do', $data);
         $array     = json_decode($string);
         $orderStatus   = $array->{'orderStatus'};
         $orderAmt      = $array->{'orderAmt'};
-
-        //echo $orderStatus."\n".$orderAmt;
-        //die();
         if ($model!=null)
         {
             if ($orderStatus == 0) {
@@ -232,30 +234,6 @@ class SaleRecordController extends Controller
                        'id' => $id,
                 ]);
             }
-            // if ($model->status == SaleRecord::STATUS_PENDING)
-            // {
-            //     return $this->render('create', [
-            //         'item_model' => $item_model,
-            //         'model' => $model,
-            //         'id' => $id,
-            //     ]);
-            // }
-            // //  当SaleRecord 交易订单状态为交易成功
-            // elseif ($model->status== SaleRecord::STATUS_SUCCESS)
-            // {
-            //     return $this->render('success', [
-            //         'model' => $model,
-            //         'id' => $id,
-            //     ]);
-            // }
-            // //  当SaleRecord 交易订单状态为交易失败
-            // elseif ($model->status== SaleRecord::STATUS_FAILED)
-            // {
-            //       return $this->render('failed', [
-            //           'model' => $model,
-            //           'id' => $id,
-            //       ]);
-            // }
             else
             {
                 throw new NotFoundHttpException("Requested item cannot be found.");
@@ -310,12 +288,7 @@ class SaleRecordController extends Controller
 
     public function actionKomn()
     {
-        // $a="sha256";
-        // $b='123456sa';
-        // $key=1;
-        // $i=hash_hmac ($a , $b , $key [$raw_output=FALSE]);
-        // echo $i;
-
+        box::updateAll(['status'=>2],['store_id'=>1]);
     }
 
     // API Integration
@@ -357,7 +330,7 @@ class SaleRecordController extends Controller
         $models = SaleRecord::find()->where([
             'status' => 10,
         ])
-         ->andWhere(['between', 'created_at' , strtotime(date('Y-m-d',strtotime('-2 day')))  ,strtotime(date('Y-m-d',strtotime('-1 day'))) ])
+        ->andWhere(['between', 'created_at' , strtotime(date('Y-m-d',strtotime('-2 day')))  ,strtotime(date('Y-m-d',strtotime('-1 day'))) ])
         ->count();
         print_r($models);
         die();
@@ -380,7 +353,7 @@ class SaleRecordController extends Controller
         ->all();
                 if ($models) {
                     foreach ($models as $model) {
-                            $model1=Item::find()->where(['id'=>$model->item_id])->all();
+                            $model1 = Item::find()->where(['id'=>$model->item_id])->all();
                             if ($model1) {
                                 foreach ($model1 as $itemmodel ) {
                                 $arr= $itemmodel->price ;
@@ -398,9 +371,9 @@ class SaleRecordController extends Controller
 
      public function actionRemind()
      {
-         $model_store=Store::find()->all();
-         $model_box=Box::find()->where(['status'=>Box::BOX_STATUS_AVAILABLE,'store_id'=>1])->count();
-         $model_boxr=Box::find()->where(['store_id'=>1])->count();
+         $model_store = Store::find()->all();
+         $model_box   = Box::find()->where(['status'=>Box::BOX_STATUS_AVAILABLE,'store_id'=>1])->count();
+         $model_boxr  = Box::find()->where(['store_id'=>1])->count();
          echo count($model_store);
         // echo $model_boxr;
          if ($model_box>=$model_boxr*0.8) {

@@ -102,16 +102,6 @@ class Item extends \yii\db\ActiveRecord
         return Url::to('@imagePath'). '/product.jpg';
     }
 
-    public function getName()
-    {
-        if (!empty($this->product->name))
-        {
-            return $this->product->name;
-        }
-    }
-
-
-
     public function getPrice()
     {
         if (!empty($this->product->price))
@@ -182,5 +172,11 @@ class Item extends \yii\db\ActiveRecord
     {
       return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
-
+    public function getName()
+   {
+       if (!empty($this->product->name))
+       {
+           return $this->product->name;
+       }
+   }
 }

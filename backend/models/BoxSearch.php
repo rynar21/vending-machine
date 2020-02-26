@@ -17,6 +17,7 @@ class BoxSearch extends Box
 
     public $name;
     public $price;
+    public $stu;
 
     /**
      * {@inheritdoc}
@@ -25,7 +26,8 @@ class BoxSearch extends Box
     {
         return [
             [['id', 'code' , 'store_id'], 'integer'],
-            // [['status'], 'safe'],
+            [['status'], 'safe'],
+            [['status','name'], 'trim'],
             [['name'], 'safe'],
             [['price'], 'number'],
             [['status'], 'filter', 'filter' => function($text)
@@ -82,16 +84,22 @@ class BoxSearch extends Box
         if (!$this->validate()) {
             return $dataProvider;
         }
-        // $query->andFilterWhere([
-        //     'product.name' => $this->name,
-        // ]);
+        if (strstr($this->status, 'A')||strstr($this->status, 'a')) {
+            $this->stu = Box::BOX_STATUS_NOT_AVAILABLE;
+        }
+        if (strstr($this->status, 'N')||strstr($this->status, 'na')||strstr($this->status, 'n')) {
+            $this->stu = Box::BOX_STATUS_AVAILABLE;
+        }
+        $query->andFilterWhere([
+            'status' => $this->stu,
+        ]);
 
         if ($this->name) {
             $query->joinWith('product');
         }
             $query->andFilterWhere(['like', 'product.name', $this->name])
-            ->andFilterWhere(['status'=>$this->status]);
-            // $query->andFilterWhere(['like', 'item.price', $this->price]);
+            ->andFilterWhere(['code' => $this->code,]);
+                // $query->andFilterWhere(['like', 'item.price', $this->price]);
 
 
         return $dataProvider;

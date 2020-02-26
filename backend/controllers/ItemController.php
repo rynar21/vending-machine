@@ -4,8 +4,10 @@ namespace backend\controllers;
 use Yii;
 use common\models\Item;
 use common\models\Box;
+use common\models\Store;
 use common\models\Product;
 use backend\models\ItemSearch;
+use backend\models\BoxSearch;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -108,9 +110,13 @@ class ItemController extends Controller
         // 获取传送的数据 (点击 Save 按钮)
         if ($model->load(Yii::$app->request->post()))
         {
-            $product_model=Product::find()->where(['sku' =>$model->sku])->one();
-            $model->product_id=$product_model->id;
-            if (!empty($product_model)) {
+            // 如果没有输入价格
+            //print_r($model->sku);
+            $getsku = Product::find()->where(['sku' =>$model->sku])->one();
+
+            if($getsku)
+            {
+                $model->product_id=$getsku->id;
                 if ($model->price <= 0)
                 {
                     // Item价格 默认为相关Product的价格
@@ -121,6 +127,7 @@ class ItemController extends Controller
                 {
                     // 返回 store/view页面 当保存成功
                     return $this->redirect(['store/view', 'id' => $model->store_id]);
+                    //return $this->render('store/view',[ 'id' => $model->store_id]);
                 }
             }
             else

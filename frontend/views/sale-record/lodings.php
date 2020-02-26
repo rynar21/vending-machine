@@ -9,7 +9,7 @@ use yii\iot\plugins\SarawakPay;
 
 
 $this->title = 'Lodings';
-echo $salerecord_id;
+//echo $salerecord_id;
 ?>
 
 

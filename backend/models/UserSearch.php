@@ -20,8 +20,8 @@ class UserSearch extends User
 
     {
         return [
-        //     [['id'], 'integer'],
-        //     [['username'], 'safe'],
+            //[['id'], 'integer'],
+            [['username'], 'safe'],
         // ];
     ];
     }

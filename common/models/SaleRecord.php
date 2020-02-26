@@ -67,17 +67,29 @@ class SaleRecord extends \yii\db\ActiveRecord
         ];
     }
 
+   //  public function getStorename()
+   // {
+   //     if (!empty($this->store->id))
+   //     {
+   //         return $this->store->name;
+   //     }
+   // }
 
     public function getText()
     {
-        return
-         // date('Ymd',
-         $this->id.'_'.$this->item_id;
+        return $this->box_code.$this->unique_id;
     }
     // 寻找 Item产品 数据表
     public function getItem()
     {
         return $this->hasOne(Item::className(), ['id' => 'item_id']);
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(Product::className(), ['id' => 'product_id'])->via('item');
+        // return $this->hasMany(Video::tableName(), ['video_id' => 'vid'])
+        //     ->viaTable(LessonVideo::tableName(), ['lid' => 'lesson_id']);
     }
 
     // 寻找 Box盒子 数据表
@@ -88,7 +100,6 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     public function getStore()
     {
-        //return $this->hasOne(Store::className(), ['id' => 'store_id']);
         return $this->hasOne(Store::className(), ['id' => 'store_id'])->via('box');
     }
 
@@ -161,9 +172,8 @@ class SaleRecord extends \yii\db\ActiveRecord
     // 交易状态： 购买失败
     public function failed()
     {
-        if ($this->status == SaleRecord::STATUS_PENDING)
-        {
-            // 更新 Item产品 的状态属性 为购买失败/初始值
+        if ($this->status != SaleRecord::STATUS_SUCCESS) {
+
             $this->status = SaleRecord::STATUS_FAILED;
             $this->save();
 
@@ -174,6 +184,17 @@ class SaleRecord extends \yii\db\ActiveRecord
             }
         }
         // 更新 Item产品 的状态属性 为购买失败/初始值
-
+    }
+    public function getNet_profit($id)
+    {
+           $p_id = Item::find()->where(['store_id'=>$id])->one()->product_id;
+           $model = Product ::find()->where(['id'=>$p_id])->one();
+           if (!empty($model->cost)) {
+               $cost_price = $model->cost;
+               return $cost_price;
+           }
+           else {
+               return 0;
+           }
     }
 }

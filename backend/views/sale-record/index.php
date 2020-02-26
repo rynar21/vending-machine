@@ -3,15 +3,16 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\SaleRecord;
-
-
+use common\models\User;
+use common\models\Box;
+use yii\filters\AccessControl;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\SaleRecordSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Sale Records';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sale-record-index">
 
@@ -29,16 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         //'options' =>['id'=>'grid'],
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn',
-            // 'name'=>'id',
+            ['class' => 'yii\grid\SerialColumn',],
+            'order_number',
+            'box_code:text:Box Code',
+            [
+              'label' => 'Store',
+              'attribute' => 'storename',
+              'value' => 'store.name'
             ],
-           'text:text:Order number',
-            'box_id:text:Box number',
-            'item_id:text:Item number',
-            'store_id:text:Store number',
-            // 'trans_id',
-            //'status',
-            'sell_price',
+            [
+              'label' => 'Item',
+              'attribute' => 'itemname',
+              'value' => 'item.name'
+            ],
+            'sell_price:currency',
             [
                 'attribute'=>'status',
                 'format' => 'raw' ,
@@ -59,23 +64,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 },
             ],
-            'unique_id',
-            'created_at:datetime:Creation time',
-            'updated_at:datetime:End Time',
-            ['class' => 'yii\grid\ActionColumn','header' => 'Action'],
+            //'unique_id',
+            'created_at:datetime:Order Time',
+            'updated_at:datetime:Payment Time',
+            [   'class' => 'yii\grid\ActionColumn',
+                'header' => 'Action' ,
+                'visible' => Yii::$app->user->can('admin'),
+                'template' => ' {view}',
+            ],
         ],
 
-        // 'rowOptions'=>function($model){
-        //     if($model->status == 10){
-        //         return
-        //         // 'contentOptions' => ['style'=>'color:green;'];
-        //          ['style'=>'color:green;'];
-        //
-        //     }
-        //     if ($model->status==8) {
-        //         return ['style'=>'color:red;'];
-        //     }
-        //     },
     ]);
      ?>
 

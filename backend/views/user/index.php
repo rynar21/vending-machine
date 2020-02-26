@@ -9,7 +9,7 @@ use common\models\User;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'User';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="User-index">
@@ -26,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             // 'id',
             'username',
             'email',
@@ -52,53 +51,67 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 }
             ],
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'header' => 'Role Assign',
-                'template' => '{User} {Staff} {Supervisor} {Revoke}',
-                'buttons' => [
-                    'User' => function($url, $model, $id)
-                    {
-                        return Html::a('User', ['assign', 'role'=>'user','id'=>$id], ['class' => 'btn btn-primary']);
-                    },
-
-                    'Staff' => function($url, $model, $id)
-                    {
-                        return Html::a('Staff', ['assign' ,'role'=>'staff','id'=>$id], ['class' => 'btn btn-success']);
-                    },
-
-                    'Supervisor' => function($url, $model, $id)
-                    {
-                        return Html::a('Supervisor', ['assign','role'=>'supervisor','id'=>$id], ['class' => 'btn btn-success']);
-                    },
-
-                    'Revoke' => function($url, $model, $id)
-                    {
-                        return Html::a('Revoke', ['revoke','id'=>$id], ['class' => 'btn btn-danger']);
-                    },
-                ],
+            // [
+            //     'class' => 'yii\grid\ActionColumn',
+            //     'header' => 'Role Assign',
+            //     'template' => '{User} {Staff} {Supervisor} {Revoke}',
+            //     'buttons' => [
+            //         'User' => function($url, $model, $id)
+            //         {
+            //             return Html::a('User', ['assign', 'role'=>'user','id'=>$id], ['class' => 'btn btn-primary']);
+            //         },
+            //
+            //         'Staff' => function($url, $model, $id)
+            //         {
+            //             return Html::a('Staff', ['assign' ,'role'=>'staff','id'=>$id], ['class' => 'btn btn-success']);
+            //         },
+            //
+            //         'Supervisor' => function($url, $model, $id)
+            //         {
+            //             return Html::a('Supervisor', ['assign','role'=>'supervisor','id'=>$id], ['class' => 'btn btn-success']);
+            //         },
+            //
+            //         'Revoke' => function($url, $model, $id)
+            //         {
+            //             return Html::a('Revoke', ['revoke','id'=>$id], ['class' => 'btn btn-danger']);
+            //         },
+            //     ],
+            // ],
+            // [
+            //     'class' => 'yii\grid\ActionColumn',
+            //     'header' => 'Action',
+            //     'template' => '{Unsuspend} {Suspend} {Terminate}',
+            //     'buttons' => [
+            //         'Suspend' => function($url, $model, $id)
+            //         {
+            //             return Html::a('Suspend', ['update-status','status'=> User::STATUS_SUSPEND, 'id'=>$id], ['class' => 'btn btn-danger']);
+            //         },
+            //
+            //         'Unsuspend' => function($url, $model, $id)
+            //         {
+            //             return Html::a('Unsuspend', ['update-status','status'=> User::STATUS_ACTIVE,'id'=>$id], ['class' => 'btn btn-primary']);
+            //         },
+            //
+            //         'Terminate' => function($url, $model, $id)
+            //         {
+            //             return Html::a('Terminate', ['update-status','status'=> User::STATUS_DELETED,'id'=>$id], ['class' => 'btn btn-danger']);
+            //         },
+            //     ],
+            // ],
+            [   'class' => 'yii\grid\ActionColumn',
+                'header' => '' ,
+                'visible' => Yii::$app->user->can('supervisor'),
+                'template' => '{view}',
             ],
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'header' => 'Action',
-                'template' => '{Unsuspend} {Suspend} {Terminate}',
-                'buttons' => [
-                    'Suspend' => function($url, $model, $id)
-                    {
-                        return Html::a('Suspend', ['update-status','status'=> User::STATUS_SUSPEND, 'id'=>$id], ['class' => 'btn btn-danger']);
-                    },
-
-                    'Unsuspend' => function($url, $model, $id)
-                    {
-                        return Html::a('Unsuspend', ['update-status','status'=> User::STATUS_ACTIVE,'id'=>$id], ['class' => 'btn btn-primary']);
-                    },
-
-                    'Terminate' => function($url, $model, $id)
-                    {
-                        return Html::a('Terminate', ['update-status','status'=> User::STATUS_DELETED,'id'=>$id], ['class' => 'btn btn-danger']);
-                    },
-                ],
-            ],
+            // [
+            //     'attribute'=>'',
+            //     'format' => 'raw' ,
+            //     'visible' => Yii::$app->user->can('admin'),
+            //     'value' => function ($model)
+            //     {
+            //       return Html::a('Store Information', ['/store/user_store','id'=>$model->id], ['class' => 'btn btn-sm   btn-primary']);
+            //     }
+            // ],
           ],
     ]); ?>
 

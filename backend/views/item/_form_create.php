@@ -35,17 +35,21 @@ use yii\web\JsExpression;
         </div>
         <!-- 产品名称 -->
 
-        <?php
-        $str = Product::find()
+
+
+    <?php    $str = Product::find()
         ->select(['sku as value', 'CONCAT_WS(" - ",name,sku) as  label' ,'id as id'])
         ->asArray()
         ->all(); ?>
             <?=
              $form->field($model, 'sku')->widget(\yii\jui\AutoComplete::classname(), [
-
+                 'options' => [
+                     'class' => 'form-control ',
+                     'placeholder' => 'Please enter your itemname',
+                 ],
                  'clientOptions' => [
-                       'source' => $str,
-                       'options' => ['class' => 'form-control'],
+                        'name'   => '2',
+                       'source'  => $str,
                       // 'minLength'=>'2',
                       'autoFill'=>true,
                                ],
