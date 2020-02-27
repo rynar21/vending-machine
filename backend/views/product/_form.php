@@ -17,6 +17,7 @@ use yii\web\UploadedFile;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'sku')->textInput() ?>
+    <?= $form->field($model, 'category')->dropDownList($model->getCategories()) ?>
     <?= $form->field($model, 'price')->textInput() ?>
     <?= $form->field($model, 'cost')->textInput() ?>
     <?= $form->field($model, 'imageFile')->fileInput() ?>

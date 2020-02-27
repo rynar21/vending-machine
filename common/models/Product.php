@@ -48,6 +48,18 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getCategories(){
+        return[
+            'food_beverage' => 'Food & Beverage',
+            'home_living' => 'Home & Living',
+            'electronic' => 'Electronic & Accessories',
+            'mobile_accessory' => 'Mobile & Accessories',
+            'watch' => 'Watch',
+            'entertainment' => 'Entertainment'
+        ];
+
+        // return $this->category='2';
+    }
     // 数据表 属性 标注
     public function attributeLabels()
     {
