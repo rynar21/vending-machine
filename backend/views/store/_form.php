@@ -23,29 +23,8 @@ use common\models\user;
 
     <?= $form->field($model, 'prefix')->textInput() ?>
 
-    <?php
-        $str = User::find()
-        ->select(['id as value', 'CONCAT_WS(" - ",username,id) as label','id as id'])
-        // ->where(['% 2 =', 'id', 1])
-        ->asArray()
-        ->all(); ?>
 
 
-            <?=
-             $form->field($model, 'user_id')->widget(\yii\jui\AutoComplete::classname(), [
-
-                 'clientOptions' => [
-                        // 'name'=>'2',
-                       'source' => $str,
-                       'options' => ['class' => 'form-control '],
-                      // 'minLength'=>'2',
-                      'autoFill'=>true,
-                      // 'select' => new JsExpression("function( event, ui ) {
-                      //               $('#item-id').val(ui.item.sku);
-                      //            }"),
-                               ],
-                             ]);
-                         ?>
 
     <?= $form->field($model, 'imageFile')->fileInput() ?>
 
