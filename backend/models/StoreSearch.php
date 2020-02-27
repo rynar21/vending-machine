@@ -41,14 +41,15 @@ class StoreSearch extends Store
      */
     public function search($params)
     {
-        if ( Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'staff'))
-        {
-            $query = Store::find();
-        }
-        else
-        {
-            $query = Store::find()->where(['user_id'=>Yii::$app->user->identity->id]);
-        }
+        // if ( Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'staff'))
+        // {
+        //     $query = Store::find();
+        // }
+        // else
+        // {
+        //     $query = Store::find()->where(['user_id'=>Yii::$app->user->identity->id]);
+        // }
+        $query = Store::find();
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

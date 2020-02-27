@@ -8,6 +8,7 @@ use common\models\Box;
 use common\models\Product;
 use common\models\Store;
 use common\models\Item;
+use common\models\User;
 use common\models\Finance;
 use yii\helpers\ArrayHelper;
 use yii\console\Controller;
@@ -205,8 +206,11 @@ class TestController extends Controller {
 
     public function actionUp()
     {
-        $id = 7;
-        box::updateAll(['status'=>1],['store_id'=>$id]);
+        // $id = 7;
+        // box::updateAll(['status'=>1],['store_id'=>$id]);
+        
+
+
     }
 
 

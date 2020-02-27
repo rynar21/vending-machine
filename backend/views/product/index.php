@@ -27,10 +27,10 @@ $this->title = 'Products';
             ['class' => 'yii\grid\SerialColumn'],
             'sku',
             'name',
-            'category',
+            //'category',
             'price:currency',
             'cost:currency',
-            ['class' => 'yii\grid\ActionColumn','header' => 'Action','template' => '{view}{update}',],    
+            ['class' => 'yii\grid\ActionColumn','header' => 'Action','template' => '{view}{update}',],
         ],
 
     ]); ?>

@@ -42,7 +42,7 @@ class Product extends \yii\db\ActiveRecord
             [['name', 'price','sku','cost'], 'required'],
             ['sku', 'unique'],
             [['price'], 'number'],
-            [['category'], 'string'],
+            //[['category'], 'string'],
             [['name'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
