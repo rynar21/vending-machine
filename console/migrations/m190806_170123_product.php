@@ -18,6 +18,7 @@ class m190806_170123_product extends Migration
           'name'=>$this->string()->notNull(),
           'category'=>$this->string()->notNull(),
           'description'=>$this->string(),
+          'category'=>$this->string()->notNull(),
           'price'=>$this->float(10,2)->notNull(),
           'cost'=>$this->string(),//
           'status' => $this->smallInteger()->notNull()->defaultValue(0),

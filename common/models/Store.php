@@ -66,9 +66,12 @@ class Store extends \yii\db\ActiveRecord
             [['name', 'address', 'contact',], 'required'],
             [['contact','user_id','status'], 'integer'],
             [['prefix','username',], 'safe'],
-            [['name', 'address'], 'string', 'max' => 255],
+            [['name', 'address','description'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
             [['manager'],'safe'],
+            [['contact'], 'trim'],
+            ['contact','match','pattern'=>'/^[0][1][0-9]{8,9}$/'],
+            ['contact', 'unique','message' => 'Phone number has been used'],
         ];
     }
 

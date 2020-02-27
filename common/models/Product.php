@@ -42,13 +42,24 @@ class Product extends \yii\db\ActiveRecord
             [['name', 'price','sku','cost'], 'required'],
             ['sku', 'unique'],
             [['price'], 'number'],
-            //[['category'], 'string'],
-            [['name'], 'string', 'max' => 255],
-            [['description'], 'string', 'max' => 255],
+            [['name','description'], 'string', 'max' => 255],
+            [['category'], 'string', 'max' => 20],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 
+    public function getCategories(){
+        return[
+            'food_beverage' => 'Food & Beverage',
+            'home_living' => 'Home & Living',
+            'electronic' => 'Electronic & Accessories',
+            'mobile_accessory' => 'Mobile & Accessories',
+            'watch' => 'Watch',
+            'entertainment' => 'Entertainment'
+        ];
+
+        // return $this->category='2';
+    }
     // 数据表 属性 标注
     public function attributeLabels()
     {

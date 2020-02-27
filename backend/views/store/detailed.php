@@ -24,10 +24,10 @@ use common\models\User;
               'user.username',
               [
                   'attribute'=>'Total sales amount',
-                  'format' => 'raw' ,
+                  'format' => 'currency' ,
                   'value' => function ($model)
                   {
-                    return 'MYR:'.$model->total_sales_amount;
+                    return $model->total_sales_amount;
                   },
 
               ],
@@ -37,7 +37,7 @@ use common\models\User;
                   'value'=> $model->imageUrl,
                   'format'=>['image', ['width'=>'250', 'height'=>'250']]
               ],
-
+              'description',
               'created_at:datetime',
               'updated_at:datetime',
           ],
