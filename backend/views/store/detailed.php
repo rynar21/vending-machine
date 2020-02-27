@@ -37,7 +37,7 @@ use common\models\User;
                   'value'=> $model->imageUrl,
                   'format'=>['image', ['width'=>'250', 'height'=>'250']]
               ],
-
+              'description',
               'created_at:datetime',
               'updated_at:datetime',
           ],
