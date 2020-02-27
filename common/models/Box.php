@@ -118,7 +118,7 @@ class Box extends \yii\db\ActiveRecord
 
             else {
                 $text = "Lock box"; // 盒子为空
-                $this->status = self::BOX_STATUS_Lock;
+                $this->status = self::BOX_STATUS_LOCK;
                 $this->save();
             }
 
