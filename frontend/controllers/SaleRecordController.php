@@ -106,10 +106,10 @@ class SaleRecordController extends Controller
             $model->box_code     = Store::find()->where(['id'=>$item_model->store_id])->one()->prefix.Box::find()->where(['id'=>$item_model->box_id])->one()->code;
             $model->save();
             //创建订单时的key发送给iot；
-            Yii::$app->slack->Skey([
-            'url'=>'https://forgetof.requestcatcher.com',
-            'price'=>$item_model->price,
-            'id'=>$model->id,]);
+            // Yii::$app->slack->Skey([
+            // 'url'=>'https://forgetof.requestcatcher.com',
+            // 'price'=>$item_model->price,
+            // 'id'=>$model->id,]);
             $model->pending();
 
 
@@ -193,7 +193,8 @@ class SaleRecordController extends Controller
         $get_response = json_decode($response_data);
         $referenceNo  = $get_response->{'merOrderNo'};
         $token        = $get_response->{'securityData'};
-        return $this->render('request',['referenceNo'=>$referenceNo,'token'=>$token]);
+        return $this->render('request',['referenceNo'=>$referenceNo,'token'=>$token,'id'=>$salerecord_id]);
+        //&&$this->redirect(['check','id'=>$salerecord_id]);
     }
     public function actionPays()
     {
