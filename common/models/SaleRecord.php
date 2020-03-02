@@ -176,15 +176,15 @@ class SaleRecord extends \yii\db\ActiveRecord
 
             $this->status = SaleRecord::STATUS_FAILED;
             $this->save();
-
-            if ($this->item->status != Item::STATUS_SOLD)
-            {
-                $this->item->status = Item::STATUS_AVAILABLE;
-                $this->item->save();
+            if ($this->status = SaleRecord::STATUS_FAILED) {
+                if ($this->item->status!=Item::STATUS_VOID) {
+                    $this->item->status = Item::STATUS_AVAILABLE;
+                    $this->item->save();
+                }
             }
         }
-        // 更新 Item产品 的状态属性 为购买失败/初始值
     }
+
     public function getNet_profit($id)
     {
            $p_id = Item::find()->where(['store_id'=>$id])->one()->product_id;
@@ -193,8 +193,6 @@ class SaleRecord extends \yii\db\ActiveRecord
                $cost_price = $model->cost;
                return $cost_price;
            }
-           else {
-               return 0;
-           }
+
     }
 }

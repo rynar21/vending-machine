@@ -83,6 +83,12 @@ $this->title = $model->id;
             ],
             'created_at:datetime',
             'updated_at:datetime',
+            [
+              'attribute'=>'image',
+              'value'=> $model->product->imageUrl,
+              'format'=>['image', ['width'=>'250', 'height'=>'250']],
+              //['width'=>'400', 'height'=>'300']
+            ],
         ],
     ]) ?>
 

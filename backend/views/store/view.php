@@ -106,8 +106,8 @@ use yii\bootstrap\NavBar;
 <div class="btn-group mr-2 pull-left" role="group" aria-label="Second group">
 
     <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info','style'=>"display:"."$str"]) ?>
-    <?= Html::a('Lock Box', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
-    <?= Html::a('Release Box', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
+    <?= Html::a('Lock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
+    <?= Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
 
 </div>
 
@@ -150,25 +150,14 @@ use yii\bootstrap\NavBar;
                                    }
                                ],
                                [
-                                   'attribute'=>'Item History',
+                                   // 'attribute'=>'Item History',
                                    'format' => 'raw' ,
-                                   'headerOptions' =>['class'=>'col-lg-1',],
+                                   'headerOptions' =>['class'=>'col-lg-2',],
                                    'visible' => Yii::$app->user->can('admin'),
                                    'value' => function ($model)
                                    {
-                                     return Html::a('', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id],
-                                     ['class' => 'btn btn-sm  glyphicon glyphicon-eye-open']);
-                                   }
-                               ],
-                               [
-                                   'attribute'=>'Order History',
-                                   'format' => 'raw' ,
-                                    'headerOptions' =>['class'=>'col-lg-1 text-center',],
-                                   'visible' => Yii::$app->user->can('admin'),
-                                   'value' => function ($model)
-                                   {
-                                     return Html::a('', ['/sale-record/store_all_salerecord',],
-                                     ['class' => 'btn btn-sm   glyphicon glyphicon-eye-open']);
+                                     return Html::a('Item History', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id]).
+                                     ' | '. Html::a('Order History', ['/sale-record/store_all_salerecord',]);
                                    }
                                ],
                            ],

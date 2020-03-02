@@ -24,7 +24,8 @@ class ProductSearch extends Product
 
             [['sku'], 'string'],
             [['name', 'image'], 'safe'],
-            [['price'], 'string'],
+            [['category'], 'string'],
+            [['category','sku','name'],'trim'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
 
         ];
@@ -69,7 +70,7 @@ class ProductSearch extends Product
         $query->andFilterWhere([
             'id' => $this->id,
             'sku'=>$this->sku,
-            // 'price' => $this->price,
+            'category' => $this->category,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
