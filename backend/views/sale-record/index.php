@@ -31,17 +31,39 @@ $this->title = 'Sale Records';
         //'options' =>['id'=>'grid'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',],
-            'order_number',
-            'box_code:text:Box Code',
+            [
+               'attribute' =>'order_number',
+                   'filterInputOptions' => [
+                       'class'  => 'form-control',
+                       'placeholder' => 'Search....'
+                    ]
+            ],
+            [
+               'attribute' =>'box_code',
+               //'headerOptions' =>['class'=>'col-lg-6',],
+                   'filterInputOptions' => [
+                       'class'  => 'form-control',
+                       'placeholder' => 'Search....'
+                    ]
+            ],
+            //'box_code:text:Box Code',
             [
               'label' => 'Store',
               'attribute' => 'storename',
-              'value' => 'store.name'
+              'value' => 'store.name',
+              'filterInputOptions' => [
+                  'class'  => 'form-control',
+                  'placeholder' => 'Search....'
+               ]
             ],
             [
               'label' => 'Item',
               'attribute' => 'itemname',
-              'value' => 'item.name'
+              'value' => 'item.name',
+              'filterInputOptions' => [
+                  'class'  => 'form-control',
+                  'placeholder' => 'Search....'
+               ]
             ],
             'sell_price:currency',
             [
@@ -63,14 +85,22 @@ $this->title = 'Sale Records';
                     }
 
                 },
+                'filterInputOptions' => [
+                    'class'  => 'form-control',
+                    'placeholder' => 'Search....'
+                 ]
             ],
             //'unique_id',
             'created_at:datetime:Order Time',
             'updated_at:datetime:Payment Time',
-            [   'class' => 'yii\grid\ActionColumn',
-                'header' => 'Action' ,
+            [
+                'attribute'=>'',
+                'format' => 'raw' ,
                 'visible' => Yii::$app->user->can('admin'),
-                'template' => ' {view}',
+                'value' => function ($model)
+                {
+                  return Html::a('view', ['sale-record/view','id'=>$model->id]);
+                }
             ],
         ],
 

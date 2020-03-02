@@ -115,9 +115,8 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return Html::a('', ['/sale-record/one_store_all_salerecord',
-                  'store_id'=>$model['store_id'],'date'=>$model['date']],
-                  ['class' => 'btn btn-sm  glyphicon glyphicon-eye-open']);
+                  return Html::a('View', ['/sale-record/one_store_all_salerecord',
+                  'store_id'=>$model['store_id'],'date'=>$model['date']]);
                 }
             ],
         ],

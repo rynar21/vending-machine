@@ -34,40 +34,54 @@ use yii\helpers\Url;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             // 'id',
-            'name',
+            //'name',
+            [
+               'attribute' =>'name',
+                   'filterInputOptions' => [
+                       'class'  => 'form-control',
+                       'placeholder' => 'Search....'
+                    ]
+            ],
             [
                 'attribute'=>'address',
                 'format' => 'raw' ,
                 'value' => function ($model)
                 {
                   return '<div style="word-wrap: break-word;white-space: normal;word-break: break-all;">'.$model->address.'</div>';
-                }
+                },
+                'filterInputOptions' => [
+                    'class'  => 'form-control',
+                    'placeholder' => 'Search....'
+                 ]
             ],
             [
               'label' => 'Manager',
               'attribute' => 'username',
               'visible' => Yii::$app->user->can('admin'),
-              'value' => 'user.username'
+              'value' => 'user.username',
+              'filterInputOptions' => [
+                  'class'  => 'form-control',
+                  'placeholder' => 'Search....'
+               ]
             ],
-            'contact',
-            ['class' => 'yii\grid\ActionColumn' , 'template'=>'{view}'],
-            [   'class' => 'yii\grid\ActionColumn',
-                'header' => '' ,
+            //'contact',
+            [
+               'attribute' =>'contact',
+                   'filterInputOptions' => [
+                       'class'  => 'form-control',
+                       'placeholder' => 'Search....'
+                    ]
+            ],
+            [
+                'format' => 'raw' ,
                 'visible' => Yii::$app->user->can('admin'),
-                'template' => '{update}',
+                'value' => function ($model)
+                {
+                  return Html::a('view', ['/store/view','id'=>$model->id]).' | '.Html::a('update', ['/store/update','id'=>$model->id]);
+                }
             ],
-            // [   'class' => 'yii\grid\ActionColumn',
-            //     'header' => '' ,
-            //     'visible' => Yii::$app->user->can('admin'),
-            //     'template' => '{delete}',
-            // ],
+
         ],
     ]); ?>
 
 </div>
-
-<!-- <script type="text/javascript">
-setTimeout(function() { location.reload(); }, 5000);
-
-
-</script> -->

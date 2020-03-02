@@ -49,7 +49,7 @@ $this->title = 'Payment Progress';
                 <div class="h-color">Please follow the following steps to make payment:</div>
                 <br/>
                 <br/>
-                1. Scan QR Code shown at the vending machine.
+                1. Go to sararawak pay.
                 <br/>
 
             </h4>

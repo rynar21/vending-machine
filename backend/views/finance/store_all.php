@@ -43,7 +43,7 @@ $this->title = 'Finances';
             [
                 'attribute'=>'date',
                 'format' => 'raw',
-                 'headerOptions' =>['class'=>'col-lg-2',],
+                'headerOptions' =>['class'=>'col-lg-2',],
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
@@ -105,9 +105,8 @@ $this->title = 'Finances';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return Html::a('', ['/sale-record/one_store_all_salerecord',
-                  'store_id'=>$model['store_id'],'date'=>$model['date']],
-                  ['class' => 'btn btn-sm  glyphicon glyphicon-eye-open']);
+                  return Html::a('view', ['/sale-record/one_store_all_salerecord',
+                  'store_id'=>$model['store_id'],'date'=>$model['date']]);
                 }
             ],
         ],

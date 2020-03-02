@@ -7,6 +7,7 @@ use mpdf;
 use common\models\Store;
 use common\models\Item;
 use common\models\Box;
+use common\models\Queue;
 use common\models\SaleRecord;
 use frontend\models\SaleRecordSearch;
 use yii\web\Controller;
@@ -24,6 +25,7 @@ use common\iot\plugins\SarawakPay;
 class SaleRecordController extends Controller
 {
     public $imodel;
+    public $enableCsrfValidation = false;
     // 显示 其中一个订单 详情
     public function actionView($id)
     {
@@ -32,6 +34,47 @@ class SaleRecordController extends Controller
             'item_model' => Item::findOne(['id'=>$model->item_id]),
             'model' => $model,
         ]);
+    }
+
+    public  function actionRequest($store_id)
+    {
+
+        $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
+        ->orderBy(['created_at'=>SORT_ASC])->one();
+        if ($model) {
+            return $model->action;
+        }
+        else {
+            return "ok";
+        }
+    }
+    public function actionNext($store_id)
+    {
+        $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
+        ->orderBy(['created_at'=>SORT_ASC])->one();
+        if ($model) {
+            $model->status = Queue::STATUS_SUCCESS;
+            $model->save();
+        }
+        $this->redirect(['request','store_id'=>$store_id]);
+    }
+
+    public function actionBoxstatus($store_id)  //取出某一个商店的盒子的状态
+    {
+        //return "hello";
+        $models =  Box::find()->where(['store_id'=>$store_id])->all();
+        foreach ($models as $model) {
+            if ($model->status == Box::BOX_STATUS_NOT_AVAILABLE) {
+                $array[] = array("$model->code"=>'Open');
+            }
+            if ($model->status == Box::BOX_STATUS_AVAILABLE) {
+                $array[] = array("$model->code"=>'Close');
+            }
+        }
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return [
+           'status' => $array,
+        ];
     }
 
     public function actionGouwu()
@@ -44,17 +87,10 @@ class SaleRecordController extends Controller
           $data=Yii::$app->request->post();
           $id= $_POST["id"];
 
-         for ($i=0; $i <=count($id)-1 ; $i++) {
+          for ($i=0; $i <=count($id)-1 ; $i++) {
              $sum+=Item::find()->where(['id'=>$id[$i]])->one()->price;
              $this->redirect(Url::to(['item/view','id'=>$id[$i]]));
-         }
-        //   $this->runAction('create',['id'=>$id[$i]]);
-          // do your query stuff here\
-                // return [
-                //     'label' => $test,
-                //     'price'=>$sum,
-                //     'id'=>$id ,
-                // ];
+          }
         }
 
         if (Yii::$app->request->isAjax) {
@@ -65,22 +101,7 @@ class SaleRecordController extends Controller
                'item_name'=>$model->name,
             ];
         }
-        else {
-            return 0;
-        }
-    }
 
-
-    public function actionApax()
-    {
-        $test = "ok!";
-        // do your query stuff here\
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if (Yii::$app->request->isAjax) {
-            return [
-               'label' => $test,
-            ];
-        }
     }
 
 
@@ -114,7 +135,7 @@ class SaleRecordController extends Controller
 
 
         }
-        $salerecord=SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
+        $salerecord = SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
         ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
 
         if ($model->id == $salerecord->id)
@@ -133,46 +154,14 @@ class SaleRecordController extends Controller
             ]);
         }
     }
-    public $enableCsrfValidation = false;
-    //模拟支付
-    //$salerecord_id,$price,$key
-    public function actionIot()
-    {
 
-        $request = \Yii::$app->request;//获取商品信息
-        $salerecord_id = $_POST['salerecord_id'];
-        $price = $_POST['price'];
-        $key_old =$_POST['key_old'];
-        $a="sha256";
-        $key=100;
-        $newkey = hash_hmac($a,$price.$salerecord_id.SaleRecord::KEY_SIGNATURE,$key[$raw_output=FALSE]);
-        if ($newkey==$key_old) {
-         return $this->redirect(['paysuccess',
-                'id'=>$salerecord_id,
-                //'priceiot'=>$price //金额
-            ]);
-        }
-        else {
-            return $this->redirect(['payfailed',
-                   'id'=>$salerecord_id,
-               ]);
-        }
-    }
-
-    public function actionRequest()
-    {
-
-    }
 
     public function actionPaycheck()
     {
 
         $request = \Yii::$app->request;
         $salerecord_id = $_POST['salerecord_id'];
-        //$barcode = $_POST['barcode'];
         $price = $_POST['price'];
-        //echo $barcode;
-        //die();
         $data = [
              'merchantId' => 'M100001040',
              // 'qrCode' => $barcode,
@@ -180,7 +169,7 @@ class SaleRecordController extends Controller
              'notifyURL' => 'https://google.com/',
              'merOrderNo' => $salerecord_id,
              'goodsName' => '',
-             'detailURL' => 'https://h5pay.requestcatcher.com/',
+             'detailURL' => "http://localhost/vending-machine/frontend/web/sale-record/check?id=$salerecord_id",
              'orderAmt' => $price,
              'remark' => '',
              'transactionType' => '1',
@@ -190,11 +179,13 @@ class SaleRecordController extends Controller
 
         $response_data = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
         //echo $response_data;
-        $get_response = json_decode($response_data);
-        $referenceNo  = $get_response->{'merOrderNo'};
-        $token        = $get_response->{'securityData'};
-        return $this->render('request',['referenceNo'=>$referenceNo,'token'=>$token,'id'=>$salerecord_id]);
-        //&&$this->redirect(['check','id'=>$salerecord_id]);
+        if ($response_data) {
+            $get_response = json_decode($response_data);
+            $referenceNo  = $get_response->{'merOrderNo'};
+            $token        = $get_response->{'securityData'};
+            return $this->render('request',['referenceNo'=>$referenceNo,'token'=>$token,'id'=>$salerecord_id]);
+        }
+
     }
     public function actionPays()
     {
@@ -233,6 +224,10 @@ class SaleRecordController extends Controller
                 ]);
             }
             elseif ($orderStatus == 1) {
+                $this->add_queue([
+                    'store_id'=>$model->store_id,
+                    'action' =>$model->box_code,
+                ]);
                 return $this->redirect(['paysuccess',
                        'id'=>$id,
                    ]);
@@ -251,6 +246,18 @@ class SaleRecordController extends Controller
         {
             throw new NotFoundHttpException("Requested item cannot be found.");
         }
+    }
+
+    public function add_queue($array)
+    {
+        $store_id = ArrayHelper::getValue($array,'store_id',0);
+        $action = ArrayHelper::getValue($array,'action',Null);
+        $priority = ArrayHelper::getValue($array,'priority',Null);
+        $model = new Queue();
+        $model->store_id = $store_id;
+        $model->action = $action;
+        $model->priority = $priority;
+        $model->save();
     }
 
     public function actionCancel($id)
@@ -294,10 +301,6 @@ class SaleRecordController extends Controller
         // exit;
     }
 
-    public function actionKomn()
-    {
-        box::updateAll(['status'=>2],['store_id'=>1]);
-    }
 
     // API Integration
     public function actionPaysuccess($id)
@@ -330,78 +333,7 @@ class SaleRecordController extends Controller
         }
     }
 
-    //检查状态
-   public  function actionInspection()
-   {
-
-       $models = SaleRecord::find()->where([
-           'status' => 9,
-       ])->andWhere(['<', 'created_at', time()-1])->all();
-               if ($models) {
-                   foreach ($models as $model) {
-                           $model->failed();
-                           echo $model->id . "\n";
-                   }
-             }
-
-    }
-
-    public  function actionKip()
-    {
 
 
-        $models = SaleRecord::find()->where([
-            'status' => 10,
-        ])
-        ->andWhere(['between', 'created_at' , strtotime(date('Y-m-d',strtotime('-2 day')))  ,strtotime(date('Y-m-d',strtotime('-1 day'))) ])
-        ->count();
-        print_r($models);
-        die();
-                if ($models) {
-                    foreach ($models as $model) {
-                            $model->failed();
-                            echo $model->id . "\n";
-                    }
-              }
-
-     }
-
-
-
-    public  function actionPricesum()
-    {
-        $total = 0;
-        $models = SaleRecord::find()->where(['status' => 10])
-        // ->andWhere(['between', 'created_at' , strtotime(-$day. 'days')  ,strtotime(1-$day .'days') ])
-        ->all();
-                if ($models) {
-                    foreach ($models as $model) {
-                            $model1 = Item::find()->where(['id'=>$model->item_id])->all();
-                            if ($model1) {
-                                foreach ($model1 as $itemmodel ) {
-                                $arr= $itemmodel->price ;
-                                $total += $arr;
-                                }
-                            }
-                    }
-                    print_r($arr);
-
-                    die();
-                    $i =  array($total );
-                    echo array_sum($i) . "\n";
-              }
-     }
-
-     public function actionRemind()
-     {
-         $model_store = Store::find()->all();
-         $model_box   = Box::find()->where(['status'=>Box::BOX_STATUS_AVAILABLE,'store_id'=>1])->count();
-         $model_boxr  = Box::find()->where(['store_id'=>1])->count();
-         echo count($model_store);
-        // echo $model_boxr;
-         if ($model_box>=$model_boxr*0.8) {
-             echo "1";
-         }
-     }
 
 }

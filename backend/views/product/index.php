@@ -25,12 +25,38 @@ $this->title = 'Products';
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'sku',
-            'name',
-            'category',
+            [
+               'attribute' =>'sku',
+                   'filterInputOptions' => [
+                       'class'  => 'form-control',
+                       'placeholder' => 'Type in some characters...'
+                    ]
+            ],
+            [
+               'attribute' =>'name',
+                   'filterInputOptions' => [
+                       'class'  => 'form-control',
+                       'placeholder' => 'Type in some characters...'
+                    ]
+            ],
+            [
+               'attribute' =>'category',
+                   'filterInputOptions' => [
+                       'class'  => 'form-control',
+                       'placeholder' => 'Type in some characters...'
+                    ]
+            ],
+            //'category',
             'price:currency',
             'cost:currency',
-            ['class' => 'yii\grid\ActionColumn','header' => 'Action','template' => '{view}{update}',],
+            [
+                'format' => 'raw' ,
+                'visible' => Yii::$app->user->can('admin'),
+                'value' => function ($model)
+                {
+                  return Html::a('view', ['/product/view','id'=>$model->id]).' | '.Html::a('update', ['/product/update','id'=>$model->id]);
+                }
+            ],
         ],
 
     ]); ?>

@@ -120,8 +120,10 @@ class SiteController extends Controller
         //return $this->redirect(['sales']);
         return $this->render('index');
     }
+
     public function actionBoxstatus($store_id)
     {
+        //return "hello";
         $models =  Box::find()->where(['store_id'=>$store_id])->all();
         foreach ($models as $model) {
             if ($model->status == Box::BOX_STATUS_NOT_AVAILABLE) {
@@ -132,13 +134,10 @@ class SiteController extends Controller
             }
         }
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-           if (Yii::$app->request->isAjax) {
-               return [
-                   'status' => $array,
-                   //'code'=> 200,
-               ];
-           }
+        return [
+           'status' => $array,
+           //'code'=> 200,
+        ];
     }
 
     public function actionSales()

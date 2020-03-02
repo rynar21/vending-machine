@@ -53,30 +53,32 @@ use common\models\User;
                         }
                     }
                 ],
-                [
-                    'attribute'=>'Role Assign',
-                    'format' => 'raw' ,
-                    'visible' => Yii::$app->user->can('supervisor'),
-                    'value' => function ($model)
-                    {
-                       return ' <div class="btn-group mr-2 pull-right col-lg-6 " role="group" aria-label="Second group"> '.
-                       Html::a('User', ['assign', 'role'=>'user','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
-                        Html::a('Staff', ['assign' ,'role'=>'staff','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-success']).
-                        Html::a('Supervisor', ['assign','role'=>'supervisor','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-success']).
-                        Html::a('Revoke', ['revoke','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).'</div>';
-                    }
-                ],
+
                 [
                     'attribute'=>'Action',
                     'format' => 'raw' ,
                     'visible' => Yii::$app->user->can('admin'),
                     'value' => function ($model)
                     {
-                       return ' <div class="btn-group mr-2 pull-right col-lg-6 " role="group" aria-label="Second group"> '.
+                       return ' <div class="btn-group mr-2 pull-left col-lg-6 " role="group" aria-label="Second group"> '.
                        Html::a('Suspend', ['update-status','status'=> User::STATUS_SUSPEND, 'id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).
                         Html::a('Unsuspend', ['update-status','status'=> User::STATUS_ACTIVE,'id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
                         Html::a('Terminate', ['update-status','status'=> User::STATUS_DELETED,'id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).
                         '</div>';
+                    }
+                ],
+
+                [
+                    'attribute'=>'Role Assign',
+                    'format' => 'raw' ,
+                    'visible' => Yii::$app->user->can('supervisor'),
+                    'value' => function ($model)
+                    {
+                       return ' <div class="btn-group mr-2 pull-left col-lg-6 " role="group" aria-label="Second group"> '.
+                       Html::a('User', ['assign', 'role'=>'user','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
+                        Html::a('Staff', ['assign' ,'role'=>'staff','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
+                        Html::a('Supervisor', ['assign','role'=>'supervisor','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
+                        Html::a('Revoke', ['revoke','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).'</div>';
                     }
                 ],
             ],

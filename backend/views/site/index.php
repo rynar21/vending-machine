@@ -34,20 +34,7 @@ $this->title = 'Data Analysis Graph';
     <div class="col-lg-4">
  <script type="text/javascript">
 
-         $.ajax({
-             type: 'get',
-             url: 'http://localhost/vending-machine/backend/web/site/boxstatus?store_id=7',
-             success: function (json) {
-                     // model_labels = json.labels
-                     // model_pricesum =json.pricesum
-                     // model_data=json.data
-                     // model_type=json.type
-                     // model_number=json.number
-                     console.log(json);
-
-             }
-
-         });
+        
         $.ajax({
             type: 'get',
             url: 'http://localhost/vending-machine/backend/web/site/sales',

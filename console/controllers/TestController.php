@@ -8,6 +8,7 @@ use common\models\Box;
 use common\models\Product;
 use common\models\Store;
 use common\models\Item;
+use common\models\Queue;
 use common\models\Finance;
 use yii\helpers\ArrayHelper;
 use yii\console\Controller;
@@ -205,8 +206,25 @@ class TestController extends Controller {
 
     public function actionUp()
     {
-        $id = 7;
-        box::updateAll(['status'=>1],['store_id'=>$id]);
+        // $id = 7;
+        // box::updateAll(['status'=>1],['store_id'=>$id]);
+        // $model = new Queue();
+        // $model->store_id = 1;
+        // $model->action ='M2';
+        // $model->priority = '123';
+        // //$model->save();
+        // if ($model->save()) {
+        //     echo "ok";
+        // }
+        //var_dump($model->getErrors());
+        $model = Queue::find()->where(['store_id' => 1, 'status'=> 0])
+        ->orderBy(['created_at'=>SORT_ASC])->one();
+        if ($model) {
+            $model->status = 1;
+            $model->save();
+            print_r($model->action);
+        }
+
     }
 
 

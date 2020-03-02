@@ -108,7 +108,7 @@ $this->title = 'Financial Records';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return Html::a('', ['finance/store_all','date'=>$model['date']], ['class' => 'btn btn-sm  glyphicon glyphicon-eye-open']);
+                  return Html::a('view', ['finance/store_all','date'=>$model['date']]);
                 }
             ],
         ],
