@@ -41,7 +41,7 @@ class FinanceController extends Controller
                         'actions' => ['index', 'view','store_all','datecheck','datecheck_store',
                         'export_data_one_store','export_data','export_order','export_order_onestore'
                             ],
-                        'allow' => Yii::$app->user->can('ac_product_read'),
+                        'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
                         'actions' => ['update','delete'],

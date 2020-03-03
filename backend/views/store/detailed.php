@@ -6,6 +6,8 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use common\models\User;
 
+
+$this->title = 'Detailed';
 ?>
 
 <div class="store-detailed col-xs-4 col-sm-12">

@@ -7,7 +7,7 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\StoreSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+$this->title = 'Store';
 ?>
 
 <div class="store-index">
@@ -33,8 +33,6 @@ use yii\helpers\Url;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            // 'id',
-            //'name',
             [
                'attribute' =>'name',
                    'filterInputOptions' => [
@@ -64,7 +62,6 @@ use yii\helpers\Url;
                   'placeholder' => 'Search....'
                ]
             ],
-            //'contact',
             [
                'attribute' =>'contact',
                    'filterInputOptions' => [
@@ -74,10 +71,14 @@ use yii\helpers\Url;
             ],
             [
                 'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return Html::a('view', ['/store/view','id'=>$model->id]).' | '.Html::a('update', ['/store/update','id'=>$model->id]);
+                    if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
+                          return Html::a('view', ['/store/view','id'=>$model->id]).' | '.Html::a('update', ['/store/update','id'=>$model->id]);
+                    }
+                    else {
+                         return Html::a('view', ['/store/view','id'=>$model->id]);
+                    }
                 }
             ],
 
