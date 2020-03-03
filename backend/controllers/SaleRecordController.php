@@ -26,7 +26,7 @@ class SaleRecordController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view','one_store_all_salerecord'],
+                        'actions' => ['index', 'view','one_store_all_salerecord','onebox_salerecord'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
@@ -80,6 +80,21 @@ class SaleRecordController extends Controller
         $dataProvider = $searchModel->searchStoreAllsalerecord(Yii::$app->request->queryParams,[
             'store_id'=> $store_id,
             'date'=> $date,
+            ]);
+        return $this->render('index', [
+
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+
+        ]);
+    }
+
+    public function actionOnebox_salerecord($box_id,$store_id)
+    {
+        $searchModel = new SaleRecordSearch();
+        $dataProvider = $searchModel->searchStoreAllsalerecord(Yii::$app->request->queryParams,[
+            'store_id'=> $store_id,
+            'box_id'=> $box_id,
             ]);
         return $this->render('index', [
 

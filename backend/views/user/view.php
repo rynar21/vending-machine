@@ -11,6 +11,7 @@ use common\models\User;
 // $this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['index']];
 // $this->params['breadcrumbs'][] = $this->title;
 // \yii\web\YiiAsset::register($this);
+$this->title = $model->username;
 ?>
 
 <div class="row">

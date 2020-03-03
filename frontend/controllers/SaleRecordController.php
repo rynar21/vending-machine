@@ -55,8 +55,12 @@ class SaleRecordController extends Controller
         if ($model) {
             $model->status = Queue::STATUS_SUCCESS;
             $model->save();
+            return "ok";
         }
-        $this->redirect(['request','store_id'=>$store_id]);
+        else {
+            return "false";
+        }
+
     }
 
     public function actionBoxstatus($store_id)  //取出某一个商店的盒子的状态
@@ -164,7 +168,7 @@ class SaleRecordController extends Controller
              // 'qrCode' => $barcode,
              'curType' => 'RM',
              'notifyURL' => 'https://google.com/',
-             'merOrderNo' => $salerecord_id,
+             'merOrderNo' => SaleRecord::find()->where(['id'=>$salerecord_id])->one()->order_number,
              'goodsName' => '',
              'detailURL' => "http://localhost/vending-machine/frontend/web/sale-record/check?id=$salerecord_id",
              'orderAmt' => $price,
@@ -204,7 +208,7 @@ class SaleRecordController extends Controller
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         $data = [
              'merchantId' => 'M100001040',
-             'merOrderNo' => $id,
+             'merOrderNo' => SaleRecord::find()->where(['id'=>$id])->one()->order_number,
         ];
         $data      = json_encode($data, 320);
         $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.queryOrder.do', $data);

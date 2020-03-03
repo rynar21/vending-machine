@@ -111,6 +111,7 @@ class SaleRecordSearch extends SaleRecord
     public function searchStoreAllsalerecord($params,$array)//$store_id,$date
     {
         $store_id = ArrayHelper::getValue($array,'store_id',Null);
+        $box_id = ArrayHelper::getValue($array,'box_id',Null);
         $date = ArrayHelper::getValue($array,'date',Null);
         $query = SaleRecord::find();
         $dataProvider = new ActiveDataProvider([
@@ -134,6 +135,7 @@ class SaleRecordSearch extends SaleRecord
         $query->andFilterWhere([
             'status' => SaleRecord::STATUS_SUCCESS,
             'store_id' => $store_id,
+            'box_id' =>$box_id,
             'box_code' => $this->box_code,
             'order_number' =>$this->order_number,
             //'store_name' =>$this->store_name,

@@ -8,7 +8,7 @@ use common\models\Item;
 /* @var $this yii\web\View */
 /* @var $model common\models\SaleRecord */
 
-$this->title = $model->id;
+$this->title = $model->order_number;
 // $this->params['breadcrumbs'][] = ['label' => 'Sale Records', 'url' => ['index']];
 // $this->params['breadcrumbs'][] = $this->title;
 // \yii\web\YiiAsset::register($this);
@@ -36,13 +36,14 @@ $this->title = $model->id;
             [
                 'attribute'=>'SKU',
                 'format' => 'raw',
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function($model)
                 {
                     return product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->sku;
                 }
             ],
             'text:text:Order number',
-            'store_name',
+            //'store_name',
             'box_code',
             'item_name',
             'store.name',
@@ -56,11 +57,11 @@ $this->title = $model->id;
                     return product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->cost;
                 }
             ],
-            //'box_id',
-            //'item_id',
-            'unique_id',
-            //'trans_id',
-            //'status',
+            [
+                'visible' => Yii::$app->user->can('supervisor'),
+                'attribute'=>'unique_id',
+            ],
+            //'unique_id',
             [
                 'attribute'=>'status',
                 'format' => 'raw' ,
