@@ -9,6 +9,9 @@ body {
 /* .pagination > .active > span:focus {
     color: #FE5802;
 } */
+.item-search{
+    height: 5vh;
+}
 .box-code-pay{
     width: 10%;
     height: 5vh;

@@ -104,21 +104,15 @@ $this->title = $model->name;
         }
     ?>
 
-
+    <div class="btn-group mr-2 pull-left" role="group" aria-label="Second group" style="display:<?=$str?>">
+        <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info',]) ?>
     <?php if ($model->status != Store::STATUS_IN_MAINTENANCE): ?>
-        <div class="btn-group mr-2 pull-left" role="group" aria-label="Second group">
-            <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info','style'=>"display:"."$str"]) ?>
-            <?= Html::a('Lock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
-        </div>
+            <?= Html::a('Lock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary',]) ?>
     <?php endif; ?>
-
     <?php if ($model->status == Store::STATUS_IN_MAINTENANCE): ?>
-        <div class="btn-group mr-2 pull-left" role="group" aria-label="Second group">
-            <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info','style'=>"display:"."$str"]) ?>
-            <?= Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger','style'=>"display:"."$str"]) ?>
-        </div>
+            <?= Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger',]) ?>
     <?php endif; ?>
-
+    </div>
     <!-- 显示商店拥有的盒子 -->
 
 

@@ -38,7 +38,6 @@ class SaleRecordController extends Controller
 
     public  function actionRequest($store_id)
     {
-
         $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
         ->orderBy(['created_at'=>SORT_ASC])->one();
         if ($model) {
@@ -334,7 +333,21 @@ class SaleRecordController extends Controller
         }
     }
 
-
+    public function actionToken()
+    {
+        //return 123;
+        $data = [
+         'appId' => '123456',
+         'appSecret' => md5('132456'),
+         //'errNo' => '',
+         //'errMessage' => $price,
+         //'accessToken' => '',
+         //'expiresIn' => '1',
+        ];
+        $data      = json_encode($data, 320);
+        $response_data = post('http://test.dingdingtingche.com/ddtcSDK/queryAccessToken', $data);
+        return $response_data;
+    }
 
 
 }
