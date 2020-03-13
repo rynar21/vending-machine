@@ -52,6 +52,10 @@ class SaleRecordSearch extends SaleRecord
 
         $dataProvider = new ActiveDataProvider([
             'query' =>  $query->orderBy(['id'=>SORT_ASC]),
+            'pagination' => [
+                'pageSize'=>30,
+                'pageSizeParam' => false,
+            ],
             //'query' => SaleRecord::find()->where(['status'=>10])->all(),
 
         ]);
