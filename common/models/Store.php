@@ -206,14 +206,14 @@ class Store extends \yii\db\ActiveRecord
         return $this->address;
     }
 
+    // public function getUsername()
+    // {
+    //     return $this->user->username;
+    // }
     public function getUser()
     {
+        // return $this->hasOne(common\models\Auth::className(), ['uid' => 'id']);
          return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    public  function getItem()
-    {
-        return $this->hasOne(Item::className(),['store_id'=>'id']);
     }
 
 }

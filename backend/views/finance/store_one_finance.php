@@ -33,6 +33,9 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
                'allModels' => array(),
            ]);
         }
+        // if (empty($store_id)) {
+        //     $store_id = null;
+        // }
    ?>
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="row col-sm-12">
@@ -65,7 +68,7 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
                 'attribute'=>'export bill',
                 'format' => 'raw' ,
                 'headerOptions' =>['class'=>'col-lg-1',],
-                //'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
                   return Html::a('', ['finance/export_data_one_store','date'=>$model['date'],'store_id'=>$model['store_id']],
@@ -76,7 +79,7 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
                 'attribute'=>'export order',
                 'format' => 'raw' ,
                 'headerOptions' =>['class'=>'col-lg-1',],
-                //'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
                   return Html::a('', ['finance/export_order_onestore','date'=>$model['date'],'store_id'=>$model['store_id']], ['class' => 'glyphicon glyphicon-download-alt']);
@@ -93,7 +96,7 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
                 'attribute'=>'date',
                 'format' => 'raw',
                  'headerOptions' =>['class'=>'col-lg-2',],
-                //'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
                    return Yii::t('app', ' {0, date}', $model['date']) ;
@@ -109,7 +112,7 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
             [
                 'attribute'=>'',
                 'format' => 'raw' ,
-                //'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
                   return Html::a('View', ['/sale-record/one_store_all_salerecord',

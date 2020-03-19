@@ -29,21 +29,21 @@ $this->title = 'Products';
                'attribute' =>'sku',
                    'filterInputOptions' => [
                        'class'  => 'form-control',
-                       'placeholder' => 'Search...'
+                       'placeholder' => 'Type in some characters...'
                     ]
             ],
             [
                'attribute' =>'name',
                    'filterInputOptions' => [
                        'class'  => 'form-control',
-                       'placeholder' => 'Search...'
+                       'placeholder' => 'Type in some characters...'
                     ]
             ],
             [
                'attribute' =>'category',
                    'filterInputOptions' => [
                        'class'  => 'form-control',
-                       'placeholder' => 'Search...'
+                       'placeholder' => 'Type in some characters...'
                     ]
             ],
             //'category',

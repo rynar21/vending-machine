@@ -47,7 +47,7 @@ AppAsset::register($this);
                 ['label' => 'Store', 'url' => ['/store/index']],
                 // ['label' => 'Box', 'url' => ['/box/index?id=1']],
                 // ['label' => 'Item', 'url' => ['/item/index']],
-                ['label' => 'Record', 'url' => ['/sale-record/index'],'visible' => Yii::$app->user->can('user'),],
+                ['label' => 'Record', 'url' => ['/sale-record/index'],'visible' => Yii::$app->user->can('supervisor'),],
                 ['label' => 'Product', 'url' => ['/product/index'] ,'visible' => Yii::$app->user->can('admin'),],
             ];
             }
