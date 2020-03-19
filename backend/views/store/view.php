@@ -11,7 +11,7 @@ use yii\bootstrap\NavBar;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Store */
-
+$this->title = $model->name;
 ?>
 
 <div class="store-view">
@@ -71,23 +71,25 @@ use yii\bootstrap\NavBar;
                   'value' => function ($model)
                   {
                     return
-                        '<div class="btn-group mr-2 pull-left col-lg-12 " role="group" aria-label="Second group">
-                        <form method="GET" action="http://localhost/vending-machine/backend/web/finance/datecheck_store">
-                            <input name="date1"  type="date" min="2000-01-02"  class=" col-sm-3" >
-                            <div class="col-sm-1 text-center">-</div>
-                            <input name="date2"  type="date" min="2000-01-02" class=" col-sm-3" >
-                            <input name="store_id" value='.$model->id.' type="hidden"  >
-                            <input type="submit" name="submit" value="Search" class=" btn btn-sm btn-primary col-sm-2 pull-right">
-                        </form>
-                        </div>';
+                  '<div class="btn-group mr-2 pull-left col-lg-12 " role="group" aria-label="Second group">
+                  <form method="GET" action="http://localhost/vending-machine/backend/web/finance/datecheck_store">
+                      <input name="date1"  type="date" min="2000-01-02"  class=" col-sm-3" >
+                      <div class="col-sm-1 text-center">-</div>
+                      <input name="date2"  type="date" min="2000-01-02" class=" col-sm-3" >
+                      <input name="store_id" value='.$model->id.' type="hidden"  >
+                      <input type="submit" name="submit" value="Search" class=" btn btn-sm btn-primary col-sm-2 pull-right">
+                  </form>
+                  </div>';
                   }
               ],
           ],
      ]); ?>
 
     <!-- PHP: 展示时间 -->
-    <?php //echo Yii::$app->formatter->asDateTime($model->created_at);
-        $auth = Yii::$app->authManager;
+
+
+    <?php  //echo Yii::$app->formatter->asDateTime($model->created_at);
+         $auth = Yii::$app->authManager;
         if ($auth->checkAccess(Yii::$app->user->identity->id,'user')) {
             $str =' none';
         };
@@ -102,14 +104,17 @@ use yii\bootstrap\NavBar;
         }
     ?>
 
+    <div class="btn-group mr-2 pull-left" role="group" aria-label="Second group" style="display:<?=$str?>">
+        <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info',]) ?>
+    <?php if ($model->status != Store::STATUS_IN_MAINTENANCE): ?>
+            <?= Html::a('Lock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary',]) ?>
+    <?php endif; ?>
+    <?php if ($model->status == Store::STATUS_IN_MAINTENANCE): ?>
+            <?= Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger',]) ?>
+    <?php endif; ?>
+    </div>
     <!-- 显示商店拥有的盒子 -->
-<div class="btn-group mr-2 pull-left" role="group" aria-label="Second group">
 
-    <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info','style'=>"display:"."$str"]) ?>
-    <?= Html::a('Lock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
-    <?= Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
-
-</div>
 
     <div class="col-sm-12">
          <div class="row">
@@ -150,14 +155,14 @@ use yii\bootstrap\NavBar;
                                    }
                                ],
                                [
-                                   // 'attribute'=>'Item History',
+                                    'label'=>'History',
                                    'format' => 'raw' ,
-                                   'headerOptions' =>['class'=>'col-lg-2',],
-                                   'visible' => Yii::$app->user->can('admin'),
+                                   'headerOptions' =>['class'=>'col-lg-1',],
+                                   'visible' => Yii::$app->user->can('supervisor'),
                                    'value' => function ($model)
                                    {
-                                     return Html::a('Item History', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id]).
-                                     ' | '. Html::a('Order History', ['/sale-record/store_all_salerecord',]);
+                                     return Html::a('Item ', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id]).
+                                     ' | '. Html::a('Order ', ['/sale-record/onebox_salerecord','box_id'=>$model->id,'store_id'=>$model->store_id]);
                                    }
                                ],
                            ],

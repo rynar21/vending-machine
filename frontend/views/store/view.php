@@ -15,7 +15,7 @@ $this->title = 'Vending Machine';
 
     <hr/>
 
-    <div class="row">
+    <div class="row ">
         <?php
         $item_searchModel = new ItemSearch();
          echo $this->render('/item/_search', [
@@ -40,9 +40,8 @@ $this->title = 'Vending Machine';
             'store_id'=>$id,
         ]);
 
-
         ?>
 
-
+        
 
 </div>

@@ -158,7 +158,7 @@ class Item extends \yii\db\ActiveRecord
     // 搜索 对应产品的 Store商店
     public function getStore()
     {
-        return $this->hasOne(Store::className(), ['id' => 'id'])->via('box');
+        return $this->hasOne(Store::className(), ['id' => 'store_id']);
     }
 
     // 搜索 对应产品的 Box盒子
