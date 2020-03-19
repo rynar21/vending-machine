@@ -44,7 +44,6 @@ AppAsset::register($this);
             'class' => ' navbar-fixed-top b-color',
         ],
     ]);
-
     // $menuItems = [
     //     ['label' => 'Home', 'url' => ['/item/index']],
     // ];
@@ -67,12 +66,7 @@ AppAsset::register($this);
     // ]);
     NavBar::end();
     ?>
-    <!-- <nav class="navbar navbar-light navbar-fixed-top bg-light">
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </nav> -->
+
     <div class="container">
         <?php /* Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

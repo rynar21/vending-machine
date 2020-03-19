@@ -16,7 +16,7 @@ $this->title = 'Invoice';
 
 <div class="sale-record-receipt">
 
-    <div class="header b-color">
+    <div class="header c-download b-color" style="margin: 10px 100px 5px 100px; padding: 20px;">
         <div class="container">
             <div class="row">
 
@@ -88,6 +88,9 @@ $this->title = 'Invoice';
         <br/>
         <?= Html::a('Download as PDF', ['download', 'id' => $model->id], ['class' => 'btn btn-success btn-block b-color']) ?>
     </div>
+
+
+
 </div>
 
 <style>
@@ -96,10 +99,10 @@ $this->title = 'Invoice';
     border-color: #FE5802;
 }
  .header{
-    /* border: 0px solid red; */
+    border: 0px solid red;
     color: #F0FFFF;
     background-color: #FE5802;
-    /* border-radius: 5px; */
+    border-radius: 5px;
 }
 
 p {

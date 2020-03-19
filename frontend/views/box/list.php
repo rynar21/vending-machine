@@ -24,7 +24,7 @@ use yii\widgets\LinkPager;
                  <!-- 产品 显示框 -->
                 <div class=" box_item "  >
                     <div class="box-code-id text-center b-color">
-                        <div class="box-number"><?=$model->prefix . $item->box->code;  ?></div>
+                        <div class="box-number"><?=$model->prefix . Box::find()->where(['id'=>$item->box_id])->one()->code;  ?></div>
                     </div>
                     <!-- 产品：图片 显示框 -->
                        <div class="row item_image" >

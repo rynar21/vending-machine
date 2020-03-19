@@ -26,10 +26,7 @@ $this->title = 'Payment Success';
         </div>
 
         <!-- 产品信息 -->
-        <div class="    col-lg-offset-2 col-lg-8 item_details_box">
-            <div class="row  box-code-pay text-center b-color">
-                <div class="box-number"><?= $model->store->prefix.  $model->box->code;  ?></div>
-            </div>
+        <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 item_details_box">
             <div class="row item_details">
                 <div class="item_details_image col-sm-5 col-lg-4 col-xs-6">
                     <img src="<?php echo $item_model->imageUrl ?>"/>
@@ -39,6 +36,8 @@ $this->title = 'Payment Success';
                     <?= $item_model->name ?>
                 </div>
             </div>
+
+
 
             <div class="row text-center item_details_price font-color">
                 <div class="col-sm-12">
@@ -50,7 +49,7 @@ $this->title = 'Payment Success';
                 Transaction No:
             </h5>
             <h4>
-                <?= $model->order_number ?>
+                <?= $model->id ?>
             </h4>
 
             <h5>
@@ -76,9 +75,9 @@ $this->title = 'Payment Success';
                 <br/>
                 <br/>
 
-                <!-- <a href="<?php// Url::to(['sale-record/invoice','id'=> $model->id]) ?>" class="btn btn-default btn-cancel font-color" target="_blank">
+                <a href="<?= Url::to(['sale-record/invoice','id'=> $model->id]) ?>" class="btn btn-default btn-cancel font-color" target="_blank">
                     View Receipt
-                </a> -->
+                </a>
             </div>
         </div>
 

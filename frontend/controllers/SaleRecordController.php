@@ -38,6 +38,7 @@ class SaleRecordController extends Controller
 
     public  function actionRequest($store_id)
     {
+
         $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
         ->orderBy(['created_at'=>SORT_ASC])->one();
         if ($model) {
@@ -54,12 +55,8 @@ class SaleRecordController extends Controller
         if ($model) {
             $model->status = Queue::STATUS_SUCCESS;
             $model->save();
-            return "ok";
         }
-        else {
-            return "false";
-        }
-
+        $this->redirect(['request','store_id'=>$store_id]);
     }
 
     public function actionBoxstatus($store_id)  //取出某一个商店的盒子的状态
@@ -167,7 +164,7 @@ class SaleRecordController extends Controller
              // 'qrCode' => $barcode,
              'curType' => 'RM',
              'notifyURL' => 'https://google.com/',
-             'merOrderNo' => SaleRecord::find()->where(['id'=>$salerecord_id])->one()->order_number,
+             'merOrderNo' => $salerecord_id,
              'goodsName' => '',
              'detailURL' => "http://localhost/vending-machine/frontend/web/sale-record/check?id=$salerecord_id",
              'orderAmt' => $price,
@@ -207,7 +204,7 @@ class SaleRecordController extends Controller
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         $data = [
              'merchantId' => 'M100001040',
-             'merOrderNo' => SaleRecord::find()->where(['id'=>$id])->one()->order_number,
+             'merOrderNo' => $id,
         ];
         $data      = json_encode($data, 320);
         $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.queryOrder.do', $data);
@@ -333,21 +330,7 @@ class SaleRecordController extends Controller
         }
     }
 
-    public function actionToken()
-    {
-        //return 123;
-        $data = [
-         'appId' => '123456',
-         'appSecret' => md5('132456'),
-         //'errNo' => '',
-         //'errMessage' => $price,
-         //'accessToken' => '',
-         //'expiresIn' => '1',
-        ];
-        $data      = json_encode($data, 320);
-        $response_data = post('http://test.dingdingtingche.com/ddtcSDK/queryAccessToken', $data);
-        return $response_data;
-    }
+
 
 
 }
