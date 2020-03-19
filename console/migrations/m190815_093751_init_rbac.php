@@ -100,6 +100,13 @@ class m190815_093751_init_rbac extends Migration
         $auth = Yii::$app->authManager;
 
         $auth->removeAll();
+
+        // $this->dropTable('auth_assignment');
+        // $this->dropTable('auth_item');
+        // $this->dropTable('auth_item_child');
+        // $this->dropTable('auth_rule');
+
+
     }
 
     /*
