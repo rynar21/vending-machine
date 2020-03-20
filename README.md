@@ -42,17 +42,11 @@ SETUP PROJECT ENVIRONMENT
 INITIALIZE PROJECT
 ```
 $ composer init
-```
 
-INITIALIZE YII
-```
 $ php yii init
-```
 
-
-INITIALIZE DATABASE
-```
 $ php yii migrate
+
 ```
 
 SETUP BY DOCKER
