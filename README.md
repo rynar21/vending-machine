@@ -60,3 +60,13 @@ SETUP BY DOCKER
 ```
 $ docker-compose up -d
 ```
+
+INITIALIZE DEFAULT USER
+```
+$ php yii user/create-admin "username" "password"
+```
+
+INITIALIZE FAKE DATA
+```
+$ php yii migrate --migrationPath=@console/migrations/fake/
+```
