@@ -54,3 +54,9 @@ INITIALIZE DATABASE
 ```
 $ php yii migrate
 ```
+
+SETUP BY DOCKER
+----------------
+```
+$ docker-compose up -d
+```
