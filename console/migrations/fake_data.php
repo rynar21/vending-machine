@@ -14,8 +14,8 @@ class fake_data extends Migration
         $store->contact = "0165253276";
         $store->prefix = "V";
         $store->user_id = 1;
-        $store->created_at = 1584595153;
-        $store->updated_at = 1584595153;
+        $store->created_at = "1584595153";
+        $store->updated_at = "1584595153";
         $store->save();
 
         // return $store->save();
