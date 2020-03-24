@@ -166,7 +166,7 @@ class SaleRecordController extends Controller
              'notifyURL' => 'https://google.com/',
              'merOrderNo' => $salerecord_id,
              'goodsName' => '',
-             'detailURL' => "http://localhost/vending-machine/frontend/web/sale-record/check?id=$salerecord_id",
+             'detailURL' => "http://localhost:20080/sale-record/check?id=$salerecord_id",
              'orderAmt' => $price,
              'remark' => '',
              'transactionType' => '1',

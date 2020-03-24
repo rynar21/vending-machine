@@ -1,5 +1,5 @@
 <?php
-use Yii;
+//use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\iot\plugins\Encryption;
@@ -13,7 +13,7 @@ $this->title = 'Lodings';
 ?>
 
 
-<form id="demo"  method="POST" action="http://localhost/vending-machine/frontend/web/sale-record/paycheck">
+<form id="demo"  method="POST" action="http://localhost:20080/sale-record/paycheck">
 
     <input name="salerecord_id" value="<?= $salerecord_id?>" type="hidden" >
     <input name="price" value="<?= $price?>" type="hidden" >

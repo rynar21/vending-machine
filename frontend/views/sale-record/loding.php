@@ -12,7 +12,7 @@ $this->title = 'Loding';
  //$time = time();
 ?>
 
-<form id="demo" action="http://localhost/vending-machine/frontend/web/sale-record/create">
+<form id="demo" action="http://localhost:20080/sale-record/create">
     <input name="id" value="<?=$id?>" type="hidden" >
     <input name="time" value="<?=$time?>" type="hidden">
 </form>
