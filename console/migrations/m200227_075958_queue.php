@@ -23,7 +23,7 @@ class m200227_075958_queue extends Migration
            'created_at' => $this->integer()->notNull(),
            'updated_at' => $this->integer()->notNull(),
        ]);
-       $this->first_user();
+      
 
     }
 

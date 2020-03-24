@@ -42,10 +42,10 @@ class SaleRecordController extends Controller
         $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
         ->orderBy(['created_at'=>SORT_ASC])->one();
         if ($model) {
-            return $model->action;
+            return ['open'=>$model->action];
         }
         else {
-            return "ok";
+            return ['status'=>'ok'];
         }
     }
     public function actionNext($store_id)

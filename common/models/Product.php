@@ -76,18 +76,18 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getCategories(){
-        return[
-            'food_beverage' => 'Food & Beverage',
-            'home_living' => 'Home & Living',
-            'electronic' => 'Electronic & Accessories',
-            'mobile_accessory' => 'Mobile & Accessories',
-            'watch' => 'Watch',
-            'entertainment' => 'Entertainment'
-        ];
-
-        // return $this->category='2';
-    }
+    // public function getCategories(){
+    //     return[
+    //         'food_beverage' => 'Food & Beverage',
+    //         'home_living' => 'Home & Living',
+    //         'electronic' => 'Electronic & Accessories',
+    //         'mobile_accessory' => 'Mobile & Accessories',
+    //         'watch' => 'Watch',
+    //         'entertainment' => 'Entertainment'
+    //     ];
+    //
+    //     // return $this->category='2';
+    // }
 
     // 搜索 对应产品的 Item产品
     // public function getItems()

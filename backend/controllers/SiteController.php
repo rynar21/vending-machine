@@ -121,25 +121,6 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionBoxstatus($store_id)
-    {
-        //return "hello";
-        $models =  Box::find()->where(['store_id'=>$store_id])->all();
-        foreach ($models as $model) {
-            if ($model->status == Box::BOX_STATUS_NOT_AVAILABLE) {
-                $array[] = array("$model->code"=>'Open');
-            }
-            if ($model->status == Box::BOX_STATUS_AVAILABLE) {
-                $array[] = array("$model->code"=>'Close');
-            }
-        }
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return [
-           'status' => $array,
-           //'code'=> 200,
-        ];
-    }
-
     public function actionSales()
     {
         $labels = [];
@@ -226,24 +207,6 @@ class SiteController extends Controller
                 }
     }
 
-
-
-    public function actionAjax()
-    {
-          if(Yii::$app->request->post('test'))
-          {
-            $test = "Ajax Worked!";
-            // do your query stuff here
-          }else{
-            $test = "Ajax failed";
-            // do your query stuff here
-          }
-          // return Json
-      return \yii\helpers\Json::encode($test);
-    }
-
-
-
     /**
      * Login action.
      *
@@ -291,7 +254,7 @@ class SiteController extends Controller
 
 
 
-    public function actionChangepassword()
+    public function actionChangepassword()//changepassword
     {
         $model = new ChangePasswordForm();
         if (Yii::$app->user->identity!=null)
@@ -303,7 +266,7 @@ class SiteController extends Controller
             }
             else
             {
-                return $this->render('changepassword',['model'=>$model]);
+                return $this->render('changePassword',['model'=>$model]);
             }
         }
         else {

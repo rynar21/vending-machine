@@ -5,6 +5,7 @@ use Yii;
 
 use common\models\SaleRecord;
 use common\models\Box;
+use common\models\User;
 use common\models\Product;
 use common\models\Store;
 use common\models\Item;
@@ -18,6 +19,27 @@ class TestController extends Controller {
     public function actionIndex()
     {
         echo "hello_world";
+    }
+
+    public function actionCreateAdmin($username,$password)
+    {
+        $model = new User();
+        $model->email = 'forgetof2@gmail.com';
+        $model->username = $username;
+        $model->password_hash = Yii::$app->security->generatePasswordHash($password);
+        $model->auth_key = Yii::$app->security->generateRandomString();
+        $model->status = User::STATUS_ACTIVE;
+        $model->save();
+        $auth = Yii::$app->authManager;
+        $auth->revokeAll(1);
+        $auth_role = $auth->getRole('admin');
+        $auth->assign($auth_role, 1);
+        if ($model->save()) {
+            echo "ok";
+        }
+        else {
+            echo "false";
+        }
     }
 
     // 检查支付状态
