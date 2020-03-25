@@ -1,6 +1,6 @@
 <?php
 
-namespace common\commontans;
+namespace common\plugins;
 
 use Yii;
 
