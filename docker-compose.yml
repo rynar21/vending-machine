@@ -10,8 +10,6 @@ services:
             MYSQL_DATABASE: yii2advanced
         ports:
             - 3306:3306
-        volumes:
-            - "./docker-data/mysql:/var/lib/mysql"
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:4.8.4
