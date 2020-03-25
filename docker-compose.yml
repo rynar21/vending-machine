@@ -33,6 +33,7 @@ services:
             # Mount source-code for development
             - ./:/app
 
+
     backend:
         build: backend
         ports:
@@ -42,3 +43,12 @@ services:
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
             # Mount source-code for development
             - ./:/app
+
+    migrate:
+        build: frontend
+        volumes:
+            # Re-use local composer cache via host-volume
+            - ~/.composer-docker/cache:/root/.composer/cache:delegated
+            # Mount source-code for development
+            - ./:/app
+        command: php /app/yii migrate --interactive=0
