@@ -31,7 +31,6 @@ services:
             # Mount source-code for development
             - ./:/app
 
-
     backend:
         build: backend
         ports:
