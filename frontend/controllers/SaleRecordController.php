@@ -17,10 +17,10 @@ use yii\db\Expression;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\authclient\signature\BaseMethod;
-use common\iot\plugins\Encryption;
-use common\iot\plugins\SarawakPay;
-// require_once('D:\wamp64\www\vending-machine\iot\plugins\Encryption.php');
-// require_once('D:\wamp64\www\vending-machine\iot\plugins\SarawakPay.php');
+use common\plugins\iot\plugins\Encryption;
+use common\plugins\iot\plugins\SarawakPay;
+ // require_once('app\plugins\Encryption.php');
+ // require_once('app\plugins\SarawakPay.php');
  //SaleRecordController implements the CRUD actions for SaleRecord model.
 class SaleRecordController extends Controller
 {
