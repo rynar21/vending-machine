@@ -119,11 +119,11 @@ class Product extends \yii\db\ActiveRecord
                 {
                     unlink(Yii::getAlias('@upload') . '/' . $this->image);
                 }
-                 $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+                 $this->image = time().  '.' . $this->imageFile->extension;
              }
             if ($this->image==null)
             {
-                $this->image = time(). '_' . uniqid() . '.' . $this->imageFile->extension;
+                $this->image = time().  '.' . $this->imageFile->extension;
             }
         }
         return parent::beforeSave($insert);
