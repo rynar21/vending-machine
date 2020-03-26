@@ -1,5 +1,5 @@
 <?php
-namespace plugins\plugins;
+namespace common\plugins\iot\plugins;
 use Yii;
 
 /**

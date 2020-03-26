@@ -1,5 +1,5 @@
 <?php
-namespace plugins\plugins;
+namespace common\plugins\iot\plugins;
 use Yii;
 
 // require_once('log.php');
@@ -8,9 +8,9 @@ use Yii;
  */
 class SarawakPay
 {
-    const SP_PUBLIC_KEY          = "/app/plugins\keys/sarawakpay_public_key.pem";
-    const MERCHANT_PUBLIC_KEY    = "/app/plugins\keys/merchant_public_key.key";
-    const MERCHANT_PRIVATE_KEY   = "/app/plugins\keys/merchant_private_key.key";
+    const SP_PUBLIC_KEY          = "/app/common\plugins\iot\keys/sarawakpay_public_key.pem";
+    const MERCHANT_PUBLIC_KEY    = "/app/common\plugins\iot\keys/merchant_public_key.key";
+    const MERCHANT_PRIVATE_KEY   = "/app/common\plugins\iot\keys/merchant_private_key.key";
 
     /**
      * @param  string  $url   Sarawak pay api
