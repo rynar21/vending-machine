@@ -38,14 +38,19 @@ class SaleRecordController extends Controller
 
     public  function actionRequest($store_id)
     {
-
+        //return "string";
+        //die();
         $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
         ->orderBy(['created_at'=>SORT_ASC])->one();
         if ($model) {
-            return ['open'=>$model->action];
+            $data = ['command'=>$model->action];
+            $data = json_encode($data, 320);
+            return $data;
         }
         else {
-            return ['status'=>'ok'];
+            $data = ['status'=>'ok'];
+            $data = json_encode($data, 320);
+            return $data;
         }
     }
     public function actionNext($store_id)
@@ -300,11 +305,9 @@ class SaleRecordController extends Controller
         // exit;
     }
 
-
-    // API Integration
-    public function PayStatus($config)
+    public function actionPaysuccess($id)
     {
-        $model = SaleRecord::findOne(['id'=>$id]);
+        $model = SaleRecord::findOne(['order_number'=>$id]);
         if ($model)
         {
             $item_model=Item::findOne(['box_id'=>$model->box_id]);
@@ -320,7 +323,7 @@ class SaleRecordController extends Controller
     }
     public function actionPayfailed($id)
     {
-        $model = SaleRecord::findOne(['id'=> $id]);;
+        $model = SaleRecord::findOne(['order_number'=> $id]);;
         if ($model)
         {
             $model->failed();
@@ -330,6 +333,22 @@ class SaleRecordController extends Controller
             ]);
             //echo'failed';
         }
+    }
+
+    public function actionToken()
+    {
+        //return 123;
+        $data = [
+         'appId' => '123456',
+         'appSecret' => md5('132456'),
+         //'errNo' => '',
+         //'errMessage' => $price,
+         //'accessToken' => '',
+         //'expiresIn' => '1',
+        ];
+        $data      = json_encode($data, 320);
+        $response_data = post('http://test.dingdingtingche.com/ddtcSDK/queryAccessToken', $data);
+        return $response_data;
     }
 
 
