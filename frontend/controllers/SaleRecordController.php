@@ -42,10 +42,15 @@ class SaleRecordController extends Controller
         $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
         ->orderBy(['created_at'=>SORT_ASC])->one();
         if ($model) {
-            return ['open'=>$model->action];
+
+            $data =  ['command'=>$model->action];
+            $data = json_encode($data, 320);
+            return $data;
         }
         else {
-            return ['status'=>'ok'];
+            $data = ['status'=>'ok'];
+            $data = json_encode($data, 320);
+            return $data;
         }
     }
     public function actionNext($store_id)
@@ -55,8 +60,11 @@ class SaleRecordController extends Controller
         if ($model) {
             $model->status = Queue::STATUS_SUCCESS;
             $model->save();
+            $data = ['status'=>'ok'];
+            $data = json_encode($data, 320);
+            return $data;
         }
-        $this->redirect(['request','store_id'=>$store_id]);
+        //$this->redirect(['request','store_id'=>$store_id]);
     }
 
     public function actionBoxstatus($store_id)  //取出某一个商店的盒子的状态
