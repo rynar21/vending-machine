@@ -17,8 +17,8 @@ use yii\db\Expression;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\authclient\signature\BaseMethod;
-use common\plugins\iot\plugins\Encryption;
-use common\plugins\iot\plugins\SarawakPay;
+use common\plugins\spayplugins\plugins\Encryption;
+use common\plugins\spayplugins\plugins\SarawakPay;
  // require_once('app\plugins\Encryption.php');
  // require_once('app\plugins\SarawakPay.php');
  //SaleRecordController implements the CRUD actions for SaleRecord model.
@@ -38,19 +38,14 @@ class SaleRecordController extends Controller
 
     public  function actionRequest($store_id)
     {
-        //return "string";
-        //die();
+
         $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
         ->orderBy(['created_at'=>SORT_ASC])->one();
         if ($model) {
-            $data = ['command'=>$model->action];
-            $data = json_encode($data, 320);
-            return $data;
+            return ['open'=>$model->action];
         }
         else {
-            $data = ['status'=>'ok'];
-            $data = json_encode($data, 320);
-            return $data;
+            return ['status'=>'ok'];
         }
     }
     public function actionNext($store_id)
@@ -183,7 +178,9 @@ class SaleRecordController extends Controller
 
         $response_data = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
         //echo $response_data;
+        //echo "one";
         if ($response_data) {
+            //echo "two";
             $get_response = json_decode($response_data);
             $referenceNo  = $get_response->{'merOrderNo'};
             $token        = $get_response->{'securityData'};
@@ -305,6 +302,7 @@ class SaleRecordController extends Controller
         // exit;
     }
 
+
     public function actionPaysuccess($id)
     {
         $model = SaleRecord::findOne(['order_number'=>$id]);
@@ -333,22 +331,6 @@ class SaleRecordController extends Controller
             ]);
             //echo'failed';
         }
-    }
-
-    public function actionToken()
-    {
-        //return 123;
-        $data = [
-         'appId' => '123456',
-         'appSecret' => md5('132456'),
-         //'errNo' => '',
-         //'errMessage' => $price,
-         //'accessToken' => '',
-         //'expiresIn' => '1',
-        ];
-        $data      = json_encode($data, 320);
-        $response_data = post('http://test.dingdingtingche.com/ddtcSDK/queryAccessToken', $data);
-        return $response_data;
     }
 
 

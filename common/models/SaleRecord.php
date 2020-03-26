@@ -159,15 +159,6 @@ class SaleRecord extends \yii\db\ActiveRecord
             $this->box->status = Box::BOX_STATUS_NOT_AVAILABLE;
             $this->box->save();
          }
-
-         // return $this->save() && $this->item->save() && $this->box->save() && Yii::$app->slack->curlPost([
-         //     'data' =>
-         //     [
-         //         'text' => $this->_toString()
-         //
-         //     ],
-         //     // 'url' => "https://ry92.requestcatcher.com/",
-         // ]);
     }
     // 交易状态： 购买失败
     public function failed()

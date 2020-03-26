@@ -1,7 +1,6 @@
 <?php
-namespace common\plugins\iot\plugins;
-use Yii;
 
+namespace common\plugins\spayplugins\plugins;
 /**
  * Sarawak Pay module
  */
