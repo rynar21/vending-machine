@@ -17,8 +17,8 @@ use yii\db\Expression;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\authclient\signature\BaseMethod;
-use common\plugins\iot\plugins\Encryption;
-use common\plugins\iot\plugins\SarawakPay;
+use common\plugins\spayplugins\plugins\Encryption;
+use common\plugins\spayplugins\plugins\SarawakPay;
  // require_once('app\plugins\Encryption.php');
  // require_once('app\plugins\SarawakPay.php');
  //SaleRecordController implements the CRUD actions for SaleRecord model.
@@ -177,8 +177,10 @@ class SaleRecordController extends Controller
         $data      = json_encode($data, 320);
 
         $response_data = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
-        //echo $response_data;
+        echo $response_data;
+        //echo "one";
         if ($response_data) {
+            echo "two";
             $get_response = json_decode($response_data);
             $referenceNo  = $get_response->{'merOrderNo'};
             $token        = $get_response->{'securityData'};
@@ -301,10 +303,9 @@ class SaleRecordController extends Controller
     }
 
 
-    // API Integration
-    public function PayStatus($config)
+    public function actionPaysuccess($id)
     {
-        $model = SaleRecord::findOne(['id'=>$id]);
+        $model = SaleRecord::findOne(['order_number'=>$id]);
         if ($model)
         {
             $item_model=Item::findOne(['box_id'=>$model->box_id]);
@@ -320,7 +321,7 @@ class SaleRecordController extends Controller
     }
     public function actionPayfailed($id)
     {
-        $model = SaleRecord::findOne(['id'=> $id]);;
+        $model = SaleRecord::findOne(['order_number'=> $id]);;
         if ($model)
         {
             $model->failed();
