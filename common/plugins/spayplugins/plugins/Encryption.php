@@ -1,9 +1,9 @@
 <?php
+
+namespace common\plugins\spayplugins\plugins;
 /**
  * Sarawak Pay module
  */
-namespace common\plugins\spayplugins\plugins;
-
 class Encryption
 {
     const DESKEY_FORMAT_LENGTH = 6;
@@ -15,14 +15,14 @@ class Encryption
      */
     public static function encrypt($data, $key)
     {
-        $desKey = random_bytes(24); //生成加密安全的伪随机字节
-        if (openssl_public_encrypt($desKey, $encryptedDesKey, static::getRsaPublicKey($key))) {  //使用公钥加密数据
-            $encryptedDesKey        = unpack('C*', $encryptedDesKey);  //从二进制字符串解压缩数据 （C  无符号字符串）
-            $encryptedData          = openssl_encrypt($data, 'des-ede3', $desKey, OPENSSL_RAW_DATA);  //加密数据
-            $encryptedDesKeyLength  = unpack('C*', sprintf("%06d", count($encryptedDesKey)));   //sprintf返回格式化的字符串
+        $desKey = random_bytes(24);
+        if (openssl_public_encrypt($desKey, $encryptedDesKey, static::getRsaPublicKey($key))) {
+            $encryptedDesKey        = unpack('C*', $encryptedDesKey);
+            $encryptedData          = openssl_encrypt($data, 'des-ede3', $desKey, OPENSSL_RAW_DATA);
+            $encryptedDesKeyLength  = unpack('C*', sprintf("%06d", count($encryptedDesKey)));
             $encryptedData          = unpack('C*', $encryptedData);
 
-            $encryptedMessage = base64_encode(pack('C*', ...$encryptedDesKeyLength, ...$encryptedDesKey, ...$encryptedData));  //使用 MIME base64 对数据进行编码
+            $encryptedMessage = base64_encode(pack('C*', ...$encryptedDesKeyLength, ...$encryptedDesKey, ...$encryptedData));
 
             return $encryptedMessage;
         }
@@ -38,17 +38,17 @@ class Encryption
     public static function decrypt($data, $key)
     {
         $encryptedMessage   = unpack('C*', base64_decode($data));
-        $keyLengthByte      = array_slice($encryptedMessage, 0, self::DESKEY_FORMAT_LENGTH); //从数组中取出一段  0-6
+        $keyLengthByte      = array_slice($encryptedMessage, 0, self::DESKEY_FORMAT_LENGTH);
         $encryptedMessage   = array_slice($encryptedMessage, self::DESKEY_FORMAT_LENGTH);
-        $keyLengthInt       = intval(pack("C*", ...$keyLengthByte));  //获取变量的整数值
+        $keyLengthInt       = intval(pack("C*", ...$keyLengthByte));
         $encryptedDesKey    = array_slice($encryptedMessage, 0, $keyLengthInt);
         $encryptedMessage   = array_slice($encryptedMessage, $keyLengthInt);
         $encryptedDesKey    = pack("C*", ...$encryptedDesKey);
 
-        if (openssl_private_decrypt($encryptedDesKey, $decryptedDesKey, static::getRsaPrivateKey($key))) {//使用私钥解密数据
-            $encryptedData = pack("C*", ...$encryptedMessage); //将数据打包成二进制字符串
+        if (openssl_private_decrypt($encryptedDesKey, $decryptedDesKey, static::getRsaPrivateKey($key))) {
+            $encryptedData = pack("C*", ...$encryptedMessage);
 
-            $result = openssl_decrypt($encryptedData, 'des-ede3', $decryptedDesKey, OPENSSL_RAW_DATA); //解密数据
+            $result = openssl_decrypt($encryptedData, 'des-ede3', $decryptedDesKey, OPENSSL_RAW_DATA);
 
             return $result;
         }
@@ -58,9 +58,9 @@ class Encryption
 
     private static function sortData($data)
     {
-        $_data = unpack('C*', $data); //从二进制字符串解压缩数据
-        sort($_data);  //排序
-        return pack('C*', ...$_data);  //将数据打包成二进制字符串
+        $_data = unpack('C*', $data);
+        sort($_data);
+        return pack('C*', ...$_data);
     }
 
     /**
@@ -68,12 +68,12 @@ class Encryption
      * @param  string  $key   RSA Private Key Path
      * @return string         Decrypted JSON string
      */
-    public static function generateSignature($data, $key)  //生成一个签名
+    public static function generateSignature($data, $key)
     {
         $sortedData = static::sortData($data);
-        openssl_sign($sortedData, $binary_signature, static::getRsaPrivateKey($key), 'SHA256');  //生成签名
+        openssl_sign($sortedData, $binary_signature, static::getRsaPrivateKey($key), 'SHA256');
 
-        return base64_encode($binary_signature);  //使用 MIME base64 对数据进行编码
+        return base64_encode($binary_signature);
     }
 
     /**
@@ -85,7 +85,7 @@ class Encryption
     {
         $sortedData = static::sortData($data);
 
-        return openssl_verify($sortedData, base64_decode($signature), static::getRsaPublicKey($key), 'SHA256');  //验证签名
+        return openssl_verify($sortedData, base64_decode($signature), static::getRsaPublicKey($key), 'SHA256');
     }
 
     /**
@@ -93,31 +93,31 @@ class Encryption
      * @param  string  $key   RSA Public Key Path
      * @return boolean        Result
      */
-    public static function verifySignature($data, $key)  //验证签名
+    public static function verifySignature($data, $key)
     {
-        $data = json_decode($data, 320); //对 JSON 格式的字符串进行解码
+        $data = json_decode($data, 320);
         $signature = $data['sign'];
-        unset($data['sign']);     //销毁变量
+        unset($data['sign']);
         $data = json_encode($data, 320);
 
         return static::checkSignature($data, $signature, $key);
     }
 
-    public static function getRsaPrivateKey($filename)    // 获取私钥
+    public static function getRsaPrivateKey($filename)
     {
-        return openssl_get_privatekey(static::getKey($filename));  //解析私钥
+        return openssl_get_privatekey(static::getKey($filename));
     }
 
-    public static function getRsaPublicKey($filename) //获取公钥
+    public static function getRsaPublicKey($filename)
     {
-        return openssl_get_publickey(static::getKey($filename));  //解析公钥，
+        return openssl_get_publickey(static::getKey($filename));
     }
 
-    private static function getKey($filename)  //获取密钥
+    private static function getKey($filename)
     {
         $key_path = $filename;
         $fp = fopen($key_path, "r");
-        $rsaKey = fread($fp, 8192);  //二进制读取   8192字节
+        $rsaKey = fread($fp, 8192);
         fclose($fp);
 
         return $rsaKey;

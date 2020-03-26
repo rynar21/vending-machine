@@ -177,10 +177,10 @@ class SaleRecordController extends Controller
         $data      = json_encode($data, 320);
 
         $response_data = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
-        echo $response_data;
+        //echo $response_data;
         //echo "one";
         if ($response_data) {
-            echo "two";
+            //echo "two";
             $get_response = json_decode($response_data);
             $referenceNo  = $get_response->{'merOrderNo'};
             $token        = $get_response->{'securityData'};

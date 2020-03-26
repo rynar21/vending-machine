@@ -1,13 +1,14 @@
 <?php
 namespace common\plugins\spayplugins\plugins;
+// require_once('log.php');
 /**
  * Sarawak Pay module
  */
 class SarawakPay
 {
-    const SP_PUBLIC_KEY          = "/app/common/plugins/spayplugins\keys/sarawakpay_public_key.pem";
-    const MERCHANT_PUBLIC_KEY    = "/app/common/plugins/spayplugins\keys/merchant_public_key.key";
-    const MERCHANT_PRIVATE_KEY   = "/app/common/plugins/spayplugins\keys/merchant_private_key.key";
+    const SP_PUBLIC_KEY          = "/app/common/plugins/spayplugins/keys/sarawakpay_public_key.pem";
+    const MERCHANT_PUBLIC_KEY    = "/app/common/plugins/spayplugins/keys/merchant_public_key.key";
+    const MERCHANT_PRIVATE_KEY   = "/app/common/plugins/spayplugins/keys/merchant_private_key.key";
 
     /**
      * @param  string  $url   Sarawak pay api
@@ -16,26 +17,27 @@ class SarawakPay
      */
     public static function post($url, $data)
     {
-        $signedData = json_decode($data, 320); //对 JSON 格式的字符串进行解码
-        $signedData['sign'] = Encryption::generateSignature($data, self::MERCHANT_PRIVATE_KEY);  ////生成一个签名
+        $signedData = json_decode($data, 320);
+        $signedData['sign'] = Encryption::generateSignature($data, self::MERCHANT_PRIVATE_KEY);
 
-        $encryptedData = Encryption::encrypt(json_encode($signedData, 320), self::SP_PUBLIC_KEY);  ///对数据进行加密
+        $encryptedData = Encryption::encrypt(json_encode($signedData, 320), self::SP_PUBLIC_KEY);
 
-        $payload = "FAPView=JSON&formData=" . str_replace('+', '%2B', $encryptedData);   //全部+替换为 %2B
-
-        $ch = curl_init();  //初始化url对话
-        curl_setopt($ch, CURLOPT_URL, $url);  //设置 cURL 传输选项
+        $payload = "FAPView=JSON&formData=" . str_replace('+', '%2B', $encryptedData);
+		//echo $payload;
+        //echo "<br>";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // have to remove
-        $response = curl_exec($ch); //执行 cURL 会话
-        curl_close ($ch);  //关闭对话
-
-        $decrypted_response = Encryption::decrypt($response, self::MERCHANT_PRIVATE_KEY);  //解密数据
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        curl_close ($ch);
+		//echo $response;
+        $decrypted_response = Encryption::decrypt($response, self::MERCHANT_PRIVATE_KEY);
 
         // Verify Server Response
-        if (Encryption::verifySignature($decrypted_response, self::SP_PUBLIC_KEY)) { //验证签名
+        if (Encryption::verifySignature($decrypted_response, self::SP_PUBLIC_KEY)) {
             return $decrypted_response;
         }
 
