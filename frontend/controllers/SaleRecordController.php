@@ -140,8 +140,10 @@ class SaleRecordController extends Controller
 
         if ($model->id == $salerecord->id)
         {
+            //echo $model->order_number;
+            //die();
             return $this->render('lodings',[
-                'salerecord_id' => $model->id,
+                'salerecord_id' => $model->order_number,
                 'price' =>$item_model->price,
             ]);
             //return $this->redirect(['check','id'=>$model->id]);
@@ -200,7 +202,7 @@ class SaleRecordController extends Controller
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
-        $model = SaleRecord::find()->where(['id' => $id])->one();
+        $model = SaleRecord::find()->where(['order_number' => $id])->one();
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         $data = [
              'merchantId' => 'M100001040',
