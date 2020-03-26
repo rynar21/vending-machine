@@ -17,10 +17,10 @@ use yii\db\Expression;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\authclient\signature\BaseMethod;
-use common\iot\plugins\Encryption;
-use common\iot\plugins\SarawakPay;
-// require_once('D:\wamp64\www\vending-machine\iot\plugins\Encryption.php');
-// require_once('D:\wamp64\www\vending-machine\iot\plugins\SarawakPay.php');
+use common\plugins\spayplugins\plugins\Encryption;
+use common\plugins\spayplugins\plugins\SarawakPay;
+ // require_once('app\plugins\Encryption.php');
+ // require_once('app\plugins\SarawakPay.php');
  //SaleRecordController implements the CRUD actions for SaleRecord model.
 class SaleRecordController extends Controller
 {
@@ -42,10 +42,15 @@ class SaleRecordController extends Controller
         $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
         ->orderBy(['created_at'=>SORT_ASC])->one();
         if ($model) {
-            return ['open'=>$model->action];
+
+            $data =  ['command'=>$model->action];
+            $data = json_encode($data, 320);
+            return $data;
         }
         else {
-            return ['status'=>'ok'];
+            $data = ['status'=>'ok'];
+            $data = json_encode($data, 320);
+            return $data;
         }
     }
     public function actionNext($store_id)
@@ -55,8 +60,11 @@ class SaleRecordController extends Controller
         if ($model) {
             $model->status = Queue::STATUS_SUCCESS;
             $model->save();
+            $data = ['status'=>'ok'];
+            $data = json_encode($data, 320);
+            return $data;
         }
-        $this->redirect(['request','store_id'=>$store_id]);
+        //$this->redirect(['request','store_id'=>$store_id]);
     }
 
     public function actionBoxstatus($store_id)  //取出某一个商店的盒子的状态
@@ -140,8 +148,10 @@ class SaleRecordController extends Controller
 
         if ($model->id == $salerecord->id)
         {
+            //echo $model->order_number;
+            //die();
             return $this->render('lodings',[
-                'salerecord_id' => $model->id,
+                'salerecord_id' => $model->order_number,
                 'price' =>$item_model->price,
             ]);
             //return $this->redirect(['check','id'=>$model->id]);
@@ -176,7 +186,9 @@ class SaleRecordController extends Controller
 
         $response_data = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
         //echo $response_data;
+        //echo "one";
         if ($response_data) {
+            //echo "two";
             $get_response = json_decode($response_data);
             $referenceNo  = $get_response->{'merOrderNo'};
             $token        = $get_response->{'securityData'};
@@ -200,7 +212,7 @@ class SaleRecordController extends Controller
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
-        $model = SaleRecord::find()->where(['id' => $id])->one();
+        $model = SaleRecord::find()->where(['order_number' => $id])->one();
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         $data = [
              'merchantId' => 'M100001040',
@@ -299,10 +311,9 @@ class SaleRecordController extends Controller
     }
 
 
-    // API Integration
-    public function PayStatus($config)
+    public function actionPaysuccess($id)
     {
-        $model = SaleRecord::findOne(['id'=>$id]);
+        $model = SaleRecord::findOne(['order_number'=>$id]);
         if ($model)
         {
             $item_model=Item::findOne(['box_id'=>$model->box_id]);
@@ -318,7 +329,7 @@ class SaleRecordController extends Controller
     }
     public function actionPayfailed($id)
     {
-        $model = SaleRecord::findOne(['id'=> $id]);;
+        $model = SaleRecord::findOne(['order_number'=> $id]);;
         if ($model)
         {
             $model->failed();
