@@ -64,3 +64,9 @@ INITIALIZE FAKE DATA
 ```
 $ php yii migrate --migrationPath=@console/migrations/fake/
 ```
+
+
+CREATE NEW SINGLE ELASTIC BEANSTALK INSTANCE
+```
+$ eb create "vending-machine-dev" --keyname "vending-machine" --platform "php" --process --region "ap-southeast-1" --single
+```

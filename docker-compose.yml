@@ -20,6 +20,8 @@ services:
             UPLOAD_LIMIT: 128M
         ports:
             - 8080:80
+        depends_on:
+            - db
 
     frontend:
         build: frontend
@@ -30,6 +32,10 @@ services:
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
             # Mount source-code for development
             - ./:/app
+        depends_on:
+            - db
+        env_file:
+            - ./server.env
 
     backend:
         build: backend
@@ -40,6 +46,10 @@ services:
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
             # Mount source-code for development
             - ./:/app
+        depends_on:
+            - db
+        env_file:
+            - ./server.env
 
     migrate:
         build: frontend
@@ -48,4 +58,8 @@ services:
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
             # Mount source-code for development
             - ./:/app
+        env_file:
+            - ./server.env
+        depends_on:
+            - db
         command: php /app/yii migrate --interactive=0
