@@ -22,6 +22,16 @@ return [
             'class'=>'common\commontans\Slack',
             'url'=>'https://hooks.slack.com/services/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',
         ],
+        's3' => [
+            'class' => '\frostealth\yii2\aws\s3\Storage',
+            'credentials' => [
+                'key'       => getenv('S3_KEY'),
+                'secret'    => getenv('S3_SECRET'),
+            ],
+            'region'        => getenv('S3_REGION'),
+            'bucket'        => getenv('S3_BUCKET'),
+            'defaultAcl'    => 'public-read',
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
