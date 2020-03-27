@@ -128,6 +128,7 @@ class Product extends \yii\db\ActiveRecord
         }
         return parent::beforeSave($insert);
     }
+    
     public function afterSave($insert,$changedAttributes)
     {
         if ($this->imageFile)
