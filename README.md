@@ -77,13 +77,17 @@ $ eb create "vending-machine-dev" --keyname "vending-machine" --platform "php" -
 ```
 $file = UploadedFile::getInstanceByName("file");
 
+
 if (!$file) {
     return [
         'error' => "Must upload at least 1 file in upfile form-data POST",
     ];
 }
 
+$extension  = $file->extension;
+$data       = $file->tempName;
 $filename = date('ymdHi') . '_' . uniqid() . '.' . $extension;
+
 Yii::$app->s3->upload('messages/' . $filename, $data, null, [
     'params' => [
         'CacheControl' => 'public, max-age=31536000',
