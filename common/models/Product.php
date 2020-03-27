@@ -115,7 +115,7 @@ class Product extends \yii\db\ActiveRecord
         {
             if ($this->image)
             {
-                Yii::$app->s3->upload('products/' . $this->image, $data, null, [
+                Yii::$app->s3->delete('products/' . $this->image);
             }
 
             $extension  = $this->imageFile->extension;
