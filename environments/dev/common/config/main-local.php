@@ -27,5 +27,39 @@ return [
         's3' => [
             'class' => '\common\components\FakerS3',
         ],
+        'assetManager' => [
+            // For live site cdn assets
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'js' => [
+                        'http://localhost:21110/cdn/jquery/2.2.4/jquery.min.js',
+                        // 'crossorigin' => 'anonymous',
+                    ],
+                ],
+                'yii\bootstrap\BootstrapAsset' => [
+                    'css' => [
+                        'http://localhost:21110/cdn/bootstrap/3.3.7/css/bootstrap.min.css',
+                    ],
+                ],
+                'yii\bootstrap\BootstrapPluginAsset' => [
+                    'js' => [
+                        [
+                            'http://localhost:21110/cdn/bootstrap/3.3.7/js/bootstrap.min.js',
+                        ],
+                    ],
+                ],
+                'common\assets\FontAwesomeAsset' => [
+                    'css' => [
+                        'http://localhost:21110/cdn/fontawesome/v5.6.3/css/all.css',
+                    ],
+                ],
+            ],
+            'converter' => [
+                'class' => 'yii\web\AssetConverter',
+                'commands' => [
+                    'scss' => ['css', '/usr/local/bin/sass {from} {to} --style compressed'],
+                ],
+            ],
+        ],
     ],
 ];
