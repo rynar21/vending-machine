@@ -235,7 +235,7 @@ class SaleRecordController extends Controller
             elseif ($orderStatus == 1) {
                 $this->add_queue([
                     'store_id'=>$model->store_id,
-                    'action' =>$model->box_code,
+                    'action' =>$model->hardware_id,
                 ]);
                 return $this->redirect(['paysuccess',
                        'id'=>$id,
