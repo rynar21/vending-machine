@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
                      <?= $form->field($model, 'hardware_id')->textInput(['disabled' => false]) ?>
                  </div>
             </div>
-
+            <?= $form->field($model, 'hardware_id')->textInput(['disabled' => false]) ?>
             <div class="row form-group">
                   <div class="col-sm-1 col-xs-3">
                         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
