@@ -7,6 +7,8 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
+use common\models\Queue;
 /**
  * This is the model class for table "box".
  * @property int $id
@@ -40,6 +42,7 @@ class Box extends \yii\db\ActiveRecord
             [['code'], 'required'],
             [['name'],'safe'],
             [['status'], 'default', 'value' => self::BOX_STATUS_AVAILABLE],
+            [['hardware_id'],'string'],
         ];
     }
 
@@ -206,5 +209,18 @@ class Box extends \yii\db\ActiveRecord
         }
     }
 
+
+
+    public function add_queue($array)
+    {
+        $store_id = ArrayHelper::getValue($array,'store_id',0);
+        $action = ArrayHelper::getValue($array,'action',Null);
+        $priority = ArrayHelper::getValue($array,'priority',Null);
+        $model = new Queue();
+        $model->store_id = $store_id;
+        $model->action = $action;
+        $model->priority = $priority;
+        $model->save();
+    }
 
 }

@@ -22,4 +22,3 @@ $this->title = 'Lodings';
 <?php $this->registerJs("
     $('#demo').submit();
 ") ?>
-<?php echo "2";?>

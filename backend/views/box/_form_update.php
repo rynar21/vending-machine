@@ -21,10 +21,12 @@ use yii\widgets\ActiveForm;
                   <div class="col-sm-12">
                       <?= $form->field($model, 'code', [
                         'template' => '<div class="input-group"><span class="input-group-addon">'. $model->prefix .'</span>{input}</div>',
-                        ])?>
+                        ])->textInput(['disabled' => true]) ?>
+                 </div>
+                 <div class = "col-sm-12">
+                     <?= $form->field($model, 'hardware_id')->textInput(['disabled' => false]) ?>
                  </div>
             </div>
-
             <div class="row form-group">
                   <div class="col-sm-1 col-xs-3">
                         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

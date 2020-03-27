@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\BaseDataProvider;
-
+use yii\web\MethodNotAllowedHttpException;
 
 // BoxController implements the CRUD actions for Box model.
 class BoxController extends Controller
@@ -29,7 +29,7 @@ class BoxController extends Controller
                     //     'allow' => Yii::$app->user->can('ac_read'),
                     // ],
                     [
-                        'actions' => ['update'],
+                        'actions' => ['update','open_all_box'],
                         'allow' => true,
                         'roles' => ['ac_update'],
                     ],
@@ -109,9 +109,18 @@ class BoxController extends Controller
 
         if ($model->load(Yii::$app->request->post()))
         {
-            if($model->save())
-            {
-                return $this->redirect(['store/view', 'id' => $model->store_id]);
+            $box_model = Box::find()->where(['hardware_id'=> $model->hardware_id,'store_id'=>$model->store_id])->one();
+            if ($box_model || $model->hardware_id =='00OK') {
+                Yii::$app->session->setFlash('danger', 'hardware_id existed .');
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+            else {
+                if($model->save())
+                {
+                    return $this->redirect(['store/view', 'id' => $model->store_id]);
+                }
             }
         }
         return $this->render('create', [
@@ -129,7 +138,7 @@ class BoxController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
+        $model->code = Box::find()->where(['id'=> $id])->one()->code;
         if($model->store->prefix)
         {
             $model->prefix = $model->store->prefix;
@@ -139,8 +148,21 @@ class BoxController extends Controller
             $model->prefix = '(prefix_not_set)';
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $box_model = Box::find()->where(['hardware_id'=> $model->hardware_id,'store_id'=>$model->store_id])->one();
+            if ($box_model || $model->hardware_id =='00OK') {
+                Yii::$app->session->setFlash('danger', 'hardware_id existed .');
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+            else {
+                if($model->save())
+                {
+                    return $this->redirect(['store/view', 'id' => $model->store_id]);
+                }
+            }
         }
 
         return $this->render('update', [
@@ -174,5 +196,16 @@ class BoxController extends Controller
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionOpen_all_box($id)
+    {
+        $model = new Box();
+        $model->add_queue([
+            'store_id'=>$id,
+            'action' =>'00OK',
+        ]);
+        Yii::$app->session->setFlash('success', 'Please wait.');
+        return $this->redirect(['store/view', 'id' => $id]);
     }
 }
