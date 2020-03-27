@@ -29,7 +29,7 @@ class BoxController extends Controller
                     //     'allow' => Yii::$app->user->can('ac_read'),
                     // ],
                     [
-                        'actions' => ['update'],
+                        'actions' => ['update','open_all_box'],
                         'allow' => true,
                         'roles' => ['ac_update'],
                     ],
@@ -196,5 +196,16 @@ class BoxController extends Controller
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionOpen_all_box($id)
+    {
+        $model = new Box();
+        $model->add_queue([
+            'store_id'=>$id,
+            'action' =>'00OK',
+        ]);
+        Yii::$app->session->setFlash('success', 'Please wait.');
+        return $this->redirect(['store/view', 'id' => $id]);
     }
 }
