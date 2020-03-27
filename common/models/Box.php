@@ -40,6 +40,7 @@ class Box extends \yii\db\ActiveRecord
             [['code'], 'required'],
             [['name'],'safe'],
             [['status'], 'default', 'value' => self::BOX_STATUS_AVAILABLE],
+            [['hardware_id'],'string'],
         ];
     }
 
