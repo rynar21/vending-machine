@@ -106,7 +106,7 @@ use yii\bootstrap\NavBar;
 <div class="btn-group mr-2 pull-left" role="group" aria-label="Second group">
 
     <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info','style'=>"display:"."$str"]) ?>
-    <?= Html::a('Lock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
+    <?= Html::a('Restock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
     <?= Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
 
 </div>
@@ -156,7 +156,8 @@ use yii\bootstrap\NavBar;
                                    'visible' => Yii::$app->user->can('admin'),
                                    'value' => function ($model)
                                    {
-                                     return Html::a('Item History', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id]).
+                                     return Html::a('Edit Box', ['/box/update','id'=>$model->id]).
+                                     ' | '. Html::a('Item History', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id]).
                                      ' | '. Html::a('Order History', ['/sale-record/store_all_salerecord',]);
                                    }
                                ],
