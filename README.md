@@ -88,7 +88,7 @@ $extension  = $file->extension;
 $data       = $file->tempName;
 $filename = date('ymdHi') . '_' . uniqid() . '.' . $extension;
 
-Yii::$app->s3->upload('messages/' . $filename, $data, null, [
+Yii::$app->s3->upload('products/' . $filename, $data, null, [
     'params' => [
         'CacheControl' => 'public, max-age=31536000',
     ]
