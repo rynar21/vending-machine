@@ -17,17 +17,7 @@ $this->title = $model->id;
 
     <h1></h1>
     <p>
-        <?= Html::a('Open Box',
-        ['#',
-        // 'id' => $model->id
-        ],
-         [
-            'class' => 'btn btn-success',
-            'data' => [
-                'confirm' => 'Are you sure you want to open this box?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?= Html::a('Open Box', ['sale-record/openbox', 'id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
     </p>
 
     <?= DetailView::widget([

@@ -69,7 +69,7 @@ $this->title = 'User';
             // [   'class' => 'yii\grid\ActionColumn',
             //     'header' => '' ,
             //     'visible' => Yii::$app->user->can('supervisor'),
-            //     'template' => '{view}',
+            //     'template' => '{update}',
             // ],
             [
                 'attribute'=>'',
