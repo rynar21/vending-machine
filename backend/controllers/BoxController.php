@@ -138,15 +138,15 @@ class BoxController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
-        if($model->store->prefix)
-        {
-            $model->prefix = $model->store->prefix;
-        }
-        else
-        {
-            $model->prefix = '(prefix_not_set)';
-        }
+        // $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
+        // if($model->store->prefix)
+        // {
+        //     $model->prefix = $model->store->prefix;
+        // }
+        // else
+        // {
+        //     $model->prefix = '(prefix_not_set)';
+        // }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
