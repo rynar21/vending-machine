@@ -17,7 +17,7 @@ class FakerS3
     {
         $result = file_get_contents($data);
 
-        file_put_contents('/app/@cdn/' . $key, $result);
+        file_put_contents('/app/cdn/' . $key, $result);
     }
 
     public function delete($key)
