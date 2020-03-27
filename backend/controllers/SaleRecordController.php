@@ -4,12 +4,14 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\SaleRecord;
+use common\models\Box;
 use backend\models\SaleRecordSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\web\MethodNotAllowedHttpException;
 
 /**
  * SaleRecordController implements the CRUD actions for SaleRecord model.
@@ -30,7 +32,7 @@ class SaleRecordController extends Controller
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
-                        'actions' => ['update'],
+                        'actions' => ['update','openbox'],
                         'allow' => true,
                         'roles' => ['ac_update'],
                     ],
@@ -72,6 +74,17 @@ class SaleRecordController extends Controller
             'dataProvider' => $dataProvider,
 
         ]);
+    }
+
+    public function actionOpenbox($id)
+    {
+        $model = Box::find()->where(['id'=>SaleRecord::find()->where(['id'=>$id])->one()->box_id])->one();
+        $model->add_queue([
+            'store_id'=>$model->store_id,
+            'action' =>$model->hardware_id,
+        ]);
+        Yii::$app->session->setFlash('success', 'Please wait.');
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     public function actionOne_store_all_salerecord($store_id,$date)

@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\BaseDataProvider;
-
+use yii\web\MethodNotAllowedHttpException;
 
 // BoxController implements the CRUD actions for Box model.
 class BoxController extends Controller
@@ -109,9 +109,18 @@ class BoxController extends Controller
 
         if ($model->load(Yii::$app->request->post()))
         {
-            if($model->save())
-            {
-                return $this->redirect(['store/view', 'id' => $model->store_id]);
+            $box_model = Box::find()->where(['hardware_id'=> $model->hardware_id,'store_id'=>$model->store_id])->one();
+            if ($box_model) {
+                Yii::$app->session->setFlash('success', 'hardware_id existed .');
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+            else {
+                if($model->save())
+                {
+                    return $this->redirect(['store/view', 'id' => $model->store_id]);
+                }
             }
         }
         return $this->render('create', [

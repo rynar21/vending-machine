@@ -36,54 +36,7 @@ class SaleRecordController extends Controller
         ]);
     }
 
-    public  function actionRequest($store_id)
-    {
-
-        $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
-        ->orderBy(['created_at'=>SORT_ASC])->one();
-        if ($model) {
-
-            $data =  ['command'=>$model->action];
-            $data = json_encode($data, 320);
-            return $data;
-        }
-        else {
-            $data = ['status'=>'ok'];
-            $data = json_encode($data, 320);
-            return $data;
-        }
-    }
-    public function actionNext($store_id)
-    {
-        $model = Queue::find()->where(['store_id'=>$store_id,'status'=>Queue::STATUS_WAITING])
-        ->orderBy(['created_at'=>SORT_ASC])->one();
-        if ($model) {
-            $model->status = Queue::STATUS_SUCCESS;
-            $model->save();
-            $data = ['status'=>'ok'];
-            $data = json_encode($data, 320);
-            return $data;
-        }
-        //$this->redirect(['request','store_id'=>$store_id]);
-    }
-
-    public function actionBoxstatus($store_id)  //取出某一个商店的盒子的状态
-    {
-        //return "hello";
-        $models =  Box::find()->where(['store_id'=>$store_id])->all();
-        foreach ($models as $model) {
-            if ($model->status == Box::BOX_STATUS_NOT_AVAILABLE) {
-                $array[] = array("$model->code"=>'Open');
-            }
-            if ($model->status == Box::BOX_STATUS_AVAILABLE) {
-                $array[] = array("$model->code"=>'Close');
-            }
-        }
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return [
-           'status' => $array,
-        ];
-    }
+    
 
     public function actionGouwu()
     {
@@ -235,7 +188,7 @@ class SaleRecordController extends Controller
             elseif ($orderStatus == 1) {
                 $this->add_queue([
                     'store_id'=>$model->store_id,
-                    'action' =>$model->hardware_id,
+                    'action' =>$model->box->hardware_id,
                 ]);
                 return $this->redirect(['paysuccess',
                        'id'=>$id,
