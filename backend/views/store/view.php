@@ -108,7 +108,7 @@ use yii\bootstrap\NavBar;
     <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info','style'=>"display:"."$str"]) ?>
     <?= Html::a('Restock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
     <?= Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
-
+    <?= Html::a('Open ALL ', ['box/open_all_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
 </div>
 
     <div class="col-sm-12">
