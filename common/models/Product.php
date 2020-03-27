@@ -115,20 +115,22 @@ class Product extends \yii\db\ActiveRecord
         {
             if ($this->image)
             {
-                if (file_exists(Yii::getAlias('@upload') . '/' . $this->image))
-                {
-                    unlink(Yii::getAlias('@upload') . '/' . $this->image);
-                }
-                 $this->image = time().  '.' . $this->imageFile->extension;
-             }
-            if ($this->image==null)
-            {
-                $this->image = time().  '.' . $this->imageFile->extension;
+                Yii::$app->s3->upload('products/' . $this->image, $data, null, [
             }
+
+            $extension  = $this->imageFile->extension;
+            $data       = $this->imageFile->tempName;
+            $filename = date('ymdHi') . '_' . uniqid() . '.' . $extension;
+
+            Yii::$app->s3->upload('products/' . $filename, $data, null, [
+                'params' => [
+                    'CacheControl' => 'public, max-age=31536000',
+                ]
+            ]);
         }
         return parent::beforeSave($insert);
     }
-    
+
     public function afterSave($insert,$changedAttributes)
     {
         if ($this->imageFile)
