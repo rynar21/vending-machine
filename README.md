@@ -70,3 +70,23 @@ CREATE NEW SINGLE ELASTIC BEANSTALK INSTANCE
 ```
 $ eb create "vending-machine-dev" --keyname "vending-machine" --platform "php" --process --region "ap-southeast-1" --single
 ```
+
+
+
+
+```
+$file = UploadedFile::getInstanceByName("file");
+
+if (!$file) {
+    return [
+        'error' => "Must upload at least 1 file in upfile form-data POST",
+    ];
+}
+
+$filename = date('ymdHi') . '_' . uniqid() . '.' . $extension;
+Yii::$app->s3->upload('messages/' . $filename, $data, null, [
+    'params' => [
+        'CacheControl' => 'public, max-age=31536000',
+    ]
+]);
+```
