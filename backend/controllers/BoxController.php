@@ -111,7 +111,7 @@ class BoxController extends Controller
         {
             $box_model = Box::find()->where(['hardware_id'=> $model->hardware_id,'store_id'=>$model->store_id])->one();
             if ($box_model) {
-                Yii::$app->session->setFlash('success', 'hardware_id existed .');
+                Yii::$app->session->setFlash('danger', 'hardware ID is existed .');
                 return $this->render('create', [
                     'model' => $model,
                 ]);

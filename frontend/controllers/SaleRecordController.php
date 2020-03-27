@@ -36,7 +36,7 @@ class SaleRecordController extends Controller
         ]);
     }
 
-    
+
 
     public function actionGouwu()
     {
@@ -176,6 +176,7 @@ class SaleRecordController extends Controller
         $array     = json_decode($string);
         $orderStatus   = $array->{'orderStatus'};
         $orderAmt      = $array->{'orderAmt'};
+        //print_r($orderStatus);
         if ($model!=null)
         {
             if ($orderStatus == 0) {
@@ -190,9 +191,11 @@ class SaleRecordController extends Controller
                     'store_id'=>$model->store_id,
                     'action' =>$model->box->hardware_id,
                 ]);
-                return $this->redirect(['paysuccess',
-                       'id'=>$id,
-                   ]);
+                return $this->runAction('paysuccess',['id'=>$id]);
+
+                // return $this->redirect(['paysuccess',  //error
+                //        'id'=>$id,
+                //    ]);
             }
             elseif($orderStatus == 2 || $orderStatus == 4) {
                 return $this->redirect(['payfailed',
