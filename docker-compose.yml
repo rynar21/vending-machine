@@ -66,3 +66,12 @@ services:
             - init
         env_file:
             - ./server.env
+
+    cdn:
+        image: nginx:alpine
+        restart: always
+        ports:
+            - 21110:80
+        volumes:
+            - "./cdn:/usr/share/nginx/html"
+            - "./.docker-data/nginx/conf.d:/etc/nginx/conf.d"
