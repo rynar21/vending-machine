@@ -24,15 +24,6 @@ return [
             // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-frontend',
         ],
-        'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -42,12 +33,6 @@ return [
             'rules' => [
             ],
         ],
-        'slack' =>[
-            'class'=>'common\commontans\Slack',
-            'url'=>'https://hooks.slack.com/services/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',
-        ],
-
-
     ],
     'params' => $params,
 ];

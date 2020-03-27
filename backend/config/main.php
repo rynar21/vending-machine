@@ -13,12 +13,11 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
-
         'request' => [
             'csrfParam' => '_csrf-backend',
             'parsers' => [
-            'application/json' => 'yii\web\JsonParser',
-            'text/json' => 'yii\web\JsonParser',
+                'application/json' => 'yii\web\JsonParser',
+                'text/json' => 'yii\web\JsonParser',
             ],
         ],
         'authManager' => [
@@ -36,24 +35,10 @@ return [
             'authTimeout'     => 6000,
             'identityCookie' => ['name' => '_identity-backend','httpOnly' => true],
         ],
-
-        // 'slack' =>[
-        //     'class'=>'common\commontans\Slack',
-        //     'url'=>'https://hooks.slack.com/services/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',
-        // ]
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
             'timeout' => 60,
-        ],
-        'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -64,7 +49,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-              'operator/something' => 'operator/create',
+                'operator/something' => 'operator/create',
             ],
         ],
     ],
