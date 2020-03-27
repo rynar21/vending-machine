@@ -148,13 +148,12 @@ class BoxController extends Controller
             $model->prefix = '(prefix_not_set)';
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save())
+        if ($model->load(Yii::$app->request->post()))
         {
-
             $box_model = Box::find()->where(['hardware_id'=> $model->hardware_id,'store_id'=>$model->store_id])->one();
             if ($box_model || $model->hardware_id =='00OK') {
                 Yii::$app->session->setFlash('danger', 'hardware_id existed .');
-                return $this->render('create', [
+                return $this->render('update', [
                     'model' => $model,
                 ]);
             }
