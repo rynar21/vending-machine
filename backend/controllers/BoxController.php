@@ -138,7 +138,7 @@ class BoxController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->code = Box::find()->where(['store_id'=> $id])->one()->code;
+        $model->code = Box::find()->where(['id'=> $id])->one()->code;
         if($model->store->prefix)
         {
             $model->prefix = $model->store->prefix;
