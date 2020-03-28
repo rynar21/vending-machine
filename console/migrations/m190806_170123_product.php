@@ -20,7 +20,7 @@ class m190806_170123_product extends Migration
           'description'=>$this->string(),
           'category'=>$this->string()->notNull(),
           'price'=>$this->float(10,2)->notNull(),
-          'cost'=>$this->string(),//
+          'cost'=>$this->float(10,2),//
           'status' => $this->smallInteger()->notNull()->defaultValue(0),
           'image'=>$this->string(),//
           'created_at' =>$this->integer()->notNull(),

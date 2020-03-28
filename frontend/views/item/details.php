@@ -11,7 +11,7 @@ use common\models\Product;
     <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 item_details_box">
         <div class="row item_details">
             <div class="item_details_image col-sm-5 col-lg-4 col-xs-6">
-                <img src="<?php echo $model->imageUrl ?>"/>
+                <img src="<?php echo $model->product->imageUrl ?>"/>
 
             </div>
             <div class="item_details_name  col-sm-7 col-lg-8 col-xs-6">
@@ -20,7 +20,7 @@ use common\models\Product;
             </div>
         </div>
 
-    
+
 
         <div class="row text-center item_details_price font-color">
             <div class="col-sm-12">
