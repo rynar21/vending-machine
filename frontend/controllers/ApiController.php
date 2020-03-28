@@ -42,10 +42,10 @@ class ApiController extends Controller
         if ($model) {
             $model->status = Queue::STATUS_SUCCESS;
             $model->save();
-            $data = ['status'=>'ok'];
-            $data = json_encode($data, 320);
-            return $data;
         }
+        $data = ['status'=>'ok'];
+        $data = json_encode($data, 320);
+        return $data;
 
     }
 }
