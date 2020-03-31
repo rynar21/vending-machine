@@ -40,34 +40,12 @@ class SiteController extends Controller
 
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup','login'],
+                'only' => ['logout', 'index'],
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','test','logout','changepassword','captcha'],
+                        'actions' => ['logout', 'index'],
                         'allow' => true,
-
-                    ],
-                    [
-                        'actions' => ['login','captcha'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['request-password-reset','reset-password'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions'=>['verify-email','resend-verification-email'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions'=>['changepassword'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['index','sales','ajax','posturl','Store_sales','boxstatus'],
-                        'allow' => true,
-                        //'roles' => ['ac_read'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -78,10 +56,8 @@ class SiteController extends Controller
                 ],
             ],
             'checker' => [
-               'class' => 'backend\libs\CheckerFilter',
+                'class' => 'backend\libs\CheckerFilter',
             ],
-
-
         ];
     }
 
@@ -97,14 +73,14 @@ class SiteController extends Controller
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-                'backColor'=>0x16589,//背景颜色
+                'backColor' => 0x16589,//背景颜色
                 'maxLength' => 4, //最大显示个数
                 'minLength' => 4,//最少显示个数
                 'padding' => 5,//间距
-                'height'=>34,//高度
+                'height' => 34,//高度
                 'width' => 130,  //宽度
-                'foreColor'=>0xffffff,     //字体颜色
-                'offset'=>4,  //设置字符偏移量 有效果
+                'foreColor' => 0xffffff,     //字体颜色
+                'offset' => 4,  //设置字符偏移量 有效果
                 //'controller'=>'login',        //拥有这个动作的controller
             ],
         ];
@@ -117,14 +93,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        //return $this->redirect(['sales']);
-        return $this->runAction('login');
-    }
-
-    public function actionReference()
-    {
         return $this->render('index');
     }
+
     public function actionSales()
     {
         $labels = [];
