@@ -1,0 +1,20 @@
+<?php
+
+namespace common\components;
+
+use Yii;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+
+use common\plugins\spay\SarawakPay as SP_Plugin;
+
+class SarawakPay
+{
+    public $merchantId;
+    public $url;
+
+    public function post($api, $data)
+    {
+        SP_Plugin::post($this->url . $api, $data);
+    }
+}
