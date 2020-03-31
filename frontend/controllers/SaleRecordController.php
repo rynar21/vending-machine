@@ -191,7 +191,7 @@ class SaleRecordController extends Controller
                     'store_id'=>$model->store_id,
                     'action' =>$model->box->hardware_id,
                 ]);
-                //return $this->runAction('paysuccess',['id'=>$id]);
+                return $this->runAction('paysuccess',['id'=>$id]);
 
                 return $this->redirect(['paysuccess',  //error
                        'id'=>$id,
