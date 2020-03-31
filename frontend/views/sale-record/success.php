@@ -1,4 +1,6 @@
 <?php
+
+
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -15,8 +17,7 @@ $this->title = 'Payment Progress';
         <div class="modal-content">
             <!-- <div class="modal-header"> </div> -->
             <div class="modal-body text-center">
-                <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block pay-image"  />
-                <br/>
+                <img src="<?php echo Yii::getAlias('@static/images/logo1.png') ?>" class="img-responsive center-block pay-image"/>
                 <h3 class="modal-title  " style="color: green" >
                     <b>Payment Success</b>
                 </h3>

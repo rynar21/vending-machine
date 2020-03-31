@@ -16,8 +16,7 @@ $this->title = 'Payment Progress';
             <!-- <div class="modal-header"> </div> -->
 
             <div class="modal-body text-center">
-                <img src="<?= Url::base()?>/img/logo1.png" class="img-responsive center-block pay-image"  />
-                <br/>
+                <img src="<?php echo Yii::getAlias('@static/images/logo1.png') ?>" class="img-responsive center-block pay-image"/>            
                 <h3 class="modal-title "  style="color: red">
                     <b>Payment Failed</b>
                 </h3>
