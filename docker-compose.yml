@@ -33,9 +33,11 @@ services:
         depends_on:
             - db
         command: >
-            bash -c "composer install
+            sh -c "composer install
             && php init --env=$${ENV_NAME} --overwrite=All
-            && php /app/yii migrate --interactive=0"
+            && php /app/yii migrate --interactive=0
+            && php /app/yii migrate --migrationPath=@console/migrations/fake/ --interactive=0
+            && php yii user/create-admin "admin" "admin""
 
     frontend:
         build: frontend
@@ -48,7 +50,6 @@ services:
             - ./:/app
         depends_on:
             - db
-            - init
         env_file:
             - ./server.env
 
@@ -63,9 +64,9 @@ services:
             - ./:/app
         depends_on:
             - db
-            - init
         env_file:
             - ./server.env
+
 
     cdn:
         image: nginx:alpine
