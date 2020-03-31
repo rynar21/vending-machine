@@ -31,7 +31,7 @@ class LoginForm extends Model
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
 
-            ['verifyCode', 'captcha'],
+            //['verifyCode', 'captcha'],
         ];
     }
     public function attributeLabels() {
