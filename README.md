@@ -68,29 +68,5 @@ $ php yii migrate --migrationPath=@console/migrations/fake/
 
 CREATE NEW SINGLE ELASTIC BEANSTALK INSTANCE
 ```
-$ eb create "vending-machine-dev" --keyname "vending-machine" --platform "php" --process --region "ap-southeast-1" --single
-```
-
-
-
-
-```
-$file = UploadedFile::getInstanceByName("file");
-
-
-if (!$file) {
-    return [
-        'error' => "Must upload at least 1 file in upfile form-data POST",
-    ];
-}
-
-$extension  = $file->extension;
-$data       = $file->tempName;
-$filename = date('ymdHi') . '_' . uniqid() . '.' . $extension;
-
-Yii::$app->s3->upload('products/' . $filename, $data, null, [
-    'params' => [
-        'CacheControl' => 'public, max-age=31536000',
-    ]
-]);
+$ eb create "vm-web" --keyname "payngo" --platform "php" --process --region "ap-southeast-1" --single
 ```
