@@ -121,6 +121,10 @@ class SiteController extends Controller
         return $this->runAction('login');
     }
 
+    public function actionReference()
+    {
+        return $this->render('index');
+    }
     public function actionSales()
     {
         $labels = [];
