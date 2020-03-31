@@ -17,4 +17,10 @@ class SarawakPay
     {
         SP_Plugin::post($this->url . $api, $data);
     }
+
+    public function createOrder($data)
+    {
+        $data['merchantID'] = $this->merchantId;
+        SP_Plugin::post($this->url . 'H5Payment.preOrder.do', $data);
+    }
 }
