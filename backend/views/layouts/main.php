@@ -41,7 +41,7 @@ AppAsset::register($this);
             if (!Yii::$app->user->isGuest)
             {
             $menuItems = [
-                ['label' => 'Home', 'url' => ['/site/reference']],
+                ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'User', 'url' => ['/user/index'],'visible' => Yii::$app->user->can('supervisor'),],
                 ['label' => 'Finance', 'url' => ['/finance/index'],'visible' => Yii::$app->user->can('supervisor'),],
                 ['label' => 'Store', 'url' => ['/store/index']],

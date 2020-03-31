@@ -177,7 +177,6 @@ class SiteController extends Controller
                         'type'=>$type,
                         'number'=>$number,
                         'code'=> 200,
-
                     ];
                 }
     }
