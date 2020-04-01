@@ -29,7 +29,7 @@ $this->title = 'Payment Progress';
     <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 item_details_box">
         <div class="row item_details">
             <div class="item_details_image col-sm-5 col-lg-4 col-xs-6">
-                <img src="<?php echo $item_model->imageUrl ?>"/>
+                <img src="<?=  $item_model->product->imageUrl ?>"/>
 
             </div>
             <div class="item_details_name  col-sm-7 col-lg-8 col-xs-6">
@@ -62,7 +62,7 @@ $this->title = 'Payment Progress';
     <!-- 检查订单状态按钮 -->
     <div class="row">
         <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" style="margin-top:20px;">
-            <?= Html::a('Cancel',['cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel font-color",
+            <?= Html::a('Cancel',['/sale-record/cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel font-color",
             'data' => [
                 'confirm' => 'Are you sure you want to exit this Store?',
                 'method' => 'post']])?>

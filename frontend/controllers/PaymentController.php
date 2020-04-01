@@ -3,36 +3,23 @@
 namespace frontend\controllers;
 
 use Yii;
-use mpdf;
-use common\models\Store;
 use common\models\Item;
-use common\models\Box;
 use common\models\Queue;
 use common\models\SaleRecord;
-use frontend\models\SaleRecordSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\data\ActiveDataProvider;
-use yii\db\Expression;
-use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
-use yii\authclient\signature\BaseMethod;
 use common\plugins\spayplugins\plugins\Encryption;
 use common\plugins\spayplugins\plugins\SarawakPay;
 
 
-// BoxController implements the CRUD actions for Box model.
 class PaymentController extends Controller
 {
     public $imodel;
     public $enableCsrfValidation = false;
-    public function actionPaycheck()
+    public function actionCheckpayment()
     {
 
-
-        // return "123";
-        // die();
-        //$request = \Yii::$app->request;
         $salerecord_id = $_POST['salerecord_id'];
         $price = $_POST['price'];
         $data = [
@@ -53,7 +40,7 @@ class PaymentController extends Controller
             $get_response = json_decode($response_data);
             $referenceNo  = $get_response->{'merOrderNo'};
             $token        = $get_response->{'securityData'};
-            return $this->render('sale-record/request',['referenceNo'=>$referenceNo,'token'=>$token,'id'=>$salerecord_id]);
+            return $this->render('/sale-record/request',['referenceNo'=>$referenceNo,'token'=>$token,'id'=>$salerecord_id]);
         }
 
     }
@@ -63,6 +50,7 @@ class PaymentController extends Controller
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
+
         $model = SaleRecord::find()->where(['order_number' => $id])->one();
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         $data = [
@@ -74,26 +62,26 @@ class PaymentController extends Controller
         $array     = json_decode($string);
         $orderStatus   = $array->{'orderStatus'};
         $orderAmt      = $array->{'orderAmt'};
-        //print_r($orderStatus);
         if ($model!=null)
         {
             if ($orderStatus == 0) {
-                return $this->render('sale-record/create', [
+                return $this->render('/sale-record/create', [
                     'item_model' => $item_model,
                     'model' => $model,
                     'id' => $id,
                 ]);
             }
             elseif ($orderStatus == 1) {
+
                 $this->add_queue([
                     'store_id'=>$model->store_id,
                     'action' =>$model->box->hardware_id,
                 ]);
-                return $this->runAction('sale-record/paysuccess',['id'=>$id]);
+                //return $this->runAction('sale-record/paysuccess',['id'=>$id]); //error
 
-                // return $this->redirect(['paysuccess',  //error
-                //        'id'=>$id,
-                //    ]);
+                return $this->redirect(['sale-record/paysuccess',
+                       'id'=>$id,
+                   ]);
             }
             elseif($orderStatus == 2 || $orderStatus == 4) {
                 return $this->redirect(['sale-record/payfailed',

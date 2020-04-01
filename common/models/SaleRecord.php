@@ -167,12 +167,12 @@ class SaleRecord extends \yii\db\ActiveRecord
 
             $this->status = SaleRecord::STATUS_FAILED;
             $this->save();
-            if ($this->status = SaleRecord::STATUS_FAILED) {
-                if ($this->item->status!=Item::STATUS_VOID) {
-                    $this->item->status = Item::STATUS_AVAILABLE;
-                    $this->item->save();
-                }
-            }
+
+            //if ($this->item->status!= Item::STATUS_SOLD) {
+                $this->item->status = Item::STATUS_AVAILABLE;
+                $this->item->save();
+            //}
+
         }
     }
 
