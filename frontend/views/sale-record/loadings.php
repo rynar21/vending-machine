@@ -22,3 +22,4 @@ $this->title = 'Lodings';
 <?php $this->registerJs("
     $('#demo').submit();
 ") ?>
+2

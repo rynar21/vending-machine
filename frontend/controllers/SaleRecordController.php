@@ -66,7 +66,7 @@ class SaleRecordController extends Controller
         $id = $request->get('id');
         $time = $request->get('time');
         $price = $request->get('price');
-        return $this->render('loding',[
+        return $this->render('loading',[
             'id' => $id,
             'time' => $time,
             'price' =>$price,
@@ -106,7 +106,7 @@ class SaleRecordController extends Controller
 
         if ($model->id == $salerecord->id)
         {
-            return $this->render('lodings',[
+            return $this->render('loadings',[
                 'salerecord_id' => $model->order_number,
                 'price' =>$item_model->price,
             ]);

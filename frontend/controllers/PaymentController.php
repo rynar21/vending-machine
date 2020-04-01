@@ -23,7 +23,7 @@ class PaymentController extends Controller
         $salerecord_id = $_POST['salerecord_id'];
         $price = $_POST['price'];
         $data = [
-             'merchantId' => 'M100001040',
+             'merchantId' => Yii::$app->spay->merchantId,
              'curType' => 'RM',
              'notifyURL' => 'https://google.com/',
              'merOrderNo' => $salerecord_id,
@@ -33,7 +33,8 @@ class PaymentController extends Controller
              'remark' => '',
              'transactionType' => '1',
         ];
-        $data          = json_encode($data, 320);
+        $data               = json_encode($data, 320);
+        //$response_data = Yii::$app->spay->createOrder($data);
         $response_data = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
         if ($response_data) {
 
@@ -41,6 +42,9 @@ class PaymentController extends Controller
             $referenceNo  = $get_response->{'merOrderNo'};
             $token        = $get_response->{'securityData'};
             return $this->render('/sale-record/request',['referenceNo'=>$referenceNo,'token'=>$token,'id'=>$salerecord_id]);
+        }
+        else {
+            return "false";
         }
 
     }
