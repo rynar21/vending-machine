@@ -20,3 +20,4 @@ $this->title = 'Loding';
 <?php $this->registerJs("
     $('#demo').submit();
 ") ?>
+1
