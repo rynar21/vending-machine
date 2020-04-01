@@ -17,7 +17,7 @@ class PaymentController extends Controller
 {
     public $imodel;
     public $enableCsrfValidation = false;
-    public function actionCheckpayment()
+    public function actionCreateOrder()
     {
 
         $salerecord_id = $_POST['salerecord_id'];
