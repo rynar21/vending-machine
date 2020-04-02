@@ -35,6 +35,7 @@ class ApiController extends Controller
             return $data;
         }
     }
+
     public function actionNext($id)
     {
         $model = Queue::find()->where(['store_id'=>$id,'status'=>Queue::STATUS_WAITING])
@@ -46,6 +47,5 @@ class ApiController extends Controller
         $data = ['status'=>'ok'];
         $data = json_encode($data, 320);
         return $data;
-
     }
 }
