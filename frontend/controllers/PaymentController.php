@@ -98,7 +98,7 @@ class PaymentController extends Controller
 
         if ($model!=null)
         {
-            if ($orderStatus == 0)
+            if ($orderStatus == SarawakPay::STATUS_PENDING)
             {
                 return $this->render('/sale-record/create', [
                     'item_model' => $item_model,
@@ -106,7 +106,7 @@ class PaymentController extends Controller
                     'id' => $id,
                 ]);
             }
-            elseif ($orderStatus == 1)
+            elseif ($orderStatus == SarawakPay::STATUS_SUCCESS)
             {
                 $this->add_queue([
                     'store_id' => $model->store_id,
@@ -115,7 +115,7 @@ class PaymentController extends Controller
                 return Yii::$app->runAction('sale-record/paysuccess',['id'=>$id]); //error
                 //return $this->redirect(['sale-record/paysuccess','id'=>$id]);
             }
-            elseif($orderStatus == 2 || $orderStatus == 4)
+            elseif($orderStatus != SarawakPay::STATUS_PENDING || $orderStatus != SarawakPay::STATUS_SUCCESS)
             {
                 return $this->redirect(['sale-record/payfailed','id' => $id,]);
             }
