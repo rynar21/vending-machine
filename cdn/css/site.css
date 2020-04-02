@@ -26,6 +26,235 @@ body {
 
 /*****************************************************************************/
 
+.pagination >li >a{
+    color: #FE5802;
+}
+.pagination > li > a:hover{
+    color: #FE5802;
+}
+.pagination > .active > a{
+    background-color: #FE5802;
+    border-color: #FE5802;
+}
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 0px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0px 1px rgba(0, 0, 0, 0.5);
+    outline: 0;
+}
+.p-color{
+
+    padding-top: 2vh;
+    height: 25vh;
+    background-color: #FFFFFF;
+    color: #6F6F6F;
+}
+.h-color{
+    color: #727272;
+}
+.c-color{
+    background-color: #F2F2F2;
+}
+.font-color{
+    color: #FE5802;
+}
+
+.box-buy{
+    height: 2.8vh;
+    margin-top: 2.8vh;
+    width: 100%;
+    color: white;
+    line-height:2.8vh;
+}
+.box-code-id{
+    width: 20%;
+    height: 5vh;
+    line-height:5vh;
+    float: left;
+    position: absolute;
+}
+.box-number{
+    font-size: 16px;
+    color: white;
+}
+.bt-search{
+    border-color: white;
+}
+.box_item{
+  width: 100%;
+  height: 28vh;
+  margin-bottom: 2vh;
+  box-shadow: 0.5px 0px 0.5px #CDCDB4;
+  background-color: #FFFFFF;
+}
+
+.box_item > a{
+    text-decoration: none;
+}
+.box_row {
+    padding: 6px;
+}
+
+.item_image{
+    padding: 5px;
+    height: 15vh;
+}
+
+.item_image > img{
+    height: 100%;
+    width: auto;
+    padding: 5px;
+}
+
+.item_name{
+    padding: 0px 15px;
+    font-size: auto;
+    color: black;
+    overflow: hidden;
+    font-family: Arial;
+    text-overflow: ellipsis;
+    height: 1.7em;
+    white-space: nowrap;
+    font-style: italic;
+    font-size: 14px;
+    color: #404040;
+}
+
+.item_buy{
+    margin-top: 0px;
+    padding: 0px 15px;
+    border: 0px solid purple;
+}
+
+.item_buy>a{
+    text-decoration: none;
+}
+
+.item_price{
+    font-family: Arial;
+    font-size: 22px;
+/* ---font-weight: bold;---- */
+}
+/* --------------------- Payment Headline Component --------------------- */
+.headline{
+    font-size: 35px;
+}
+/* --------------------- item/details.php ------------------------------ */
+.item_details_box{
+
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 0px 1px #CDCDB4;
+    padding: 10px 20px;
+    background-color: #FFFFFF;
+}
+
+.item_details{
+    padding: 15px;
+}
+
+.item_details_image > img{
+    height: 110px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+.font-pay{
+    font-size:25px;font-weight:bold;
+}
+.pay-image{
+    max-height:100%;
+    max-width:100%;
+}
+.item_details_name{
+    font-size: 18px;
+}
+
+.item_details_box > .col-sm-12 > hr{
+    border:1px #D4D4D4 solid;
+    background-color:#D4D4D4;
+}
+
+.item_details_price{
+    margin: 5px 0px;
+    font-size: 25px;
+    font-weight: bold;
+}
+/* --------------------- Buttons Components ------------------------------ */
+.btn-available{
+    width:100%;
+    height:40px;
+    border:0px solid;
+    line-height: 30px;
+}
+.btn-available:hover{
+    background-color: #909090;
+}
+.btn-unavailable{
+    width:100%;
+    height:40px;
+    color: white;
+    background-color: #909090;
+    border:0px solid;
+    line-height: 30px;
+}
+
+.btn-cancel{
+    width:100%;
+    height:40px;
+    background-color:#FFFFFF;
+}
+
+/* --------------------- ------------------------------ --------------------- */
+
+.myclass>img{
+    height: 50px;
+    width: 120px;
+    position: absolute;
+    top: 0%;
+}
+
+.product{
+    height: 150px;
+    width: 19%;
+    margin-top: 30px;
+    margin-left: 40px;
+    text-align: center;
+}
+
+.product_name{
+    margin-top: -10px;
+    font-weight: bold;
+    text-align:center;
+}
+
+.thumbnail{
+    border-radius: 0px 0px 0px 0px;
+    color:#575757;
+    border: solid 0px;
+
+}
+a.thumbnail:hover{
+  border-color: #7FFFD4;
+  color:#8B8970;
+  box-shadow:2px 2px 4px #2B2B2B;
+  border:0px solid ;
+}
+
+.product_image{
+  height: 100px;
+  width: 80%;
+  margin: 0 auto;
+  background-color:#EEE5DE;
+  margin-top: 10px;
+  text-align: center ;
+  line-height: 100px;
+}
+
+.outer_box{
+  background-color:#F7F7F7;
+  margin: 25px 5px;
+}
 .wrap {
     min-height: 100%;
     height: auto;
@@ -140,4 +369,7 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+.b-color{
+    background-color: #FE5802;
 }

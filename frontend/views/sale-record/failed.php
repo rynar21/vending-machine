@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\SaleRecordSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-
+$this->title = 'Failed';
 ?>
 
 <div class="sale-record-failed"  role="dialog">

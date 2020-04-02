@@ -9,6 +9,7 @@ use common\models\SaleRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use common\plugins\spayplugins\plugins\Encryption;
 use common\plugins\spayplugins\plugins\SarawakPay;
 
@@ -21,23 +22,21 @@ class PaymentController extends Controller
     public function actionCreateOrder()
     {
 
+
         $salerecord_id = $_POST['salerecord_id'];
         $price = $_POST['price'];
         $data = [
             'merchantId' => Yii::$app->spay->merchantId,
             'curType' => 'RM',
-            'notifyURL' => 'https://google.com/',
+            'notifyURL' => Yii::$app->vm->url.'payment/callback',
             'merOrderNo' => $salerecord_id,
             'goodsName' => '',
-            'detailURL' => "http://localhost:20080/payment/check?id=$salerecord_id",
+            'detailURL' => Yii::$app->vm->url.'payment/check?id='.$salerecord_id,
             'orderAmt' => $price,
             'remark' => '',
             'transactionType' => '1',
         ];
-        
         $response_data = Yii::$app->spay->createOrder($data);
-        $response_data    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
-
         if ($response_data) {
             $get_response = json_decode($response_data);
             $referenceNo  = $get_response->{'merOrderNo'};
@@ -61,16 +60,12 @@ class PaymentController extends Controller
 
             $id = ArrayHelper::getValue($result, 'merOrderNo');
             $orderStatus = ArrayHelper::getValue($result, 'orderStatus');
-
             $model = SaleRecord::find()->where(['order_number' => $id])->one();
-            $item_model = item::find()->where(['id' => $model->item_id])->one();
-
             if ($model!=null)
             {
                 if ($orderStatus == SarawakPay::STATUS_SUCCESS) {
-                    // change ur system sale record to success
-                    //
-                    // send open box to queue;
+                    //$model = SaleRecord::findOne(['merOrderNo'=>$id]);
+                    $model->success();
                 } else {
                     // change ur system sale record to failed
                 }
@@ -90,12 +85,11 @@ class PaymentController extends Controller
         $model = SaleRecord::find()->where(['order_number' => $id])->one();
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         $data = [
-            'merchantId' => 'M100001040',
+            'merchantId' => Yii::$app->spay->merchantId,
             'merOrderNo' => $id,
         ];
-        $data          = json_encode($data, 320);
-        $string        = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.queryOrder.do', $data);
-        $array         = json_decode($string);
+        $response_data = Yii::$app->spay->checkOrder($data);
+        $array         = json_decode($response_data);
         $orderStatus   = $array->{'orderStatus'};
         $orderAmt      = $array->{'orderAmt'};
 

@@ -6,7 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
-use common\plugins\spayplugins\plugins\spay\SarawakPay as SP_Plugin;
+use common\plugins\spayplugins\plugins\SarawakPay as SP_Plugin;
 
 class SarawakPay
 {
@@ -15,14 +15,18 @@ class SarawakPay
 
     public function post($api, $data)
     {
-        SP_Plugin::post($this->url . $api, $data);
+        SP_Plugin::post($api, $data);
     }
 
     public function createOrder($data)
     {
-        $data['merchantID'] = $this->merchantId;
-        $data               = json_encode($data, 320);
-        return  SP_Plugin::post($this->url . 'H5Payment.preOrder.do', $data);
+        $data   = json_encode($data, 320);
+        return  SP_Plugin::post($this->url. "H5PaymentAction.preOrder.do", $data);
     }
 
+    public function checkOrder($data)
+    {
+        $data   = json_encode($data, 320);
+        return  SP_Plugin::post($this->url. "H5PaymentAction.queryOrder.do", $data);
+    }
 }

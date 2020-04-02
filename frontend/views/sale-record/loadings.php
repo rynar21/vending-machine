@@ -13,7 +13,7 @@ $this->title = 'Lodings';
 ?>
 
 
-<form id="demo"  method="POST" action="http://localhost:20080/payment/create-order">
+<form id="demo"  method="POST" action="<?= Url::to(['payment/create-order'])?>">
 
     <input name="salerecord_id" value="<?= $salerecord_id?>" type="hidden" >
     <input name="price" value="<?= $price?>" type="hidden" >
