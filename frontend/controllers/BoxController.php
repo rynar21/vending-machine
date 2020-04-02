@@ -68,24 +68,24 @@ class BoxController extends Controller
 
     }
     //数组对比取不同值
-    function RestaDeArrays($vectorA,$vectorB)
+    function array_sort($vectorA,$vectorB)
     {
-      $cantA = count($vectorA);
-      $cantB = count($vectorB);
-      $nuevo_array = [];
-      $No_saca = 0;
-      for($i = 0;$i <$cantA;$i++)
-      {
-        for($j = 0;$j <$cantB;$j++)
+        $cantA = count($vectorA);
+        $cantB = count($vectorB);
+        $nuevo_array = [];
+        $No_saca = 0;
+        for($i = 0;$i <$cantA;$i++)
         {
-         if($vectorA[$i] == $vectorB[$j])
-         $No_saca = 1;
+            for($j = 0;$j <$cantB;$j++)
+            {
+                if($vectorA[$i] == $vectorB[$j])
+                $No_saca = 1;
+            }
+            if($No_saca == 0)
+            $nuevo_array[] = $vectorA[$i];
+            else
+            $No_saca = 0;
         }
-       if($No_saca == 0)
-       $nuevo_array[] = $vectorA[$i];
-       else
-       $No_saca = 0;
-       }
        return $nuevo_array;
 
     }
@@ -114,7 +114,7 @@ class BoxController extends Controller
              ]);
     }
     // 购物车创建订单
-    public  function actionGpay()
+    public  function actionCart_create_order()
     {
         $request = \Yii::$app->request;//获取商品信息
         $id =$request->get('id');
@@ -154,7 +154,7 @@ class BoxController extends Controller
     }
 
     //购物车返回商店
-    public function actionCancelb()
+    public function actionCancel()
     {
         $request = \Yii::$app->request;//获取商品信息
         $id =$request->get('salerecord_id');
@@ -169,27 +169,6 @@ class BoxController extends Controller
         return  $this->redirect(Url::to(['store/view','id'=>$store_id]));
     }
 
-    public function actionBoxStatus($store_id)
-    {
-        $models =  Box::find()->where(['store_id'=>$store_id])->all();
-        foreach ($models as $model) {
-            $array[] = $model->code.':'.$model->status;
-        }
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-           if (Yii::$app->request->isAjax) {
-               return [
-                   // 'labels' => $labels,
-                   // 'data' => $data ,
-                   // 'pricesum' => $pricesum,
-                   // 'sk'=> $sk,
-                   // 'kunum'=>$kunum,
-                   // 'type'=>$type,
-                   // 'number'=>$number,
-                   'status' => 123,
-                   'code'=> 200,
-               ];
-           }
-    }
 
 }

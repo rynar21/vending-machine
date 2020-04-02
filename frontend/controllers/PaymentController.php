@@ -23,17 +23,17 @@ class PaymentController extends Controller
         $salerecord_id = $_POST['salerecord_id'];
         $price = $_POST['price'];
         $data = [
-             'merchantId' => Yii::$app->spay->merchantId,
-             'curType' => 'RM',
-             'notifyURL' => 'https://google.com/',
-             'merOrderNo' => $salerecord_id,
-             'goodsName' => '',
-             'detailURL' => "http://localhost:20080/payment/check?id=$salerecord_id",
-             'orderAmt' => $price,
-             'remark' => '',
-             'transactionType' => '1',
+            'merchantId' => Yii::$app->spay->merchantId,
+            'curType' => 'RM',
+            'notifyURL' => 'https://google.com/',
+            'merOrderNo' => $salerecord_id,
+            'goodsName' => '',
+            'detailURL' => "http://localhost:20080/payment/check?id=$salerecord_id",
+            'orderAmt' => $price,
+            'remark' => '',
+            'transactionType' => '1',
         ];
-        $data               = json_encode($data, 320);
+        $data             = json_encode($data, 320);
         //$response_data = Yii::$app->spay->createOrder($data);
         $response_data = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
         if ($response_data) {
@@ -58,12 +58,12 @@ class PaymentController extends Controller
         $model = SaleRecord::find()->where(['order_number' => $id])->one();
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         $data = [
-             'merchantId' => 'M100001040',
-             'merOrderNo' => $id,
+            'merchantId' => 'M100001040',
+            'merOrderNo' => $id,
         ];
-        $data      = json_encode($data, 320);
-        $string    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.queryOrder.do', $data);
-        $array     = json_decode($string);
+        $data          = json_encode($data, 320);
+        $string        = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.queryOrder.do', $data);
+        $array         = json_decode($string);
         $orderStatus   = $array->{'orderStatus'};
         $orderAmt      = $array->{'orderAmt'};
         if ($model!=null)
@@ -76,20 +76,18 @@ class PaymentController extends Controller
                 ]);
             }
             elseif ($orderStatus == 1) {
-
                 $this->add_queue([
-                    'store_id'=>$model->store_id,
-                    'action' =>$model->box->hardware_id,
+                    'store_id' => $model->store_id,
+                    'action' => $model->box->hardware_id,
                 ]);
                 //return $this->runAction('sale-record/paysuccess',['id'=>$id]); //error
-
                 return $this->redirect(['sale-record/paysuccess',
-                       'id'=>$id,
-                   ]);
+                    'id' => $id,
+                ]);
             }
             elseif($orderStatus == 2 || $orderStatus == 4) {
                 return $this->redirect(['sale-record/payfailed',
-                       'id' => $id,
+                    'id' => $id,
                 ]);
             }
             else

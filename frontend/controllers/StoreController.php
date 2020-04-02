@@ -26,23 +26,23 @@ class StoreController extends Controller
         $pagination = new Pagination([
             'totalCount' => $count,
             'defaultPageSize'=>10]);  //每页放几条内容
-       //连贯查询每页的数据
+        //连贯查询每页的数据
         $articles = $data->query->offset($pagination->offset)
-       ->limit($pagination->limit)
-       ->all();
-       $model = $this->findModel($id);
-       if ($model->status == $model::STATUS_IN_OPERATION) {
-           return $this->render('view', [
-               'model' =>$model ,
-               'id' => $id,
-               'pages'=>$pagination,
-               'item_searchModel' => $item_searchModel,
-               'item_dataProvider' => $articles,
-           ]);
-       }
-       else {
-           return $this->render('maintain');
-       }
+        ->limit($pagination->limit)
+        ->all();
+        $model = $this->findModel($id);
+        if ($model->status == $model::STATUS_IN_OPERATION) {
+            return $this->render('view', [
+                'model' =>$model ,
+                'id' => $id,
+                'pages'=>$pagination,
+                'item_searchModel' => $item_searchModel,
+                'item_dataProvider' => $articles,
+            ]);
+        }
+        else {
+            return $this->render('maintain');
+        }
 
     }
 
