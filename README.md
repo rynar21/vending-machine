@@ -68,5 +68,20 @@ $ php yii migrate --migrationPath=@console/migrations/fake/
 
 CREATE NEW SINGLE ELASTIC BEANSTALK INSTANCE
 ```
-$ eb create "vm-web" --keyname "payngo" --platform "php" --process --region "ap-southeast-1" --single
+$ eb create "vm-core" --keyname "payngo" --platform "php" --process --region "ap-southeast-1" --single
+```
+
+SETTING ENVIRONMENT VARIABLES
+```
+$ eb setenv \
+ENV_NAME=development \
+RDS_HOSTNAME=db \
+RDS_DB_NAME=yii2advanced \
+RDS_PORT=3306 \
+RDS_USERNAME=root \
+RDS_PASSWORD=root \
+S3_KEY=S3_KEY_HERE \
+S3_SECRET=S3_SECRET_HERE \
+S3_REGION=ap-southeast-1 \
+S3_BUCKET=s3_bucket_here
 ```

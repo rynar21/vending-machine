@@ -47,8 +47,60 @@ class PaymentController extends Controller
         else {
             return "false";
         }
-
     }
+
+    public function actionCallback()
+    {
+        $request = Yii::$app->request;
+
+        $data = $request->post('formData');
+
+        if ($data) {
+            $result = SarawakPay::decrypt($data);
+            $result = Json::decode($result);
+
+            $id = ArrayHelper::getValue($result, 'merOrderNo');
+            $orderStatus = ArrayHelper::getValue($result, 'orderStatus');
+
+            $model = SaleRecord::find()->where(['order_number' => $id])->one();
+            $item_model = item::find()->where(['id' => $model->item_id])->one();
+
+            if ($model!=null)
+            {
+                if ($orderStatus == 0)
+                {
+                    return $this->render('/sale-record/create', [
+                        'item_model' => $item_model,
+                        'model' => $model,
+                        'id' => $id,
+                    ]);
+                }
+                elseif ($orderStatus == 1)
+                {
+                    $this->add_queue([
+                        'store_id' => $model->store_id,
+                        'action' => $model->box->hardware_id,
+                    ]);
+                    return Yii::$app->runAction('sale-record/paysuccess',['id'=>$id]); //error
+                    //return $this->redirect(['sale-record/paysuccess','id'=>$id]);
+                }
+                elseif($orderStatus == 2 || $orderStatus == 4)
+                {
+                    return $this->redirect(['sale-record/payfailed','id' => $id,]);
+                }
+                else
+                {
+                    throw new NotFoundHttpException("Requested item cannot be found.");
+                }
+            }
+
+        }
+
+        return [
+            'status' => 0,
+        ];
+    }
+
 
     // 判断 交易订单 的状态
     public function actionCheck($id)
