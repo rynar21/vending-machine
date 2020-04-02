@@ -34,8 +34,8 @@ class PaymentController extends Controller
             'remark' => '',
             'transactionType' => '1',
         ];
-        $data             = json_encode($data, 320);
-        //$response_data = Yii::$app->spay->createOrder($data);
+        
+        $response_data = Yii::$app->spay->createOrder($data);
         $response_data    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
 
         if ($response_data) {

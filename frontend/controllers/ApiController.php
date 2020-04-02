@@ -29,6 +29,9 @@ class ApiController extends Controller
             $data = json_encode($data, 320);
             return $data;
         }
+        if (empty($model)) {
+            return 'Store does not exist';
+        }
         else {
             $data = ['status'=>'ok'];
             $data = json_encode($data, 320);
