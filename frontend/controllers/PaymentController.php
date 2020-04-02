@@ -70,7 +70,7 @@ class PaymentController extends Controller
                         'action' => $model->box->hardware_id,
                     ]);
                 } else {
-                    // change ur system sale record to failed
+                    $model->failed();
                 }
             }
 
