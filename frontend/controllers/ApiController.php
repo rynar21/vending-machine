@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Box;
+use common\models\Store;
 use backend\models\BoxSearch;
 use common\models\SaleRecord;
 use common\models\Product;
@@ -20,7 +21,7 @@ class ApiController extends Controller
 
     public  function actionRequest($id)
     {
-
+        $store = Store::find()->where(['id' => $id])->one();
         $model = Queue::find()->where(['store_id'=>$id,'status'=>Queue::STATUS_WAITING])
         ->orderBy(['created_at'=>SORT_ASC])->one();
         if ($model) {
@@ -29,7 +30,7 @@ class ApiController extends Controller
             $data = json_encode($data, 320);
             return $data;
         }
-        if (empty($model)) {
+        if (empty($store)) {
             return 'Store does not exist';
         }
         else {
