@@ -33,20 +33,20 @@ class SaleRecordController extends Controller
 
 
 
-    public function actionGouwu()
+    public function actionCart()
     {
         $sum =0;
         $test = "ok!";
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if(Yii::$app->request->post())
         {
-          $data=Yii::$app->request->post();
-          $id= $_POST["id"];
+            $data=Yii::$app->request->post();
+            $id= $_POST["id"];
 
-          for ($i=0; $i <=count($id)-1 ; $i++) {
-             $sum+=Item::find()->where(['id'=>$id[$i]])->one()->price;
-             $this->redirect(Url::to(['item/view','id'=>$id[$i]]));
-          }
+            for ($i=0; $i <=count($id)-1 ; $i++) {
+               $sum+=Item::find()->where(['id'=>$id[$i]])->one()->price;
+               $this->redirect(Url::to(['item/view','id'=>$id[$i]]));
+            }
         }
 
         if (Yii::$app->request->isAjax) {
@@ -60,7 +60,7 @@ class SaleRecordController extends Controller
 
     }
 
-    public function actionPays()
+    public function actionProduct_info()
     {
         $request = \Yii::$app->request;//获取商品信息
         $id = $request->get('id');
@@ -157,7 +157,6 @@ class SaleRecordController extends Controller
         $mpdf->WriteHTML($content);
         $file_name = 'invoice.pdf';
         $mpdf->Output($file_name, 'D');
-        // exit;
     }
 
 
@@ -166,14 +165,11 @@ class SaleRecordController extends Controller
         $model = SaleRecord::findOne(['order_number'=>$id]);
         if ($model)
         {
-            $item_model=Item::findOne(['box_id'=>$model->box_id]);
-            $store_model=Store::findOne(['id'=>$model->store_id]);
             $model->success();
             return $this->render('success',[
                 'model'=>$model,
-                'id'=>$id,
+                //'id'=>$id,
             ]);
-            //echo'success';
         }
 
     }
@@ -185,9 +181,8 @@ class SaleRecordController extends Controller
             $model->failed();
             return $this->render('failed',[
                 'model'=>$model,
-                'id'=>$id,
+                //'id'=>$id,
             ]);
-            //echo'failed';
         }
     }
 

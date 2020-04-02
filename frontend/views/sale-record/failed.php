@@ -7,16 +7,14 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\SaleRecordSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Payment Progress';
+
 ?>
 
-<div class="sale-record-failed" tabindex="-1" role="dialog">
+<div class="sale-record-failed"  role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <!-- <div class="modal-header"> </div> -->
-
             <div class="modal-body text-center">
-                <img src="<?php echo Yii::getAlias('@static/images/logo1.png') ?>" class="img-responsive center-block pay-image"/>            
+                <img src="<?php echo Yii::getAlias('@static/images/logo1.png') ?>" class="img-responsive center-block pay-image"/>
                 <h3 class="modal-title "  style="color: red">
                     <b>Payment Failed</b>
                 </h3>

@@ -28,10 +28,16 @@ class ItemController extends Controller
     public function actionView($id)
     {
         $model=Item::findOne(['id'=>$id]);
-        if ($model && $model->status!=10)
+        if($model && $model->status!= Item::STATUS_SOLD)
         {
             return $this->render('view', [
                 'model' => $model,
+            ]);
+        }
+        if( $model->status == Item::STATUS_SOLD)
+        {
+            return $this->redirect(['store/view',
+                'id' => $model->store_id,
             ]);
         }
         else {
