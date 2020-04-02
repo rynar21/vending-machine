@@ -17,6 +17,7 @@ class PaymentController extends Controller
 {
     public $imodel;
     public $enableCsrfValidation = false;
+
     public function actionCreateOrder()
     {
 
@@ -35,9 +36,9 @@ class PaymentController extends Controller
         ];
         $data             = json_encode($data, 320);
         //$response_data = Yii::$app->spay->createOrder($data);
-        $response_data = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
-        if ($response_data) {
+        $response_data    = SarawakPay::post('https://spfintech.sains.com.my/xservice/H5PaymentAction.preOrder.do', $data);
 
+        if ($response_data) {
             $get_response = json_decode($response_data);
             $referenceNo  = $get_response->{'merOrderNo'};
             $token        = $get_response->{'securityData'};
@@ -49,12 +50,9 @@ class PaymentController extends Controller
 
     }
 
-
-
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
-
         $model = SaleRecord::find()->where(['order_number' => $id])->one();
         $item_model = item::find()->where(['id' => $model->item_id])->one();
         $data = [
@@ -66,29 +64,29 @@ class PaymentController extends Controller
         $array         = json_decode($string);
         $orderStatus   = $array->{'orderStatus'};
         $orderAmt      = $array->{'orderAmt'};
+
         if ($model!=null)
         {
-            if ($orderStatus == 0) {
+            if ($orderStatus == 0)
+            {
                 return $this->render('/sale-record/create', [
                     'item_model' => $item_model,
                     'model' => $model,
                     'id' => $id,
                 ]);
             }
-            elseif ($orderStatus == 1) {
+            elseif ($orderStatus == 1)
+            {
                 $this->add_queue([
                     'store_id' => $model->store_id,
                     'action' => $model->box->hardware_id,
                 ]);
                 //return $this->runAction('sale-record/paysuccess',['id'=>$id]); //error
-                return $this->redirect(['sale-record/paysuccess',
-                    'id' => $id,
-                ]);
+                return $this->redirect(['sale-record/paysuccess','id'=>$id]);
             }
-            elseif($orderStatus == 2 || $orderStatus == 4) {
-                return $this->redirect(['sale-record/payfailed',
-                    'id' => $id,
-                ]);
+            elseif($orderStatus == 2 || $orderStatus == 4)
+            {
+                return $this->redirect(['sale-record/payfailed','id' => $id,]);
             }
             else
             {
