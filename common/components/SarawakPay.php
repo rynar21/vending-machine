@@ -6,7 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
-use common\plugins\spayplugins\plugins\SarawakPay as SP_Plugin;
+use common\plugins\spay\SarawakPay as SP_Plugin;
 
 class SarawakPay
 {

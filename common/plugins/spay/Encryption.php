@@ -1,6 +1,6 @@
 <?php
 
-namespace common\plugins\spayplugins\plugins;
+namespace common\plugins\spay;
 /**
  * Sarawak Pay module
  */
