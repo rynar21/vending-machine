@@ -114,7 +114,7 @@ class BoxController extends Controller
              ]);
     }
     // 购物车创建订单
-    public  function actionCart_create_order()
+    public  function actionCreate_Cart_Order()
     {
         $request = \Yii::$app->request;//获取商品信息
         $id =$request->get('id');

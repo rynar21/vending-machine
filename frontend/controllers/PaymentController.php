@@ -81,8 +81,8 @@ class PaymentController extends Controller
                     'store_id' => $model->store_id,
                     'action' => $model->box->hardware_id,
                 ]);
-                //return $this->runAction('sale-record/paysuccess',['id'=>$id]); //error
-                return $this->redirect(['sale-record/paysuccess','id'=>$id]);
+                return Yii::$app->runAction('sale-record/paysuccess',['id'=>$id]); //error
+                //return $this->redirect(['sale-record/paysuccess','id'=>$id]);
             }
             elseif($orderStatus == 2 || $orderStatus == 4)
             {

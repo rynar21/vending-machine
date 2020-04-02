@@ -60,7 +60,7 @@ class SaleRecordController extends Controller
 
     }
 
-    public function actionGet_product_information()
+    public function actionProduct_info()
     {
         $request = \Yii::$app->request;//获取商品信息
         $id = $request->get('id');
@@ -165,12 +165,10 @@ class SaleRecordController extends Controller
         $model = SaleRecord::findOne(['order_number'=>$id]);
         if ($model)
         {
-            $item_model=Item::findOne(['box_id'=>$model->box_id]);
-            $store_model=Store::findOne(['id'=>$model->store_id]);
             $model->success();
             return $this->render('success',[
                 'model'=>$model,
-                'id'=>$id,
+                //'id'=>$id,
             ]);
         }
 
@@ -183,7 +181,7 @@ class SaleRecordController extends Controller
             $model->failed();
             return $this->render('failed',[
                 'model'=>$model,
-                'id'=>$id,
+                //'id'=>$id,
             ]);
         }
     }

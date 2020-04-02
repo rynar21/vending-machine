@@ -34,7 +34,7 @@ $time=time();
                 <br/>
                 <br/>
                 <?php if($model->status == $model::STATUS_AVAILABLE&&$model->box->status != $model->box::BOX_STATUS_LOCK):?>
-                    <?= Html::a('Pay',  ['/sale-record/get_product_information',  'id' => $model->id,'time'=>$time,'price'=>$model->price],['class'=>"btn btn-primary btn-available b-color"],
+                    <?= Html::a('Pay',  ['/sale-record/product_info',  'id' => $model->id,'time'=>$time,'price'=>$model->price],['class'=>"btn btn-primary btn-available b-color"],
                      [
                         'data' => [
                             'method' => 'post',
