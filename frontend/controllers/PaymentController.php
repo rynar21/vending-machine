@@ -67,30 +67,12 @@ class PaymentController extends Controller
 
             if ($model!=null)
             {
-                if ($orderStatus == 0)
-                {
-                    return $this->render('/sale-record/create', [
-                        'item_model' => $item_model,
-                        'model' => $model,
-                        'id' => $id,
-                    ]);
-                }
-                elseif ($orderStatus == 1)
-                {
-                    $this->add_queue([
-                        'store_id' => $model->store_id,
-                        'action' => $model->box->hardware_id,
-                    ]);
-                    return Yii::$app->runAction('sale-record/paysuccess',['id'=>$id]); //error
-                    //return $this->redirect(['sale-record/paysuccess','id'=>$id]);
-                }
-                elseif($orderStatus == 2 || $orderStatus == 4)
-                {
-                    return $this->redirect(['sale-record/payfailed','id' => $id,]);
-                }
-                else
-                {
-                    throw new NotFoundHttpException("Requested item cannot be found.");
+                if ($orderStatus == SarawakPay::STATUS_SUCCESS) {
+                    // change ur system sale record to success
+                    //
+                    // send open box to queue;
+                } else {
+                    // change ur system sale record to failed
                 }
             }
 
