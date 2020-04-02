@@ -1,5 +1,5 @@
 <?php
-namespace common\plugins\spayplugins\plugins;
+namespace common\plugins\spay;
 // require_once('log.php');
 /**
  * Sarawak Pay module

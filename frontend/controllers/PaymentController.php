@@ -9,8 +9,8 @@ use common\models\SaleRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
-use common\plugins\spayplugins\plugins\Encryption;
-use common\plugins\spayplugins\plugins\SarawakPay;
+use common\plugins\spay\Encryption;
+use common\plugins\spay\SarawakPay;
 
 
 class PaymentController extends Controller
