@@ -40,15 +40,9 @@ class CheckerFilter extends ActionFilter
             $tokenTBL = $sessionTBL->session_token;
             if($tokenSES != $tokenTBL)  //如果用户登录在 session中token不同于数据表中token
             {
-
                 Yii::$app->user->logout();
-                //Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere');
-                //执行登出操作
-                echo "<script>alert('Your account has been logged in elsewhere');window.location.href='http://localhost/vending-machine/backend/web/site/login';</script>";
-                // Yii::$app->run();
-                // Yii::$app->response->redirect(Url::to(['site/login'],Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere')));
-                //Yii::$app->request(Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere'));
-
+                return Yii::$app->response->redirect(Url::to(['site/login']))
+                &&Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere');
             }
         }
         return parent::beforeAction($action);

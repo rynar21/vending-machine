@@ -65,6 +65,10 @@ class PaymentController extends Controller
                 if ($orderStatus == SarawakPay::STATUS_SUCCESS) {
                     //$model = SaleRecord::findOne(['merOrderNo'=>$id]);
                     $model->success();
+                    $this->add_queue([
+                        'store_id' => $model->store_id,
+                        'action' => $model->box->hardware_id,
+                    ]);
                 } else {
                     // change ur system sale record to failed
                 }
