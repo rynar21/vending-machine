@@ -12,17 +12,6 @@ use yii\helpers\ArrayHelper;
 use common\plugins\spay\Encryption;
 use common\plugins\spay\SarawakPay;
 
-if (a==1) {
-    return true
-}
-if (a==2) {
-    return true
-}
-if (a==3) {
-    return true
-}
-
-return false
 
 class PaymentController extends Controller
 {

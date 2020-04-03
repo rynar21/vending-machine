@@ -11,8 +11,7 @@ use yii\grid\GridView;
 /* @var $model common\models\Item */
 
 $this->title = 'Update Item';
-$this->params['breadcrumbs'][] = ['label' => 'Items', 'url' => ['index']];
-$this->params['breadcrumbs'][] = 'Update';
+
 ?>
 
 <div class="item-update">
