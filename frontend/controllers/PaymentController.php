@@ -190,7 +190,7 @@ class PaymentController extends Controller
         }
 
     }
-    public function actionFailed($id)
+    public function actioFailed($id)
     {
         $model = SaleRecord::findOne(['order_number'=> $id]);;
         if ($model)
