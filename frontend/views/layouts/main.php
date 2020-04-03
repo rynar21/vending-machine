@@ -36,7 +36,7 @@ AppAsset::register($this);
 <div class="wrap c-color">
     <?php
     NavBar::begin([
-        'brandLabel' =>  Html::img('@web/img/logo.png'),
+        'brandLabel' =>  Html::img('@static/images/logo.png'),
         'brandOptions' => ['class' => 'myclass'], //options of the brand
         'brandUrl' => '#',
         'options' => [
