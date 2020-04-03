@@ -3,7 +3,8 @@ return [
     'aliases' => [
         '@upload'       => '/app/backend/web/mel-img/',
         '@imagePath'    => 'http://localhost:21110/products',
-        '@url'         => 'C:\Users\user\Desktop\up',
+        '@urlBackend'   => 'http://vm-admin.payandgo.link/',
+        '@urlFrontend'  => 'http://vm.payandgo.link/',
         '@static'       => 'https://s3-ap-southeast-1.amazonaws.com/cdn.payandgo.link/',
     ],
     'components' => [

@@ -3,7 +3,8 @@ return [
     'aliases' => [
         '@upload'       => '/app/backend/web/mel-img/',
         '@imagePath'    => 'http://localhost:21110/products',
-        '@url'          => 'C:\Users\user\Desktop\up',
+        '@urlBackend'   => 'http://localhost:20080/',
+        '@urlFrontend'  => 'http://localhost:21080/',
         '@static'       => 'http://localhost:21110/',
     ],
     'components' => [
