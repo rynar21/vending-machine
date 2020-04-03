@@ -52,9 +52,5 @@ return [
             'merchantId'    => 'M100001040',
             'url'           => 'https://spfintech.sains.com.my/xservice/'
         ],
-        'vm' =>[
-            'class'=>'common\plugins\Slack',
-            'url'=>'http://localhost:20080/',
-        ],
     ],
 ];
