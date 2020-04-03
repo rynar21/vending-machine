@@ -12,6 +12,17 @@ use yii\helpers\ArrayHelper;
 use common\plugins\spay\Encryption;
 use common\plugins\spay\SarawakPay;
 
+if (a==1) {
+    return true
+}
+if (a==2) {
+    return true
+}
+if (a==3) {
+    return true
+}
+
+return false
 
 class PaymentController extends Controller
 {
@@ -112,7 +123,7 @@ class PaymentController extends Controller
                     'store_id' => $model->store_id,
                     'action' => $model->box->hardware_id,
                 ]);
-                return Yii::$app->runAction('sale-record/paysuccess',['id'=>$id]); //error
+                return Yii::$app->runAction('sale-record/paysuccess', ['id'=>$id]); //error
                 //return $this->redirect(['sale-record/paysuccess','id'=>$id]);
             }
             elseif($orderStatus != SarawakPay::STATUS_PENDING || $orderStatus != SarawakPay::STATUS_SUCCESS)
@@ -124,10 +135,9 @@ class PaymentController extends Controller
                 throw new NotFoundHttpException("Requested item cannot be found.");
             }
         }
-        else
-        {
+
             throw new NotFoundHttpException("Requested item cannot be found.");
-        }
+
     }
 
     public function add_queue($array)
