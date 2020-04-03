@@ -107,10 +107,7 @@ class PaymentController extends Controller
 
             if ($orderStatus == SarawakPay::STATUS_SUCCESS)
             {
-                $this->add_queue([
-                    'store_id' => $model->store_id,
-                    'action' => $model->box->hardware_id,
-                ]);
+                Queue::push($model->store_id, $model->box->hardware_id)
 
                 return $this->redirect(['sale-record/paysuccess', 'id' => $id]);
             }
@@ -120,17 +117,4 @@ class PaymentController extends Controller
 
         throw new NotFoundHttpException("Requested item cannot be found.");
     }
-
-    public function add_queue($array)
-    {
-        $store_id = ArrayHelper::getValue($array, 'store_id',0);
-        $action = ArrayHelper::getValue($array, 'action', null);
-        $priority = ArrayHelper::getValue($array, 'priority', null);
-        $model = new Queue();
-        $model->store_id = $store_id;
-        $model->action = $action;
-        $model->priority = $priority;
-        $model->save();
-    }
-
 }
