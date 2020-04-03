@@ -21,7 +21,7 @@ $this->title = 'Invoice';
             <div class="row">
 
                 <div class="col-sm-offset-1 col-sm-2 col-lg-offset-1 col-lg-2 text-center" style="height: 15%;">
-                    <img src="<?= Url::base()?>/img/logo1.png" alt="logo" class="img-responsive"/>
+                    <img src="<?php  echo Yii::getAlias('@static/images/logo1.png')?>" alt="logo" class="img-responsive"/>
                 </div>
 
                 <div class="col-sm-9 col-lg-9">
