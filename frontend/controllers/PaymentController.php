@@ -20,8 +20,6 @@ class PaymentController extends Controller
 
     public function actionCreateOrder()
     {
-
-
         $salerecord_id = $_POST['salerecord_id'];
         $price = $_POST['price'];
         $data = [
@@ -36,15 +34,15 @@ class PaymentController extends Controller
             'transactionType' => '1',
         ];
         $response_data = Yii::$app->spay->createOrder($data);
+
         if ($response_data) {
             $get_response = json_decode($response_data);
             $referenceNo  = $get_response->{'merOrderNo'};
             $token        = $get_response->{'securityData'};
             return $this->render('/sale-record/request',['referenceNo'=>$referenceNo,'token'=>$token,'id'=>$salerecord_id]);
         }
-        else {
-            return "false";
-        }
+
+        return "false";
     }
 
     public function actionCallback()
@@ -109,14 +107,14 @@ class PaymentController extends Controller
 
             if ($orderStatus == SarawakPay::STATUS_SUCCESS)
             {
-                $this->add_queue([
-                    'store_id' => $model->store_id,
-                    'action' => $model->box->hardware_id,
-                ]);
-                return Yii::$app->runAction('sale-record/paysuccess',['id'=>$id]);
+                // $this->add_queue([
+                //     'store_id' => $model->store_id,
+                //     'action' => $model->box->hardware_id,
+                // ]);
+                return $this->redirect(['sale-record/paysuccess', 'id' => $id]);
             }
 
-            return $this->redirect(['sale-record/payfailed','id' => $id,]);
+            return $this->redirect(['sale-record/payfailed', 'id' => $id,]);
         }
 
         throw new NotFoundHttpException("Requested item cannot be found.");
