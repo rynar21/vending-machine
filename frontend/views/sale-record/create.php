@@ -49,9 +49,12 @@ $this->title = 'Payment Progress';
                 <div class="h-color">Please follow the following steps to make payment:</div>
                 <br/>
                 <br/>
-                1. Go to sararawak pay.
+                1. Enter SarawakPay Username.
                 <br/>
-
+                2. Request TAC and enter TAC for login.
+                <br/>
+                3. Request another TAC for confirm payment.
+                <br/>
             </h4>
         </div>
   </div>
