@@ -37,6 +37,10 @@ class PaymentController extends Controller
     // 运行 购买流程
     public function actionCreate($id,$time)
     {
+        $salerecord_model = SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])->one();
+        if ($salerecord_model) {
+            return $this->redirect(['item/view', 'id' => $salerecord_model->item_id,]);
+        }
         $item_model = Item::findOne($id);   // 寻找 Item
         $model = new SaleRecord();
         if(empty($model->findOne(['item_id'=> $id])) || $model->find()
@@ -190,7 +194,7 @@ class PaymentController extends Controller
         }
 
     }
-    public function actionFailed($id)
+    public function actioFailed($id)
     {
         $model = SaleRecord::findOne(['order_number'=> $id]);;
         if ($model)
