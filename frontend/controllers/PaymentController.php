@@ -31,8 +31,6 @@ class PaymentController extends Controller
 
     public function actionCreateOrder()
     {
-
-
         $salerecord_id = $_POST['salerecord_id'];
         $price = $_POST['price'];
         $data = [
@@ -47,15 +45,15 @@ class PaymentController extends Controller
             'transactionType' => '1',
         ];
         $response_data = Yii::$app->spay->createOrder($data);
+
         if ($response_data) {
             $get_response = json_decode($response_data);
             $referenceNo  = $get_response->{'merOrderNo'};
             $token        = $get_response->{'securityData'};
             return $this->render('/sale-record/request',['referenceNo'=>$referenceNo,'token'=>$token,'id'=>$salerecord_id]);
         }
-        else {
-            return "false";
-        }
+
+        return "false";
     }
 
     public function actionCallback()
@@ -107,7 +105,7 @@ class PaymentController extends Controller
         $orderStatus   = $array->{'orderStatus'};
         $orderAmt      = $array->{'orderAmt'};
 
-        if ($model!=null)
+        if ($model)
         {
             if ($orderStatus == SarawakPay::STATUS_PENDING)
             {
@@ -117,34 +115,28 @@ class PaymentController extends Controller
                     'id' => $id,
                 ]);
             }
-            elseif ($orderStatus == SarawakPay::STATUS_SUCCESS)
+
+            if ($orderStatus == SarawakPay::STATUS_SUCCESS)
             {
                 $this->add_queue([
                     'store_id' => $model->store_id,
                     'action' => $model->box->hardware_id,
                 ]);
-                return Yii::$app->runAction('sale-record/paysuccess', ['id'=>$id]); //error
-                //return $this->redirect(['sale-record/paysuccess','id'=>$id]);
+
+                return $this->redirect(['sale-record/paysuccess', 'id' => $id]);
             }
-            elseif($orderStatus != SarawakPay::STATUS_PENDING || $orderStatus != SarawakPay::STATUS_SUCCESS)
-            {
-                return $this->redirect(['sale-record/payfailed','id' => $id,]);
-            }
-            else
-            {
-                throw new NotFoundHttpException("Requested item cannot be found.");
-            }
+
+            return $this->redirect(['sale-record/payfailed', 'id' => $id,]);
         }
 
-            throw new NotFoundHttpException("Requested item cannot be found.");
-
+        throw new NotFoundHttpException("Requested item cannot be found.");
     }
 
     public function add_queue($array)
     {
-        $store_id = ArrayHelper::getValue($array,'store_id',0);
-        $action = ArrayHelper::getValue($array,'action',Null);
-        $priority = ArrayHelper::getValue($array,'priority',Null);
+        $store_id = ArrayHelper::getValue($array, 'store_id',0);
+        $action = ArrayHelper::getValue($array, 'action', null);
+        $priority = ArrayHelper::getValue($array, 'priority', null);
         $model = new Queue();
         $model->store_id = $store_id;
         $model->action = $action;
