@@ -54,15 +54,6 @@ class Box extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getImageUrl()
-    {
-        if ($this->image && file_exists(Yii::getAlias('@upload') . '/' . $this->image))
-        {
-            return Url::to('@imagePath'). '/' . $this->image;
-        }
-        return Url::to('@imagePath'). '/product.jpg';
-    }
-
     public function getStore_id()
     {
         if (!empty($this->store->id)) {
@@ -195,8 +186,6 @@ class Box extends \yii\db\ActiveRecord
         return $text;
     }
 
-
-
     public function getPrice()
     {
         if($this->item)
@@ -207,20 +196,6 @@ class Box extends \yii\db\ActiveRecord
         {
             return null;
         }
-    }
-
-
-
-    public function add_queue($array)
-    {
-        $store_id = ArrayHelper::getValue($array,'store_id',0);
-        $action = ArrayHelper::getValue($array,'action',Null);
-        $priority = ArrayHelper::getValue($array,'priority',Null);
-        $model = new Queue();
-        $model->store_id = $store_id;
-        $model->action = $action;
-        $model->priority = $priority;
-        $model->save();
     }
 
 }

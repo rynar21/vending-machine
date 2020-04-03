@@ -47,21 +47,6 @@ class Store extends \yii\db\ActiveRecord
     // Rules for the Attributes
     public function rules()
     {
-        // return [
-        //     ['name', 'unique','message'=>'This storename has already been taken.'],
-        //     [['name','address','user_id'], 'required',],
-        //     [['contact'], 'integer'],
-        //     ['contact', 'required'],
-        //     ['contact', 'filter', 'filter' => 'trim'],
-        //     ['contact','match','pattern'=>'/^[0][1][0-9]{8,9}$/'],
-        //     ['contact', 'unique','message' => '手机号已被使用'],
-        //     [['prefix','description'], 'safe'],
-        //     [['name', 'address','description'], 'string', 'max' => 30],
-        //     [['address'], 'string', 'max' => 60],
-        //     [['description'], 'string', 'max' => 255],
-        //     [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
-        //     [['manager'],'safe'],
-        // ];
         return [
             [['name', 'address', 'contact',], 'required'],
             [['contact','user_id','status'], 'integer'],
@@ -191,15 +176,7 @@ class Store extends \yii\db\ActiveRecord
     }
     public function afterSave($insert,$changedAttributes)
     {
-        // if ($this->imageFile)
-        // {
-        //     $path = Yii::getAlias('@upload') . '/' .$this->image;
-        //     if (!empty($path))
-        //     {
-        //         $this->imageFile->saveAs($path, true);
-        //     }
-        //     // $this->imageFile->saveAs($path, true);
-        // }
+
         return parent::afterSave($insert,$changedAttributes);
     }
 
@@ -208,14 +185,9 @@ class Store extends \yii\db\ActiveRecord
         return $this->address;
     }
 
-    // public function getUsername()
-    // {
-    //     return $this->user->username;
-    // }
     public function getUser()
     {
-        // return $this->hasOne(common\models\Auth::className(), ['uid' => 'id']);
-         return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
 }

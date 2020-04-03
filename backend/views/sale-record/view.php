@@ -17,7 +17,7 @@ $this->title = $model->id;
 
     <h1></h1>
     <p>
-        <?= Html::a('Open Box', ['sale-record/openbox', 'id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
+        <?= Html::a('Open Box', ['box/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
     </p>
 
     <?= DetailView::widget([

@@ -32,7 +32,7 @@ class SaleRecordController extends Controller
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
-                        'actions' => ['update','openbox'],
+                        'actions' => ['update'],
                         'allow' => true,
                         'roles' => ['ac_update'],
                     ],
@@ -76,16 +76,7 @@ class SaleRecordController extends Controller
         ]);
     }
 
-    public function actionOpenbox($id)
-    {
-        $model = Box::find()->where(['id'=>SaleRecord::find()->where(['id'=>$id])->one()->box_id])->one();
-        $model->add_queue([
-            'store_id'=>$model->store_id,
-            'action' =>$model->hardware_id,
-        ]);
-        Yii::$app->session->setFlash('success', 'Please wait.');
-        return $this->redirect(['view', 'id' => $id]);
-    }
+
 
     public function actionOne_store_all_salerecord($store_id,$date)
     {

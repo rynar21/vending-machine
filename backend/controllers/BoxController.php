@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Box;
+use common\models\Queue;
+use common\models\SaleRecord;
 use backend\models\BoxSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -29,7 +31,7 @@ class BoxController extends Controller
                     //     'allow' => Yii::$app->user->can('ac_read'),
                     // ],
                     [
-                        'actions' => ['update','open_all_box'],
+                        'actions' => ['update','open_all_box','open_box'],
                         'allow' => true,
                         'roles' => ['ac_update'],
                     ],
@@ -198,13 +200,17 @@ class BoxController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    public function actionOpen_box($id)
+    {
+        $model = Box::find()->where(['id'=>SaleRecord::find()->where(['id'=>$id])->one()->box_id])->one();
+        Queue::push($model->store_id, $model->hardware_id);
+        Yii::$app->session->setFlash('success', 'Please wait.');
+        return $this->redirect(['sale-record/view', 'id' => $id]);
+    }
+
     public function actionOpen_all_box($id)
     {
-        $model = new Box();
-        $model->add_queue([
-            'store_id'=>$id,
-            'action' =>'00OK',
-        ]);
+        Queue::push($id, '00OK');
         Yii::$app->session->setFlash('success', 'Please wait.');
         return $this->redirect(['store/view', 'id' => $id]);
     }

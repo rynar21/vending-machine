@@ -17,7 +17,7 @@ use yii\web\UploadedFile;
 // BoxController implements the CRUD actions for Box model.
 class CartController extends Controller
 {
-    public function actionCart()
+    public function actionIndex()
     {
         $sum =0;
         $test = "ok!";
@@ -44,7 +44,7 @@ class CartController extends Controller
 
     }
     //把商品加入购物车
-    public  function actionList()
+    public  function actionCreate()
     {
         $sum = 0;
         $model = new Item();
@@ -100,7 +100,7 @@ class CartController extends Controller
 
     }
     //购物车删减商品
-    public function actionBox()
+    public function actionDelete()
     {
 
         $request = \Yii::$app->request;//获取商品信息
@@ -124,13 +124,11 @@ class CartController extends Controller
              ]);
     }
     // 购物车创建订单
-    public  function actionCreate_Cart_Order()
+    public  function actionCreateOrder()
     {
         $request = \Yii::$app->request;//获取商品信息
         $id =$request->get('id');
         $store_id=$request->get('store_id');
-        //print_r($id);
-        // $salerecord_id=[];
         if ($id) {
             $sum =0;
             for ($i=0; $i <=count($id)-1 ; $i++){
@@ -143,8 +141,6 @@ class CartController extends Controller
                 $model->save();
                 $salerecord_id[] = $model->id;
             }
-            // print_r($salerecord_id);
-            // die();
             for ($i=0; $i <=count($id)-1 ; $i++) {
                 $sum+=Item::find()->where(['id'=>$id[$i]])->one()->price;
             }
