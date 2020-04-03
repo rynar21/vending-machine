@@ -110,10 +110,10 @@ class PaymentController extends Controller
             if ($orderStatus == SarawakPay::STATUS_SUCCESS)
             {
                 $this->add_queue([
-                    'store_id' => $model->store_id,
                     'action' => $model->box->hardware_id,
                 ]);
-                return Yii::$app->runAction('sale-record/paysuccess',['id'=>$id]);
+                'store_id' => $model->store_id,
+                return $this->redirect(['sale-record/paysuccess','id'=>$id]);
             }
 
             return $this->redirect(['sale-record/payfailed','id' => $id,]);
