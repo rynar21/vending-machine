@@ -161,10 +161,10 @@ class PaymentController extends Controller
             {
                 Queue::push($model->store_id, $model->box->hardware_id);
 
-                return $this->redirect(['private_success', 'id' => $id]);
+                return $this->redirect(['success', 'id' => $id]);
             }
 
-            return $this->redirect(['private_failed', 'id' => $id,]);
+            return $this->redirect(['failed', 'id' => $id,]);
         }
 
         throw new NotFoundHttpException("Requested item cannot be found.");
@@ -177,7 +177,7 @@ class PaymentController extends Controller
         return $this->redirect(['store/view', 'id' => $model->store_id]);
     }
 
-    public function actionPrivate_success($id)
+    public function actionSuccess($id)
     {
         $model = SaleRecord::findOne(['order_number'=>$id]);
         if ($model)
@@ -190,7 +190,7 @@ class PaymentController extends Controller
         }
 
     }
-    public function actionPrivate_failed($id)
+    public function actionFailed($id)
     {
         $model = SaleRecord::findOne(['order_number'=> $id]);;
         if ($model)
