@@ -62,4 +62,14 @@ class Queue extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+
+    public static function push($store_id, $action, $priority=null)
+    {
+        $model = new Queue();
+        $model->store_id    = $store_id;
+        $model->action      = $action;
+        $model->priority    = $priority;
+        return $model->save();
+    }
 }
