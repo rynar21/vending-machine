@@ -96,7 +96,7 @@ class PaymentController extends Controller
         $orderStatus   = $array->{'orderStatus'};
         $orderAmt      = $array->{'orderAmt'};
 
-        if ($model!=null)
+        if ($model)
         {
             if ($orderStatus == SarawakPay::STATUS_PENDING)
             {
@@ -106,28 +106,20 @@ class PaymentController extends Controller
                     'id' => $id,
                 ]);
             }
-            elseif ($orderStatus == SarawakPay::STATUS_SUCCESS)
+
+            if ($orderStatus == SarawakPay::STATUS_SUCCESS)
             {
                 $this->add_queue([
                     'store_id' => $model->store_id,
                     'action' => $model->box->hardware_id,
                 ]);
-                return Yii::$app->runAction('sale-record/paysuccess',['id'=>$id]); //error
-                //return $this->redirect(['sale-record/paysuccess','id'=>$id]);
+                return Yii::$app->runAction('sale-record/paysuccess',['id'=>$id]);
             }
-            elseif($orderStatus != SarawakPay::STATUS_PENDING || $orderStatus != SarawakPay::STATUS_SUCCESS)
-            {
-                return $this->redirect(['sale-record/payfailed','id' => $id,]);
-            }
-            else
-            {
-                throw new NotFoundHttpException("Requested item cannot be found.");
-            }
+
+            return $this->redirect(['sale-record/payfailed','id' => $id,]);
         }
-        else
-        {
-            throw new NotFoundHttpException("Requested item cannot be found.");
-        }
+
+        throw new NotFoundHttpException("Requested item cannot be found.");
     }
 
     public function add_queue($array)
