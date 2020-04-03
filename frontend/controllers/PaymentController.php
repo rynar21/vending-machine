@@ -43,38 +43,40 @@ class PaymentController extends Controller
         }
         $item_model = Item::findOne($id);   // 寻找 Item
         $model = new SaleRecord();
-        if(empty($model->findOne(['item_id'=> $id])) || $model->find()
-        ->orderBy(['id'=> SORT_DESC])
-        ->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
-        {
-            // 创建 新订单
-            $model->item_id      = $id;
-            $model->order_number = Store::find()->where(['id'=>$item_model->store_id])->one()->prefix.Box::find()->where(['id'=>$item_model->box_id])->one()->code.$time;
-            $model->box_id       = $item_model->box_id;
-            $model->store_id     = $item_model->store_id;
-            $model->sell_price   = $item_model->price;
-            $model->unique_id    = $time;
-            $model->store_name   = Store::find()->where(['id'=>$item_model->store_id])->one()->name;
-            $model->item_name    = $item_model->name;
-            $model->box_code     = Store::find()->where(['id'=>$item_model->store_id])->one()->prefix.Box::find()->where(['id'=>$item_model->box_id])->one()->code;
-            $model->save();
-            $model->pending();
-        }
-        $salerecord = SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
-        ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
+        if ($item_model) {
+            if(empty($model->findOne(['item_id'=> $id])) || $model->find()
+            ->orderBy(['id'=> SORT_DESC])
+            ->where(['item_id'=> $id, 'status' => SaleRecord::STATUS_FAILED])->one())
+            {
+                // 创建 新订单
+                $model->item_id      = $id;
+                $model->order_number = Store::find()->where(['id'=>$item_model->store_id])->one()->prefix.Box::find()->where(['id'=>$item_model->box_id])->one()->code.$time;
+                $model->box_id       = $item_model->box_id;
+                $model->store_id     = $item_model->store_id;
+                $model->sell_price   = $item_model->price;
+                $model->unique_id    = $time;
+                $model->store_name   = Store::find()->where(['id'=>$item_model->store_id])->one()->name;
+                $model->item_name    = $item_model->name;
+                $model->box_code     = Store::find()->where(['id'=>$item_model->store_id])->one()->prefix.Box::find()->where(['id'=>$item_model->box_id])->one()->code;
+                $model->save();
+                $model->pending();
+            }// code...
+            $salerecord = SaleRecord::find()->where(['item_id' => $id, 'status'=> SaleRecord::STATUS_PENDING])
+            ->orderBy(['created_at'=>SORT_ASC, 'id'=>SORT_ASC])->one();
+            if ($salerecord) {
+                if ($model->id == $salerecord->id)
+                {
+                    return $this->render('/sale-record/loadings',[
+                        'salerecord_id' => $model->order_number,
+                        'price' =>$item_model->price,
+                    ]);
+                    //return $this->redirect(['check','id'=>$model->id]);
+                }
+            }
+            return "Order or product does not exist";
 
-        if ($model->id == $salerecord->id)
-        {
-            return $this->render('/sale-record/loadings',[
-                'salerecord_id' => $model->order_number,
-                'price' =>$item_model->price,
-            ]);
-            //return $this->redirect(['check','id'=>$model->id]);
         }
-        else
-        {
             throw new NotFoundHttpException("Requested item cannot be found.");
-        }
     }
     ///spay端的创建订单
     public function actionCreateOrder()
