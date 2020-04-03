@@ -27,7 +27,6 @@ return [
         'slack' =>[
             'class'=>'common\plugins\Slack',
             'url'=>'https://hooks.slack.com/services/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',
-            'vmurl'=>'http://localhost:20080/',
         ],
         's3' => [
             'class' => '\frostealth\yii2\aws\s3\Storage',
@@ -52,10 +51,6 @@ return [
             'class'         => 'common\components\SarawakPay',
             'merchantId'    => 'M100001040',
             'url'           => 'https://spfintech.sains.com.my/xservice/'
-        ],
-        'vm' =>[
-            'class'=>'common\plugins\Slack',
-            'url'=>'http://localhost:20080/',
         ],
     ],
 ];
