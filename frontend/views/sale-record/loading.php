@@ -8,7 +8,7 @@ use yii\iot\plugins\SarawakPay;
 // require_once('log.php');
 
 
-$this->title = 'Loding';
+$this->title = 'Loading';
  //$time = time();
 ?>
 
