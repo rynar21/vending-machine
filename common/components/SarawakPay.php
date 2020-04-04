@@ -11,6 +11,8 @@ use common\plugins\spay\SarawakPay as SP_Plugin;
 
 class SarawakPay
 {
+    const STATUS_SUCCESS = 1;    //购买成功
+    const STATUS_PENDING = 0;   //购买中
     public $merchantId;
     public $url;
 
