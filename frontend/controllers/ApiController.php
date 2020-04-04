@@ -48,6 +48,12 @@ class ApiController extends Controller
     public function actionNext($id)
     {
         $store = Store::find()->where(['id' => $id])->one();
+        $priority_execution = Queue::find()->where(['store_id'=>$id,'status'=>Queue::STATUS_WAITING,'priority'=>'First'])
+        ->orderBy(['created_at'=>SORT_ASC])->one();
+        if ($priority_execution) {
+            $priority_execution->status = Queue::STATUS_SUCCESS;
+            $priority_execution->save();
+        }
         $model = Queue::find()->where(['store_id'=>$id,'status'=>Queue::STATUS_WAITING])
         ->orderBy(['created_at'=>SORT_ASC])->one();
         if ($model) {
