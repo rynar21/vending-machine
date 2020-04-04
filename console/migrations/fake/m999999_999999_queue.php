@@ -14,25 +14,14 @@ class m999999_999999_queue extends Migration
      */
     public function safeUp()
     {
-        $this->insert('queue',[
-            'store_id'      => 1,
-            'action'        => "01OK",
-            'status'        => 0,
-            'created_at'    => "1584595153",
-            'updated_at'    => "1584595153",
-       ]);
-    }
-
-    // public function queue_data()
-    // {
-    //     $model = new Queue();
-    //     $model->store_id = 1;
-    //     $model->action = "01OK";
-    //     $model->status = 0;
-    //     $model->created_at = "1584595153";
-    //     $model->updated_at = "1584595153";
-    //     $model->save();
-    // }
+       //  $this->insert('queue',[
+       //      'store_id'      => 1,
+       //      'action'        => "01OK",
+       //      'status'        => 0,
+       //      'created_at'    => "1584595153",
+       //      'updated_at'    => "1584595153",
+       // ]);
+   }
 
     /**
      * {@inheritdoc}
