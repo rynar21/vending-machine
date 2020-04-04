@@ -122,7 +122,7 @@ class PaymentController extends Controller
                 if ($orderStatus == SarawakPay::STATUS_SUCCESS) {
                     //$model = SaleRecord::findOne(['merOrderNo'=>$id]);
                     $model->success();
-                    Queue::push($model->store_id, $model->box->hardware_id);
+                    Queue::push($model->store_id, $model->box->hardware_id,$model->order_number);
                 } else {
                     $model->failed();
                 }
@@ -163,7 +163,7 @@ class PaymentController extends Controller
 
             if ($orderStatus == SarawakPay::STATUS_SUCCESS)
             {
-                Queue::push($model->store_id, $model->box->hardware_id);
+                Queue::push($model->store_id, $model->box->hardware_id,$model->order_number);
 
                 return $this->redirect(['success', 'id' => $id]);
             }

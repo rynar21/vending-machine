@@ -5,10 +5,11 @@ use yii\widgets\DetailView;
 use common\models\SaleRecord;
 use common\models\Product;
 use common\models\Item;
+use common\models\Queue;
 /* @var $this yii\web\View */
 /* @var $model common\models\SaleRecord */
 
-$this->title = $model->store_name;
+$this->title = $model->order_number;
 // $this->params['breadcrumbs'][] = ['label' => 'Sale Records', 'url' => ['index']];
 // $this->params['breadcrumbs'][] = $this->title;
 // \yii\web\YiiAsset::register($this);
@@ -28,7 +29,7 @@ $this->title = $model->store_name;
                 'format' => 'raw',
                 'value' => function($model)
                 {
-                    return product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->sku;
+                    return Product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->sku;
                 }
             ],
             'text:text:Order number',
@@ -43,7 +44,7 @@ $this->title = $model->store_name;
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function($model)
                 {
-                    return product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->cost;
+                    return Product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->cost;
                 }
             ],
             //'box_id',
@@ -51,6 +52,25 @@ $this->title = $model->store_name;
             'unique_id',
             //'trans_id',
             //'status',
+            [
+                'attribute'=>'box  status',
+                'format' => 'raw' ,
+                'value' => function ($model)
+                {
+                    $queue_model = Queue::find()->where(['priority'=>$model->order_number])->one();
+                    if ($queue_model) {
+                        if ($queue_model->status == Queue::STATUS_WAITING) {
+                            //return 'Success';
+                            return '<span style="color:#2a5caa">' .'Waiting to open'.'';
+                        }
+                        if ($queue_model->status == Queue::STATUS_SUCCESS) {
+                            //return 'Failure';
+                            return '<span style="color:#11ff06">' .'Opened'.'';
+                        }
+                    }
+                    return false;
+                },
+            ],
             [
                 'attribute'=>'status',
                 'format' => 'raw' ,

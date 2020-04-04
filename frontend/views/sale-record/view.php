@@ -49,7 +49,7 @@ $this->title = 'Payment Success';
                 Transaction No:
             </h5>
             <h4>
-                <?= $model->id ?>
+                <?= $model->order_number ?>
             </h4>
 
             <h5>
