@@ -33,11 +33,11 @@ class SarawakPay
         $data['merchantId'] = $this->merchantId; // injecting merchantID into data
         $jsonData           = Json::encode($data);
 
-        return SP_Plugin::post($this->url . $api, $jsonData, $this->sarawakPayPublicKeyPath, $this->privateKeyPath);
+        return SP_Plugin::post($this->url . $api, $jsonData, Yii::getAlias($this->sarawakPayPublicKeyPath), Yii::getAlias($this->privateKeyPath));
     }
 
     public function decrypt(string $encryptedData)
     {
-        return SP_Plugin::decrypt($encryptedData, $this->privateKeyPath);
+        return SP_Plugin::decrypt($encryptedData, Yii::getAlias($this->privateKeyPath));
     }
 }
