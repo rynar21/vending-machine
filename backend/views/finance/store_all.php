@@ -15,23 +15,11 @@ use yii\widgets\ActiveForm;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Finances';
-// $this->params['breadcrumbs'][] = $this->title;  http://localhost/vending-machine/backend/web/finance/datecheck"
 ?>
 <div class="store_all">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-
-    <!--<form method="GET" action="#">
-        <div class="col-lg-8">
-           <div class="input-group" >
-             <input name="store_name"  type="text" class="form-control" placeholder="Please enter your store name">
-             <span class="input-group-btn">
-               <button cclass="btn btn-default" name="submit" type="submit">Search</button>
-             </span>
-           </div><!-- /input-group -->
-         <!--</div><!-- /.col-lg-6 -->
-    <!--</form> -->
     <br/>
         <br/>
 

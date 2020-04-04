@@ -48,13 +48,6 @@ class StoreFinanceSearch extends Model
         $query = $this->store_finance($date);
         $dataProvider = new ArrayDataProvider([
             'allModels' => $query,
-            // 'key' => function ($model) {
-            //     return md5($this->store_id);
-            // },
-            //'pagination' => 30, // 可选 不分页
-            // 'sort' => [
-            //     'attributes' => ['store_id'],
-            // ],
         ]);
         //$this->load($params);
         if (!$this->validate()) {
@@ -82,12 +75,6 @@ class StoreFinanceSearch extends Model
         if ($models) {
             foreach ($models as $salerecord_model) {
                 $store_all_data[] =  array('store_id' =>$salerecord_model->store_id , 'date' =>$date,
-                //'store_name'=> Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['store_name'],
-                //'manager' => Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['store_manager'],
-                // 'quantity_of_order'=>Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['quantity_of_order'],
-                // 'total_earn'=>Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['total_earn'],
-                // 'gross_profit'=>Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['total_earn'],
-                // 'net_profit'=>Finance::find_store_one_finance_oneday($salerecord_model->store_id,$date)['net_profit'],
                 );
             }
             $store_all_data = Finance::array_unique_fb($store_all_data);
@@ -98,20 +85,5 @@ class StoreFinanceSearch extends Model
             return array();
         }
     }
-
-    //二维数组去重
-    // function array_unique_fb($array2D){
-    //
-    //      foreach ($array2D as $v){
-    //       $v=join(',',$v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
-    //       $temp[]=$v;
-    //      }
-    //      $temp=array_unique($temp); //去掉重复的字符串,也就是重复的一维数组
-    //      foreach ($temp as $k => $v){
-    //        $temp[$k] =  array('store_id' =>explode(',',$v)[0] , 'date' => explode(',',$v)[1]); //再将拆开的数组重新组装
-    //      }
-    //      return $temp;
-    //
-    // }
 
 }
