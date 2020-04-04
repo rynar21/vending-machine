@@ -15,10 +15,10 @@ class m999999_999999_product extends Migration
     {
         $this->insert('product', [
             'id'            => 1, //$i,
-            'sku'           => "ISBN 978-986-6248-06-1"//.$i,
+            'sku'           => "ISBN 978-986-6248-06-1",//.$i,
             'name'          => "Kingston Pendrive", //$name_array[$i-1],
             'category'      => "Others",
-            'description'   => "A good quality storage"
+            'description'   => "A good quality storage",
             'price'         => 2.00,
             'cost'          => 0.50,
             'status'        => 0,
