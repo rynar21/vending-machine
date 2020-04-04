@@ -6,8 +6,6 @@ use yii\helpers\Html;
 /* @var $model common\models\User */
 
 $this->title = 'Sign Up';
-$this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-create">
 

@@ -8,7 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 $this->title = 'Change password';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="site-change-password">
     <h1><?= Html::encode($this->title) ?></h1>
