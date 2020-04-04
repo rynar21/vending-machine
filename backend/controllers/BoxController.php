@@ -207,7 +207,7 @@ class BoxController extends Controller
             $salerecord_model->success();
         }
         $model = Box::find()->where(['id'=>$salerecord_model->box_id])->one();
-        Queue::push($model->store_id, $model->hardware_id);
+        Queue::push($model->store_id, $model->hardware_id,'First');
         Yii::$app->session->setFlash('success', 'Please wait.');
         return $this->redirect(['sale-record/view', 'id' => $id]);
     }

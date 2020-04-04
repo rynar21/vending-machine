@@ -164,7 +164,7 @@ class PaymentController extends Controller
 
             if ($orderStatus == SarawakPay::STATUS_SUCCESS)
             {
-                Queue::push($model->store_id, $model->box->hardware_id,$model->order_number);
+                //Queue::push($model->store_id, $model->box->hardware_id,$model->order_number);
 
                 return $this->redirect(['success', 'id' => $id]);
             }
