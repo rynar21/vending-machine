@@ -34,13 +34,6 @@ class m999999_999999_sales_record extends Migration
      */
     public function safeDown()
     {
-          $this->dropTable('sale_record');
-
-          $this->createTable('sale_record', [
-              'box_id' =>$this->integer()->notNull(),
-              'item_id' =>$this->integer()->notNull(),
-              'trans_id' =>$this->integer()->notNull(),
-              'status' =>$this->smallInteger()->notNull()->defaultValue(10),
-          ]);
+        $this->truncateTable('sale_record');
     }
 }

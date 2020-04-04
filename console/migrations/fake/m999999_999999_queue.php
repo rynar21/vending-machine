@@ -28,7 +28,7 @@ class m999999_999999_queue extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('queue');
+        $this->truncateTable('queue');
     }
 
     /*
