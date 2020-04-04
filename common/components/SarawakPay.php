@@ -5,6 +5,7 @@ namespace common\components;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use yii\helpers\Json;
 
 use common\plugins\spay\SarawakPay as SP_Plugin;
 
@@ -13,20 +14,30 @@ class SarawakPay
     public $merchantId;
     public $url;
 
-    public function post($api, $data)
-    {
-        SP_Plugin::post($api, $data);
-    }
+    public $privateKeyPath;
+    public $publicKeyPath;
+    public $sarawakPayPublicKeyPath;
 
     public function createOrder($data)
     {
-        $data   = json_encode($data, 320);
-        return  SP_Plugin::post($this->url. "H5PaymentAction.preOrder.do", $data);
+        return $this->post('H5PaymentAction.preOrder.do', $data);
     }
 
     public function checkOrder($data)
     {
-        $data   = json_encode($data, 320);
-        return  SP_Plugin::post($this->url. "H5PaymentAction.queryOrder.do", $data);
+        return $this->post('H5PaymentAction.queryOrder.do', $data);
+    }
+
+    private function post(string $api, array $data)
+    {
+        $data['merchantId'] = $this->merchantId; // injecting merchantID into data
+        $jsonData           = Json::encode($data);
+
+        return SP_Plugin::post($this->url . $api, $jsonData, $this->sarawakPayPublicKeyPath, $this->privateKeyPath);
+    }
+
+    public function decrypt(string $encryptedData)
+    {
+        return SP_Plugin::decrypt($encryptedData, $this->privateKeyPath);
     }
 }

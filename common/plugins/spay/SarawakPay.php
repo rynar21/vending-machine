@@ -18,12 +18,12 @@ class SarawakPay
      * @param  string  $data  JSON data
      * @return string         JSON string
      */
-    public static function post($url, $data)
+    public static function post(string $url, string $data, string $publicKey, string $privateKey)
     {
         $signedData = json_decode($data, 320);
-        $signedData['sign'] = Encryption::generateSignature($data, self::MERCHANT_PRIVATE_KEY);
+        $signedData['sign'] = Encryption::generateSignature($data, $privateKey);
 
-        $encryptedData = Encryption::encrypt(json_encode($signedData, 320), self::SP_PUBLIC_KEY);
+        $encryptedData = Encryption::encrypt(json_encode($signedData, 320), $publicKey);
 
         $payload = "FAPView=JSON&formData=" . str_replace('+', '%2B', $encryptedData);
 		//echo $payload;
@@ -37,10 +37,10 @@ class SarawakPay
         $response = curl_exec($ch);
         curl_close ($ch);
 		//echo $response;
-        $decrypted_response = Encryption::decrypt($response, self::MERCHANT_PRIVATE_KEY);
+        $decrypted_response = Encryption::decrypt($response, $privateKey);
 
         // Verify Server Response
-        if (Encryption::verifySignature($decrypted_response, self::SP_PUBLIC_KEY)) {
+        if (Encryption::verifySignature($decrypted_response, $publicKey)) {
             return $decrypted_response;
         }
 
@@ -51,8 +51,8 @@ class SarawakPay
      * @param  string  $data  Encrypted formData
      * @return string         Decrypted JSON string
      */
-    public static function decrypt($data)
+    public static function decrypt(string $data, string $privateKey)
     {
-        return Encryption::decrypt($data, self::MERCHANT_PRIVATE_KEY);
+        return Encryption::decrypt($data, $privateKey);
     }
 }
