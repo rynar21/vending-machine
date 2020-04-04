@@ -14,48 +14,25 @@ class m999999_999999_box extends Migration
 
     public function safeUp()
     {
-        $this->insert('box', [
-            'id'            => 1,
-            'code'          => 1,
-            'status'        => 1,
-            'created_at'    => "1584595153",
-            'updated_at'    => "1584595153",
-            'store_id'      => 1,
-            'hardware_id'   => "01OK",
-        ]);
+        for ($i=1; $i < 7 ; $i++)
+        {
+            $this->insert('box', [
+                'id'            => $i,
+                'code'          => $i,
+                'status'        => 1,
+                'created_at'    => "1584595153",
+                'updated_at'    => "1584595153",
+                'store_id'      => 1,
+                'hardware_id'   => "0".$i ."OK",
+            ]);
+        }
     }
-
-    // public function insert()
-    // {
-    //     $this->insert('box', [
-    //         'id' => 1,
-    //         'code' => 1,
-    //         'status' => 1,
-    //         'created_at' => "1584595153",
-    //         'updated_at' => "1584595153",
-    //         'store_id' => 1,
-    //         'hardware_id' => "01OK",
-    //     ]);
-    // }
-
-    // public function box_data($i)
-    // {
-    //     $model = new Box();
-    //     $model->id = $i;
-    //     $model->code = $i;
-    //     $model->status = 1;
-    //     $model->created_at = "1584595153";
-    //     $model->updated_at = "1584595153";
-    //     $model->store_id = 1;
-    //     $model->hardware_id = "0". $i . "OK";
-    //     $model->save();
-    // }
 
     /**
      * {@inheritdoc}
      */
     public function safeDown()
     {
-        $this->dropTable('box');
+        Yii::app()->db->schema->getTable('box', true);
     }
 }
