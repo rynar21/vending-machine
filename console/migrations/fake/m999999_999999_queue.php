@@ -7,7 +7,7 @@ use common\models\User;
 /**
  * Class queue
  */
-class queue extends Migration
+class m999999_999999_queue extends Migration
 {
     /**
      * {@inheritdoc}

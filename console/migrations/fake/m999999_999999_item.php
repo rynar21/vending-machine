@@ -6,7 +6,7 @@ use common\models\Item;
 /**
  * Class item
  */
-class item extends Migration
+class m999999_999999_item extends Migration
 {
     /**
      * {@inheritdoc}

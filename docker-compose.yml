@@ -8,8 +8,6 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: yii2advanced
-        ports:
-            - 3306:3306
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:4.8.4
@@ -36,7 +34,7 @@ services:
             sh -c "composer install
             && php init --env=$${ENV_NAME} --overwrite=All
             && php /app/yii migrate --interactive=0
-            && php /app/yii migrate --migrationPath=@console/migrations/fake/ --interactive=0
+            && php /app/yii migrate --migrationPath=@app/migrations/fake --interactive=0
             && php yii user/create-admin "admin" "admin""
 
     frontend:

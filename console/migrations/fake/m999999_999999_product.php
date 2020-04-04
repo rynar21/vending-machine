@@ -6,7 +6,7 @@ use common\models\Product;
 /**
  * Class product
  */
-class product extends Migration
+class m999999_999999_product extends Migration
 {
     /**
      * {@inheritdoc}
