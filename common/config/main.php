@@ -47,10 +47,5 @@ return [
                 ],
             ],
         ],
-        'spay' => [
-            'class'         => 'common\components\SarawakPay',
-            'merchantId'    => 'M100001040',
-            'url'           => 'https://spfintech.sains.com.my/xservice/'
-        ],
     ],
 ];
