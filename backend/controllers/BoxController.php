@@ -202,7 +202,11 @@ class BoxController extends Controller
 
     public function actionOpen_box($id)
     {
-        $model = Box::find()->where(['id'=>SaleRecord::find()->where(['id'=>$id])->one()->box_id])->one();
+        $salerecord_model = SaleRecord::find()->where(['id'=>$id])->one();
+        if ($salerecord_model->status != SaleRecord::STATUS_FAILED) {
+            $salerecord_model->success();
+        }
+        $model = Box::find()->where(['id'=>$salerecord_model->box_id])->one();
         Queue::push($model->store_id, $model->hardware_id);
         Yii::$app->session->setFlash('success', 'Please wait.');
         return $this->redirect(['sale-record/view', 'id' => $id]);
