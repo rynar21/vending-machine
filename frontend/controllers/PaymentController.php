@@ -7,6 +7,7 @@ use common\models\Item;
 use common\models\Store;
 use common\models\Box;
 use common\models\Queue;
+use yii\helpers\Json;
 use common\models\SaleRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
