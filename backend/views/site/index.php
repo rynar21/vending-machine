@@ -34,10 +34,10 @@ $this->title = 'Data Analysis Graph';
     <div class="col-lg-4">
  <script type="text/javascript">
 
-        
+
         $.ajax({
             type: 'get',
-            url: 'http://localhost/vending-machine/backend/web/site/sales',
+            url: '<?= Yii::getAlias('@urlBackend/site/sales') ?>',
             success: function (json) {
                     model_labels = json.labels
                     model_pricesum =json.pricesum
