@@ -32,9 +32,9 @@ return [
             'class'                     => 'common\components\SarawakPay',
             'merchantId'                => 'M100001040',
             'url'                       => 'https://spfintech.sains.com.my/xservice/',
-            'privateKeyPath'            => '@common\plugins\spay\merchant_private_key.key',
-            'publicKeyPath'             => '@common\plugins\spay\merchant_public_key.key',
-            'sarawakPayPublicKeyPath'   => '@common\plugins\spay\sarawakpay_public_key.pem',
+            'privateKeyPath'            => '@common/plugins/spay/merchant_private_key.key',
+            'publicKeyPath'             => '@common/plugins/spay/merchant_public_key.key',
+            'sarawakPayPublicKeyPath'   => '@common/plugins/spay/sarawakpay_public_key.pem',
         ],
         'assetManager' => [
             // For live site cdn assets
