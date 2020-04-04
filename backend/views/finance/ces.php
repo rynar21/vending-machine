@@ -1,5 +1,5 @@
 <?php
-
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\DetailView;
@@ -22,7 +22,7 @@ $this->title = 'Financial Records';
 
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="row col-sm-12">
-        <form method="GET" action="http://localhost/vending-machine/backend/web/finance/datecheck">
+        <form method="GET" action="<?= Url::to(['finance/datecheck'])?>">
             <input name="date1"  type="date" min="2000-01-02"  class=" col-sm-2">
             <div class="col-sm-1 text-center">-</div>
             <input name="date2"  type="date" min="2000-01-02" class=" col-sm-2" >
@@ -68,7 +68,7 @@ $this->title = 'Financial Records';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return Html::a('', ['finance/export_data','date'=>$model['date']], ['class' => 'glyphicon glyphicon-download-alt']);
+                  return Html::a('Download', ['finance/export_data','date'=>$model['date']]);
                 }
             ],
             [
@@ -78,7 +78,7 @@ $this->title = 'Financial Records';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return Html::a('', ['finance/export_order','date'=>$model['date']], ['class' => 'glyphicon glyphicon-download-alt']);
+                  return Html::a('Download', ['finance/export_order','date'=>$model['date']]);
                 }
             ],
         ],

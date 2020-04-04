@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\Url;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -14,7 +15,7 @@ $this->title = 'Finances';
 
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="row col-sm-12">
-        <form method="GET" action="http://localhost/vending-machine/backend/web/finance/datecheck">
+        <form method="GET" action="<?= Yii::getAlias('@urlFrontend/payment/check?id=');?><?= Url::to(['finance/datecheck'])?>">
             <input name="date1"  type="date" class=" col-sm-2">
             <div class="col-sm-1 text-center">-</div>
             <input name="date2"  type="date"  class=" col-sm-2" >

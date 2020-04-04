@@ -6,7 +6,7 @@ use Yii;
 use common\models\SaleRecord;
 use common\models\Store;
 use common\models\Item;
-use common\models\product;
+use common\models\Product;
 use common\models\User;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
@@ -88,8 +88,8 @@ class Finance extends \yii\db\ActiveRecord
 
     public static function find_store_one_finance_oneday($id,$date)
     {
-        $store_name = Store::find()->where(['id'=>$id])->one()->name;
-        $manager = User::find()->where(['id'=>Store::find()->where(['id'=>$id])->one()->user_id])->one()->username;
+        $store = Store::find()->where(['id'=>$id])->one();
+
         $total = Store::STATUS_INITIAL;
         $cost_price =  Store::STATUS_INITIAL;
         $stroe_model = SaleRecord::find()->where(['store_id'=>$id])
@@ -102,7 +102,11 @@ class Finance extends \yii\db\ActiveRecord
         $quantity_of_order = count($stroe_model);
         $total_earn = $total;
         $net_profit = $total_earn - $cost_price;
-        return array('store_name'=>$store_name,'store_manager'=>$manager,'quantity_of_order'=>$quantity_of_order,'total_earn'=>$total_earn,'net_profit'=>$net_profit);
+        if (!empty($store->user_id)) {
+            $manager = User::find()->where(['id'=>Store::find()->where(['id'=>$id])->one()->user_id])->one()->username;
+            return array('store_name'=>$store->name,'store_manager'=>$manager,'quantity_of_order'=>$quantity_of_order,'total_earn'=>$total_earn,'net_profit'=>$net_profit);
+        }
+        return array('store_name'=>$store->name,'store_manager'=>NULL,'quantity_of_order'=>$quantity_of_order,'total_earn'=>$total_earn,'net_profit'=>$net_profit);
     }
 
     public static function find_store_all_finance_oneday($date)

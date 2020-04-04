@@ -33,8 +33,7 @@ $this->title = 'Item Records';
                  'visible' => Yii::$app->user->can('admin'),
                  'value' => function ($model)
                  {
-                   return Html::a('', ['/product/view','id'=>$model->product_id],
-                   ['class' => 'btn btn-sm  glyphicon glyphicon-eye-open']);
+                   return Html::a('view', ['/product/view','id'=>$model->product_id]);
                  }
              ],
         ],

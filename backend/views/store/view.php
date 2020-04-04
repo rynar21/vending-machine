@@ -72,7 +72,7 @@ use yii\bootstrap\NavBar;
                   {
                     return
                         '<div class="btn-group mr-2 pull-left col-lg-12 " role="group" aria-label="Second group">
-                        <form method="GET" action="http://localhost/vending-machine/backend/web/finance/datecheck_store">
+                        <form method="GET" action='.Url::to(['finance/datecheck_store']).'>
                             <input name="date1"  type="date" min="2000-01-02"  class=" col-sm-3" >
                             <div class="col-sm-1 text-center">-</div>
                             <input name="date2"  type="date" min="2000-01-02" class=" col-sm-3" >
@@ -158,7 +158,7 @@ use yii\bootstrap\NavBar;
                                    {
                                      return Html::a('Edit Box', ['/box/update','id'=>$model->id]).
                                      ' | '. Html::a('Item History', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id]).
-                                     ' | '. Html::a('Order History', ['/sale-record/store_all_salerecord',]);
+                                     ' | '. Html::a('Order History', ['/sale-record/store_onebox_allsalerecord','box_id'=>$model->id,'store_id'=>$model->store_id]);
                                    }
                                ],
                            ],

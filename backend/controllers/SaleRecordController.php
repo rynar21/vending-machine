@@ -28,7 +28,7 @@ class SaleRecordController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view','one_store_all_salerecord'],
+                        'actions' => ['index', 'view','one_store_all_salerecord','store_onebox_allsalerecord'],
                         'allow' => Yii::$app->user->can('ac_read'),
                     ],
                     [
@@ -92,6 +92,21 @@ class SaleRecordController extends Controller
 
         ]);
     }
+    public function actionStore_onebox_allsalerecord($store_id,$box_id)
+    {
+        $searchModel = new SaleRecordSearch();
+        $dataProvider = $searchModel->searchStoreAllsalerecord(Yii::$app->request->queryParams,[
+            'store_id'=> $store_id,
+            'box_id'=> $box_id,
+            ]);
+        return $this->render('index', [
+
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+
+        ]);
+    }
+
 
     /**
      * Displays a single SaleRecord model.
@@ -144,12 +159,12 @@ class SaleRecordController extends Controller
         ]);
     }
 
-    public function actionPaymentFailed($id)
-    {
-        $model = $this->findModel($id);
-        $model->failed();
-
-    }
+    // public function actionPaymentFailed($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     $model->failed();
+    //
+    // }
 
     /**
      * Deletes an existing SaleRecord model.

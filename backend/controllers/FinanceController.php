@@ -8,7 +8,7 @@ use common\models\Finance;
 use common\models\SaleRecord;
 use common\models\Store;
 use common\models\Item;
-use common\models\product;
+use common\models\Product;
 use backend\models\StoreSearch;
 use backend\models\FinanceSearch;
 use backend\models\StoreFinanceSearch;
