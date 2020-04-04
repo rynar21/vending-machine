@@ -11,7 +11,7 @@ use common\models\SaleRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
-use common\plugins\spay\SarawakPay;
+use common\components\SarawakPay;
 
 
 class PaymentController extends Controller
