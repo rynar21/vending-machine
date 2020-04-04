@@ -5,7 +5,7 @@ use common\models\SaleRecord;
 /**
  * Class sales_record
  */
-class sales_record extends Migration
+class m999999_999999_sales_record extends Migration
 {
     /**
      * {@inheritdoc}

@@ -6,7 +6,7 @@ use yii\db\Migration;
 /**
  * Class box
  */
-class box extends Migration
+class m999999_999999_box extends Migration
 {
     /**
      * {@inheritdoc}

@@ -11,7 +11,6 @@ use common\models\SaleRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
-use common\plugins\spay\Encryption;
 use common\plugins\spay\SarawakPay;
 
 
@@ -84,15 +83,14 @@ class PaymentController extends Controller
         $salerecord_id = $_POST['salerecord_id'];
         $price = $_POST['price'];
         $data = [
-            'merchantId' => Yii::$app->spay->merchantId,
-            'curType' => 'RM',
-            'notifyURL' => Yii::getAlias('@urlFrontend/payment/callback'),
-            'merOrderNo' => $salerecord_id,
-            'goodsName' => '',
-            'detailURL' => Yii::getAlias('@urlFrontend/payment/check?id=').$salerecord_id,
-            'orderAmt' => $price,
-            'remark' => '',
-            'transactionType' => '1',
+            'curType'           => 'RM',
+            'notifyURL'         => Yii::getAlias('@urlFrontend/payment/callback'),
+            'merOrderNo'        => $salerecord_id,
+            'goodsName'         => '',
+            'detailURL'         => Yii::getAlias('@urlFrontend/payment/check?id=').$salerecord_id,
+            'orderAmt'          => $price,
+            'remark'            => '',
+            'transactionType'   => '1',
         ];
         $response_data = Yii::$app->spay->createOrder($data);
 
@@ -113,7 +111,7 @@ class PaymentController extends Controller
         $data = $request->post('formData');
 
         if ($data) {
-            $result = SarawakPay::decrypt($data);
+            $result = Yii::$app->spay->decrypt($data);
             $result = Json::decode($result);
 
             $id = ArrayHelper::getValue($result, 'merOrderNo');
