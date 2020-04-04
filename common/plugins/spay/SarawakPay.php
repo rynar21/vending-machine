@@ -10,8 +10,7 @@ class SarawakPay
     const MERCHANT_PUBLIC_KEY    = "/app/common/plugins/spay/merchant_public_key.key";
     const MERCHANT_PRIVATE_KEY   = "/app/common/plugins/spay/merchant_private_key.key";
 
-    const STATUS_SUCCESS = 1;    //购买成功
-    const STATUS_PENDING = 0;   //购买中
+    
 
     /**
      * @param  string  $url   Sarawak pay api
