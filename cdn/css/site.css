@@ -63,7 +63,7 @@ body {
 
 .box-buy{
     height: 2.8vh;
-    margin-top: 3.6vh;
+    margin-top: 3.5vh;
     width: 100%;
     color: white;
     line-height:2.8vh;
@@ -105,7 +105,7 @@ body {
 .item_image > img{
     height: 100%;
     width: auto;
-    padding: 5px;
+    padding: 10px;
 }
 
 .item_name{
