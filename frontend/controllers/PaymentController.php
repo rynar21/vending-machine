@@ -164,7 +164,7 @@ class PaymentController extends Controller
 
             if ($orderStatus == SarawakPay::STATUS_SUCCESS)
             {
-                //Queue::push($model->store_id, $model->box->hardware_id,$model->order_number);
+                
 
                 return $this->redirect(['success', 'id' => $id]);
             }
@@ -187,7 +187,7 @@ class PaymentController extends Controller
         $model = SaleRecord::findOne(['order_number'=>$id]);
         if ($model)
         {
-            $model->success();
+
             return $this->render('/sale-record/success',[
                 'model'=>$model,
                 //'id'=>$id,
@@ -200,7 +200,7 @@ class PaymentController extends Controller
         $model = SaleRecord::findOne(['order_number'=> $id]);;
         if ($model)
         {
-            $model->failed();
+
             return $this->render('/sale-record/failed',[
                 'model'=>$model,
                 //'id'=>$id,
