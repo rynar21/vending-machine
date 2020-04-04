@@ -32,6 +32,6 @@ class m999999_999999_store extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('store');
+        $this->truncateTable('store');
     }
 }

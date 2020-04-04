@@ -33,6 +33,6 @@ class m999999_999999_box extends Migration
      */
     public function safeDown()
     {
-        Yii::app()->db->schema->getTable('box', true);
+        $this->truncateTable('box');
     }
 }

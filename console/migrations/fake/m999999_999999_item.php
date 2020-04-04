@@ -33,6 +33,6 @@ class m999999_999999_item extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('item');
+        $this->truncateTable('item');
     }
 }
