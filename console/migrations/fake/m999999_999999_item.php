@@ -14,14 +14,14 @@ class m999999_999999_item extends Migration
     public function safeUp()
     {
         $this->insert('item', [
-            'id'          = 1;
-            'price'       => 2.00;
-            'status'      => 0;
-            'created_at'  => "1584595153";
-            'updated_at'  => "1584595153";
-            'product_id'  => 1;
-            'box_id'      => 1;
-            'store_id'    => 1;
+            'id'          => 1,
+            'price'       => 2.00,
+            'status'      => 0,
+            'created_at'  => "1584595153",
+            'updated_at'  => "1584595153",
+            'product_id'  => 1,
+            'box_id'      => 1,
+            'store_id'    => 1,
         ]);
     }
 
