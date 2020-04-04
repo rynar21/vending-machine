@@ -37,7 +37,7 @@ $this->title = 'Data Analysis Graph';
 
         $.ajax({
             type: 'get',
-            url: "<?=  Yii::getAlias('@urlBackend/site/sales')?>",
+            url: '<?= Yii::getAlias('@urlBackend/site/sales') ?>',
             success: function (json) {
                     model_labels = json.labels
                     model_pricesum =json.pricesum

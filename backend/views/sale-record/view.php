@@ -8,7 +8,7 @@ use common\models\Item;
 /* @var $this yii\web\View */
 /* @var $model common\models\SaleRecord */
 
-$this->title = $model->id;
+$this->title = $model->store_name;
 // $this->params['breadcrumbs'][] = ['label' => 'Sale Records', 'url' => ['index']];
 // $this->params['breadcrumbs'][] = $this->title;
 // \yii\web\YiiAsset::register($this);
