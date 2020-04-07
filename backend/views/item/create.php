@@ -10,8 +10,7 @@ use yii\grid\GridView;
 /* @var $model common\models\Item */
 
 $this->title = 'Create Item';
-$this->params['breadcrumbs'][] = ['label' => 'Items', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="item-create">
     <!-- 页面标题 -->
