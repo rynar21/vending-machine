@@ -58,7 +58,9 @@ class CartController extends Controller
     {
         $sum = 0;
         $model = new Item();
+        
         $store_id = Yii::$app->request->post('store_id');
+
         if ($model->load(Yii::$app->request->post()))
         {
             if ( Yii::$app->request->post('ok'))
