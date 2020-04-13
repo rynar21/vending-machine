@@ -83,6 +83,7 @@ class FinanceController extends Controller
             'date1' => $arr[0],
             'date2' => $arr[1]
         ]);
+
         $fields = ['Date', 'Order ID', 'Box Code', 'Store Name', 'Sale Price', 'Cost', 'Order Time', 'Payment Time'];
 
         foreach ( $datas as  $data )
@@ -107,11 +108,13 @@ class FinanceController extends Controller
     {
         $str = $date;
         $arr = explode('/',$str);
+
         $datas = Finance::get_store_salerecord([
             'date1' => $arr[0],
             'date2' => $arr[1],
             'store_id' => $store_id
         ]);
+
         $fields = ['Date','Order ID','Box Code','Store Name','Sale Price','Cost','Order Time','Payment Time'];
 
         foreach ( $datas as  $data)
@@ -142,6 +145,7 @@ class FinanceController extends Controller
             'date1'=>$arr[0],
             'date2'=>$arr[1]
             ])[1];
+
         $fields = ['Date','Quantity Of Order','Total Earn','Gross Profit','Net Profit'];
 
         foreach ($data as  $data)
@@ -160,29 +164,30 @@ class FinanceController extends Controller
 
     public function actionExport_data_one_store($date, $store_id)
     {
-         $str = $date;
-         $arr = explode('/', $str);
-         $data = $this->store_finances([
-             'date1'=>$arr[0],
-             'date2'=>$arr[1],
-             'store_id'=>$store_id
-             ])[1];
-         $fields = ['Date', 'Store name', 'Quantity Of Order', 'Total Earn', 'Gross Profit', 'Net Profit'];
+        $str = $date;
+        $arr = explode('/', $str);
+        $data = $this->store_finances([
+            'date1'=>$arr[0],
+            'date2'=>$arr[1],
+            'store_id'=>$store_id
+            ])[1];
 
-         foreach ($data as  $data)
-         {
-             $model[] = array(
+        $fields = ['Date', 'Store name', 'Quantity Of Order', 'Total Earn', 'Gross Profit', 'Net Profit'];
+
+        foreach ($data as  $data)
+        {
+            $model[] = array(
                  date("d-m-Y",
-                 $data['date']),
-                 $data['store_name'],
-                 $data['quantity_of_order'],
-                 $data['total_earn'],
-                 $data['gross_profit'],
-                 $data['net_profit']
-             );
-         }
+                $data['date']),
+                $data['store_name'],
+                $data['quantity_of_order'],
+                $data['total_earn'],
+                $data['gross_profit'],
+                $data['net_profit']
+            );
+        }
 
-         $this->export_csv($model, $fields);
+        $this->export_csv($model, $fields);
     }
 
 
@@ -217,10 +222,10 @@ class FinanceController extends Controller
             {
                 ob_flush();
                 flush();
-                $flush_count=0;
+                $flush_count = 0;
             }
 
-            $row=$data[$i];
+            $row = $data[$i];
 
             for ($k = 0; $k < count($row); $k++)
             {
@@ -265,9 +270,13 @@ class FinanceController extends Controller
     public function store_finance($date)       //写入日期查询当天所有卖过商品的店
     {
         $models = SaleRecord::find()->where([
-            'status' => SaleRecord::STATUS_SUCCESS])
-            ->andWhere(['between','created_at' ,$date,$date+86399])
-            ->all();
+        'status' => SaleRecord::STATUS_SUCCESS
+        ])->andWhere([
+        'between',
+        'created_at',
+        $date,
+        $date+86399
+        ])->all();
 
         if ($models)
         {
@@ -275,7 +284,8 @@ class FinanceController extends Controller
             {
                 $store_all_data[] =  array(
                     'store_id' => $salerecord_model->store_id,
-                    'date' =>$date);
+                    'date' =>$date
+                );
             }
             //$a = array_unique($store_id); // 维数组去重复
             $store_all_data = $this->array_unique_fb($store_all_data);
@@ -294,39 +304,42 @@ class FinanceController extends Controller
     //二维数组去重
     function array_unique_fb($array2D){
 
-         foreach ($array2D as $v){
-          $v = join(',', $v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
-          $temp[] = $v;
-         }
+        foreach ($array2D as $v)
+        {
+            $v = join(',', $v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
+            $temp[] = $v;
+        }
 
-         $temp=array_unique($temp); //去掉重复的字符串,也就是重复的一维数组
+        $temp = array_unique($temp); //去掉重复的字符串,也就是重复的一维数组
 
-         foreach ($temp as $k => $v)
-         {
+        foreach ($temp as $k => $v)
+        {
            $temp[$k] = array(
-               'store_id' => explode(',', $v)[0],
-               'date' => explode(',', $v)[1]); //再将拆开的数组重新组装
-         }
-         return $temp;
+                'store_id' => explode(',', $v)[0],
+                'date' => explode(',', $v)[1]
+            ); //再将拆开的数组重新组装
+        }
+        return $temp;
 
     }
 
     //本钱查询
     public function net_profit($id)
     {
-           $p_id = Item::find()->where(['id'=>$id])->one()->product_id;
-           $model = Product ::find()->where(['id'=>$p_id])->one();
+            $p_id  = Item::find()->where(['id' => $id])->one()->product_id;
+            $model = Product ::find()->where(['id' => $p_id])->one();
 
-           if (!empty($model->cost))
-           {
-               $cost_price = $model->cost;
+            if (!empty($model->cost))
+            {
+                $cost_price = $model->cost;
 
-               return $cost_price;
-           }
-           else
-           {
-               return 0;
-           }
+                return $cost_price;
+            }
+
+            else
+            {
+                return 0;
+            }
 
     }
 
@@ -376,7 +389,10 @@ class FinanceController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save())
         {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect([
+                'view',
+                'id' => $model->id
+            ]);
         }
 
         return $this->render('update', [
@@ -418,31 +434,32 @@ class FinanceController extends Controller
 
     public function actionDatecheck($date1, $date2)//根据时间段查询所有商店的销售情况
     {
-        $searchModel = new FinanceSearch();
+        $searchModel  = new FinanceSearch();
         $dataProvider = $searchModel->searchDate(Yii::$app->request->queryParams,$date1,$date2);
 
         if ($date1 <= $date2)
         {
-            $model = $this->store_finances(['date1' => $date1, 'date2' => $date2])[0];
+            $model      = $this->store_finances(['date1' => $date1, 'date2' => $date2])[0];
             $model_date = $this->store_finances(['date1' => $date1, 'date2' => $date2])[1];
+
             $dataProvider_date = new ArrayDataProvider([
-               'allModels' =>$model_date,
-           ]);
+                'allModels' => $model_date,
+            ]);
 
             // 如果有记录
             if ($model)
             {
                 $dataProvider_all = new ArrayDataProvider([
-                   'allModels' =>$model,
-               ]);
+                    'allModels' => $model,
+                ]);
 
-               return $this->render('ces', [
-                   'searchModel' => $searchModel,
-                   'dataProvider_date' => $dataProvider_date,
-                   'dataProvider_all'=> $dataProvider_all,
-                   'start_time' => $date1,
-                   'end_time' =>$date2,
-               ]);
+                return $this->render('ces', [
+                    'searchModel' => $searchModel,
+                    'dataProvider_date' => $dataProvider_date,
+                    'dataProvider_all'=> $dataProvider_all,
+                    'start_time' => $date1,
+                    'end_time' => $date2,
+                ]);
             }
 
             //如果当天没有记录
@@ -452,7 +469,7 @@ class FinanceController extends Controller
                 return $this->render('ces', [
                     'searchModel' => $searchModel,
                     'dataProvider_date' => $dataProvider_date,
-                    'dataProvider_all'=> array(),
+                    'dataProvider_all' => array(),
                 ]);
             }
 
@@ -463,29 +480,31 @@ class FinanceController extends Controller
 
     public function actionDatecheck_store($date1, $date2, $store_id) //根据时间段查询当前商店所有销售情况
     {
-        $searchModel = new FinanceSearch();
+        $searchModel  = new FinanceSearch();
         $dataProvider = $searchModel->searchDate(Yii::$app->request->queryParams,$date1,$date2);
+
         if ($date1<=$date2)
         {
-            $model = $this->store_finances(['date1'=>$date1,'date2'=>$date2,'store_id'=>$store_id])[0];
+            $model      = $this->store_finances(['date1'=>$date1,'date2'=>$date2,'store_id'=>$store_id])[0];
             $model_date = $this->store_finances(['date1'=>$date1,'date2'=>$date2,'store_id'=>$store_id])[1];
+
             $dataProvider_date = new ArrayDataProvider([
-               'allModels' =>$model_date,
-           ]);
+                'allModels' => $model_date,
+            ]);
 
             // 如果有记录
             if ($model)
             {
                 $dataProvider_all = new ArrayDataProvider([
-                   'allModels' =>$model,
-               ]);
+                    'allModels' => $model,
+                ]);
 
-               return $this->render('store_one_finance', [
-                   'searchModel' => $searchModel,
-                   'dataProvider_date' => $dataProvider_date,
-                   'dataProvider_all'=> $dataProvider_all,
-                   'store_id' => $store_id,
-               ]);
+                return $this->render('store_one_finance', [
+                    'searchModel' => $searchModel,
+                    'dataProvider_date' => $dataProvider_date,
+                    'dataProvider_all' => $dataProvider_all,
+                    'store_id' => $store_id,
+                ]);
             }
 
             //如果当天没有记录
@@ -495,7 +514,7 @@ class FinanceController extends Controller
                 return $this->render('store_one_finance', [
                     'searchModel' => $searchModel,
                     'dataProvider_date' => $dataProvider_date,
-                    'dataProvider_all'=> array(),
+                    'dataProvider_all' => array(),
                     'store_id' => $store_id,
                 ]);
             }
@@ -506,19 +525,22 @@ class FinanceController extends Controller
 
     public function store_finances($array)//date
     {
-        $date1 = ArrayHelper::getValue($array,'date1',Null);
-        $date2 = ArrayHelper::getValue($array,'date2',Null);
+        $date1    = ArrayHelper::getValue($array,'date1',Null);
+        $date2    = ArrayHelper::getValue($array,'date2',Null);
         $store_id = ArrayHelper::getValue($array,'store_id',Null);
+
         $catime1 = strtotime($date1);
         $catime2 = strtotime($date2);
+
         $total_earn = 0;
         $net_profit = 0;
 
         if (!empty($store_id))
         {
-            $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-            ->andWhere(['between','created_at' ,$catime1,$catime2+86399])
-            ->andWhere(['store_id'=>$store_id])
+            $models = SaleRecord::find()
+            ->where(['status' => SaleRecord::STATUS_SUCCESS,])
+            ->andWhere(['between','created_at' , $catime1, $catime2+86399])
+            ->andWhere(['store_id' => $store_id])
             ->all();
 
             if ($models)
@@ -526,26 +548,32 @@ class FinanceController extends Controller
                 foreach ($models as $salerecord_model)
                 {
                     $total_earn += $salerecord_model->sell_price;
-                    $net_profit += $salerecord_model->sell_price - product::find()->where(['id'=>$salerecord_model->item->product_id])->one()->cost;
+                    $net_profit += $salerecord_model->sell_price - product::find()->where([
+                    'id' => $salerecord_model->item->product_id
+                    ])->one()->cost;
                 }
 
-                $store_all_data[] = array('date' => $date1 . "/" . $date2,
+                $store_all_data[] = array(
+                'date'              => $date1 . "/" . $date2,
                 'quantity_of_order' => count($models),
-                'total_earn' => $total_earn ,
-                'gross_profit' => $total_earn,
-                'net_profit' => $net_profit,
-                'store_id' => $store_id,);
+                'total_earn'        => $total_earn ,
+                'gross_profit'      => $total_earn,
+                'net_profit'        => $net_profit,
+                'store_id'          => $store_id,
+                );
             }
             for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400; $i++)
             {
                 $date = $catime1 + 86400 * ($i) - 86400;
                 $all_date[] = array(
-                    'date' => $date, 'store_id' => $store_id,
-                    'store_name' => Finance::find_store_one_finance_oneday($store_id,$date)['store_name'],
+                    'date'              => $date,
+                    'store_id'          => $store_id,
+                    'store_name'        => Finance::find_store_one_finance_oneday($store_id,$date)['store_name'],
                     'quantity_of_order' => Finance::find_store_one_finance_oneday($store_id,$date)['quantity_of_order'],
-                    'total_earn' => Finance::find_store_one_finance_oneday($store_id,$date)['total_earn'],
-                    'gross_profit' => Finance::find_store_one_finance_oneday($store_id,$date)['total_earn'],
-                    'net_profit' => Finance::find_store_one_finance_oneday($store_id,$date)['net_profit'],);
+                    'total_earn'        => Finance::find_store_one_finance_oneday($store_id,$date)['total_earn'],
+                    'gross_profit'      => Finance::find_store_one_finance_oneday($store_id,$date)['total_earn'],
+                    'net_profit'        => Finance::find_store_one_finance_oneday($store_id,$date)['net_profit'],
+                );
             }
 
         }
@@ -561,26 +589,29 @@ class FinanceController extends Controller
                 foreach ($models as $salerecord_model)
                 {
                     $total_earn += $salerecord_model->sell_price;
-                    $net_profit += $salerecord_model->sell_price - Product::find()->where(['id'=>$salerecord_model->item->product_id])->one()->cost;
+                    $net_profit += $salerecord_model->sell_price - Product::find()->where([
+                    'id' =>$salerecord_model->item->product_id
+                    ])->one()->cost;
                 }
 
                 $store_all_data[] =  array(
-                    'date' => $date1 . "/" . $date2,
+                    'date'              => $date1 . "/" . $date2,
                     'quantity_of_order' => count($models),
-                    'total_earn' => $total_earn ,
-                    'gross_profit' => $total_earn,
-                    'net_profit' => $net_profit);
+                    'total_earn'        => $total_earn ,
+                    'gross_profit'      => $total_earn,
+                    'net_profit'        => $net_profit
+                );
             }
 
             for ($i = 1; $i <=(strtotime($date2)-strtotime($date1)+86400)/86400 ; $i++)
             {
                 $date = $catime1+86400*($i)-86400;
                 $all_date[] = array(
-                    'date'=>$date,
-                    'quantity_of_order'=>Finance::find_store_all_finance_oneday($date)['quantity_of_order'],
-                    'total_earn'=>Finance::find_store_all_finance_oneday($date)['total_earn'],
-                    'gross_profit'=>Finance::find_store_all_finance_oneday($date)['gross_profit'],
-                    'net_profit'=>Finance::find_store_all_finance_oneday($date)['net_profit'],
+                    'date'              => $date,
+                    'quantity_of_order' => Finance::find_store_all_finance_oneday($date)['quantity_of_order'],
+                    'total_earn'        => Finance::find_store_all_finance_oneday($date)['total_earn'],
+                    'gross_profit'      => Finance::find_store_all_finance_oneday($date)['gross_profit'],
+                    'net_profit'        => Finance::find_store_all_finance_oneday($date)['net_profit'],
                 );
             }
 
@@ -603,8 +634,10 @@ class FinanceController extends Controller
     {
         $catime1 = strtotime($date1);
         $catime2 = strtotime($date2);
+
         $total_earn = 0;
         $net_profit = 0;
+
         $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
         ->andWhere(['between','created_at' ,$catime1,$catime2+86399])
         ->all();
@@ -614,26 +647,30 @@ class FinanceController extends Controller
             foreach ($models as $salerecord_model)
             {
                 $total_earn += $salerecord_model->sell_price;
-                $net_profit += $salerecord_model->sell_price - product::find()->where(['id'=>$salerecord_model->item->product_id])->one()->cost;
+                $net_profit += $salerecord_model->sell_price - product::find()->where([
+                'id' => $salerecord_model->item->product_id
+                ])->one()->cost;
             }
 
             $store_all_data[] =  array(
-                'date' => $date1 . "/" . $date2,
-                'quantity_of_order'=> count($models),
-                'total_earn' =>$total_earn ,
-                'gross_profit' => $total_earn,
-                'net_profit'=>$net_profit);
+                'date'              => $date1 . "/" . $date2,
+                'quantity_of_order' => count($models),
+                'total_earn'        => $total_earn ,
+                'gross_profit'      => $total_earn,
+                'net_profit'        => $net_profit
+            );
         }
 
         for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400; $i++)
         {
             $date = $catime1 + 86400 * ($i) - 86400;
-            $all_date[]=array(
-                'date' => $date,
-                'quantity_of_order'=>Finance::find_store_all_finance_oneday($date)['quantity_of_order'],
-                'total_earn'=>Finance::find_store_all_finance_oneday($date)['total_earn'],
-                'gross_profit'=>Finance::find_store_all_finance_oneday($date)['gross_profit'],
-                'net_profit'=>Finance::find_store_all_finance_oneday($date)['net_profit'],
+
+            $all_date[] = array(
+                'date'              => $date,
+                'quantity_of_order' => Finance::find_store_all_finance_oneday($date)['quantity_of_order'],
+                'total_earn'        => Finance::find_store_all_finance_oneday($date)['total_earn'],
+                'gross_profit'      => Finance::find_store_all_finance_oneday($date)['gross_profit'],
+                'net_profit'        => Finance::find_store_all_finance_oneday($date)['net_profit'],
             );
         }
 
@@ -648,5 +685,5 @@ class FinanceController extends Controller
         }
 
     }
-    
+
 }

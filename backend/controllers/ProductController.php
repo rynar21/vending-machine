@@ -128,7 +128,10 @@ class ProductController extends Controller
 
         if ($model->load(Yii::$app->request->post())&&$model->save())
         {
-           return $this->redirect(['view', 'id' => $model->id]);
+           return $this->redirect([
+               'view',
+               'id' => $model->id
+           ]);
         }
         return $this->render('update', [
             'model' => $model,
@@ -151,6 +154,7 @@ class ProductController extends Controller
         {
             Yii::$app->session->setFlash('error', 'Product cannot be deleted');
         }
+        
         else
         {
             if($model->delete())
@@ -163,8 +167,10 @@ class ProductController extends Controller
                     }
                 }
             }
+
             Yii::$app->session->setFlash('success', 'successfully deleted.');
         }
+
         return $this->redirect(['index']);
     }
 
@@ -177,9 +183,11 @@ class ProductController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Product::findOne($id)) !== null) {
+        if (($model = Product::findOne($id)) !== null)
+        {
             return $model;
         }
+
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 

@@ -112,11 +112,12 @@ class ItemController extends Controller
         {
             // 如果没有输入价格
             //print_r($model->sku);
-            $getsku = Product::find()->where(['sku' =>$model->sku])->one();
+            $getsku = Product::find()->where(['sku' => $model->sku])->one();
 
             if($getsku)
             {
                 $model->product_id=$getsku->id;
+
                 if ($model->price <= 0)
                 {
                     // Item价格 默认为相关Product的价格
@@ -126,7 +127,10 @@ class ItemController extends Controller
                 if($model->save())
                 {
                     // 返回 store/view页面 当保存成功
-                    return $this->redirect(['store/view', 'id' => $model->store_id]);
+                    return $this->redirect([
+                        'store/view',
+                        'id' => $model->store_id
+                    ]);
                     //return $this->render('store/view',[ 'id' => $model->store_id]);
                 }
             }
@@ -138,8 +142,10 @@ class ItemController extends Controller
 
         // 查询当前店 所有未成功卖出的产品
         $dataProvider = new ActiveDataProvider([
-            'query'=> Item::find()
-            ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($model->box->store_id)]),
+            'query' => Item::find()->where([
+            'status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],
+            'store_id' => ($model->box->store_id)
+            ]),
         ]);
 
         // 当前 显示 create 页面 及 带入相关数据
@@ -174,14 +180,19 @@ class ItemController extends Controller
             if($model->save())
             {
                 // 返回 store/view页面 当保存成功
-                return $this->redirect(['store/view', 'id' => $model->store_id]);
+                return $this->redirect([
+                    'store/view',
+                    'id' => $model->store_id
+                ]);
             }
         }
 
         // 查询当前店 所有未成功卖出的产品
         $dataProvider = new ActiveDataProvider([
-            'query'=> Item::find()
-            ->where(['status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],'store_id'=> ($model->box->store_id)]),
+            'query'=> Item::find()->where([
+            'status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],
+            'store_id'=> ($model->box->store_id)
+            ]),
         ]);
 
         // 当前 显示 update 页面 及 带入相关数据
@@ -210,7 +221,10 @@ class ItemController extends Controller
         if($model->save() && $box_model->save())
         {
             // 如果保存成功， 返回 store/view页面
-            return $this->redirect(['store/view', 'id' => $model->store_id]);
+            return $this->redirect([
+                'store/view',
+                'id' => $model->store_id
+            ]);
         }
         else
         {

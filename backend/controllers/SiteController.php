@@ -98,87 +98,96 @@ class SiteController extends Controller
 
     public function actionSales()
     {
-        $labels = [];
-        $data = [];
-        $pricesum=[];
-        $sk=[];
-        $kunum=[];
-            for ($i=0; $i < 10 ; $i++) {
-              $labels[] = date('Y-m-d ', strtotime(-$i.'days'));
-              sort($labels);
-            }
+        $labels   = [];
+        $data     = [];
+        $pricesum = [];
+        $sk       = [];
+        $kunum    = [];
 
-            for ($i=count($labels); $i >=1 ; $i--)
-            {
-              $model_count = SaleRecord::find()
-              ->where([
-                  'between',
-                  'updated_at',
-                  strtotime(date('Y-m-d',strtotime(1-$i.' day'))),
-                  strtotime(date('Y-m-d',strtotime(2-$i.' day')))
-               ])
-              ->andWhere(['status'=> SaleRecord::STATUS_SUCCESS])
-              ->count();
-              $data[]=$model_count;
-            }
+        for ($i = 0; $i < 10 ; $i++)
+        {
+          $labels[] = date('Y-m-d ', strtotime(-$i.'days'));
+          sort($labels);
+        }
 
-            for ($j=count($labels); $j >=1 ; $j--) {
-                $models = SaleRecord::find()
-                ->where(['status' => 10])
-                ->andWhere([
-                    'between',
-                    'created_at' ,
-                    strtotime(date('Y-m-d',strtotime(1-$j.' day'))),
-                    strtotime(date('Y-m-d',strtotime(2-$j.' day')))
-                ])
-                ->all();
-                $total = 0;
-                foreach ($models as $model)
-                 {
-                    $model1=Item::find()->where(['id'=>$model->item_id])->all();
-                        foreach ($model1 as $itemmodel )
-                         {
-                            $arr= $itemmodel->price ;
-                            $total += $arr;
-                         }
-                }
-                  $pricesum[]=$total;
-            }
-            // print_r($pricesum);
-            // die();
-                $s = Item::find()->where(['status'=>Item::STATUS_SOLD])->all();
-                foreach ($s as $sum) {
-                    $sums[]=$sum->product->sku;
-                }
-             //print_r(array_count_values($sums));
-            $kunum =(array_keys((array_count_values($sums))));
-            $sk = (array_values((array_count_values($sums))));
-             for ($i=0; $i <=count($kunum)-1; $i++)
+        for ($i = count($labels); $i >= 1 ; $i--)
+        {
+          $model_count = SaleRecord::find()->where([
+            'between',
+            'updated_at',
+            strtotime(date('Y-m-d', strtotime(1-$i.' day'))),
+            strtotime(date('Y-m-d', strtotime(2-$i.' day')))
+            ])->andWhere([
+            'status'=> SaleRecord::STATUS_SUCCESS
+            ])->count();
+
+            $data[] = $model_count;
+        }
+
+        for ($j = count($labels); $j >= 1 ; $j--)
+        {
+            $models = SaleRecord::find()
+            ->where(['status' => 10])
+            ->andWhere([
+            'between',
+            'created_at' ,
+            strtotime(date('Y-m-d', strtotime(1-$j.' day'))),
+            strtotime(date('Y-m-d', strtotime(2-$j.' day')))
+            ])->all();
+
+            $total = 0;
+
+            foreach ($models as $model)
              {
-                 $a[]=array($kunum[$i],$sk[$i]);
-             }
-             for ($i=0; $i <count($kunum)-1 ; $i++)
-              {
-                 array_multisort(array_column($a,'1'),SORT_DESC,$a);
-              }
-                $b=array_slice($a,0,5);
-                $type = array_column($b,'1');
-                $number = array_column($b,'0');
+                $model1 = Item::find()->where(['id' => $model->item_id])->all();
+                    foreach ($model1 as $itemmodel )
+                    {
+                        $arr = $itemmodel->price ;
+                        $total += $arr;
+                    }
+            }
+              $pricesum[] = $total;
+        }
 
-             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $s = Item::find()->where(['status' => Item::STATUS_SOLD])->all();
 
-                if (Yii::$app->request->isAjax) {
-                    return [
-                        'labels' => $labels,
-                        'data' => $data ,
-                        'pricesum' => $pricesum,
-                        'sk'=> $sk,
-                        'kunum'=>$kunum,
-                        'type'=>$type,
-                        'number'=>$number,
-                        'code'=> 200,
-                    ];
-                }
+        foreach ($s as $sum)
+        {
+            $sums[] = $sum->product->sku;
+        }
+
+        $kunum =(array_keys((array_count_values($sums))));
+        $sk    = (array_values((array_count_values($sums))));
+
+        for ($i = 0; $i <= count($kunum)-1; $i++)
+        {
+             $a[] = array($kunum[$i], $sk[$i]);
+        }
+
+        for ($i = 0; $i < count($kunum)-1 ; $i++)
+        {
+             array_multisort(array_column($a, '1'), SORT_DESC, $a);
+        }
+
+        $b      = array_slice($a, 0, 5);
+        $type   = array_column($b, '1');
+        $number = array_column($b, '0');
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if (Yii::$app->request->isAjax)
+        {
+                return [
+                    'labels'   => $labels,
+                    'data'     => $data ,
+                    'pricesum' => $pricesum,
+                    'sk'       => $sk,
+                    'kunum'    => $kunum,
+                    'type'     => $type,
+                    'number'   => $number,
+                    'code'     => 200,
+                ];
+        }
     }
 
     /**
@@ -196,31 +205,21 @@ class SiteController extends Controller
           $id = Yii::$app->user->id;     //登录用户的ID
           $username = Yii::$app->user->identity->username;; //登录账号
           $ip = Yii::$app->request->userIP; //登录用户主机IP
-          $token = md5(sprintf("%s&%s&%s",time(),$id,$ip));  //将用户登录时的时间、用户ID和IP联合加密成token存入表
+          $token = md5(sprintf("%s&%s&%s", time(), $id, $ip));  //将用户登录时的时间、用户ID和IP联合加密成token存入表
 
           $session = Yii::$app->session;
-          $session->set(md5(sprintf("%s&%s",$id,$username)),$token);  //将token存到session变量中
-          //存session token值没必要取键名为$id&$username ,目的是标识用户登录token的键，$id或$username就可以
+          $session->set(md5(sprintf("%s&%s", $id, $username)), $token);  //将token存到session变量中
 
           $model->insertSession($id,$token);//将token存到tbl_admin_session
-          //获取当前登录用户的IP地址。
-          // $dz=  Yii::$app->request->serverName;
-          // Yii::$app->slack->Posturl([
-          //     'url'=>'https://forgetof.requestcatcher.com',
-          //     'data'=>[
-          //             'ip'=>$dz,
-          //     ],
-          // ]);
-         // return $this->goBack();
           return $this->redirect(Url::to(['store/index']));//去到用户所拥有的店
       }
      // return $this->render('login', ['model' => $model,]);
-      else {
-          return $this->render('login', [
-              'model' => $model,
+        else
+        {
+            return $this->render('login', [
+                'model' => $model,
                //Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere'),
-           ]
-         );
+            ]);
         }
 
     }
@@ -231,19 +230,23 @@ class SiteController extends Controller
     public function actionChangepassword()//changepassword
     {
         $model = new ChangePasswordForm();
+
         if (Yii::$app->user->identity!=null)
          {
             if( $model->load(Yii::$app->request->post()) && $model->changePassword())
             {
-                 Yii::$app->user->logout();
-                 return $this->redirect(Url::to(['site/login'],Yii::$app->session->setFlash('success', 'password has been updated.')));
+                Yii::$app->user->logout();
+                return $this->redirect(Url::to(['site/login'],Yii::$app->session->setFlash('success', 'password has been updated.')));
             }
+
             else
             {
                 return $this->render('changePassword',['model'=>$model]);
             }
         }
-        else {
+
+        else
+        {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
@@ -272,7 +275,9 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+
+        if ($model->load(Yii::$app->request->post()) && $model->signup())
+        {
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
             return $this->actionLogin();
         }
@@ -290,12 +295,17 @@ class SiteController extends Controller
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate())
+        {
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
 
                 return $this->actionLogin();
-            } else {
+            }
+
+            else
+            {
                 Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
             }
         }
@@ -314,13 +324,18 @@ class SiteController extends Controller
      */
     public function actionResetPassword($token)
     {
-        try {
+        try
+        {
             $model = new ResetPasswordForm($token);
-        } catch (InvalidArgumentException $e) {
+        }
+
+        catch (InvalidArgumentException $e)
+        {
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword())
+        {
             Yii::$app->session->setFlash('success', 'New password saved.');
 
             return $this->actionLogin();
@@ -340,19 +355,25 @@ class SiteController extends Controller
      */
     public function actionVerifyEmail($token)
     {
-        try {
+        try
+        {
             $model = new VerifyEmailForm($token);
-        } catch (InvalidArgumentException $e) {
+        }
+        catch (InvalidArgumentException $e)
+        {
             throw new BadRequestHttpException($e->getMessage());
         }
-        if ($user = $model->verifyEmail()) {
-            if (Yii::$app->user->Logout($user)) {
 
+        if ($user = $model->verifyEmail())
+        {
+            if (Yii::$app->user->Logout($user))
+            {
                  return $this->redirect(Url::to(['site/login'],Yii::$app->session->setFlash('success', 'Your email has been confirmed!.')));
             }
         }
 
         Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
+
         return $this->actionLogout();
     }
 
@@ -364,11 +385,15 @@ class SiteController extends Controller
     public function actionResendVerificationEmail()
     {
         $model = new ResendVerificationEmailForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate())
+        {
+            if ($model->sendEmail())
+            {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
                 return $this->actionLogout();
             }
+
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
         }
 
@@ -378,91 +403,6 @@ class SiteController extends Controller
     }
         //每间店的销售情况
         //$ID
-    public function actionStore_sales()
-    {
-        $labels = [];
-        $data = [];
-        $pricesum=[];
-        $sk=[];
-        $kunum=[];
-        $id=1;
-            for ($i=0; $i < 7 ; $i++) {
-              $labels[] = date('Y-m-d ', strtotime(-$i.'days'));
-              sort($labels);
-            }
-
-            for ($i=count($labels); $i >=1 ; $i--)
-            {
-              $model_count = SaleRecord::find()
-              ->where([
-                  'between',
-                  'updated_at',
-                  strtotime(date('Y-m-d',strtotime(1-$i.' day'))),
-                  strtotime(date('Y-m-d',strtotime(2-$i.' day')))
-               ])
-              ->andWhere(['status'=> SaleRecord::STATUS_SUCCESS,'store_id'=> $id])
-              ->count();
-              $data[]=$model_count;
-            }
-
-            for ($j=count($labels); $j >=1 ; $j--) {
-                $total = 0;
-                $models = SaleRecord::find()
-                ->where(['status' => 10,'store_id'=> $id])
-                ->andWhere([
-                    'between',
-                    'created_at' ,
-                    strtotime(date('Y-m-d',strtotime(1-$j.' day'))),
-                    strtotime(date('Y-m-d',strtotime(2-$j.' day')))
-                ])
-                ->all();
-
-                foreach ($models as $model)
-                 {
-                    $model1=Item::find()->where(['id'=>$model->item_id,'store_id'=>$id])->all();
-                        foreach ($model1 as $itemmodel )
-                         {
-                            $arr= $itemmodel->price ;
-                            $total += $arr;
-                         }
-                }
-                  $pricesum[]=$total;
-            }
-            // print_r($pricesum);
-            // die();
-                $s = Item::find()->where(['status'=>Item::STATUS_SOLD,'store_id'=> $id])->all();
-                foreach ($s as $sum) {
-                    $sums[]=$sum->product->sku;
-                }
-             //print_r(array_count_values($sums));
-            $kunum =(array_keys((array_count_values($sums))));
-            $sk = (array_values((array_count_values($sums))));
-             for ($i=0; $i <=count($kunum)-1; $i++)
-             {
-                 $a[]=array($kunum[$i],$sk[$i]);
-             }
-             for ($i=0; $i <count($kunum)-1 ; $i++)
-              {
-                 array_multisort(array_column($a,'1'),SORT_DESC,$a);
-              }
-                $b=array_slice($a,0,5);
-                $type = array_column($b,'1');
-                $number = array_column($b,'0');
-
-             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-                if (Yii::$app->request->isAjax) {
-                    return [
-                        'labels' => $labels,
-                        'data' => $data ,
-                        'pricesum' => $pricesum,
-                        'sk'=> $sk,
-                        'kunum'=>$kunum,
-                        'type'=>$type,
-                        'number'=>$number,
-                        'code'=> 200,
-                    ];
-                }
-    }
+    
 
 }

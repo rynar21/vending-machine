@@ -110,11 +110,14 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new SignUp();
-        if ($model->load(Yii::$app->request->post()) && $model->SignUp()) {
+
+        if ($model->load(Yii::$app->request->post()) && $model->SignUp())
+        {
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
 
             return $this->redirect(Url::to(['site/login']));
         }
+
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -132,30 +135,31 @@ class UserController extends Controller
         $auth = Yii::$app->authManager;
         $model = $this->findModel($id);
         // $dataProvider =$model->search(Yii::$app->request->queryParams);
-        if (!$auth->checkAccess($id,'admin'))
+        if (!$auth->checkAccess($id, 'admin'))
         {
             switch($status)
             {
-                 case User::STATUS_SUSPEND:
-                    $model->status=User::STATUS_SUSPEND;
+                case User::STATUS_SUSPEND:
+                    $model->status = User::STATUS_SUSPEND;
                     $model->save();
                     Yii::$app->session->setFlash('success', "Suspend Success.");
                     break;
-                 case User::STATUS_ACTIVE:
-                    $model->status=User::STATUS_ACTIVE;
+                case User::STATUS_ACTIVE:
+                    $model->status = User::STATUS_ACTIVE;
                     $model->save();
                     Yii::$app->session->setFlash('success', "Unsuspend Success.");
                     break;
-                 case User::STATUS_DELETED:
-                    $model->status=User::STATUS_DELETED;
+                case User::STATUS_DELETED:
+                    $model->status = User::STATUS_DELETED;
                     $model->save();
                     Yii::$app->session->setFlash('success', "Termimate Success.");
                     break;
-                 default:
+                default:
                     Yii::$app->session->setFlash('danger', "User not active!");
                     break;
             }
         }
+
         else
         {
            Yii::$app->session->setFlash('danger', "Cannot edit admin");
@@ -175,43 +179,43 @@ class UserController extends Controller
     public function actionAssign($role, $id)
     {
         $auth = Yii::$app->authManager;
-        $user = User::findOne(['id'=> $id, 'status'=> User::STATUS_ACTIVE]);
+        $user = User::findOne(['id' => $id, 'status' => User::STATUS_ACTIVE]);
         // $str=$auth->getUserIdsByRole('admin');
-      if($user){
-        if ($auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
-              if (!$auth->checkAccess($id,'admin'))
-              {
-                  $auth->revokeAll($id);
-                  $auth_role = $auth->getRole($role);
-                  $auth->assign($auth_role, $id);
-                  Yii::$app->session->setFlash('success', "Edit Success.");
-              }
-              else
-              {
-                  Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
-              }
-          }
+        if($user)
+        {
+            if ($auth->checkAccess(Yii::$app->user->identity->id, 'admin'))
+            {
+                if (!$auth->checkAccess($id, 'admin'))
+                {
+                    $auth->revokeAll($id);
+                    $auth_role = $auth->getRole($role);
+                    $auth->assign($auth_role, $id);
+                    Yii::$app->session->setFlash('success', "Edit Success.");
+                }
+
+                else
+                {
+                    Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
+                }
+            }
           if ($auth->checkAccess(Yii::$app->user->identity->id,'supervisor'))
-          {
-              if (!$auth->checkAccess($id,'admin')&&!$auth->checkAccess($id,'supervisor'))
-              {
-                  if ($role!='supervisor'&&$role!='admin')
-                  {
-                      $auth->revokeAll($id);
-                      $auth_role = $auth->getRole($role);
-                      $auth->assign($auth_role, $id);
-                      Yii::$app->session->setFlash('success', "Edit Success.");
-                  }
-                  else
-                  {
-                     Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
-                  }
-              }
-              // else
-              // {
-              //    Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
-              // }
-          }
+            {
+                if (!$auth->checkAccess($id, 'admin') && !$auth->checkAccess($id, 'supervisor'))
+                {
+                    if ($role != 'supervisor' && $role != 'admin')
+                    {
+                        $auth->revokeAll($id);
+                        $auth_role = $auth->getRole($role);
+                        $auth->assign($auth_role, $id);
+                        Yii::$app->session->setFlash('success', "Edit Success.");
+                    }
+
+                    else
+                    {
+                        Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
+                    }
+                }
+            }
         }
         else
         {

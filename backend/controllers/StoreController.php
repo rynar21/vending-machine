@@ -27,8 +27,9 @@ class StoreController extends Controller
      * {@inheritdoc}
      */
 
-     public $username;
-     public  $name;
+    public $username;
+    public $name;
+
     public function behaviors()
     {
         return [
@@ -78,15 +79,17 @@ class StoreController extends Controller
     public function actionIndex()
     {
         $searchModel = new StoreSearch();
-        if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {  //当登录的用户权限是admin时，可以看到所有的商店
+        if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id, 'admin'))
+        {  //当登录的用户权限是admin时，可以看到所有的商店
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
         }
+
         else { //当登录的用户权限不是admin时，只能看到自己管理的店
-            $dataProvider = $searchModel->searchUserAllstore(Yii::$app->request->queryParams,Yii::$app->user->identity->id);
+            $dataProvider = $searchModel->searchUserAllstore(Yii::$app->request->queryParams, Yii::$app->user->identity->id);
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
@@ -137,11 +140,12 @@ class StoreController extends Controller
         $model = new Store();
         // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post()))
-            if ($model->save()) {
-                {
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+        {
+            if ($model->save())
+            {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
+        }
 
         return $this->render('create', [
             'model' => $model,
@@ -184,18 +188,20 @@ class StoreController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-            //删除字段
+
         $oldimage=Yii::getAlias('@upload') . '/' . $model->image;
+
         if ($model->delete()) {
 
             if ($model->image) {
 
-                if (file_exists($oldimage)) {
-
+                if (file_exists($oldimage))
+                {
                     unlink($oldimage);
                 }
             }
         }
+
         return $this->redirect(['index']);
         // return $this->redirect(['index']);
     }
@@ -209,9 +215,11 @@ class StoreController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Store::findOne($id)) !== null) {
+        if (($model = Store::findOne($id)) !== null)
+        {
             return $model;
         }
+
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
@@ -221,31 +229,38 @@ class StoreController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+
     public function actionManager_revoke($id)
     {
-        Store::updateAll(['user_id'=>''],['id'=>$id]);
+        Store::updateAll(['user_id' => ''], ['id' => $id]);
+
         return $this->actionView($id);
     }
     //add/update mannager
     public function actionAdd_update($id)
     {
         $model = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post()))
         {
             $getuser = User::find()->where(['username' => $model->username])->one();
+
             if($getuser)
             {
                 $model->user_id = $getuser->id;
+
                 if($model->save())
                 {
                     return $this->actionView($id);
                 }
             }
+
             if (empty($getuser))
             {
                 Yii::$app->session->setFlash('error', 'Non exist username.');
             }
         }
+
         return $this->render('store_manager', [
         'model' => $this->findModel($id),
         ]);
@@ -253,23 +268,26 @@ class StoreController extends Controller
 
     public function actionLockup_box($id)  //锁盒子
     {
-        Box::updateAll(['status'=>Box::BOX_STATUS_LOCK],['store_id'=>$id]);
-        Store::updateAll(['status'=> Store::STATUS_IN_MAINTENANCE],['id'=>$id]);
-        return $this->redirect(['store/view', 'id' => $id]);
-    }
-    public function actionOpen_box($id)  //开放盒子
-    {
-        Box::updateAll(['status'=>Box::BOX_STATUS_NOT_AVAILABLE],['store_id'=>$id]);
-        Store::updateAll(['status'=> Store::STATUS_IN_OPERATION],['id'=>$id]);
+        Box::updateAll(['status' => Box::BOX_STATUS_LOCK], ['store_id' => $id]);
+        Store::updateAll(['status' => Store::STATUS_IN_MAINTENANCE], ['id' => $id]);
+
         return $this->redirect(['store/view', 'id' => $id]);
     }
 
-    public function actionBox_item($box_id,$store_id)
+    public function actionOpen_box($id)  //开放盒子
+    {
+        Box::updateAll(['status' => Box::BOX_STATUS_NOT_AVAILABLE], ['store_id' => $id]);
+        Store::updateAll(['status' => Store::STATUS_IN_OPERATION], ['id' => $id]);
+
+        return $this->redirect(['store/view', 'id' => $id]);
+    }
+
+    public function actionBox_item($box_id, $store_id)
     {
         // 获取 ItemSearch 数据表
         $searchModel = new ItemSearch();
         // 使用输入字段 进行搜索功能
-        $dataProvider = $searchModel->searchBoxItem(Yii::$app->request->queryParams,$box_id,$store_id);
+        $dataProvider = $searchModel->searchBoxItem(Yii::$app->request->queryParams, $box_id, $store_id);
 
         // 当前 显示 index 页面 及 带入相关数据
         return $this->render('itemdata', [

@@ -66,13 +66,12 @@ class SaleRecordController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new SaleRecordSearch();
+        $searchModel  = new SaleRecordSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('index', [
 
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-
         ]);
     }
 
@@ -84,12 +83,11 @@ class SaleRecordController extends Controller
         $dataProvider = $searchModel->searchStoreAllsalerecord(Yii::$app->request->queryParams,[
             'store_id'=> $store_id,
             'date'=> $date,
-            ]);
-        return $this->render('index', [
+        ]);
 
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-
         ]);
     }
     public function actionStore_onebox_allsalerecord($store_id,$box_id)
@@ -98,12 +96,11 @@ class SaleRecordController extends Controller
         $dataProvider = $searchModel->searchStoreAllsalerecord(Yii::$app->request->queryParams,[
             'store_id'=> $store_id,
             'box_id'=> $box_id,
-            ]);
-        return $this->render('index', [
+        ]);
 
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-
         ]);
     }
 
@@ -130,7 +127,8 @@ class SaleRecordController extends Controller
     {
         $model = new SaleRecord();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -150,7 +148,8 @@ class SaleRecordController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -189,7 +188,8 @@ class SaleRecordController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = SaleRecord::findOne($id)) !== null) {
+        if (($model = SaleRecord::findOne($id)) !== null)
+        {
             return $model;
         }
 

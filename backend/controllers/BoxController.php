@@ -116,8 +116,8 @@ class BoxController extends Controller
         {
             $box_model = Box::find()->where([
                 'hardware_id' => $model->hardware_id,
-                'store_id' => $model->store_id])
-                ->one();
+                'store_id' => $model->store_id
+            ])->one();
 
             if ($box_model || $model->hardware_id == '00OK')
             {
@@ -127,11 +127,15 @@ class BoxController extends Controller
                     'model' => $model,
                 ]);
             }
+
             else
             {
                 if($model->save())
                 {
-                    return $this->redirect(['store/view', 'id' => $model->store_id]);
+                    return $this->redirect([
+                        'store/view',
+                        'id' => $model->store_id
+                    ]);
                 }
             }
 
@@ -152,14 +156,14 @@ class BoxController extends Controller
     {
         $model = $this->findModel($id);
         $model->code = Box::find()->where([
-            'id' => $id])
-            ->one()
-            ->code;
+        'id' => $id
+        ])->one()->code;
 
         if($model->store->prefix)
         {
             $model->prefix = $model->store->prefix;
         }
+
         else
         {
             $model->prefix = '(prefix_not_set)';
@@ -168,9 +172,9 @@ class BoxController extends Controller
         if ($model->load(Yii::$app->request->post()))
         {
             $box_model = Box::find()->where([
-                'hardware_id' => $model->hardware_id,
+            'hardware_id' => $model->hardware_id,
                 'store_id' => $model->store_id
-                ])->one();
+            ])->one();
 
             if ($box_model || $model->hardware_id == '00OK')
             {
@@ -185,8 +189,8 @@ class BoxController extends Controller
                 if($model->save())
                 {
                     return $this->redirect(['store/view',
-                    'id' => $model->store_id
-                ]);
+                        'id' => $model->store_id
+                    ]);
                 }
             }
 
@@ -208,7 +212,9 @@ class BoxController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect([
+            'index'
+        ]);
     }
 
     /**
@@ -232,7 +238,9 @@ class BoxController extends Controller
     public function actionOpen_box($id)
     {
         $salerecord_model = SaleRecord::find()->where(['id' => $id])->one();
-        $model = Box::find()->where(['id'=>$salerecord_model->box_id])->one();
+        $model  = Box::find()->where([
+        'id' => $salerecord_model->box_id
+        ])->one();
 
         if ($salerecord_model->status != SaleRecord::STATUS_FAILED)
         {
@@ -240,17 +248,23 @@ class BoxController extends Controller
         }
 
         Queue::push($model->store_id, $model->hardware_id,'First');
+
         Yii::$app->session->setFlash('success', 'Please wait.');
 
-        return $this->redirect(['sale-record/view', 'id' => $id]);
+        return $this->redirect([
+            'sale-record/view', 'id' => $id
+        ]);
     }
 
 
     public function actionOpen_all_box($id)
     {
         Queue::push($id, '00OK');
+
         Yii::$app->session->setFlash('success', 'Please wait.');
 
-        return $this->redirect(['store/view', 'id' => $id]);
+        return $this->redirect([
+            'store/view', 'id' => $id]
+        );
     }
 }
