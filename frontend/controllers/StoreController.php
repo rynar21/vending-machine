@@ -21,38 +21,46 @@ class StoreController extends Controller
     public function actionView($id)
     {
         $item_searchModel = new ItemSearch();
-        $data = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
-        $count= $data->query->count(); //数据总条数
+        $data  = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
+        $count = $data->query->count(); //数据总条数
+        $model = $this->findModel($id);
+
         $pagination = new Pagination([
             'totalCount' => $count,
-            'defaultPageSize'=>10]);  //每页放几条内容
+            'defaultPageSize' => 10 ]);  //每页放几条内容
+
         //连贯查询每页的数据
-        $articles = $data->query->offset($pagination->offset)
+        $articles = $data->query
+        ->offset($pagination->offset)
         ->limit($pagination->limit)
         ->all();
-        $model = $this->findModel($id);
-        if ($model->status == $model::STATUS_IN_OPERATION) {
-            return $this->render('view', [
-                'model' =>$model ,
+
+        if ($model->status == $model::STATUS_IN_OPERATION)
+        {
+            return $this->render('view',
+            [
+                'model' => $model,
                 'id' => $id,
-                'pages'=>$pagination,
+                'pages' => $pagination,
                 'item_searchModel' => $item_searchModel,
                 'item_dataProvider' => $articles,
-            ]);
+            ] );
         }
-        else {
+        else
+        {
             return $this->render('maintain');
         }
-
     }
 
 
     protected function findModel($id)
     {
-        if (($model = Store::findOne($id)) !== null) {
+        if (($model = Store::findOne($id)) !== null)
+        {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 
 }

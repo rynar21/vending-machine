@@ -17,7 +17,8 @@ class m999999_999999_product extends Migration
                         '10000mAH PowerBank', 'BUM Watch', 'Pepsi'];
         $pic_array = ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg'];
 
-        for ($i=1; $i < 7 ; $i++) {
+        for ($i=1; $i < 7 ; $i++)
+        {
             $this->insert('product', [
                 'id'            => $i,
                 'sku'           => "ISBN 978-986-6248-06-" . $i,

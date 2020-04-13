@@ -13,7 +13,8 @@ class m999999_999999_item extends Migration
      */
     public function safeUp()
     {
-        for ($i = 1; $i < 7 ; $i++) {
+        for ($i = 1; $i < 7 ; $i++)
+        {
             $this->insert('item', [
                 'id'          => $i,
                 'price'       => 2.00,

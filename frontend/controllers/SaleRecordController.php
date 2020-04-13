@@ -25,14 +25,16 @@ class SaleRecordController extends Controller
     public function actionView($id)
     {
         $model = SaleRecord::findOne(['id' => $id]);
-        if (Item::findOne(['id'=>$model->item_id])) {
+
+        if (Item::findOne(['id'=>$model->item_id]))
+        {
             return $this->render('view', [
                 'item_model' => Item::findOne(['id'=>$model->item_id]),
                 'model' => $model,
             ]);
         }
-        return false; // 寻找 SaleRecord
 
+        return false; // 寻找 SaleRecord
     }
 
 
