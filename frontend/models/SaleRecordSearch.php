@@ -49,7 +49,8 @@ class SaleRecordSearch extends SaleRecord
 
         $this->load($params);
 
-        if (!$this->validate()) {
+        if (!$this->validate())
+        {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
@@ -57,7 +58,7 @@ class SaleRecordSearch extends SaleRecord
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,        
+            'id' => $this->id,
             'store_id' => $this->store_id,
             'box_id' => $this->box_id,
             'item_id' => $this->item_id,

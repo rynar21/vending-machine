@@ -44,7 +44,8 @@ class SignupForm extends User
      */
     public function signup()
     {
-        if (!$this->validate()) {
+        if (!$this->validate())
+        {
             return null;
         }
 
@@ -54,8 +55,8 @@ class SignupForm extends User
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
 
+        return $user->save() && $this->sendEmail($user);
     }
 
     /**
