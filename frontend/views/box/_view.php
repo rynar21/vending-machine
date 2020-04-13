@@ -34,9 +34,11 @@ use yii\bootstrap\ActiveForm;
                             <?= $item->pricing ?>
                         </span>
                     </div>
+
+                    <!-- FOR CART Features -->
                     <!-- <div id="app">
                         <label for="aaa">
-                            <input type="checkbox" v-model="selected" value="<?= $item->id?>" id="aaa"> aaa
+                            <input type="checkbox" v-model="selected" value="<php?= $item->id?>" id="aaa"> aaa
                         </label>
                         <pre>{{ selected | json }}</pre>
                     </div> -->
