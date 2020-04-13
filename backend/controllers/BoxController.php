@@ -31,32 +31,34 @@ class BoxController extends Controller
                     //     'allow' => Yii::$app->user->can('ac_read'),
                     // ],
                     [
-                        'actions' => ['update','open_all_box','open_box'],
-                        'allow' => true,
-                        'roles' => ['ac_update'],
+                        'actions'   => ['update','open_all_box','open_box'],
+                        'allow'     => true,
+                        'roles'     => ['ac_update'],
                     ],
                     [
-                        'actions' => ['index','view'],
-                        'allow' => true,
+                        'actions'   => ['index','view'],
+                        'allow'     => true,
                     ],
                     [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['ac_create'],
+                        'actions'   => ['create'],
+                        'allow'     => true,
+                        'roles'     => ['ac_create'],
                     ],
                     [
-                        'actions' => ['delete'],
-                        'allow' => true,
-                        'roles' => ['ac_delete'],
+                        'actions'   => ['delete'],
+                        'allow'     => true,
+                        'roles'     => ['ac_delete'],
                     ],
                 ],
             ],
+
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
+
             'checker' => [
                'class' => 'backend\libs\CheckerFilter',
               ],
@@ -68,12 +70,12 @@ class BoxController extends Controller
      */
     public function actionIndex()
     {
-          $searchModel = new BoxSearch();
+          $searchModel  = new BoxSearch();
           $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-          
+
           return $this->render('index', [
-              'searchModel' => $searchModel,
-              'dataProvider' => $dataProvider,
+              'searchModel'     => $searchModel,
+              'dataProvider'    => $dataProvider,
           ]);
     }
 
@@ -99,7 +101,7 @@ class BoxController extends Controller
     {
         $model = new Box();
         $model->store_id = $id;
-        $model->code = (Box::find()->where(['store_id'=> $id])->count())+1;
+        $model->code = (Box::find()->where(['store_id'=> $id])->count()) + 1;
 
         if($model->store->prefix)
         {
@@ -112,19 +114,27 @@ class BoxController extends Controller
 
         if ($model->load(Yii::$app->request->post()))
         {
-            $box_model = Box::find()->where(['hardware_id'=> $model->hardware_id,'store_id'=>$model->store_id])->one();
-            if ($box_model || $model->hardware_id =='00OK') {
-                Yii::$app->session->setFlash('danger', 'hardware_id existed .');
+            $box_model = Box::find()->where([
+                'hardware_id' => $model->hardware_id,
+                'store_id' => $model->store_id])
+                ->one();
+
+            if ($box_model || $model->hardware_id == '00OK')
+            {
+                Yii::$app->session->setFlash('danger', 'hardware_id existed.');
+
                 return $this->render('create', [
                     'model' => $model,
                 ]);
             }
-            else {
+            else
+            {
                 if($model->save())
                 {
                     return $this->redirect(['store/view', 'id' => $model->store_id]);
                 }
             }
+
         }
         return $this->render('create', [
             'model' => $model,
@@ -141,7 +151,11 @@ class BoxController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->code = Box::find()->where(['id'=> $id])->one()->code;
+        $model->code = Box::find()->where([
+            'id' => $id])
+            ->one()
+            ->code;
+
         if($model->store->prefix)
         {
             $model->prefix = $model->store->prefix;
@@ -153,19 +167,29 @@ class BoxController extends Controller
 
         if ($model->load(Yii::$app->request->post()))
         {
-            $box_model = Box::find()->where(['hardware_id'=> $model->hardware_id,'store_id'=>$model->store_id])->one();
-            if ($box_model || $model->hardware_id =='00OK') {
-                Yii::$app->session->setFlash('danger', 'hardware_id existed .');
+            $box_model = Box::find()->where([
+                'hardware_id' => $model->hardware_id,
+                'store_id' => $model->store_id
+                ])->one();
+
+            if ($box_model || $model->hardware_id == '00OK')
+            {
+                Yii::$app->session->setFlash('danger', 'hardware_id existed.');
+
                 return $this->render('update', [
                     'model' => $model,
                 ]);
             }
-            else {
+            else
+            {
                 if($model->save())
                 {
-                    return $this->redirect(['store/view', 'id' => $model->store_id]);
+                    return $this->redirect(['store/view',
+                    'id' => $model->store_id
+                ]);
                 }
             }
+
         }
 
         return $this->render('update', [
@@ -183,6 +207,7 @@ class BoxController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
 
@@ -195,28 +220,37 @@ class BoxController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Box::findOne($id)) !== null) {
+        if (($model = Box::findOne($id)) !== null)
+        {
             return $model;
         }
+
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+
     public function actionOpen_box($id)
     {
-        $salerecord_model = SaleRecord::find()->where(['id'=>$id])->one();
-        if ($salerecord_model->status != SaleRecord::STATUS_FAILED) {
+        $salerecord_model = SaleRecord::find()->where(['id' => $id])->one();
+        $model = Box::find()->where(['id'=>$salerecord_model->box_id])->one();
+
+        if ($salerecord_model->status != SaleRecord::STATUS_FAILED)
+        {
             $salerecord_model->success();
         }
-        $model = Box::find()->where(['id'=>$salerecord_model->box_id])->one();
+
         Queue::push($model->store_id, $model->hardware_id,'First');
         Yii::$app->session->setFlash('success', 'Please wait.');
+
         return $this->redirect(['sale-record/view', 'id' => $id]);
     }
+
 
     public function actionOpen_all_box($id)
     {
         Queue::push($id, '00OK');
         Yii::$app->session->setFlash('success', 'Please wait.');
+
         return $this->redirect(['store/view', 'id' => $id]);
     }
 }
