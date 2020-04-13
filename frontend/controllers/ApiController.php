@@ -40,7 +40,9 @@ class ApiController extends Controller
 
         if ($priority_execution)
         {
-            return  ['command' => $priority_execution->action];
+            return  [
+                'command' => $priority_execution->action
+            ];
         }
 
         return  [

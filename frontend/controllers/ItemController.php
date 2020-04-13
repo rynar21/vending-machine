@@ -27,22 +27,24 @@ class ItemController extends Controller
     // 显示 Item表 其中一个数据 详情
     public function actionView($id)
     {
-        $model=Item::findOne(['id'=>$id]);
-        if($model && $model->status!= Item::STATUS_SOLD)
+        $model = Item::findOne(['id'=>$id]);
+
+        if($model && $model->status != Item::STATUS_SOLD)
         {
             return $this->render('view', [
                 'model' => $model,
             ]);
         }
+
         if( $model->status == Item::STATUS_SOLD)
         {
             return $this->redirect(['store/view',
                 'id' => $model->store_id,
             ]);
         }
-        else {
-            throw new NotFoundHttpException("Requested item cannot be found.");
-        }
+        
+        throw new NotFoundHttpException("Requested item cannot be found.");
+
 
     }
 
