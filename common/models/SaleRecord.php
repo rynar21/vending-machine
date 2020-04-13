@@ -88,8 +88,6 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function getProduct()
     {
         return $this->hasOne(Product::className(), ['id' => 'product_id'])->via('item');
-        // return $this->hasMany(Video::tableName(), ['video_id' => 'vid'])
-        //     ->viaTable(LessonVideo::tableName(), ['lid' => 'lesson_id']);
     }
 
     // 寻找 Box盒子 数据表

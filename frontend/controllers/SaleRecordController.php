@@ -25,12 +25,16 @@ class SaleRecordController extends Controller
     public function actionView($id)
     {
         $model = SaleRecord::findOne(['id' => $id]);
-        if (Item::findOne(['id'=>$model->item_id])) {
+        $item_model = Item::findOne(['id' => $model->item_id]);
+
+        if ($item_model)
+        {
             return $this->render('view', [
-                'item_model' => Item::findOne(['id'=>$model->item_id]),
+                'item_model' => $item_model,
                 'model' => $model,
             ]);
         }
+
         return false; // 寻找 SaleRecord
 
     }
@@ -38,9 +42,9 @@ class SaleRecordController extends Controller
 
     public function actionInvoice($id)
     {
-        $model = SaleRecord::findOne($id);
+        $model       = SaleRecord::findOne($id);
         $store_model = Store::findOne($model->store_id);
-        $item_model = Item::findOne(['id' => $model->item_id]);
+        $item_model  = Item::findOne(['id' => $model->item_id]);
 
         return $this->renderPartial('receipt',[
             'model' => $model,
@@ -51,9 +55,9 @@ class SaleRecordController extends Controller
 
     public function actionDownload($id)
     {
-        $model = SaleRecord::findOne($id);
+        $model       = SaleRecord::findOne($id);
         $store_model = Store::findOne($model->store_id);
-        $item_model = Item::findOne(['id' => $model->item_id]);
+        $item_model  = Item::findOne(['id' => $model->item_id]);
 
         $content = $this->renderPartial('download',[
             'model' => $model,
