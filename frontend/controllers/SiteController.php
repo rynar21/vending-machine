@@ -97,11 +97,12 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
+        $model = new LoginForm();
+
+        if (!Yii::$app->user->isGuest)
+        {
             return $this->goHome();
         }
-
-        $model = new LoginForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->login())
         {
@@ -312,7 +313,7 @@ class SiteController extends Controller
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
                 return $this->goHome();
             }
-            
+
             Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
         }
 
