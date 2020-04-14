@@ -22,6 +22,9 @@ $this->title = 'User';
     <?php //print_r(array_keys($roles));// echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
+        'options' => [
+            'class' => 'table-responsive',
+        ],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [

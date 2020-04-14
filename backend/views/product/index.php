@@ -21,6 +21,9 @@ $this->title = 'Products';
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
+        'options' => [
+            'class' => 'table-responsive',
+        ],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [

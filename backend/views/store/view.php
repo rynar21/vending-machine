@@ -103,7 +103,7 @@ use yii\bootstrap\NavBar;
     ?>
 
     <!-- 显示商店拥有的盒子 -->
-<div class="btn-group mr-2 pull-left" role="group" aria-label="Second group">
+<div class="btn-group" role="group" aria-label="Second group">
 
     <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info','style'=>"display:"."$str"]) ?>
     <?= Html::a('Restock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
@@ -114,55 +114,58 @@ use yii\bootstrap\NavBar;
     <div class="col-sm-12">
          <div class="row">
 
-                 <?= GridView::widget([
-                          'dataProvider' => $dataProvider,
-                          'filterModel' => $boxSearch,
-                           'columns' => [
-                               ['class' => 'yii\grid\SerialColumn'],
-                               [
-                                   'attribute'=> 'code',
-                                   'label'=> 'Box Code',
-                                   'format' => 'raw',
-                                   'headerOptions' =>['class'=>'col-lg-2',],
-                                   'value' => function ($model)
-                                   {
-                                       return $model->boxcode;
-                                   }
-                               ],
-                               [
-                                   'attribute'=> 'status',
-                                   'label' =>'Status',
-                                   'value' => 'statusText'
-                               ],
-                               [
-                                 'attribute' => 'name',
-                                 'label'=> 'Item',
-                                 'value' => 'product.name'
-                               ],
-                               'item.price:currency',
-                               [
-                                   'label'=>'Action',
-                                   'format' => 'raw',
-                                   'visible' => $strr,
-                                   'value' => function ($model)
-                                   {
-                                       return $model->action;
-                                   }
-                               ],
-                               [
-                                   // 'attribute'=>'Item History',
-                                   'format' => 'raw' ,
-                                   'headerOptions' =>['class'=>'col-lg-2',],
-                                   'visible' => Yii::$app->user->can('admin'),
-                                   'value' => function ($model)
-                                   {
-                                     return Html::a('Edit Box', ['/box/update','id'=>$model->id]).
-                                     ' | '. Html::a('Item History', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id]).
-                                     ' | '. Html::a('Order History', ['/sale-record/store_onebox_allsalerecord','box_id'=>$model->id,'store_id'=>$model->store_id]);
-                                   }
-                               ],
-                           ],
-                       ]); ?>
+                <?= GridView::widget([
+                    'options' => [
+                        'class' => 'table-responsive',
+                    ],
+                    'dataProvider' => $dataProvider,
+                    'filterModel' => $boxSearch,
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        [
+                            'attribute'=> 'code',
+                            'label'=> 'Box Code',
+                            'format' => 'raw',
+                            'headerOptions' =>['class'=>'col-lg-2',],
+                            'value' => function ($model)
+                                {
+                                    return $model->boxcode;
+                                }
+                        ],
+                        [
+                            'attribute'=> 'status',
+                           'label' =>'Status',
+                           'value' => 'statusText'
+                        ],
+                        [
+                            'attribute' => 'name',
+                            'label'=> 'Item',
+                            'value' => 'product.name'
+                        ],
+                        'item.price:currency',
+                        [
+                            'label'=>'Action',
+                            'format' => 'raw',
+                            'visible' => $strr,
+                            'value' => function ($model)
+                                {
+                                    return $model->action;
+                                }
+                        ],
+                        [
+                            // 'attribute'=>'Item History',
+                            'format' => 'raw' ,
+                            'headerOptions' =>['class'=>'col-lg-2',],
+                            'visible' => Yii::$app->user->can('admin'),
+                            'value' => function ($model)
+                                {
+                                    return Html::a('Edit Box', ['/box/update','id'=>$model->id]).
+                                    ' | '. Html::a('Item History', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id]).
+                                    ' | '. Html::a('Order History', ['/sale-record/store_onebox_allsalerecord','box_id'=>$model->id,'store_id'=>$model->store_id]);
+                                }
+                        ],
+                        ],
+                    ]); ?>
          </div>
 
     </div>

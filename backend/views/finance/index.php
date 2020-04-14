@@ -28,6 +28,9 @@ $this->title = 'Finances';
        ]);
     }?>
     <?= GridView::widget([
+        'options' => [
+            'class' => 'table-responsive',
+        ],
         'dataProvider' => $dataProvider_all,
         //'filterModel' => '',
         'columns' => [
@@ -38,7 +41,11 @@ $this->title = 'Finances';
             'net_profit',
         ],
     ]); ?>
+
     <?= GridView::widget([
+        'options' => [
+            'class' => 'table-responsive',
+        ],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [

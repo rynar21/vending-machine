@@ -27,8 +27,12 @@ $this->title = 'Store';
         <?= Html::a('Create Store', ['create'], ['class' => 'btn btn-success','style'=>"display:"."$str"]) ?>
     </p>
 
+
     <!-- 商店列表 -->
     <?= GridView::widget([
+        'options' => [
+            'class' => 'table-responsive',
+        ],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -83,5 +87,6 @@ $this->title = 'Store';
 
         ],
     ]); ?>
+
 
 </div>
