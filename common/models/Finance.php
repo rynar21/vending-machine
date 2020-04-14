@@ -136,7 +136,7 @@ class Finance extends \yii\db\ActiveRecord
 
     public static function find_store_all_finance_oneday($date)
     {
-        $total      = Store::STATUS_INITIAL;
+        $total      =  Store::STATUS_INITIAL;
         $cost_price =  Store::STATUS_INITIAL;
 
         $stroe_model = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS])
@@ -263,7 +263,7 @@ class Finance extends \yii\db\ActiveRecord
 
         if (empty($store_id))
         {
-            for ($i = 1; $i <=(strtotime($date2)-strtotime($date1)+86400)/86400 ; $i++)
+            for ($i = 1; $i <= (strtotime($date2)-strtotime($date1)+86400)/86400 ; $i++)
             {
                 $date   = $catime1+86400*($i)-86400;
                 $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
