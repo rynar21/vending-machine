@@ -70,6 +70,7 @@ class ProductController extends Controller
     {
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -105,11 +106,13 @@ class ProductController extends Controller
     {
         // 加载 Product 产品 数据表
         $model = new Product();
+
         // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post())&&$model->save())
         {
             return $this->redirect(['view', 'id' => $model->id]);
         }
+
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -133,6 +136,7 @@ class ProductController extends Controller
                'id' => $model->id
            ]);
         }
+
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -148,24 +152,29 @@ class ProductController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+
         // 判断产品是否存在 在于Item表单中
         //如果存在，Product不可被删除
         if($model->items)
         {
             Yii::$app->session->setFlash('error', 'Product cannot be deleted');
         }
-        
+
         else
         {
             if($model->delete())
             {
+
                 if ($model->image)
                 {
+
                     if (file_exists(Yii::getAlias('@upload') . '/' . $model->image))
                     {
                         unlink(Yii::getAlias('@upload') . '/' . $model->image);
                     }
+                    
                 }
+
             }
 
             Yii::$app->session->setFlash('success', 'successfully deleted.');

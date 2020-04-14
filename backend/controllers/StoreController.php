@@ -79,9 +79,12 @@ class StoreController extends Controller
     public function actionIndex()
     {
         $searchModel = new StoreSearch();
+
         if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id, 'admin'))
-        {  //当登录的用户权限是admin时，可以看到所有的商店
+        {
+            //当登录的用户权限是admin时，可以看到所有的商店
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
@@ -90,6 +93,7 @@ class StoreController extends Controller
 
         else { //当登录的用户权限不是admin时，只能看到自己管理的店
             $dataProvider = $searchModel->searchUserAllstore(Yii::$app->request->queryParams, Yii::$app->user->identity->id);
+
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
@@ -172,6 +176,7 @@ class StoreController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
+
         // 显示 Update更新页面
         return $this->render('update', [
             'model' => $model,
@@ -188,18 +193,21 @@ class StoreController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+        $oldimage = Yii::getAlias('@upload') . '/' . $model->image;
 
-        $oldimage=Yii::getAlias('@upload') . '/' . $model->image;
+        if ($model->delete())
+        {
 
-        if ($model->delete()) {
-
-            if ($model->image) {
+            if ($model->image)
+            {
 
                 if (file_exists($oldimage))
                 {
                     unlink($oldimage);
                 }
+
             }
+            
         }
 
         return $this->redirect(['index']);

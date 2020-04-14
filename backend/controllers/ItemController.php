@@ -123,6 +123,7 @@ class ItemController extends Controller
                     // Item价格 默认为相关Product的价格
                     $model->price = $model->product->price;
                 }
+
                 // 保存 数据 进入Item表单里
                 if($model->save())
                 {
@@ -133,11 +134,13 @@ class ItemController extends Controller
                     ]);
                     //return $this->render('store/view',[ 'id' => $model->store_id]);
                 }
+
             }
             else
             {
                 Yii::$app->session->setFlash('error', 'Non exist item.');
             }
+
         }
 
         // 查询当前店 所有未成功卖出的产品

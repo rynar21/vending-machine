@@ -115,8 +115,8 @@ class SiteController extends Controller
           $model_count = SaleRecord::find()->where([
             'between',
             'updated_at',
-            strtotime(date('Y-m-d', strtotime(1-$i.' day'))),
-            strtotime(date('Y-m-d', strtotime(2-$i.' day')))
+            strtotime(date('Y-m-d', strtotime(1 - $i . ' day'))),
+            strtotime(date('Y-m-d', strtotime(2 - $i . ' day')))
             ])->andWhere([
             'status'=> SaleRecord::STATUS_SUCCESS
             ])->count();
@@ -177,16 +177,16 @@ class SiteController extends Controller
 
         if (Yii::$app->request->isAjax)
         {
-                return [
-                    'labels'   => $labels,
-                    'data'     => $data ,
-                    'pricesum' => $pricesum,
-                    'sk'       => $sk,
-                    'kunum'    => $kunum,
-                    'type'     => $type,
-                    'number'   => $number,
-                    'code'     => 200,
-                ];
+            return [
+                'labels'   => $labels,
+                'data'     => $data ,
+                'pricesum' => $pricesum,
+                'sk'       => $sk,
+                'kunum'    => $kunum,
+                'type'     => $type,
+                'number'   => $number,
+                'code'     => 200,
+            ];
         }
     }
 
@@ -197,22 +197,22 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-      $model = new LoginForm();
+        $model = new LoginForm();
 
-      if ($model->load(Yii::$app->request->post()) && $model->login()) {
-
+        if ($model->load(Yii::$app->request->post()) && $model->login())
+        {
           //使用session和表tbl_admin_session记录登录账号的token:time&id&ip,并进行MD5加密
           $id = Yii::$app->user->id;     //登录用户的ID
           $username = Yii::$app->user->identity->username;; //登录账号
           $ip = Yii::$app->request->userIP; //登录用户主机IP
           $token = md5(sprintf("%s&%s&%s", time(), $id, $ip));  //将用户登录时的时间、用户ID和IP联合加密成token存入表
-
           $session = Yii::$app->session;
-          $session->set(md5(sprintf("%s&%s", $id, $username)), $token);  //将token存到session变量中
 
+          $session->set(md5(sprintf("%s&%s", $id, $username)), $token);  //将token存到session变量中
           $model->insertSession($id,$token);//将token存到tbl_admin_session
+
           return $this->redirect(Url::to(['store/index']));//去到用户所拥有的店
-      }
+        }
      // return $this->render('login', ['model' => $model,]);
         else
         {
@@ -225,17 +225,17 @@ class SiteController extends Controller
     }
 
 
-
-
     public function actionChangepassword()//changepassword
     {
         $model = new ChangePasswordForm();
 
         if (Yii::$app->user->identity!=null)
          {
+
             if( $model->load(Yii::$app->request->post()) && $model->changePassword())
             {
                 Yii::$app->user->logout();
+
                 return $this->redirect(Url::to(['site/login'],Yii::$app->session->setFlash('success', 'password has been updated.')));
             }
 
@@ -243,6 +243,7 @@ class SiteController extends Controller
             {
                 return $this->render('changePassword',['model'=>$model]);
             }
+
         }
 
         else
@@ -262,6 +263,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
+
         return $this->redirect(Url::to(['site/login']));
     }
 
@@ -279,6 +281,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->signup())
         {
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+
             return $this->actionLogin();
         }
 
@@ -298,6 +301,7 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate())
         {
+
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
 
@@ -308,6 +312,7 @@ class SiteController extends Controller
             {
                 Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
             }
+
         }
 
         return $this->render('requestPasswordResetToken', [
@@ -328,7 +333,6 @@ class SiteController extends Controller
         {
             $model = new ResetPasswordForm($token);
         }
-
         catch (InvalidArgumentException $e)
         {
             throw new BadRequestHttpException($e->getMessage());
@@ -403,6 +407,6 @@ class SiteController extends Controller
     }
         //每间店的销售情况
         //$ID
-    
+
 
 }

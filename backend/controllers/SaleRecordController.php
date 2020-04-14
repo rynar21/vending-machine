@@ -76,7 +76,6 @@ class SaleRecordController extends Controller
     }
 
 
-
     public function actionOne_store_all_salerecord($store_id,$date)
     {
         $searchModel = new SaleRecordSearch();
@@ -90,6 +89,8 @@ class SaleRecordController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+
     public function actionStore_onebox_allsalerecord($store_id,$box_id)
     {
         $searchModel = new SaleRecordSearch();
@@ -118,6 +119,7 @@ class SaleRecordController extends Controller
         ]);
     }
 
+
     /**
      * Creates a new SaleRecord model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -136,6 +138,7 @@ class SaleRecordController extends Controller
             'model' => $model,
         ]);
     }
+
 
     /**
      * Updates an existing SaleRecord model.
