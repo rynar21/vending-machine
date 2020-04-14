@@ -112,13 +112,13 @@ class SiteController extends Controller
 
         for ($i = count($labels); $i >= 1 ; $i--)
         {
-          $model_count = SaleRecord::find()->where([
-            'between',
-            'updated_at',
-            strtotime(date('Y-m-d', strtotime(1 - $i . ' day'))),
-            strtotime(date('Y-m-d', strtotime(2 - $i . ' day')))
+            $model_count = SaleRecord::find()->where([
+                'between',
+                'updated_at',
+                strtotime(date('Y-m-d', strtotime(1 - $i . ' day'))),
+                strtotime(date('Y-m-d', strtotime(2 - $i . ' day')))
             ])->andWhere([
-            'status'=> SaleRecord::STATUS_SUCCESS
+                'status'=> SaleRecord::STATUS_SUCCESS
             ])->count();
 
             $data[] = $model_count;
@@ -129,10 +129,10 @@ class SiteController extends Controller
             $models = SaleRecord::find()
             ->where(['status' => 10])
             ->andWhere([
-            'between',
-            'created_at' ,
-            strtotime(date('Y-m-d', strtotime(1-$j.' day'))),
-            strtotime(date('Y-m-d', strtotime(2-$j.' day')))
+                'between',
+                'created_at' ,
+                strtotime(date('Y-m-d', strtotime(1-$j.' day'))),
+                strtotime(date('Y-m-d', strtotime(2-$j.' day')))
             ])->all();
 
             $total = 0;
@@ -156,7 +156,7 @@ class SiteController extends Controller
             $sums[] = $sum->product->sku;
         }
 
-        $kunum =(array_keys((array_count_values($sums))));
+        $kunum = (array_keys((array_count_values($sums))));
         $sk    = (array_values((array_count_values($sums))));
 
         for ($i = 0; $i <= count($kunum)-1; $i++)

@@ -229,7 +229,7 @@ class UserController extends Controller
             }
 
         }
-        
+
         else
         {
           Yii::$app->session->setFlash('danger', "Inactive account cannot assign Role");

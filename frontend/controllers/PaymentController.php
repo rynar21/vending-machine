@@ -39,8 +39,8 @@ class PaymentController extends Controller
     public function actionCreate($id,$time)
     {
         $salerecord_model = SaleRecord::find()->where([
-        'item_id' => $id,
-        'status' => SaleRecord::STATUS_PENDING
+            'item_id' => $id,
+            'status' => SaleRecord::STATUS_PENDING
         ])->one();
 
         if ($salerecord_model)
@@ -57,10 +57,10 @@ class PaymentController extends Controller
         if ($item_model)
         {
             if(empty($model->findOne(['item_id' => $id])) || $model->find()->orderBy([
-            'id' => SORT_DESC
+                'id' => SORT_DESC
             ])->where([
-            'item_id' => $id,
-            'status' => SaleRecord::STATUS_FAILED
+                'item_id' => $id,
+                'status' => SaleRecord::STATUS_FAILED
             ])->one())
             {
                 // 创建 新订单
@@ -78,11 +78,11 @@ class PaymentController extends Controller
             }//
 
             $salerecord = SaleRecord::find()->where([
-            'item_id' => $id,
-            'status' => SaleRecord::STATUS_PENDING
+                'item_id' => $id,
+                'status' => SaleRecord::STATUS_PENDING
             ])->orderBy([
-            'created_at' => SORT_ASC,
-            'id' => SORT_ASC
+                'created_at' => SORT_ASC,
+                'id' => SORT_ASC
             ])->one();
 
             if ($salerecord)

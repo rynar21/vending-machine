@@ -144,7 +144,7 @@ class FinanceController extends Controller
         $data = $this->store_finances([
             'date1' => $arr[0],
             'date2' => $arr[1]
-            ])[1];
+        ])[1];
 
         $fields = ['Date', 'Quantity Of Order', 'Total Earn', 'Gross Profit', 'Net Profit'];
 
@@ -167,10 +167,10 @@ class FinanceController extends Controller
         $str = $date;
         $arr = explode('/', $str);
         $data = $this->store_finances([
-            'date1'=>$arr[0],
-            'date2'=>$arr[1],
-            'store_id'=>$store_id
-            ])[1];
+            'date1' => $arr[0],
+            'date2' => $arr[1],
+            'store_id' => $store_id
+        ])[1];
 
         $fields = ['Date', 'Store name', 'Quantity Of Order', 'Total Earn', 'Gross Profit', 'Net Profit'];
 
@@ -270,12 +270,12 @@ class FinanceController extends Controller
     public function store_finance($date)       //写入日期查询当天所有卖过商品的店
     {
         $models = SaleRecord::find()->where([
-        'status' => SaleRecord::STATUS_SUCCESS
+            'status' => SaleRecord::STATUS_SUCCESS
         ])->andWhere([
-        'between',
-        'created_at',
-        $date,
-        $date+86399
+            'between',
+            'created_at',
+            $date,
+            $date+86399
         ])->all();
 
         if ($models)
@@ -549,17 +549,17 @@ class FinanceController extends Controller
                 {
                     $total_earn += $salerecord_model->sell_price;
                     $net_profit += $salerecord_model->sell_price - product::find()->where([
-                    'id' => $salerecord_model->item->product_id
+                        'id' => $salerecord_model->item->product_id
                     ])->one()->cost;
                 }
 
                 $store_all_data[] = array(
-                'date'              => $date1 . "/" . $date2,
-                'quantity_of_order' => count($models),
-                'total_earn'        => $total_earn ,
-                'gross_profit'      => $total_earn,
-                'net_profit'        => $net_profit,
-                'store_id'          => $store_id,
+                    'date'              => $date1 . "/" . $date2,
+                    'quantity_of_order' => count($models),
+                    'total_earn'        => $total_earn ,
+                    'gross_profit'      => $total_earn,
+                    'net_profit'        => $net_profit,
+                    'store_id'          => $store_id,
                 );
             }
             for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400; $i++)
@@ -590,7 +590,7 @@ class FinanceController extends Controller
                 {
                     $total_earn += $salerecord_model->sell_price;
                     $net_profit += $salerecord_model->sell_price - Product::find()->where([
-                    'id' =>$salerecord_model->item->product_id
+                        'id' =>$salerecord_model->item->product_id
                     ])->one()->cost;
                 }
 
@@ -603,7 +603,7 @@ class FinanceController extends Controller
                 );
             }
 
-            for ($i = 1; $i <=(strtotime($date2)-strtotime($date1)+86400)/86400 ; $i++)
+            for ($i = 1; $i <= (strtotime($date2)-strtotime($date1)+86400)/86400 ; $i++)
             {
                 $date = $catime1+86400*($i)-86400;
                 $all_date[] = array(
@@ -648,7 +648,7 @@ class FinanceController extends Controller
             {
                 $total_earn += $salerecord_model->sell_price;
                 $net_profit += $salerecord_model->sell_price - product::find()->where([
-                'id' => $salerecord_model->item->product_id
+                    'id' => $salerecord_model->item->product_id
                 ])->one()->cost;
             }
 

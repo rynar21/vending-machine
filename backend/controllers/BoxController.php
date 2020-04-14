@@ -156,7 +156,7 @@ class BoxController extends Controller
     {
         $model = $this->findModel($id);
         $model->code = Box::find()->where([
-        'id' => $id
+            'id' => $id
         ])->one()->code;
 
         if($model->store->prefix)
@@ -172,7 +172,7 @@ class BoxController extends Controller
         if ($model->load(Yii::$app->request->post()))
         {
             $box_model = Box::find()->where([
-            'hardware_id' => $model->hardware_id,
+                'hardware_id' => $model->hardware_id,
                 'store_id' => $model->store_id
             ])->one();
 
@@ -239,7 +239,7 @@ class BoxController extends Controller
     {
         $salerecord_model = SaleRecord::find()->where(['id' => $id])->one();
         $model  = Box::find()->where([
-        'id' => $salerecord_model->box_id
+            'id' => $salerecord_model->box_id
         ])->one();
 
         if ($salerecord_model->status != SaleRecord::STATUS_FAILED)

@@ -146,8 +146,8 @@ class ItemController extends Controller
         // 查询当前店 所有未成功卖出的产品
         $dataProvider = new ActiveDataProvider([
             'query' => Item::find()->where([
-            'status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],
-            'store_id' => ($model->box->store_id)
+                'status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],
+                'store_id' => ($model->box->store_id)
             ]),
         ]);
 
@@ -193,8 +193,8 @@ class ItemController extends Controller
         // 查询当前店 所有未成功卖出的产品
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()->where([
-            'status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],
-            'store_id'=> ($model->box->store_id)
+                'status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],
+                'store_id'=> ($model->box->store_id)
             ]),
         ]);
 
