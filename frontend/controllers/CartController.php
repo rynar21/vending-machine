@@ -29,7 +29,7 @@ class CartController extends Controller
             $data = Yii::$app->request->post();
             $id = $_POST["id"];
 
-            for ($i=0; $i <=count($id)-1 ; $i++)
+            for ($i=0; $i <= count($id)-1 ; $i++)
             {
                 $item_price = Item::find()->where([
                     'id' => $id[$i]
@@ -43,9 +43,10 @@ class CartController extends Controller
             }
         }
 
-        if (Yii::$app->request->isAjax) {
-
+        if (Yii::$app->request->isAjax)
+        {
             $model= Item::find()->where(['id' => 25])->one();
+
             return [
                'label' => $test,
                'item_name' => $model->name,
@@ -66,7 +67,7 @@ class CartController extends Controller
             if ( Yii::$app->request->post('ok'))
             {
                 $id = Yii::$app->request->post('ok');
-                for ($i = 0; $i <= count($id)-1 ; $i++)
+                for ($i = 0; $i <= count($id)-1; $i++)
                 {
                     $item_price = Item::find()->where([
                         'id' => $id[$i]
@@ -97,7 +98,7 @@ class CartController extends Controller
 
     }
     //数组对比取不同值
-    function array_sort($arr1,$arr2)
+    function array_sort($arr1, $arr2)
     {
         $reslult = [];
 

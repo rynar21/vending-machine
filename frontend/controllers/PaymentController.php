@@ -34,6 +34,8 @@ class PaymentController extends Controller
             'price' => $price,
         ]);
     }
+
+
     // 如果产品ID没有在于 SaleRecord 表里：创新新订单
     // 运行 购买流程
     public function actionCreate($id,$time)
@@ -54,14 +56,18 @@ class PaymentController extends Controller
         $item_model = Item::findOne($id);   // 寻找 Item
         $model = new SaleRecord();
 
+        $_item = $model->findOne(['item_id' => $id]);
+        $_itemFailed = $model->find()->orderBy([
+            'id' => SORT_DESC
+        ])->where([
+            'item_id' => $id,
+            'status' => SaleRecord::STATUS_FAILED
+        ])->one();
+
         if ($item_model)
         {
-            if(empty($model->findOne(['item_id' => $id])) || $model->find()->orderBy([
-                'id' => SORT_DESC
-            ])->where([
-                'item_id' => $id,
-                'status' => SaleRecord::STATUS_FAILED
-            ])->one())
+
+            if(empty($_item) || $_itemFailed )
             {
                 // 创建 新订单
                 $model->item_id      = $id;
@@ -102,6 +108,8 @@ class PaymentController extends Controller
 
         throw new NotFoundHttpException("Requested item cannot be found.");
     }
+
+
     ///spay端的创建订单
     public function actionCreateOrder()
     {
@@ -136,6 +144,7 @@ class PaymentController extends Controller
         return "false";
     }
 
+
     public function actionCallback()
     {
         $request = Yii::$app->request;
@@ -152,18 +161,19 @@ class PaymentController extends Controller
 
             $model = SaleRecord::find()->where(['order_number' => $id])->one();
 
-            if ($model!=null)
+            if ($model != null)
             {
+
                 if ($orderStatus == SarawakPay::STATUS_SUCCESS)
                 {
                     $model->success();
                     Queue::push($model->store_id, $model->box->hardware_id);
                 }
-
                 else
                 {
                     $model->failed();
                 }
+
             }
 
         }
@@ -228,6 +238,7 @@ class PaymentController extends Controller
         ]);
     }
 
+
     public function actionSuccess($id)
     {
         $model = SaleRecord::findOne(['order_number'=>$id]);
@@ -240,6 +251,8 @@ class PaymentController extends Controller
         }
 
     }
+
+
     public function actioFailed($id)
     {
         $model = SaleRecord::findOne(['order_number'=> $id]);
@@ -250,5 +263,8 @@ class PaymentController extends Controller
                 'model'=>$model,
             ]);
         }
+
     }
+
+    
 }

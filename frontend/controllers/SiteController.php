@@ -98,17 +98,20 @@ class SiteController extends Controller
     public function actionLogin()
     {
         $model = new LoginForm();
+        $isGuest = Yii::$app->user->isGuest;
 
-        if (!Yii::$app->user->isGuest)
+        if (!$isGuest)
         {
             return $this->goHome();
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->login())
+        $login = $model->login();
+        $post_data = $model->load(Yii::$app->request->post();
+
+        if ($post_data && $login)
         {
             return $this->goBack();
         }
-
         else
         {
             $model->password = '';
@@ -117,6 +120,7 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
+
     }
 
     /**

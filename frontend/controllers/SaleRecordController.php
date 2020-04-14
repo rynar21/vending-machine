@@ -36,7 +36,6 @@ class SaleRecordController extends Controller
         }
 
         return false; // 寻找 SaleRecord
-
     }
 
 
@@ -52,6 +51,7 @@ class SaleRecordController extends Controller
             'item_model' => $item_model,
         ]);
     }
+
 
     public function actionDownload($id)
     {
