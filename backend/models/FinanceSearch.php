@@ -82,8 +82,11 @@ class FinanceSearch extends Finance
         $dataProvider = new ActiveDataProvider([
             'query' => $query->orderBy(['id'=>SORT_ASC]),
         ]);
+
         $this->load($params);
-        if (!$this->validate()) {
+        
+        if (!$this->validate())
+        {
             return $dataProvider;
         }
 

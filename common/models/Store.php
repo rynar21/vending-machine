@@ -85,55 +85,69 @@ class Store extends \yii\db\ActiveRecord
     //今日收益
     public function getProfit_today()
     {
-        $total = Store::STATUS_INITIAL;
-        $model1 = SaleRecord::find()->where(['store_id'=>$this->id,'status'=>SaleRecord::STATUS_SUCCESS])
-        ->andWhere([
-            'between',
-            'created_at' ,
-            strtotime(date('Y-m-d',strtotime('0'.' day'))),
-            strtotime(date('Y-m-d',strtotime('1'.' day')))
-        ])
-        ->all();
-        foreach ($model1 as $model ) {
-        $arr = $model->sell_price ;
-        $total += $arr;
+        $total  = Store::STATUS_INITIAL;
+        $model1 = SaleRecord::find()->where([
+        'store_id' => $this->id,
+        'status' => SaleRecord::STATUS_SUCCESS
+        ])->andWhere([
+        'between',
+        'created_at' ,
+        strtotime(date('Y-m-d', strtotime('0'.' day'))),
+        strtotime(date('Y-m-d', strtotime('1'.' day')))
+        ])->all();
+
+        foreach ($model1 as $model )
+        {
+            $arr = $model->sell_price ;
+            $total += $arr;
         }
+
         return $total;
     }
     //昨日收益
     public function getYesterday_earnings()
     {
-        $total = Store::STATUS_INITIAL;
-        $model1 = SaleRecord::find()->where(['store_id'=>$this->id,'status'=>SaleRecord::STATUS_SUCCESS])
-        ->andWhere([
-            'between',
-            'created_at' ,
-            strtotime(date('Y-m-d',strtotime('-1'.' day'))),
-            strtotime(date('Y-m-d',strtotime('0'.' day')))
-        ])
-        ->all();
-        foreach ($model1 as $model ) {
-        $arr = $model->sell_price ;
-        $total += $arr;
+        $total  = Store::STATUS_INITIAL;
+        $model1 = SaleRecord::find()->where([
+        'store_id' => $this->id,
+        'status' => SaleRecord::STATUS_SUCCESS
+        ])->andWhere([
+        'between',
+        'created_at' ,
+        strtotime(date('Y-m-d', strtotime('-1'.' day'))),
+        strtotime(date('Y-m-d', strtotime('0'.' day')))
+        ])->all();
+
+        foreach ($model1 as $model )
+        {
+            $arr = $model->sell_price ;
+            $total += $arr;
         }
+
         return $total;
     }
 
     public function getTotal_sales_amount()
     {
-        $total = Store::STATUS_INITIAL;
-        $model1 = SaleRecord::find()->where(['store_id'=>$this->id,'status'=>SaleRecord::STATUS_SUCCESS])->all();
-        foreach ($model1 as $model ) {
-        $arr = $model->sell_price ;
-        $total += $arr;
+        $total  = Store::STATUS_INITIAL;
+        $model1 = SaleRecord::find()->where([
+        'store_id' => $this->id,
+        'status' => SaleRecord::STATUS_SUCCESS
+        ])->all();
+
+        foreach ($model1 as $model )
+        {
+            $arr = $model->sell_price ;
+            $total += $arr;
         }
+
         return $total;
     }
 
     // Retrieve Items
     public function getItems()
     {
-        return $this->hasMany(Item::className(),['store_id'=>'id']);
+        return $this->hasMany(Item::className(), ['store_id'=>'id']);
     }
 
     // Retrieve Boxes
@@ -162,8 +176,8 @@ class Store extends \yii\db\ActiveRecord
                 Yii::$app->s3->delete('products/' . $this->image);
             }
 
-            $extension  = $this->imageFile->extension;
-            $data       = $this->imageFile->tempName;
+            $extension   = $this->imageFile->extension;
+            $data        = $this->imageFile->tempName;
             $this->image = date('ymdHi') . '_' . uniqid() . '.' . $extension;
 
             Yii::$app->s3->upload('products/' . $this->image, $data, null, [

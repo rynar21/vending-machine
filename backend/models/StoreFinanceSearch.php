@@ -71,19 +71,25 @@ class StoreFinanceSearch extends Model
     public function store_finance($date)       //写入日期查询当天所有卖过商品的店
     {
         $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-        ->andWhere(['between','created_at' ,$date,$date+86399])->all();
-        if ($models) {
-            foreach ($models as $salerecord_model) {
-                $store_all_data[] =  array('store_id' =>$salerecord_model->store_id , 'date' =>$date,
+        ->andWhere(['between','created_at' , $date, $date+86399])->all();
+
+        if ($models)
+        {
+            foreach ($models as $salerecord_model)
+            {
+                $store_all_data[] =  array(
+                    'store_id' => $salerecord_model->store_id ,
+                    'date' => $date,
                 );
             }
+
             $store_all_data = Finance::array_unique_fb($store_all_data);
+
             return $store_all_data;
         }
 
-        else {
-            return array();
-        }
+        return array();
+
     }
 
 }

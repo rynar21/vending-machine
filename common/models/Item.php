@@ -99,6 +99,7 @@ class Item extends \yii\db\ActiveRecord
         {
             return Url::to('@imagePath'). '/' . $this->product->image;
         }
+
         return Url::to('@imagePath'). '/product.jpg';
     }
 
@@ -108,10 +109,9 @@ class Item extends \yii\db\ActiveRecord
         {
             return $this->product->price;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
+
     }
 
     public function getStore_id()
@@ -119,9 +119,9 @@ class Item extends \yii\db\ActiveRecord
         if (!empty($this->box->store_id)) {
             return $this->box->store_id;
         }
-        else {
-            return null;
-        }
+
+        return null;
+
     }
 
     // 状态属性 以文字展示

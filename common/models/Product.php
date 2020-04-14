@@ -101,8 +101,8 @@ class Product extends \yii\db\ActiveRecord
                 Yii::$app->s3->delete('products/' . $this->image);
             }
 
-            $extension  = $this->imageFile->extension;
-            $data       = $this->imageFile->tempName;
+            $extension   = $this->imageFile->extension;
+            $data        = $this->imageFile->tempName;
             $this->image = date('ymdHi') . '_' . uniqid() . '.' . $extension;
 
             Yii::$app->s3->upload('products/' . $this->image, $data, null, [

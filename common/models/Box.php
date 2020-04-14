@@ -56,12 +56,13 @@ class Box extends \yii\db\ActiveRecord
 
     public function getStore_id()
     {
-        if (!empty($this->store->id)) {
-            return $this->store_id=$this->store->id;
+        if (!empty($this->store->id))
+        {
+            return $this->store_id = $this->store->id;
         }
-        else {
-            return null;
-        }
+
+        return null;
+
     }
 
     // 数据表 属性 标注
@@ -94,7 +95,7 @@ class Box extends \yii\db\ActiveRecord
     // 状态属性 以文字 展示
     public function getStatusText()
     {
-        if($this->status==0)
+        if($this->status == 0)
         {
             // 如果 Box盒子 包含 Item产品
             if($this->item)
@@ -138,14 +139,14 @@ class Box extends \yii\db\ActiveRecord
 
     public function getStore()
     {
-        return $this->hasOne(Store::className(), ['id'=>'store_id']);
+        return $this->hasOne(Store::className(), ['id' => 'store_id']);
     }
 
 
     // 寻找 Item产品 数据表
     public function getItem()
     {
-        return $this->hasOne(Item::className(), ['box_id'=>'id'])
+        return $this->hasOne(Item::className(), ['box_id' => 'id'])
             ->where(['item.status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]); //用户体验
 
         // ->orderBy(['item.id' => SORT_DESC])
@@ -156,7 +157,7 @@ class Box extends \yii\db\ActiveRecord
     // 寻找 Item 产品 数据表
     public function getItems()
     {
-        return $this->hasMany(Item::className(), ['box_id'=>'id']);
+        return $this->hasMany(Item::className(), ['box_id' => 'id']);
 
     }
 
@@ -179,6 +180,7 @@ class Box extends \yii\db\ActiveRecord
         {
             $text = $this->code;
         }
+
         else
         {
             $text = $this->store->prefix.$this->code; // 盒子包含产品
@@ -192,10 +194,9 @@ class Box extends \yii\db\ActiveRecord
         {
             return $this->item->price;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
+
     }
 
 }

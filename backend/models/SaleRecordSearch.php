@@ -110,24 +110,31 @@ class SaleRecordSearch extends SaleRecord
     //单个商店某一天的所有订单
     public function searchStoreAllsalerecord($params,$array)//$store_id,$date
     {
-        $store_id = ArrayHelper::getValue($array,'store_id',Null);
-        $date = ArrayHelper::getValue($array,'date',Null);
-        $box_id = ArrayHelper::getValue($array,'box_id',Null);
-        $query = SaleRecord::find();
+        $store_id   = ArrayHelper::getValue($array,'store_id',Null);
+        $date       = ArrayHelper::getValue($array,'date',Null);
+        $box_id     = ArrayHelper::getValue($array,'box_id',Null);
+
+        $query      = SaleRecord::find();
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
         $this->load($params);
-        if (!$this->validate()) {
+        if (!$this->validate())
+        {
 
             return $dataProvider;
         }
+
         if (strstr($this->status, 's')||strstr($this->status, 'S')) {
             $this->stu=SaleRecord::STATUS_SUCCESS;
         }
+
         if (strstr($this->status, 'f')||strstr($this->status, 'F')) {
             $this->stu=SaleRecord::STATUS_FAILED;
         }
+        
         if (strstr($this->status, 'p')||strstr($this->status, 'P')) {
             $this->stu=SaleRecord::STATUS_PENDING;
         }

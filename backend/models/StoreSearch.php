@@ -93,7 +93,8 @@ class StoreSearch extends Store
             return $dataProvider;
         }
         // grid filtering conditions
-        if ($this->username) {
+        if ($this->username)
+        {
             $query->joinWith('user');
         }
         $query->andFilterWhere([

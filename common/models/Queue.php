@@ -63,7 +63,7 @@ class Queue extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function push($store_id, $action, $priority=null)
+    public static function push($store_id, $action, $priority = null)
     {
         $model = new Queue();
         $model->store_id    = $store_id;

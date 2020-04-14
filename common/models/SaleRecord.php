@@ -131,10 +131,10 @@ class SaleRecord extends \yii\db\ActiveRecord
     // 交易状态： 购买当中
     public function pending()
     {
-        if ($this->status !=SaleRecord::STATUS_SUCCESS && $this->status !=SaleRecord::STATUS_FAILED)
+        if ($this->status != SaleRecord::STATUS_SUCCESS && $this->status != SaleRecord::STATUS_FAILED)
         {
            // 更新 Item产品 的状态属性 为购买当中
-           $this->status=SaleRecord::STATUS_PENDING;
+           $this->status = SaleRecord::STATUS_PENDING;
            $this->save();
            $this->item->status = Item::STATUS_LOCKED;
            $this->item->save();
@@ -176,9 +176,11 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     public function getNet_profit($id)
     {
-           $p_id = Item::find()->where(['store_id'=>$id])->one()->product_id;
-           $model = Product ::find()->where(['id'=>$p_id])->one();
-           if (!empty($model->cost)) {
+           $p_id    = Item::find()->where(['store_id' => $id])->one()->product_id;
+           $model   = Product ::find()->where(['id' => $p_id])->one();
+           
+           if (!empty($model->cost))
+           {
                $cost_price = $model->cost;
                return $cost_price;
            }
