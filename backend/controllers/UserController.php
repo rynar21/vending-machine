@@ -229,12 +229,14 @@ class UserController extends Controller
             }
 
         }
+        
         else
         {
           Yii::$app->session->setFlash('danger', "Inactive account cannot assign Role");
         }
-            return $this->actionView($id);
-        }
+
+        return $this->actionView($id);
+    }
 
 
     //To revoke user Role
@@ -242,7 +244,7 @@ class UserController extends Controller
     {
 
         $auth = Yii::$app->authManager;
-        
+
         if (!$auth->checkAccess($id, 'admin'))
         {
             $auth->revokeAll($id);

@@ -115,7 +115,7 @@ class FinanceController extends Controller
             'store_id' => $store_id
         ]);
 
-        $fields = ['Date','Order ID','Box Code','Store Name','Sale Price','Cost','Order Time','Payment Time'];
+        $fields = ['Date', 'Order ID', 'Box Code', 'Store Name', 'Sale Price', 'Cost', 'Order Time', 'Payment Time'];
 
         foreach ( $datas as  $data)
         {
@@ -139,14 +139,14 @@ class FinanceController extends Controller
     {
         // $date = ArrayHelper::getValue($array,'date',Null);
         // $store_id = ArrayHelper::getValue($array,'store_id',Null);
-        $str= $date;
+        $str = $date;
         $arr = explode('/', $str);
         $data = $this->store_finances([
-            'date1'=>$arr[0],
-            'date2'=>$arr[1]
+            'date1' => $arr[0],
+            'date2' => $arr[1]
             ])[1];
 
-        $fields = ['Date','Quantity Of Order','Total Earn','Gross Profit','Net Profit'];
+        $fields = ['Date', 'Quantity Of Order', 'Total Earn', 'Gross Profit', 'Net Profit'];
 
         foreach ($data as  $data)
         {
