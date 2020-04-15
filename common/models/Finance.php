@@ -84,7 +84,10 @@ class Finance extends \yii\db\ActiveRecord
          //去掉重复的字符串,也就是重复的一维数组
         foreach ($temp as $k => $v)
         {
-           $temp[$k] =  array('store_id' => explode(',', $v)[0] , 'date' => explode(',', $v)[1]); //再将拆开的数组重新组装
+            $temp[$k] =  array(
+                'store_id' => explode(',', $v)[0] ,
+                'date' => explode(',', $v)[1] //再将拆开的数组重新组装
+            );
         }
 
         return $temp;
@@ -98,40 +101,51 @@ class Finance extends \yii\db\ActiveRecord
         $total      =  Store::STATUS_INITIAL;
         $cost_price =  Store::STATUS_INITIAL;
 
-        $stroe_model = SaleRecord::find()->where(['store_id' => $id])
-        ->andWhere(['status' => SaleRecord::STATUS_SUCCESS])
-        ->andWhere(['between', 'updated_at' , $date, $date+86399])
-        ->all();
+        $records = SaleRecord::find()->where(['store_id' => $id])
+            ->andWhere(['status' => SaleRecord::STATUS_SUCCESS])
+            ->andWhere(['between', 'updated_at' , $date, $date+86399])
+            ->all();
 
-        foreach ($stroe_model as $model)
+        foreach ($records as $record)
         {
-            $total += $model->sell_price;
-            $cost_price += Product ::find()->where(['id' => Item::find()->where(['id' => $model->item_id])->one()->product_id])->one()->cost;
+            $total += $record->sell_price;
+
+            $item = Item::find()->where([
+                'id' => $record->item_id
+            ])->one();
+
+            $product = Product ::find()->where([
+                'id' => $item->product_id
+            ])->one();
+
+            $cost_price += $product->cost;
         }
 
-        $quantity_of_order = count($stroe_model);
+        $quantity_of_order = count($records);
         $total_earn        = $total;
         $net_profit        = $total_earn - $cost_price;
 
         if (!empty($store->user_id))
         {
-            $manager = User::find()->where(['id' => Store::find()->where(['id' => $id])->one()->user_id])->one()->username;
+            $manager = User::find()->where([
+                'id' => $store->user_id]
+            )->one()->username;
 
-            return array(
+            return [
                 'store_name'        => $store->name,
                 'store_manager'     => $manager,
                 'quantity_of_order' => $quantity_of_order,
                 'total_earn'        => $total_earn,
                 'net_profit'        => $net_profit
-            );
+            ];
         }
-        return array(
+        return [
             'store_name'        => $store->name,
             'store_manager'     => NULL,
             'quantity_of_order' => $quantity_of_order,
             'total_earn'        => $total_earn,
             'net_profit'        => $net_profit
-        );
+        ];
     }
 
     public static function find_store_all_finance_oneday($date)
@@ -139,17 +153,26 @@ class Finance extends \yii\db\ActiveRecord
         $total      =  Store::STATUS_INITIAL;
         $cost_price =  Store::STATUS_INITIAL;
 
-        $stroe_model = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS])
-        ->andWhere(['between','updated_at' ,$date,$date+86399])
-        ->all();
+        $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS])
+            ->andWhere(['between','updated_at' , $date, $date + 86399])
+            ->all();
 
-        foreach ($stroe_model as $model)
+        foreach ($records as $record)
         {
-            $total += $model->sell_price;
-            $cost_price += Product ::find()->where(['id' => Item::find()->where(['id' => $model->item_id])->one()->product_id])->one()->cost;
+            $total += $record->sell_price;
+
+            $item = Item::find()->where([
+                'id' => $record->item_id
+            ])->one();
+
+            $product = Product ::find()->where([
+                'id' => $item->product_id
+            ])->one();
+
+            $cost_price += $product->cost;
         }
 
-        $quantity_of_order = count($stroe_model);
+        $quantity_of_order = count($records);
         $total_earn        = $total;
         $net_profit        = $total_earn - $cost_price;
 
@@ -171,49 +194,51 @@ class Finance extends \yii\db\ActiveRecord
 
         if (!empty($store_id))
         {
-            $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-            ->andWhere(['between', 'created_at' , $catime, $catime+86399])
-            ->andWhere(['store_id' = >$store_id])
-            ->all();
+            $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+                ->andWhere(['between', 'created_at' , $catime, $catime+86399])
+                ->andWhere(['store_id' => $store_id])
+                ->all();
 
-            if ($models)
+            if ($records)
             {
-                foreach ($models as $model)
+                foreach ($records as $record)
                 {
-                    $store_order[] = array(
-                    'date'          => $date,
-                    'order_number'  => $model->order_number,
-                    'box_code'      => $model->box_code,
-                    'store_name'    => $model->store->name,
-                    'item_name'     => $model->item->name,
-                    'sell_price'    => $model->sell_price,
-                    'cost'          => product::find()->where(['id' => $model->item->product_id])->one()->cost,
-                    'creation_time' => date('d-m-Y H:i:s', $model->created_at),
-                    'end_time'      => date('d-m-Y H:i:s', $model->updated_at),
-                    );
+                    $store_order[] = [
+                        'date'          => $date,
+                        'order_number'  => $record->order_number,
+                        'box_code'      => $record->box_code,
+                        'store_name'    => $record->store->name,
+                        'item_name'     => $record->item->name,
+                        'sell_price'    => $record->sell_price,
+                        'cost'          => product::find()->where(['id' => $record->item->product_id])->one()->cost,
+                        'creation_time' => date('d-m-Y H:i:s', $record->created_at),
+                        'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
+                    ];
                 }
             }
         }
 
         if (empty($store_id))
         {
-            $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-            ->andWhere(['between', 'created_at'  ,$catime, $catime+86399])
-            //->andWhere(['store_id'=>$store_id])
-            ->all();
-            if ($models) {
-                foreach ($models as $model) {
-                    $store_order[] = array(
-                    'date'          => $date,
-                    'order_number'  => $model->order_number,
-                    'box_code'      => $model->box_code,
-                    'store_name'    => $model->store->name,
-                    'item_name'     => $model->item->name,
-                    'sell_price'    => $model->sell_price,
-                    'cost'          => product::find()->where(['id' => $model->item->product_id])->one()->cost,
-                    'creation_time' => date('d-m-Y H:i:s', $model->created_at),
-                    'end_time'      => date('d-m-Y H:i:s', $model->updated_at),
-                    );
+            $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+                ->andWhere(['between', 'created_at'  , $catime, $catime + 86399])
+                //->andWhere(['store_id'=>$store_id])
+                ->all();
+            if ($records)
+            {
+                foreach ($records as $record)
+                {
+                    $store_order[] = [
+                        'date'          => $date,
+                        'order_number'  => $record->order_number,
+                        'box_code'      => $record->box_code,
+                        'store_name'    => $record->store->name,
+                        'item_name'     => $record->item->name,
+                        'sell_price'    => $record->sell_price,
+                        'cost'          => product::find()->where(['id' => $record->item->product_id])->one()->cost,
+                        'creation_time' => date('d-m-Y H:i:s', $record->created_at),
+                        'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
+                    ];
                 }
             }
         }
@@ -223,38 +248,38 @@ class Finance extends \yii\db\ActiveRecord
 
     public static function get_store_salerecord($array) //导出roder
     {
-        $date1    = ArrayHelper::getValue($array,'date1',Null);
-        $date2    = ArrayHelper::getValue($array,'date2',Null);
-        $store_id = ArrayHelper::getValue($array,'store_id',Null);
+        $date1    = ArrayHelper::getValue($array, 'date1', Null);
+        $date2    = ArrayHelper::getValue($array, 'date2', Null);
+        $store_id = ArrayHelper::getValue($array, 'store_id', Null);
 
         $catime1 = strtotime($date1);
         $catime2 = strtotime($date2);
 
         if (!empty($store_id))
         {
-            for ($i = 1; $i <=(strtotime($date2)-strtotime($date1)+86400)/86400 ; $i++)
+            for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400 ; $i++)
             {
                 $date   = $catime1+86400*($i)-86400;
-                $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-                ->andWhere(['between', 'created_at' , $date, $date+86399])
-                ->andWhere(['store_id' => $store_id])
-                ->all();
+                $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+                    ->andWhere(['between', 'created_at' , $date, $date+86399])
+                    ->andWhere(['store_id' => $store_id])
+                    ->all();
 
-                if ($models)
+                if ($records)
                 {
-                    foreach ($models as $model)
+                    foreach ($records as $record)
                     {
-                        $all_order[] = array(
-                        'date'          => date('d-m-Y', $date),
-                        'order_number'  => $model->order_number,
-                        'box_code'      => $model->box_code,
-                        'store_name'    => $model->store->name,
-                        'item_name'     => $model->item->name,
-                        'sell_price'    => $model->sell_price,
-                        'cost'          => product::find()->where(['id' => $model->item->product_id])->one()->cost,
-                        'creation_time' => date('d-m-Y H:i:s', $model->created_at),
-                        'end_time'      => date('d-m-Y H:i:s', $model->updated_at),
-                        );
+                        $all_order[] = [
+                            'date'          => date('d-m-Y', $date),
+                            'order_number'  => $record->order_number,
+                            'box_code'      => $record->box_code,
+                            'store_name'    => $record->store->name,
+                            'item_name'     => $record->item->name,
+                            'sell_price'    => $record->sell_price,
+                            'cost'          => product::find()->where(['id' => $record->item->product_id])->one()->cost,
+                            'creation_time' => date('d-m-Y H:i:s', $record->created_at),
+                            'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
+                        ];
                     }
                 }
             }
@@ -263,35 +288,35 @@ class Finance extends \yii\db\ActiveRecord
 
         if (empty($store_id))
         {
-            for ($i = 1; $i <= (strtotime($date2)-strtotime($date1)+86400)/86400 ; $i++)
+            for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400 ; $i++)
             {
-                $date   = $catime1+86400*($i)-86400;
-                $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-                ->andWhere(['between', 'created_at' , $date, $date+86399])
-                //->andWhere(['store_id'=>$store_id])
-                ->all();
+                $date   = $catime1 + 86400 * ($i) - 86400;
+                $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+                    ->andWhere(['between', 'created_at' , $date, $date+86399])
+                    //->andWhere(['store_id'=>$store_id])
+                    ->all();
 
-                if ($models)
+                if ($records)
                 {
-                    foreach ($models as $model)
+                    foreach ($records as $record)
                     {
-                        $all_order[] = array(
-                        'date'          => date('d-m-Y', $date),
-                        'order_number'  => $model->order_number,
-                        'box_code'      => $model->box_code,
-                        'store_name'    => $model->store->name,
-                        'item_name'     => $model->item->name,
-                        'sell_price'    => $model->sell_price,
-                        'cost'          => product::find()->where(['id' => $model->item->product_id])->one()->cost,
-                        'creation_time' => date('d-m-Y H:i:s', $model->created_at),
-                        'end_time'      => date('d-m-Y H:i:s', $model->updated_at),
-                        );
+                        $all_order[] = [
+                            'date'          => date('d-m-Y', $date),
+                            'order_number'  => $record->order_number,
+                            'box_code'      => $record->box_code,
+                            'store_name'    => $record->store->name,
+                            'item_name'     => $record->item->name,
+                            'sell_price'    => $record->sell_price,
+                            'cost'          => product::find()->where(['id' => $record->item->product_id])->one()->cost,
+                            'creation_time' => date('d-m-Y H:i:s', $record->created_at),
+                            'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
+                        ];
                     }
                 }
             }
         }
-        return $all_order;
 
+        return $all_order;
     }
 
 }

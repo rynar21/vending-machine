@@ -77,6 +77,23 @@ class FinanceController extends Controller
     }
     public function actionExport_order($date)
     {
+        // $str= $date;
+        // $arr = explode('/',$str);
+        // $datas = Finance::get_store_salerecord(['date1'=>$arr[0],'date2'=>$arr[1]]);
+        // $fields = ['Date','Order ID','Box Code','Store Name','Sale Price','Cost','Order Time','Payment Time'];
+        // foreach ( $datas as  $data)
+        // {
+        //     $model[] = array(
+        //         $data['date'],
+        //         $data['order_number'],
+        //         $data['box_code'],
+        //         $data['store_name'],
+        //         $data['sell_price'],
+        //         $data['cost'],
+        //         $data['creation_time'],
+        //         $data['end_time']
+        //     );
+        // }
         $str = $date;
         $arr = explode('/', $str);
         $datas = Finance::get_store_salerecord([
@@ -84,7 +101,7 @@ class FinanceController extends Controller
             'date2' => $arr[1]
         ]);
 
-        $fields = ['Date', 'Order ID', 'Box Code', 'Store Name', 'Sale Price', 'Cost', 'Order Time', 'Payment Time'];
+        $fields = ['Date','Order ID', 'Box Code', 'Store Name', 'Sale Price', 'Cost', 'Order Time', 'Payment Time'];
 
         foreach ( $datas as  $data )
         {
@@ -119,7 +136,7 @@ class FinanceController extends Controller
 
         foreach ( $datas as  $data)
         {
-            $model[] = array(
+            $model[] =array(
                 $data['date'],
                 $data['order_number'],
                 $data['box_code'],
@@ -197,7 +214,7 @@ class FinanceController extends Controller
         //直接输出到浏览器
         //ob_end_flush();
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="' . $filename . '.csv"');
+        header('Content-Disposition: attachment;filename="'.$filename.'.csv"');
         header('Cache-Control: max-age=0');
 
         $fp = fopen('php://output', 'a');
