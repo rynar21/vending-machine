@@ -12,6 +12,7 @@ use common\models\Product;
 use backend\models\StoreSearch;
 use backend\models\FinanceSearch;
 use backend\models\StoreFinanceSearch;
+use yii\web;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\BadRequestHttpException;
@@ -27,7 +28,7 @@ use yii\helpers\ArrayHelper;
  */
 class FinanceController extends Controller
 {
-    public $enableCsrfValidation = false;
+    //public $enableCsrfValidation = false;
     /**
      * {@inheritdoc}
      */
@@ -77,23 +78,6 @@ class FinanceController extends Controller
     }
     public function actionExport_order($date)
     {
-        // $str= $date;
-        // $arr = explode('/',$str);
-        // $datas = Finance::get_store_salerecord(['date1'=>$arr[0],'date2'=>$arr[1]]);
-        // $fields = ['Date','Order ID','Box Code','Store Name','Sale Price','Cost','Order Time','Payment Time'];
-        // foreach ( $datas as  $data)
-        // {
-        //     $model[] = array(
-        //         $data['date'],
-        //         $data['order_number'],
-        //         $data['box_code'],
-        //         $data['store_name'],
-        //         $data['sell_price'],
-        //         $data['cost'],
-        //         $data['creation_time'],
-        //         $data['end_time']
-        //     );
-        // }
         $str = $date;
         $arr = explode('/', $str);
         $datas = Finance::get_store_salerecord([
@@ -105,7 +89,7 @@ class FinanceController extends Controller
 
         foreach ( $datas as  $data )
         {
-            $model[] = array(
+            $model[] = [
                 $data['date'],
                 $data['order_number'],
                 $data['box_code'],
@@ -114,7 +98,7 @@ class FinanceController extends Controller
                 $data['cost'],
                 $data['creation_time'],
                 $data['end_time']
-            );
+            ];
         }
 
         $this->export_csv($model, $fields);
@@ -136,7 +120,7 @@ class FinanceController extends Controller
 
         foreach ( $datas as  $data)
         {
-            $model[] =array(
+            $model[] = [
                 $data['date'],
                 $data['order_number'],
                 $data['box_code'],
@@ -145,7 +129,7 @@ class FinanceController extends Controller
                 $data['cost'],
                 $data['creation_time'],
                 $data['end_time']
-            );
+            ];
         }
 
         $this->export_csv($model,$fields);
@@ -154,8 +138,7 @@ class FinanceController extends Controller
 
     public function actionExport_data($date)
     {
-        // $date = ArrayHelper::getValue($array,'date',Null);
-        // $store_id = ArrayHelper::getValue($array,'store_id',Null);
+
         $str = $date;
         $arr = explode('/', $str);
         $data = $this->store_finances([
@@ -167,13 +150,13 @@ class FinanceController extends Controller
 
         foreach ($data as  $data)
         {
-            $model[] = array(
+            $model[] = [
                 date("d-m-Y", $data['date']),
                 $data['quantity_of_order'],
                 $data['total_earn'],
                 $data['gross_profit'],
                 $data['net_profit']
-            );
+            ];
         }
 
         $this->export_csv($model,$fields);
@@ -193,7 +176,7 @@ class FinanceController extends Controller
 
         foreach ($data as  $data)
         {
-            $model[] = array(
+            $model[] = [
                  date("d-m-Y",
                 $data['date']),
                 $data['store_name'],
@@ -201,7 +184,7 @@ class FinanceController extends Controller
                 $data['total_earn'],
                 $data['gross_profit'],
                 $data['net_profit']
-            );
+            ];
         }
 
         $this->export_csv($model, $fields);
@@ -210,6 +193,7 @@ class FinanceController extends Controller
 
     public function export_csv($data, $fields)
     {
+
         $filename = time();
         //直接输出到浏览器
         //ob_end_flush();
@@ -227,6 +211,7 @@ class FinanceController extends Controller
         {
             array_push($csv_header, mb_convert_encoding($fields[$i], 'gb2312','utf-8'));//注意编码问题，若使用icovn部分转码失败直接返回空
         }
+
 
         fputcsv($fp, $csv_header);
         $all = count($data);
@@ -251,6 +236,7 @@ class FinanceController extends Controller
             fputcsv($fp, $row);
         }
         fclose($fp);
+        exit();
 
     }
 
@@ -343,21 +329,17 @@ class FinanceController extends Controller
     //本钱查询
     public function net_profit($id)
     {
-            $p_id  = Item::find()->where(['id' => $id])->one()->product_id;
-            $model = Product ::find()->where(['id' => $p_id])->one();
+        $p_id  = Item::find()->where(['id' => $id])->one()->product_id;
+        $model = Product ::find()->where(['id' => $p_id])->one();
 
-            if (!empty($model->cost))
-            {
-                $cost_price = $model->cost;
+        if (!empty($model->cost))
+        {
+            $cost_price = $model->cost;
 
-                return $cost_price;
-            }
+            return $cost_price;
+        }
 
-            else
-            {
-                return 0;
-            }
-
+        return 0;
     }
 
     /**
