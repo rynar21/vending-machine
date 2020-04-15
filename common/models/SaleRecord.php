@@ -22,8 +22,8 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     const STATUS_PENDING = 9;    //购买中
     const STATUS_SUCCESS = 10;   //购买成功
-    const STATUS_FAILED = 8;  //购买失败
-    const KEY_SIGNATURE='ojsdjSDASsda213SDMmkxncmcs'; //钥匙
+    const STATUS_FAILED  = 8;  //购买失败
+    const KEY_SIGNATURE  = 'ojsdjSDASsda213SDMmkxncmcs'; //钥匙
     // 数据表名称
     public static function tableName()
     {
@@ -119,11 +119,11 @@ class SaleRecord extends \yii\db\ActiveRecord
         ];
         //对数组中的每个元素应用用户自定义函数
         array_walk($arr,
-         function (&$v, $k)
-         {
-             $v = $k.':'.$v;
-         }
-         );
+            function (&$v, $k)
+            {
+                $v = $k.':'.$v;
+            }
+        );
         return implode(',', $arr);
     }
 
@@ -161,29 +161,27 @@ class SaleRecord extends \yii\db\ActiveRecord
     // 交易状态： 购买失败
     public function failed()
     {
-        if ($this->status != SaleRecord::STATUS_SUCCESS) {
+        if ($this->status != SaleRecord::STATUS_SUCCESS)
+        {
 
             $this->status = SaleRecord::STATUS_FAILED;
             $this->save();
 
-            //if ($this->item->status!= Item::STATUS_SOLD) {
-                $this->item->status = Item::STATUS_AVAILABLE;
-                $this->item->save();
-            //}
-
+            $this->item->status = Item::STATUS_AVAILABLE;
+            $this->item->save();
         }
     }
 
     public function getNet_profit($id)
     {
-           $p_id    = Item::find()->where(['store_id' => $id])->one()->product_id;
-           $model   = Product ::find()->where(['id' => $p_id])->one();
-           
-           if (!empty($model->cost))
-           {
-               $cost_price = $model->cost;
-               return $cost_price;
-           }
+            $p_id    = Item::find()->where(['store_id' => $id])->one()->product_id;
+            $model   = Product ::find()->where(['id' => $p_id])->one();
+
+            if (!empty($model->cost))
+            {
+                $cost_price = $model->cost;
+                return $cost_price;
+            }
 
     }
 }
