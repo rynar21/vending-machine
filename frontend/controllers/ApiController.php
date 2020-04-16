@@ -72,7 +72,7 @@ class ApiController extends Controller
         if ($priority_execution)
         {
             $priority_execution->updateAttributes([
-                'status' => Queue::STATUS_SUCCESS;
+                'status' => Queue::STATUS_SUCCESS
             ]);
         }
 
