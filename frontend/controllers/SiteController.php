@@ -106,7 +106,7 @@ class SiteController extends Controller
         }
 
         $login = $model->login();
-        $post_data = $model->load(Yii::$app->request->post();
+        $post_data = $model->load(Yii::$app->request->post());
 
         if ($post_data && $login)
         {
