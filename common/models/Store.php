@@ -82,11 +82,12 @@ class Store extends \yii\db\ActiveRecord
         }
         return $this->user->username;
     }
+
     //今日收益
     public function getProfit_today()
     {
         $total  = Store::STATUS_INITIAL;
-        $model1 = SaleRecord::find()->where([
+        $models = SaleRecord::find()->where([
         'store_id' => $this->id,
         'status' => SaleRecord::STATUS_SUCCESS
         ])->andWhere([
@@ -96,7 +97,7 @@ class Store extends \yii\db\ActiveRecord
         strtotime(date('Y-m-d', strtotime('1'.' day')))
         ])->all();
 
-        foreach ($model1 as $model )
+        foreach ($models as $model )
         {
             $arr = $model->sell_price ;
             $total += $arr;
@@ -104,11 +105,12 @@ class Store extends \yii\db\ActiveRecord
 
         return $total;
     }
+
     //昨日收益
     public function getYesterday_earnings()
     {
         $total  = Store::STATUS_INITIAL;
-        $model1 = SaleRecord::find()->where([
+        $models = SaleRecord::find()->where([
         'store_id' => $this->id,
         'status' => SaleRecord::STATUS_SUCCESS
         ])->andWhere([
@@ -118,7 +120,7 @@ class Store extends \yii\db\ActiveRecord
         strtotime(date('Y-m-d', strtotime('0'.' day')))
         ])->all();
 
-        foreach ($model1 as $model )
+        foreach ($models as $model )
         {
             $arr = $model->sell_price ;
             $total += $arr;
@@ -130,12 +132,12 @@ class Store extends \yii\db\ActiveRecord
     public function getTotal_sales_amount()
     {
         $total  = Store::STATUS_INITIAL;
-        $model1 = SaleRecord::find()->where([
+        $models = SaleRecord::find()->where([
         'store_id' => $this->id,
         'status' => SaleRecord::STATUS_SUCCESS
         ])->all();
 
-        foreach ($model1 as $model )
+        foreach ($models as $model )
         {
             $arr = $model->sell_price ;
             $total += $arr;
@@ -188,9 +190,9 @@ class Store extends \yii\db\ActiveRecord
         }
         return parent::beforeSave($insert);
     }
+
     public function afterSave($insert,$changedAttributes)
     {
-
         return parent::afterSave($insert,$changedAttributes);
     }
 
