@@ -48,8 +48,9 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getCategories(){
-        return[
+    public function getCategories()
+    {
+        return [
             'food_beverage' => 'Food & Beverage',
             'home_living' => 'Home & Living',
             'electronic' => 'Electronic & Accessories',
@@ -87,9 +88,8 @@ class Product extends \yii\db\ActiveRecord
         return Yii::getAlias('@static/products/product.jpg');
     }
 
-    //
+
     ///上传/修改图片
-    ///
     public function beforeSave($insert)
     {
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
@@ -111,6 +111,7 @@ class Product extends \yii\db\ActiveRecord
                 ]
             ]);
         }
+
         return parent::beforeSave($insert);
     }
 
@@ -118,4 +119,5 @@ class Product extends \yii\db\ActiveRecord
     {
         return parent::afterSave($insert,$changedAttributes);
     }
+    
 }

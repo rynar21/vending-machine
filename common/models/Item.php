@@ -42,13 +42,18 @@ class Item extends \yii\db\ActiveRecord
 
     public  function getItemid()
     {
-        if ( $checkbox = true) {
+        if ( $checkbox = true)
+        {
             return $this->id;
         }
-        if ( $checkbox = false) {
+
+        if ( $checkbox = false)
+        {
             return 0;
         }
+
     }
+
     // YII 自带时间值 功能
     public function behaviors()
     {
@@ -95,7 +100,10 @@ class Item extends \yii\db\ActiveRecord
 
     public function getImageUrl()
     {
-        if ($this->product->image && file_exists(Yii::getAlias('@upload') . '/' . $this->product->image))
+        $image = $this->product->image;
+        $upload_image = Yii::getAlias('@upload') . '/' . $this->product->image;
+
+        if ($image && file_exists($upload_image))
         {
             return Url::to('@imagePath'). '/' . $this->product->image;
         }
@@ -116,7 +124,8 @@ class Item extends \yii\db\ActiveRecord
 
     public function getStore_id()
     {
-        if (!empty($this->box->store_id)) {
+        if (!empty($this->box->store_id))
+        {
             return $this->box->store_id;
         }
 
@@ -145,6 +154,7 @@ class Item extends \yii\db\ActiveRecord
                 $text = "(Undefined)";
                 break;
         }
+
         return $text;
     }
 
@@ -152,6 +162,7 @@ class Item extends \yii\db\ActiveRecord
     public function getPricing()
     {
         $num = number_format($this->price, 2);
+        
         return 'RM '.$num;
     }
 

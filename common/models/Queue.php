@@ -28,6 +28,7 @@ class Queue extends \yii\db\ActiveRecord
     {
         return 'queue';
     }
+
     // YII 自带时间值 功能
     public function behaviors()
     {
@@ -35,6 +36,7 @@ class Queue extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
+
     /**
      * {@inheritdoc}
      */
@@ -69,6 +71,7 @@ class Queue extends \yii\db\ActiveRecord
         $model->store_id    = $store_id;
         $model->action      = $action;
         $model->priority    = $priority;
+        
         return $model->save();
     }
 }
