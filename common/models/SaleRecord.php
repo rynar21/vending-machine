@@ -24,6 +24,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     const STATUS_SUCCESS = 10;   //购买成功
     const STATUS_FAILED  = 8;  //购买失败
     const KEY_SIGNATURE  = 'ojsdjSDASsda213SDMmkxncmcs'; //钥匙
+
     // 数据表名称
     public static function tableName()
     {
@@ -62,8 +63,6 @@ class SaleRecord extends \yii\db\ActiveRecord
             'status' => 'Status',
             'sell_price' => 'Price',
             'text'=>'SaleRecord_ID',
-
-
         ];
     }
 
@@ -79,6 +78,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     {
         return $this->box_code.$this->unique_id;
     }
+
     // 寻找 Item产品 数据表
     public function getItem()
     {
@@ -104,6 +104,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function getPricing()
     {
         $num = number_format($this->sell_price, 2);
+
         return 'RM '.$num;
     }
 
@@ -117,6 +118,7 @@ class SaleRecord extends \yii\db\ActiveRecord
             'Box' => $this->box->code,
             'Item' => $this->item->name,
         ];
+
         //对数组中的每个元素应用用户自定义函数
         array_walk($arr,
             function (&$v, $k)
@@ -124,6 +126,7 @@ class SaleRecord extends \yii\db\ActiveRecord
                 $v = $k.':'.$v;
             }
         );
+
         return implode(',', $arr);
     }
 
@@ -158,12 +161,12 @@ class SaleRecord extends \yii\db\ActiveRecord
             $this->box->save();
          }
     }
+
     // 交易状态： 购买失败
     public function failed()
     {
         if ($this->status != SaleRecord::STATUS_SUCCESS)
         {
-
             $this->status = SaleRecord::STATUS_FAILED;
             $this->save();
 
@@ -174,14 +177,16 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     public function getNet_profit($id)
     {
-            $p_id    = Item::find()->where(['store_id' => $id])->one()->product_id;
-            $model   = Product ::find()->where(['id' => $p_id])->one();
+        $p_id    = Item::find()->where(['store_id' => $id])->one()->product_id;
+        $model   = Product ::find()->where(['id' => $p_id])->one();
 
-            if (!empty($model->cost))
-            {
-                $cost_price = $model->cost;
-                return $cost_price;
-            }
+        if (!empty($model->cost))
+        {
+            $cost_price = $model->cost;
+
+            return $cost_price;
+        }
 
     }
+
 }

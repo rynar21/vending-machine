@@ -55,25 +55,33 @@ class SaleRecordSearch extends SaleRecord
         $dataProvider = new ActiveDataProvider([
             'query' =>  $query->orderBy(['id'=>SORT_ASC]),
             //'query' => SaleRecord::find()->where(['status'=>10])->all(),
-
         ]);
+
         $this->load($params);
-        if (!$this->validate()) {
+
+        if (!$this->validate())
+        {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
 
         //$domain = strstr($this->status, 's');
-        if (strstr($this->status, 's')||strstr($this->status, 'S')) {
-            $this->stu=SaleRecord::STATUS_SUCCESS;
+        if (strstr($this->status, 's') || strstr($this->status, 'S'))
+        {
+            $this->stu = SaleRecord::STATUS_SUCCESS;
         }
-        if (strstr($this->status, 'f')||strstr($this->status, 'F')) {
-            $this->stu=SaleRecord::STATUS_FAILED;
+
+        if (strstr($this->status, 'f') || strstr($this->status, 'F'))
+        {
+            $this->stu = SaleRecord::STATUS_FAILED;
         }
-        if (strstr($this->status, 'p')||strstr($this->status, 'P')) {
-            $this->stu=SaleRecord::STATUS_PENDING;
+
+        if (strstr($this->status, 'p') || strstr($this->status, 'P'))
+        {
+            $this->stu = SaleRecord::STATUS_PENDING;
         }
+
         //$query->joinWith('item');
         $query->andFilterWhere([
             //'id' => $this->id,
@@ -83,26 +91,30 @@ class SaleRecordSearch extends SaleRecord
             'sell_price' => $this->sell_price,
             'box_code' => $this->box_code,
             'order_number' =>$this->order_number,
-
         ]);
-        if ($this->status) {
+
+        if ($this->status)
+        {
             $query->andFilterWhere([
                 'sale_record.status' => $this->stu,
             ]);
         }
 
-        if ($this->itemname) {
+        if ($this->itemname)
+        {
             $query->joinWith('product');
         }
-        if ($this->storename) {
+
+        if ($this->storename)
+        {
             $query->joinWith('store');
         }
 
          //->andFilterWhere(['between','created_at' ,strtotime('2020-02-11'),(strtotime('2020-02-11')+86399)])
-        $query
-         ->andFilterWhere(['like','product.name' , $this->itemname])
-         ->andFilterWhere(['like', 'store.name', $this->storename])
-         ->orFilterWhere(['like','unique_id',$this->unique_id]);
+        $query->andFilterWhere(['like','product.name' , $this->itemname])
+        ->andFilterWhere(['like', 'store.name', $this->storename])
+        ->orFilterWhere(['like','unique_id',$this->unique_id]);
+
         return $dataProvider;
     }
 
@@ -123,20 +135,22 @@ class SaleRecordSearch extends SaleRecord
         $this->load($params);
         if (!$this->validate())
         {
-
             return $dataProvider;
         }
 
-        if (strstr($this->status, 's')||strstr($this->status, 'S')) {
-            $this->stu=SaleRecord::STATUS_SUCCESS;
+        if (strstr($this->status, 's') || strstr($this->status, 'S'))
+        {
+            $this->stu = SaleRecord::STATUS_SUCCESS;
         }
 
-        if (strstr($this->status, 'f')||strstr($this->status, 'F')) {
-            $this->stu=SaleRecord::STATUS_FAILED;
+        if (strstr($this->status, 'f') || strstr($this->status, 'F'))
+        {
+            $this->stu = SaleRecord::STATUS_FAILED;
         }
-        
-        if (strstr($this->status, 'p')||strstr($this->status, 'P')) {
-            $this->stu=SaleRecord::STATUS_PENDING;
+
+        if (strstr($this->status, 'p') || strstr($this->status, 'P'))
+        {
+            $this->stu = SaleRecord::STATUS_PENDING;
         }
 
         $query->andFilterWhere([
@@ -147,14 +161,15 @@ class SaleRecordSearch extends SaleRecord
             'order_number' =>$this->order_number,
             //'store_name' =>$this->store_name,
             //'item_name' =>$this->item_name,
-
         ]);
+
         //$query->joinWith('product');
-         $query->andFilterWhere(['between','created_at' ,$date,$date+86399])
-         ->andFilterWhere(['like','item_name' , $this->itemname])
+         $query->andFilterWhere(['between', 'created_at', $date, $date + 86399])
+         ->andFilterWhere(['like','item_name', $this->itemname])
          ->orFilterWhere(['like', 'store_name', $this->store_name])
-         ->orFilterWhere(['like','box_code',$this->text])
-         ->orFilterWhere(['like','unique_id',$this->unique_id]);
+         ->orFilterWhere(['like','box_code', $this->text])
+         ->orFilterWhere(['like','unique_id', $this->unique_id]);
+
         return $dataProvider;
     }
 
