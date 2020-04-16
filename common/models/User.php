@@ -37,7 +37,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName()
     {
-
         return '{{%user}}';
     }
 
@@ -91,7 +90,10 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne([
+            'id' => $id,
+            'status' => self::STATUS_ACTIVE
+        ]);
     }
 
     /**
@@ -111,7 +113,10 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne([
+            'username' => $username,
+            'status' => self::STATUS_ACTIVE
+        ]);
     }
 
     /**
@@ -121,7 +126,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByPasswordResetToken($token)
     {
-        if (!static::isPasswordResetTokenValid($token)) {
+        if (!static::isPasswordResetTokenValid($token))
+        {
             return null;
         }
 
@@ -137,7 +143,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token,
             'status' => self::STATUS_INACTIVE
@@ -151,12 +158,14 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function isPasswordResetTokenValid($token)
     {
-        if (empty($token)) {
+        if (empty($token))
+        {
             return false;
         }
 
         $timestamp = (int) substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        
         return $timestamp + $expire >= time();
     }
 
