@@ -109,7 +109,8 @@ class SaleRecord extends \yii\db\ActiveRecord
     }
 
     //Change Array to String
-    public function _toString(){
+    public function _toString()
+    {
         $arr = [
             'Store Name' => $this->store->name,
             'Address'=> $this->store->address,

@@ -61,7 +61,8 @@ class ProductSearch extends Product
 
         $this->load($params);
 
-        if (!$this->validate()) {
+        if (!$this->validate())
+        {
             // uncomment the following line if you do not want to return any records when validation fails
             return $dataProvider;
         }

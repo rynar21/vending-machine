@@ -94,7 +94,7 @@ class Finance extends \yii\db\ActiveRecord
 
     }
 
-    public static function find_store_one_finance_oneday($id,$date)
+    public static function find_store_one_finance_oneday($id, $date)
     {
         $store = Store::find()->where(['id' => $id])->one();
 
@@ -103,7 +103,7 @@ class Finance extends \yii\db\ActiveRecord
 
         $records = SaleRecord::find()->where(['store_id' => $id])
             ->andWhere(['status' => SaleRecord::STATUS_SUCCESS])
-            ->andWhere(['between', 'updated_at' , $date, $date+86399])
+            ->andWhere(['between', 'updated_at' , $date, $date + 86399])
             ->all();
 
         foreach ($records as $record)

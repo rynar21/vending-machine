@@ -48,12 +48,16 @@ class ItemSearch extends Item
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
         $this->load($params);
-        if (!$this->validate()) {
+
+        if (!$this->validate())
+        {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -61,8 +65,10 @@ class ItemSearch extends Item
             'box_id' => $this->box_id,
             'status' =>$this->status,
         ]);
+
         $query->joinWith('product');
         $query->andFilterWhere(['like', 'product.name', $this->name]);
+
         return $dataProvider;
     }
 
@@ -91,6 +97,7 @@ class ItemSearch extends Item
 
         $query->joinWith('product');
         $query->andFilterWhere(['like', 'product.name', $this->name]);
+
         return $dataProvider;
     }
 
@@ -110,6 +117,7 @@ class ItemSearch extends Item
             // $query->where('0=1');
             return $dataProvider;
         }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -118,8 +126,10 @@ class ItemSearch extends Item
             'status' =>$this->status,
             'store_id' => $store_id,
         ]);
+
         $query->joinWith('product');
         $query->andFilterWhere(['like', 'product.name', $this->name]);
+        
         return $dataProvider;
     }
 }
