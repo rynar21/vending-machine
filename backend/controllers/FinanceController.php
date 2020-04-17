@@ -212,7 +212,6 @@ class FinanceController extends Controller
             array_push($csv_header, mb_convert_encoding($fields[$i], 'gb2312','utf-8'));//注意编码问题，若使用icovn部分转码失败直接返回空
         }
 
-
         fputcsv($fp, $csv_header);
         $all = count($data);
 
@@ -257,17 +256,16 @@ class FinanceController extends Controller
            ]);
         }
         //如果当天没有记录
-        else
-        {
-            //Yii::$app->session->setFlash('danger', 'Sorry  no record.');
-            $dataProvider = new ArrayDataProvider([
-               'allModels' => array(),
-           ]);
 
-           return $this->render('store_all', [
-               'dataProvider' => $dataProvider,
-           ]);
-        }
+        //Yii::$app->session->setFlash('danger', 'Sorry  no record.');
+        $dataProvider = new ArrayDataProvider([
+           'allModels' => array(),
+       ]);
+
+       return $this->render('store_all', [
+           'dataProvider' => $dataProvider,
+       ]);
+
 
     }
 
@@ -562,7 +560,7 @@ class FinanceController extends Controller
                     'store_id'          => $store_id,
                 );
             }
-            
+
             for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400; $i++)
             {
                 $date = $catime1 + 86400 * ($i) - 86400;
@@ -622,11 +620,9 @@ class FinanceController extends Controller
         {
             return array($store_all_data,$all_date);
         }
+        
+        return array(array(),$all_date);
 
-        if (empty($store_all_data))
-        {
-            return array(array(),$all_date);
-        }
 
     }
 
