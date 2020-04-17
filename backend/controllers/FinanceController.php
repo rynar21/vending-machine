@@ -263,6 +263,7 @@ class FinanceController extends Controller
             $dataProvider = new ArrayDataProvider([
                'allModels' => array(),
            ]);
+
            return $this->render('store_all', [
                'dataProvider' => $dataProvider,
            ]);
@@ -561,6 +562,7 @@ class FinanceController extends Controller
                     'store_id'          => $store_id,
                 );
             }
+            
             for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400; $i++)
             {
                 $date = $catime1 + 86400 * ($i) - 86400;

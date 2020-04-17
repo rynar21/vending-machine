@@ -119,6 +119,7 @@ class StoreController extends Controller
             // 'modelData'=>$modeldata,
         ]);
     }
+
     public function actionKaiqi($id)//打开盒子
     {
         //return $this->redirect(['view' ,'id' => '1']);
@@ -207,7 +208,7 @@ class StoreController extends Controller
                 }
 
             }
-            
+
         }
 
         return $this->redirect(['index']);
@@ -261,12 +262,14 @@ class StoreController extends Controller
                 {
                     return $this->actionView($id);
                 }
+
             }
 
             if (empty($getuser))
             {
                 Yii::$app->session->setFlash('error', 'Non exist username.');
             }
+            
         }
 
         return $this->render('store_manager', [
