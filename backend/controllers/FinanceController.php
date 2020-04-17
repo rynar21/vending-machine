@@ -293,7 +293,7 @@ class FinanceController extends Controller
             }
 
             //$a = array_unique($store_id); // 维数组去重复
-            $store_all_data = $this->array_unique_fb($store_all_data);
+            $store_all_data = Finance::array_unique_fb($store_all_data);
 
             return $store_all_data;
         }
@@ -301,27 +301,27 @@ class FinanceController extends Controller
     }
 
 
-    //二维数组去重
-    function array_unique_fb($array2D){
-
-        foreach ($array2D as $v)
-        {
-            $v = join(',', $v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
-            $temp[] = $v;
-        }
-
-        $temp = array_unique($temp); //去掉重复的字符串,也就是重复的一维数组
-
-        foreach ($temp as $k => $v)
-        {
-           $temp[$k] = array(
-                'store_id' => explode(',', $v)[0],
-                'date' => explode(',', $v)[1]
-            ); //再将拆开的数组重新组装
-        }
-        return $temp;
-
-    }
+    // //二维数组去重
+    // function array_unique_fb($array2D){
+    //
+    //     foreach ($array2D as $v)
+    //     {
+    //         $v = join(',', $v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
+    //         $temp[] = $v;
+    //     }
+    //
+    //     $temp = array_unique($temp); //去掉重复的字符串,也就是重复的一维数组
+    //
+    //     foreach ($temp as $k => $v)
+    //     {
+    //        $temp[$k] = array(
+    //             'store_id' => explode(',', $v)[0],
+    //             'date' => explode(',', $v)[1]
+    //         ); //再将拆开的数组重新组装
+    //     }
+    //     return $temp;
+    //
+    // }
 
     //本钱查询
     public function net_profit($id)
