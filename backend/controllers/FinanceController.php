@@ -248,6 +248,7 @@ class FinanceController extends Controller
 
         //$models = $this->store_finance($date);
         $model = $searchModel->storeAllfinancesearch(Yii::$app->request->queryParams, $date);
+
         // 如果有记录
         if (!empty($model))
         {
@@ -256,19 +257,14 @@ class FinanceController extends Controller
                'dataProvider'=> $model,
            ]);
         }
-        //如果当天没有记录
-        else
-        {
-            //Yii::$app->session->setFlash('danger', 'Sorry  no record.');
-            $dataProvider = new ArrayDataProvider([
-               'allModels' => array(),
-           ]);
 
-           return $this->render('store_all', [
-               'dataProvider' => $dataProvider,
-           ]);
-        }
+        $dataProvider = new ArrayDataProvider([
+           'allModels' => array(),
+        ]);
 
+        return $this->render('store_all', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     public function store_finance($date)       //写入日期查询当天所有卖过商品的店
@@ -279,8 +275,13 @@ class FinanceController extends Controller
             'between',
             'created_at',
             $date,
-            $date+86399
+            $date + 86399
         ])->all();
+
+        if (empty($store_id))
+        {
+            return false;
+        }
 
         if ($models)
         {
@@ -291,15 +292,11 @@ class FinanceController extends Controller
                     'date' =>$date
                 );
             }
+
             //$a = array_unique($store_id); // 维数组去重复
             $store_all_data = $this->array_unique_fb($store_all_data);
 
             return $store_all_data;
-        }
-
-        if (empty($store_id))
-        {
-            return false;
         }
 
     }
@@ -435,7 +432,7 @@ class FinanceController extends Controller
     public function actionDatecheck($date1, $date2)//根据时间段查询所有商店的销售情况
     {
         $searchModel  = new FinanceSearch();
-        $dataProvider = $searchModel->searchDate(Yii::$app->request->queryParams,$date1,$date2);
+        $dataProvider = $searchModel->searchDate(Yii::$app->request->queryParams, $date1, $date2);
 
         if ($date1 <= $date2)
         {
@@ -463,15 +460,11 @@ class FinanceController extends Controller
             }
 
             //如果当天没有记录
-            if (empty($model))
-            {
-                //Yii::$app->session->setFlash('danger', 'Sorry  no record.');
-                return $this->render('ces', [
-                    'searchModel' => $searchModel,
-                    'dataProvider_date' => $dataProvider_date,
-                    'dataProvider_all' => array(),
-                ]);
-            }
+            return $this->render('ces', [
+                'searchModel' => $searchModel,
+                'dataProvider_date' => $dataProvider_date,
+                'dataProvider_all' => array(),
+            ]);
 
         }
 
@@ -483,7 +476,7 @@ class FinanceController extends Controller
         $searchModel  = new FinanceSearch();
         $dataProvider = $searchModel->searchDate(Yii::$app->request->queryParams,$date1,$date2);
 
-        if ($date1<=$date2)
+        if ($date1 <= $date2)
         {
             $model      = $this->store_finances(['date1'=>$date1,'date2'=>$date2,'store_id'=>$store_id])[0];
             $model_date = $this->store_finances(['date1'=>$date1,'date2'=>$date2,'store_id'=>$store_id])[1];
@@ -508,16 +501,12 @@ class FinanceController extends Controller
             }
 
             //如果当天没有记录
-            if (empty($model))
-            {
-                //Yii::$app->session->setFlash('danger', 'Sorry  no record.');
-                return $this->render('store_one_finance', [
-                    'searchModel' => $searchModel,
-                    'dataProvider_date' => $dataProvider_date,
-                    'dataProvider_all' => array(),
-                    'store_id' => $store_id,
-                ]);
-            }
+            return $this->render('store_one_finance', [
+                'searchModel' => $searchModel,
+                'dataProvider_date' => $dataProvider_date,
+                'dataProvider_all' => array(),
+                'store_id' => $store_id,
+            ]);
 
         }
 
@@ -562,7 +551,7 @@ class FinanceController extends Controller
                     'store_id'          => $store_id,
                 );
             }
-            
+
             for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400; $i++)
             {
                 $date = $catime1 + 86400 * ($i) - 86400;
