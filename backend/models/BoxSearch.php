@@ -17,7 +17,7 @@ class BoxSearch extends Box
 
     public $name;
     public $price;
-    public $current_status;
+
 
     /**
      * {@inheritdoc}
