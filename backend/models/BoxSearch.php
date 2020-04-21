@@ -17,7 +17,7 @@ class BoxSearch extends Box
 
     public $name;
     public $price;
-    public $stu;
+    public $current_status;
 
     /**
      * {@inheritdoc}
@@ -30,26 +30,6 @@ class BoxSearch extends Box
             [['status','name'], 'trim'],
             [['name'], 'safe'],
             [['price'], 'number'],
-            [['status'], 'filter', 'filter' => function($text)
-            {
-                switch ($text)
-                {
-                    case 'Available':
-                    case 'available':
-                        $this->status = 1;
-                        break;
-
-                    case 'Not Available':
-                    case 'not available':
-                        $this->status = 2;
-                        break;
-
-                    default:
-                        break;
-                }
-                return $this->status;
-            }],
-            // [['name'],'string'],
         ];
     }
 
@@ -77,30 +57,28 @@ class BoxSearch extends Box
         $dataProvider = new ActiveDataProvider([
             'query' => $query->orderBy(['id'=>SORT_ASC]),
             'pagination' => [
-                'pageSize'=>30,
+                'pageSize' => 30,
             ],
         ]);
+
         $this->load($params);
-        if (!$this->validate()) {
+
+        if (!$this->validate())
+        {
             return $dataProvider;
         }
-        if (strstr($this->status, 'A')||strstr($this->status, 'a')) {
-            $this->stu = Box::BOX_STATUS_NOT_AVAILABLE;
-        }
-        if (strstr($this->status, 'N')||strstr($this->status, 'na')||strstr($this->status, 'n')) {
-            $this->stu = Box::BOX_STATUS_AVAILABLE;
-        }
+
         $query->andFilterWhere([
-            'status' => $this->stu,
+            'status' => $this->status,
         ]);
 
-        if ($this->name) {
+        if ($this->name)
+        {
             $query->joinWith('product');
         }
             $query->andFilterWhere(['like', 'product.name', $this->name])
             ->andFilterWhere(['code' => $this->code,]);
                 // $query->andFilterWhere(['like', 'item.price', $this->price]);
-
 
         return $dataProvider;
     }

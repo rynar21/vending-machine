@@ -8,6 +8,8 @@ use common\models\User;
 use common\models\Store;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use common\models\Box;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Store */
@@ -134,8 +136,12 @@ use yii\bootstrap\NavBar;
                         ],
                         [
                             'attribute'=> 'status',
-                           'label' =>'Status',
-                           'value' => 'statusText'
+                            'label' =>'Status',
+                            'value' => 'statusText',
+                            'filter' => Html::activeDropDownList(
+                                $boxSearch,
+                                'status', [Box::BOX_STATUS_AVAILABLE => 'Available', Box::BOX_STATUS_NOT_AVAILABLE => 'Not Available'],
+                                ['class'=>'form-control','prompt' => 'All Status']),
                         ],
                         [
                             'attribute' => 'name',
