@@ -128,16 +128,14 @@ class BoxController extends Controller
                 ]);
             }
 
-            else
+            if($model->save())
             {
-                if($model->save())
-                {
-                    return $this->redirect([
-                        'store/view',
-                        'id' => $model->store_id
-                    ]);
-                }
+                return $this->redirect([
+                    'store/view',
+                    'id' => $model->store_id
+                ]);
             }
+
 
         }
         return $this->render('create', [
