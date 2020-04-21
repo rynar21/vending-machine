@@ -185,10 +185,10 @@ class UserController extends Controller
             'status' => User::STATUS_ACTIVE
         ]);
 
-        // $str=$auth->getUserIdsByRole('admin');
+        // IF EDITED USER STATUS IS ACTIVE.
         if($user)
         {
-
+            //Current User is admin role.
             if ($auth->checkAccess(Yii::$app->user->identity->id, 'admin'))
             {
                 if (!$auth->checkAccess($id, 'admin'))
@@ -198,7 +198,6 @@ class UserController extends Controller
                     $auth->assign($auth_role, $id);
                     Yii::$app->session->setFlash('success', "Edit Success.");
                 }
-
                 else
                 {
                     Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
@@ -229,7 +228,6 @@ class UserController extends Controller
             }
 
         }
-
         else
         {
           Yii::$app->session->setFlash('danger', "Inactive account cannot assign Role");
