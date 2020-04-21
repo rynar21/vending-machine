@@ -77,7 +77,8 @@ class Store extends \yii\db\ActiveRecord
 
     public function getUser_name()
     {
-        if (empty($this->user_id)) {
+        if (empty($this->user_id))
+        {
             return '<span style="color:#CD0000">' .'Null'.'';
         }
         return $this->user->username;
@@ -88,13 +89,13 @@ class Store extends \yii\db\ActiveRecord
     {
         $total  = Store::STATUS_INITIAL;
         $models = SaleRecord::find()->where([
-        'store_id' => $this->id,
-        'status' => SaleRecord::STATUS_SUCCESS
+            'store_id' => $this->id,
+            'status' => SaleRecord::STATUS_SUCCESS
         ])->andWhere([
-        'between',
-        'created_at' ,
-        strtotime(date('Y-m-d', strtotime('0'.' day'))),
-        strtotime(date('Y-m-d', strtotime('1'.' day')))
+            'between',
+            'created_at' ,
+            strtotime(date('Y-m-d', strtotime('0'.' day'))),
+            strtotime(date('Y-m-d', strtotime('1'.' day')))
         ])->all();
 
         foreach ($models as $model )
@@ -111,13 +112,13 @@ class Store extends \yii\db\ActiveRecord
     {
         $total  = Store::STATUS_INITIAL;
         $models = SaleRecord::find()->where([
-        'store_id' => $this->id,
-        'status' => SaleRecord::STATUS_SUCCESS
+            'store_id' => $this->id,
+            'status' => SaleRecord::STATUS_SUCCESS
         ])->andWhere([
-        'between',
-        'created_at' ,
-        strtotime(date('Y-m-d', strtotime('-1'.' day'))),
-        strtotime(date('Y-m-d', strtotime('0'.' day')))
+            'between',
+            'created_at' ,
+            strtotime(date('Y-m-d', strtotime('-1'.' day'))),
+            strtotime(date('Y-m-d', strtotime('0'.' day')))
         ])->all();
 
         foreach ($models as $model )
@@ -133,8 +134,8 @@ class Store extends \yii\db\ActiveRecord
     {
         $total  = Store::STATUS_INITIAL;
         $models = SaleRecord::find()->where([
-        'store_id' => $this->id,
-        'status' => SaleRecord::STATUS_SUCCESS
+            'store_id' => $this->id,
+            'status' => SaleRecord::STATUS_SUCCESS
         ])->all();
 
         foreach ($models as $model )
