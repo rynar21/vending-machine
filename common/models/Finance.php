@@ -72,30 +72,30 @@ class Finance extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function remove_duplicate($array2D){
+    public static function array_unique_fb($array2D)
+    {
 
-        foreach ($array2D as $array)
+        foreach ($array2D as $v)
         {
-            $array = join(',', $array); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
-            $temp[] = $array;
+            $v = join(',', $v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
+            $temp[] = $v;
         }
 
-        $new_array = array_unique($new_array);
-
+        $temp = array_unique($temp);
          //去掉重复的字符串,也就是重复的一维数组
-        foreach ($new_array as $k => $array)
+        foreach ($temp as $k => $v)
         {
-            $new_array[$k] =  array(
-                'store_id' => explode(',', $array)[0] ,
-                'date' => explode(',', $array)[1] //再将拆开的数组重新组装
+            $temp[$k] =  array(
+                'store_id' => explode(',', $v)[0] ,
+                'date' => explode(',', $v)[1] //再将拆开的数组重新组装
             );
         }
 
-        return $new_array;
+        return $temp;
 
     }
 
-    public static function financial_detail_inquiry($id, $date)
+    public static function find_store_one_finance_oneday($id, $date)
     {
         $store = Store::find()->where(['id' => $id])->one();
 
@@ -149,7 +149,7 @@ class Finance extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function total_financial_inquiry($date)
+    public static function find_store_all_finance_oneday($date)
     {
         $total      =  Store::STATUS_INITIAL;
         $cost_price =  Store::STATUS_INITIAL;
@@ -185,7 +185,7 @@ class Finance extends \yii\db\ActiveRecord
         );
     }
 
-    public static function salcerecord_inquiry($array)//寻找订单
+    public static function find_store_salcerecord($array)//寻找订单
     {
         $date       = ArrayHelper::getValue($array, 'date', Null);
         $store_id   = ArrayHelper::getValue($array, 'store_id', Null);
@@ -196,7 +196,7 @@ class Finance extends \yii\db\ActiveRecord
         if (!empty($store_id))
         {
             $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-                ->andWhere(['between', 'created_at' , $time, $time + 86399])
+                ->andWhere(['between', 'created_at' , $time, $time+86399])
                 ->andWhere(['store_id' => $store_id])
                 ->all();
 
@@ -225,7 +225,6 @@ class Finance extends \yii\db\ActiveRecord
                 ->andWhere(['between', 'created_at'  , $time, $time + 86399])
                 //->andWhere(['store_id'=>$store_id])
                 ->all();
-
             if ($records)
             {
                 foreach ($records as $record)
@@ -248,22 +247,22 @@ class Finance extends \yii\db\ActiveRecord
         return $store_order;
     }
 
-    public static function get_salerecord($array) //导出roder
+    public static function get_store_salerecord($array) //导出roder
     {
-        $query_date_start    = ArrayHelper::getValue($array, 'query_date_start', Null);
-        $query_date_end    = ArrayHelper::getValue($array, 'query_date_end', Null);
+        $date1    = ArrayHelper::getValue($array, 'date1', Null);
+        $date2    = ArrayHelper::getValue($array, 'date2', Null);
         $store_id = ArrayHelper::getValue($array, 'store_id', Null);
 
-        $date_start = strtotime($querydate_start);
-        $date_end = strtotime($querydate_end);
+        $catime1 = strtotime($date1);
+        $catime2 = strtotime($date2);
 
         if (!empty($store_id))
         {
-            for ($i = 1; $i <= (strtotime($query_date_end) - strtotime($query_date_start) + 86400) / 86400 ; $i++)
+            for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400 ; $i++)
             {
-                $date   = $date_start + 86400 * ($i) - 86400;
+                $date   = $catime1+86400*($i)-86400;
                 $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-                    ->andWhere(['between', 'created_at', $date, $date + 86399])
+                    ->andWhere(['between', 'created_at' , $date, $date+86399])
                     ->andWhere(['store_id' => $store_id])
                     ->all();
 
@@ -290,11 +289,11 @@ class Finance extends \yii\db\ActiveRecord
 
         if (empty($store_id))
         {
-            for ($i = 1; $i <= (strtotime($query_date_end) - strtotime($query_date_start) + 86400) / 86400 ; $i++)
+            for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400 ; $i++)
             {
-                $date   = $date_start + 86400 * ($i) - 86400;
+                $date   = $catime1 + 86400 * ($i) - 86400;
                 $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-                    ->andWhere(['between', 'created_at' , $date, $date + 86399])
+                    ->andWhere(['between', 'created_at' , $date, $date+86399])
                     //->andWhere(['store_id'=>$store_id])
                     ->all();
 
@@ -320,5 +319,165 @@ class Finance extends \yii\db\ActiveRecord
 
         return $all_order;
     }
+
+    public function store_all_finance($date1, $date2)//date
+    {
+        $catime1 = strtotime($date1);
+        $catime2 = strtotime($date2);
+
+        $total_earn = 0;
+        $net_profit = 0;
+
+        $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+        ->andWhere(['between','created_at' ,$catime1,$catime2+86399])
+        ->all();
+
+        if ($models)
+        {
+            foreach ($models as $salerecord_model)
+            {
+                $total_earn += $salerecord_model->sell_price;
+                $net_profit += $salerecord_model->sell_price - product::find()->where([
+                    'id' => $salerecord_model->item->product_id
+                ])->one()->cost;
+            }
+
+            $store_all_data[] =  array(
+                'date'              => $date1 . "/" . $date2,
+                'quantity_of_order' => count($models),
+                'total_earn'        => $total_earn ,
+                'gross_profit'      => $total_earn,
+                'net_profit'        => $net_profit
+            );
+        }
+
+        for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400; $i++)
+        {
+            $date = $catime1 + 86400 * ($i) - 86400;
+
+            $all_date[] = array(
+                'date'              => $date,
+                'quantity_of_order' => Finance::total_financial_inquiry($date)['quantity_of_order'],
+                'total_earn'        => Finance::total_financial_inquiry($date)['total_earn'],
+                'gross_profit'      => Finance::total_financial_inquiry($date)['gross_profit'],
+                'net_profit'        => Finance::total_financial_inquiry($date)['net_profit'],
+            );
+        }
+
+        if (!empty($store_all_data))
+        {
+            return array($store_all_data,$all_date);
+        }
+
+
+        return array(array(),$all_date);
+
+    }
+
+    public function store_finances($array)//date
+    {
+        $date1    = ArrayHelper::getValue($array,'date1',Null);
+        $date2    = ArrayHelper::getValue($array,'date2',Null);
+        $store_id = ArrayHelper::getValue($array,'store_id',Null);
+
+        $catime1 = strtotime($date1);
+        $catime2 = strtotime($date2);
+
+        $total_earn = 0;
+        $net_profit = 0;
+
+        if (!empty($store_id))
+        {
+            $models = SaleRecord::find()
+            ->where(['status' => SaleRecord::STATUS_SUCCESS,])
+            ->andWhere(['between','created_at' , $catime1, $catime2+86399])
+            ->andWhere(['store_id' => $store_id])
+            ->all();
+
+            if ($models)
+            {
+                foreach ($models as $salerecord_model)
+                {
+                    $total_earn += $salerecord_model->sell_price;
+                    $net_profit += $salerecord_model->sell_price - product::find()->where([
+                        'id' => $salerecord_model->item->product_id
+                    ])->one()->cost;
+                }
+
+                $store_all_data[] = array(
+                    'date'              => $date1 . "/" . $date2,
+                    'quantity_of_order' => count($models),
+                    'total_earn'        => $total_earn ,
+                    'gross_profit'      => $total_earn,
+                    'net_profit'        => $net_profit,
+                    'store_id'          => $store_id,
+                );
+            }
+
+            for ($i = 1; $i <= (strtotime($date2) - strtotime($date1) + 86400) / 86400; $i++)
+            {
+                $date = $catime1 + 86400 * ($i) - 86400;
+                $all_date[] = array(
+                    'date'              => $date,
+                    'store_id'          => $store_id,
+                    'store_name'        => Finance::financial_detail_inquiry($store_id,$date)['store_name'],
+                    'quantity_of_order' => Finance::financial_detail_inquiry($store_id,$date)['quantity_of_order'],
+                    'total_earn'        => Finance::financial_detail_inquiry($store_id,$date)['total_earn'],
+                    'gross_profit'      => Finance::financial_detail_inquiry($store_id,$date)['total_earn'],
+                    'net_profit'        => Finance::financial_detail_inquiry($store_id,$date)['net_profit'],
+                );
+            }
+
+        }
+
+        if (empty($store_id))
+        {
+            $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+            ->andWhere(['between','created_at' ,$catime1,$catime2+86399])
+            ->all();
+
+            if ($models)
+            {
+                foreach ($models as $salerecord_model)
+                {
+                    $total_earn += $salerecord_model->sell_price;
+                    $net_profit += $salerecord_model->sell_price - Product::find()->where([
+                        'id' =>$salerecord_model->item->product_id
+                    ])->one()->cost;
+                }
+
+                $store_all_data[] =  array(
+                    'date'              => $date1 . "/" . $date2,
+                    'quantity_of_order' => count($models),
+                    'total_earn'        => $total_earn ,
+                    'gross_profit'      => $total_earn,
+                    'net_profit'        => $net_profit
+                );
+            }
+
+            for ($i = 1; $i <= (strtotime($date2)-strtotime($date1)+86400)/86400 ; $i++)
+            {
+                $date = $catime1+86400*($i)-86400;
+                $all_date[] = array(
+                    'date'              => $date,
+                    'quantity_of_order' => Finance::total_financial_inquiry($date)['quantity_of_order'],
+                    'total_earn'        => Finance::total_financial_inquiry($date)['total_earn'],
+                    'gross_profit'      => Finance::total_financial_inquiry($date)['gross_profit'],
+                    'net_profit'        => Finance::total_financial_inquiry($date)['net_profit'],
+                );
+            }
+
+        }
+
+        if (!empty($store_all_data))
+        {
+            return array($store_all_data,$all_date);
+        }
+
+        return array(array(),$all_date);
+
+
+    }
+
 
 }
