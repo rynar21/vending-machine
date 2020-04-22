@@ -320,7 +320,7 @@ class Finance extends \yii\db\ActiveRecord
         return $all_order;
     }
 
-    public function store_all_finance($queryDate_start, $queryDate_end)//date
+    public function render_financials($queryDate_start, $queryDate_end)//date
     {
         $date_start = strtotime($queryDate_start);
         $date_end = strtotime($queryDate_end);
@@ -366,7 +366,7 @@ class Finance extends \yii\db\ActiveRecord
 
         if (!empty($store_all_data))
         {
-            return array($store_all_data,$all_date);
+            return array($store_all_data, $all_date);
         }
 
 
@@ -374,7 +374,7 @@ class Finance extends \yii\db\ActiveRecord
 
     }
 
-    public function store_finances($array)//date
+    public function get_financials($array)//date
     {
         $queryDate_start    = ArrayHelper::getValue($array,'queryDate_start',Null);
         $queryDate_end   = ArrayHelper::getValue($array,'queryDate_end',Null);
@@ -471,10 +471,10 @@ class Finance extends \yii\db\ActiveRecord
 
         if (!empty($store_all_data))
         {
-            return array($store_all_data,$all_date);
+            return array($store_all_data, $all_date);
         }
 
-        return array(array(),$all_date);
+        return array(array(), $all_date);
 
 
     }
@@ -482,8 +482,8 @@ class Finance extends \yii\db\ActiveRecord
 
     public function net_profit($id)
     {
-        $p_id  = Item::find()->where(['id' => $id])->one()->product_id;
-        $model = Product ::find()->where(['id' => $p_id])->one();
+        $product_id  = Item::find()->where(['id' => $id])->one()->product_id;
+        $model = Product ::find()->where(['id' => $product_id])->one();
 
         if (!empty($model->cost))
         {
