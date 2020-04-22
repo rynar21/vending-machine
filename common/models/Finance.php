@@ -249,16 +249,16 @@ class Finance extends \yii\db\ActiveRecord
 
     public static function get_salerecord($array) //导出roder
     {
-        $queryDate_start    = ArrayHelper::getValue($array, 'date1', Null);
-        $queryDate_end   = ArrayHelper::getValue($array, 'date2', Null);
+        $queryDate_start    = ArrayHelper::getValue($array, 'queryDate_start', Null);
+        $queryDate_end   = ArrayHelper::getValue($array, 'queryDate_end', Null);
         $store_id = ArrayHelper::getValue($array, 'store_id', Null);
 
         $date_start = strtotime($queryDate_start);
-        $date_end = strtotime($date2);
+        $date_end = strtotime($queryDate_end);
 
         if (!empty($store_id))
         {
-            for ($i = 1; $i <= (strtotime($date2) - strtotime($queryDate_start) + 86400) / 86400 ; $i++)
+            for ($i = 1; $i <= (strtotime($queryDate_end) - strtotime($queryDate_start) + 86400) / 86400 ; $i++)
             {
                 $date   = $date_start + 86400 * ($i) - 86400;
                 $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
@@ -289,7 +289,7 @@ class Finance extends \yii\db\ActiveRecord
 
         if (empty($store_id))
         {
-            for ($i = 1; $i <= (strtotime($date2) - strtotime($queryDate_start) + 86400) / 86400 ; $i++)
+            for ($i = 1; $i <= (strtotime($queryDate_end) - strtotime($queryDate_start) + 86400) / 86400 ; $i++)
             {
                 $date   = $date_start + 86400 * ($i) - 86400;
                 $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
@@ -320,16 +320,16 @@ class Finance extends \yii\db\ActiveRecord
         return $all_order;
     }
 
-    public function store_all_finance($queryDate_start, $date2)//date
+    public function store_all_finance($queryDate_start, $queryDate_end)//date
     {
         $date_start = strtotime($queryDate_start);
-        $date_end = strtotime($date2);
+        $date_end = strtotime($queryDate_end);
 
         $total_earn = 0;
         $net_profit = 0;
 
         $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-        ->andWhere(['between','created_at' ,$date_start,$date_end+86399])
+        ->andWhere(['between','created_at' , $date_start, $date_end + 86399])
         ->all();
 
         if ($models)
@@ -343,7 +343,7 @@ class Finance extends \yii\db\ActiveRecord
             }
 
             $store_all_data[] =  array(
-                'date'              => $queryDate_start . "/" . $date2,
+                'date'              => $queryDate_start . "/" . $queryDate_end,
                 'quantity_of_order' => count($models),
                 'total_earn'        => $total_earn ,
                 'gross_profit'      => $total_earn,
@@ -351,7 +351,7 @@ class Finance extends \yii\db\ActiveRecord
             );
         }
 
-        for ($i = 1; $i <= (strtotime($date2) - strtotime($queryDate_start) + 86400) / 86400; $i++)
+        for ($i = 1; $i <= (strtotime($queryDate_end) - strtotime($queryDate_start) + 86400) / 86400; $i++)
         {
             $date = $date_start + 86400 * ($i) - 86400;
 
@@ -376,12 +376,12 @@ class Finance extends \yii\db\ActiveRecord
 
     public function store_finances($array)//date
     {
-        $queryDate_start    = ArrayHelper::getValue($array,'date1',Null);
-        $queryDate_end   = ArrayHelper::getValue($array,'date2',Null);
+        $queryDate_start    = ArrayHelper::getValue($array,'queryDate_start',Null);
+        $queryDate_end   = ArrayHelper::getValue($array,'queryDate_end',Null);
         $store_id = ArrayHelper::getValue($array,'store_id',Null);
 
         $date_start = strtotime($queryDate_start);
-        $date_end = strtotime($date2);
+        $date_end = strtotime($queryDate_end);
 
         $total_earn = 0;
         $net_profit = 0;
@@ -405,7 +405,7 @@ class Finance extends \yii\db\ActiveRecord
                 }
 
                 $store_all_data[] = array(
-                    'date'              => $queryDate_start . "/" . $date2,
+                    'date'              => $queryDate_start . "/" . $queryDate_end,
                     'quantity_of_order' => count($models),
                     'total_earn'        => $total_earn ,
                     'gross_profit'      => $total_earn,
@@ -414,7 +414,7 @@ class Finance extends \yii\db\ActiveRecord
                 );
             }
 
-            for ($i = 1; $i <= (strtotime($date2) - strtotime($queryDate_start) + 86400) / 86400; $i++)
+            for ($i = 1; $i <= (strtotime($queryDate_end) - strtotime($queryDate_start) + 86400) / 86400; $i++)
             {
                 $date = $date_start + 86400 * ($i) - 86400;
                 $all_date[] = array(
@@ -447,7 +447,7 @@ class Finance extends \yii\db\ActiveRecord
                 }
 
                 $store_all_data[] =  array(
-                    'date'              => $queryDate_start . "/" . $date2,
+                    'date'              => $queryDate_start . "/" . $queryDate_end,
                     'quantity_of_order' => count($models),
                     'total_earn'        => $total_earn ,
                     'gross_profit'      => $total_earn,
@@ -455,7 +455,7 @@ class Finance extends \yii\db\ActiveRecord
                 );
             }
 
-            for ($i = 1; $i <= (strtotime($date2)-strtotime($queryDate_start)+86400)/86400 ; $i++)
+            for ($i = 1; $i <= (strtotime($queryDate_end)-strtotime($queryDate_start)+86400)/86400 ; $i++)
             {
                 $date = $date_start+86400*($i)-86400;
                 $all_date[] = array(
