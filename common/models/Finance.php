@@ -480,4 +480,19 @@ class Finance extends \yii\db\ActiveRecord
     }
 
 
+    public function net_profit($id)
+    {
+        $p_id  = Item::find()->where(['id' => $id])->one()->product_id;
+        $model = Product ::find()->where(['id' => $p_id])->one();
+
+        if (!empty($model->cost))
+        {
+            $cost_price = $model->cost;
+
+            return $cost_price;
+        }
+
+        return 0;
+    }
+
 }

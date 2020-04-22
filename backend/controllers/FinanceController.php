@@ -266,56 +266,8 @@ class FinanceController extends Controller
         ]);
     }
 
-    public function store_finance($date)       //写入日期查询当天所有卖过商品的店
-    {
-        $models = SaleRecord::find()->where([
-            'status' => SaleRecord::STATUS_SUCCESS
-        ])->andWhere([
-            'between',
-            'created_at',
-            $date,
-            $date + 86399
-        ])->all();
-
-        if (empty($store_id))
-        {
-            return false;
-        }
-
-        if ($models)
-        {
-            foreach ($models as $salerecord_model)
-            {
-                $store_all_data[] =  array(
-                    'store_id' => $salerecord_model->store_id,
-                    'date' =>$date
-                );
-            }
-
-            //$a = array_unique($store_id); // 维数组去重复
-            $store_all_data = Finance::remove_duplicate($store_all_data);
-
-            return $store_all_data;
-        }
-
-    }
-
-
     //本钱查询
-    public function net_profit($id)
-    {
-        $p_id  = Item::find()->where(['id' => $id])->one()->product_id;
-        $model = Product ::find()->where(['id' => $p_id])->one();
-
-        if (!empty($model->cost))
-        {
-            $cost_price = $model->cost;
-
-            return $cost_price;
-        }
-
-        return 0;
-    }
+    
 
     /**
      * Displays a single Finance model.
@@ -488,5 +440,5 @@ class FinanceController extends Controller
         }
 
     }
-    
+
 }

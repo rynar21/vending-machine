@@ -83,7 +83,7 @@ class StoreFinanceSearch extends Model
                 );
             }
 
-            $store_all_data = Finance::array_unique_fb($store_all_data);
+            $store_all_data = Finance::remove_duplicate($store_all_data);
 
             return $store_all_data;
         }
