@@ -370,8 +370,6 @@ class FinanceController extends Controller
             $model      = Finance::get_financials(['queryDate_start' => $date1, 'queryDate_end' => $date2])[0];
             $model_date = Finance::get_financials(['queryDate_start' => $date1, 'queryDate_end' => $date2])[1];
 
-            print_r($model);
-            die();
             $dataProvider_date = new ArrayDataProvider([
                 'allModels' => $model_date,
             ]);
