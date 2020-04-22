@@ -281,6 +281,7 @@ class Finance extends \yii\db\ActiveRecord
                             'creation_time' => date('d-m-Y H:i:s', $record->created_at),
                             'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
                         ];
+
                     }
                 }
             }
@@ -313,8 +314,10 @@ class Finance extends \yii\db\ActiveRecord
                             'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
                         ];
                     }
+
                 }
             }
+
         }
 
         return $all_order;

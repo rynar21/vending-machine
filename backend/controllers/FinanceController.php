@@ -81,8 +81,8 @@ class FinanceController extends Controller
         $str = $date;
         $arr = explode('/', $str);
         $datas = Finance::get_salerecord([
-            'date1' => $arr[0],
-            'date2' => $arr[1]
+            'queryDate_start' => $arr[0],
+            'queryDate_end' => $arr[1]
         ]);
 
         $fields = ['Date','Order ID', 'Box Code', 'Store Name', 'Sale Price', 'Cost', 'Order Time', 'Payment Time'];
@@ -111,8 +111,8 @@ class FinanceController extends Controller
         $arr = explode('/',$str);
 
         $datas = Finance::get_salerecord([
-            'date1' => $arr[0],
-            'date2' => $arr[1],
+            'queryDate_start' => $arr[0],
+            'queryDate_end' => $arr[1],
             'store_id' => $store_id
         ]);
 
@@ -142,8 +142,8 @@ class FinanceController extends Controller
         $str = $date;
         $arr = explode('/', $str);
         $data = Finance::get_financials([
-            'date1' => $arr[0],
-            'date2' => $arr[1]
+            'queryDate_start' => $arr[0],
+            'queryDate_end' => $arr[1]
         ])[1];
 
         $fields = ['Date', 'Quantity Of Order', 'Total Earn', 'Gross Profit', 'Net Profit'];
@@ -167,8 +167,8 @@ class FinanceController extends Controller
         $str = $date;
         $arr = explode('/', $str);
         $data = Finance::get_financials([
-            'date1' => $arr[0],
-            'date2' => $arr[1],
+            'queryDate_start' => $arr[0],
+            'queryDate_end' => $arr[1],
             'store_id' => $store_id
         ])[1];
 
