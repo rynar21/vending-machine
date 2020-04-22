@@ -80,7 +80,7 @@ class FinanceController extends Controller
     {
         $str = $date;
         $arr = explode('/', $str);
-        $datas = Finance::get_store_salerecord([
+        $datas = Finance::get_salerecord([
             'date1' => $arr[0],
             'date2' => $arr[1]
         ]);
@@ -110,7 +110,7 @@ class FinanceController extends Controller
         $str = $date;
         $arr = explode('/',$str);
 
-        $datas = Finance::get_store_salerecord([
+        $datas = Finance::get_salerecord([
             'date1' => $arr[0],
             'date2' => $arr[1],
             'store_id' => $store_id
@@ -293,35 +293,13 @@ class FinanceController extends Controller
             }
 
             //$a = array_unique($store_id); // 维数组去重复
-            $store_all_data = Finance::array_unique_fb($store_all_data);
+            $store_all_data = Finance::remove_duplicate($store_all_data);
 
             return $store_all_data;
         }
 
     }
 
-
-    // //二维数组去重
-    // function array_unique_fb($array2D){
-    //
-    //     foreach ($array2D as $v)
-    //     {
-    //         $v = join(',', $v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
-    //         $temp[] = $v;
-    //     }
-    //
-    //     $temp = array_unique($temp); //去掉重复的字符串,也就是重复的一维数组
-    //
-    //     foreach ($temp as $k => $v)
-    //     {
-    //        $temp[$k] = array(
-    //             'store_id' => explode(',', $v)[0],
-    //             'date' => explode(',', $v)[1]
-    //         ); //再将拆开的数组重新组装
-    //     }
-    //     return $temp;
-    //
-    // }
 
     //本钱查询
     public function net_profit($id)
@@ -557,11 +535,11 @@ class FinanceController extends Controller
                 $all_date[] = array(
                     'date'              => $date,
                     'store_id'          => $store_id,
-                    'store_name'        => Finance::find_store_one_finance_oneday($store_id,$date)['store_name'],
-                    'quantity_of_order' => Finance::find_store_one_finance_oneday($store_id,$date)['quantity_of_order'],
-                    'total_earn'        => Finance::find_store_one_finance_oneday($store_id,$date)['total_earn'],
-                    'gross_profit'      => Finance::find_store_one_finance_oneday($store_id,$date)['total_earn'],
-                    'net_profit'        => Finance::find_store_one_finance_oneday($store_id,$date)['net_profit'],
+                    'store_name'        => Finance::financial_detail_inquiry($store_id,$date)['store_name'],
+                    'quantity_of_order' => Finance::financial_detail_inquiry($store_id,$date)['quantity_of_order'],
+                    'total_earn'        => Finance::financial_detail_inquiry($store_id,$date)['total_earn'],
+                    'gross_profit'      => Finance::financial_detail_inquiry($store_id,$date)['total_earn'],
+                    'net_profit'        => Finance::financial_detail_inquiry($store_id,$date)['net_profit'],
                 );
             }
 
@@ -597,10 +575,10 @@ class FinanceController extends Controller
                 $date = $catime1+86400*($i)-86400;
                 $all_date[] = array(
                     'date'              => $date,
-                    'quantity_of_order' => Finance::find_store_all_finance_oneday($date)['quantity_of_order'],
-                    'total_earn'        => Finance::find_store_all_finance_oneday($date)['total_earn'],
-                    'gross_profit'      => Finance::find_store_all_finance_oneday($date)['gross_profit'],
-                    'net_profit'        => Finance::find_store_all_finance_oneday($date)['net_profit'],
+                    'quantity_of_order' => Finance::total_financial_inquiry($date)['quantity_of_order'],
+                    'total_earn'        => Finance::total_financial_inquiry($date)['total_earn'],
+                    'gross_profit'      => Finance::total_financial_inquiry($date)['gross_profit'],
+                    'net_profit'        => Finance::total_financial_inquiry($date)['net_profit'],
                 );
             }
 
@@ -654,10 +632,10 @@ class FinanceController extends Controller
 
             $all_date[] = array(
                 'date'              => $date,
-                'quantity_of_order' => Finance::find_store_all_finance_oneday($date)['quantity_of_order'],
-                'total_earn'        => Finance::find_store_all_finance_oneday($date)['total_earn'],
-                'gross_profit'      => Finance::find_store_all_finance_oneday($date)['gross_profit'],
-                'net_profit'        => Finance::find_store_all_finance_oneday($date)['net_profit'],
+                'quantity_of_order' => Finance::total_financial_inquiry($date)['quantity_of_order'],
+                'total_earn'        => Finance::total_financial_inquiry($date)['total_earn'],
+                'gross_profit'      => Finance::total_financial_inquiry($date)['gross_profit'],
+                'net_profit'        => Finance::total_financial_inquiry($date)['net_profit'],
             );
         }
 
