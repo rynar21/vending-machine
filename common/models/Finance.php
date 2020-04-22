@@ -72,30 +72,30 @@ class Finance extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function array_unique_fb($array2D)
+    public static function remove_duplicate($array2D)
     {
 
-        foreach ($array2D as $v)
+        foreach ($array2D as $array)
         {
-            $v = join(',', $v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
-            $temp[] = $v;
+            $array = join(',', $array); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
+            $new_array[] = $array;
         }
 
-        $temp = array_unique($temp);
+        $new_array = array_unique($new_array);
          //去掉重复的字符串,也就是重复的一维数组
-        foreach ($temp as $k => $v)
+        foreach ($new_array as $k => $array)
         {
-            $temp[$k] =  array(
-                'store_id' => explode(',', $v)[0] ,
-                'date' => explode(',', $v)[1] //再将拆开的数组重新组装
+            $new_array[$k] =  array(
+                'store_id' => explode(',', $array)[0] ,
+                'date' => explode(',', $array)[1] //再将拆开的数组重新组装
             );
         }
 
-        return $temp;
+        return $new_array;
 
     }
 
-    public static function find_store_one_finance_oneday($id, $date)
+    public static function financial_detail_inquiry($id, $date)
     {
         $store = Store::find()->where(['id' => $id])->one();
 
@@ -149,7 +149,7 @@ class Finance extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function find_store_all_finance_oneday($date)
+    public static function total_financial_inquiry($date)
     {
         $total      =  Store::STATUS_INITIAL;
         $cost_price =  Store::STATUS_INITIAL;
@@ -185,7 +185,7 @@ class Finance extends \yii\db\ActiveRecord
         );
     }
 
-    public static function find_store_salcerecord($array)//寻找订单
+    public static function salerecord_inquiry($array)//寻找订单
     {
         $date       = ArrayHelper::getValue($array, 'date', Null);
         $store_id   = ArrayHelper::getValue($array, 'store_id', Null);
@@ -247,7 +247,7 @@ class Finance extends \yii\db\ActiveRecord
         return $store_order;
     }
 
-    public static function get_store_salerecord($array) //导出roder
+    public static function get_salerecord($array) //导出roder
     {
         $date1    = ArrayHelper::getValue($array, 'date1', Null);
         $date2    = ArrayHelper::getValue($array, 'date2', Null);
