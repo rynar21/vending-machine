@@ -281,6 +281,7 @@ class Finance extends \yii\db\ActiveRecord
                             'creation_time' => date('d-m-Y H:i:s', $record->created_at),
                             'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
                         ];
+
                     }
                 }
             }
@@ -313,14 +314,16 @@ class Finance extends \yii\db\ActiveRecord
                             'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
                         ];
                     }
+
                 }
             }
+
         }
 
         return $all_order;
     }
 
-    public function render_financials($queryDate_start, $queryDate_end)//date
+    public static function render_financials($queryDate_start, $queryDate_end)//date
     {
         $date_start = strtotime($queryDate_start);
         $date_end = strtotime($queryDate_end);
@@ -374,10 +377,11 @@ class Finance extends \yii\db\ActiveRecord
 
     }
 
-    public function get_financials($array)//date
+
+    public static function get_financials($array)//date
     {
         $queryDate_start    = ArrayHelper::getValue($array,'queryDate_start',Null);
-        $queryDate_end   = ArrayHelper::getValue($array,'queryDate_end',Null);
+        $queryDate_end    = ArrayHelper::getValue($array,'queryDate_end',Null);
         $store_id = ArrayHelper::getValue($array,'store_id',Null);
 
         $date_start = strtotime($queryDate_start);
@@ -399,8 +403,9 @@ class Finance extends \yii\db\ActiveRecord
                 foreach ($models as $salerecord_model)
                 {
                     $total_earn += $salerecord_model->sell_price;
+
                     $net_profit += $salerecord_model->sell_price - product::find()->where([
-                        'id' => $salerecord_model->item->product_id
+                       'id' => $salerecord_model->item->product_id
                     ])->one()->cost;
                 }
 
@@ -433,7 +438,7 @@ class Finance extends \yii\db\ActiveRecord
         if (empty($store_id))
         {
             $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-            ->andWhere(['between','created_at' ,$date_start,$date_end+86399])
+            ->andWhere(['between','created_at' ,$date_start, $date_end+86399])
             ->all();
 
             if ($models)
@@ -443,7 +448,7 @@ class Finance extends \yii\db\ActiveRecord
                     $total_earn += $salerecord_model->sell_price;
                     $net_profit += $salerecord_model->sell_price - Product::find()->where([
                         'id' =>$salerecord_model->item->product_id
-                    ])->one()->cost;
+                   ])->one()->cost;
                 }
 
                 $store_all_data[] =  array(
@@ -459,40 +464,38 @@ class Finance extends \yii\db\ActiveRecord
             {
                 $date = $date_start+86400*($i)-86400;
                 $all_date[] = array(
-                    'date'              => $date,
-                    'quantity_of_order' => Finance::total_financial_inquiry($date)['quantity_of_order'],
-                    'total_earn'        => Finance::total_financial_inquiry($date)['total_earn'],
-                    'gross_profit'      => Finance::total_financial_inquiry($date)['gross_profit'],
-                    'net_profit'        => Finance::total_financial_inquiry($date)['net_profit'],
+                   'date'              => $date,
+                   'quantity_of_order' => Finance::total_financial_inquiry($date)['quantity_of_order'],
+                   'total_earn'        => Finance::total_financial_inquiry($date)['total_earn'],
+                   'gross_profit'      => Finance::total_financial_inquiry($date)['gross_profit'],
+                   'net_profit'        => Finance::total_financial_inquiry($date)['net_profit'],
                 );
             }
 
         }
 
-        if (!empty($store_all_data))
+       if (!empty($store_all_data))
         {
-            return array($store_all_data, $all_date);
+           return array($store_all_data,$all_date);
         }
 
-        return array(array(), $all_date);
+       return array(array(),$all_date);
 
 
     }
-
-
-    public function net_profit($id)
-    {
-        $product_id  = Item::find()->where(['id' => $id])->one()->product_id;
-        $model = Product ::find()->where(['id' => $product_id])->one();
-
-        if (!empty($model->cost))
-        {
-            $cost_price = $model->cost;
-
-            return $cost_price;
-        }
-
-        return 0;
-    }
+    // public static function net_profit($id)
+    // {
+    //     $p_id  = Item::find()->where(['id' => $id])->one()->product_id;
+    //     $model = Product ::find()->where(['id' => $p_id])->one();
+    //
+    //     if (!empty($model->cost))
+    //     {
+    //         $cost_price = $model->cost;
+    //
+    //         return $cost_price;
+    //     }
+    //
+    //     return 0;
+    // }
 
 }

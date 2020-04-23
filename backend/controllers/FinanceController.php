@@ -74,15 +74,15 @@ class FinanceController extends Controller
     {
         //$searchModel = new FinanceSearch();
         //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('ces');
+        return $this->render('index');
     }
     public function actionExport_order($date)
     {
         $str = $date;
         $arr = explode('/', $str);
         $datas = Finance::get_salerecord([
-            'date1' => $arr[0],
-            'date2' => $arr[1]
+            'queryDate_start' => $arr[0],
+            'queryDate_end' => $arr[1]
         ]);
 
         $fields = ['Date','Order ID', 'Box Code', 'Store Name', 'Sale Price', 'Cost', 'Order Time', 'Payment Time'];
@@ -111,8 +111,8 @@ class FinanceController extends Controller
         $arr = explode('/',$str);
 
         $datas = Finance::get_salerecord([
-            'date1' => $arr[0],
-            'date2' => $arr[1],
+            'queryDate_start' => $arr[0],
+            'queryDate_end' => $arr[1],
             'store_id' => $store_id
         ]);
 
@@ -141,9 +141,9 @@ class FinanceController extends Controller
 
         $str = $date;
         $arr = explode('/', $str);
-        $data = $this->store_finances([
-            'date1' => $arr[0],
-            'date2' => $arr[1]
+        $data = Finance::get_financials([
+            'queryDate_start' => $arr[0],
+            'queryDate_end' => $arr[1]
         ])[1];
 
         $fields = ['Date', 'Quantity Of Order', 'Total Earn', 'Gross Profit', 'Net Profit'];
@@ -166,9 +166,9 @@ class FinanceController extends Controller
     {
         $str = $date;
         $arr = explode('/', $str);
-        $data = $this->store_finances([
-            'date1' => $arr[0],
-            'date2' => $arr[1],
+        $data = Finance::get_financials([
+            'queryDate_start' => $arr[0],
+            'queryDate_end' => $arr[1],
             'store_id' => $store_id
         ])[1];
 
@@ -267,7 +267,7 @@ class FinanceController extends Controller
     }
 
     //本钱查询
-    
+
 
     /**
      * Displays a single Finance model.
@@ -358,6 +358,8 @@ class FinanceController extends Controller
     }
 
 
+
+
     public function actionDatecheck($date1, $date2)//根据时间段查询所有商店的销售情况
     {
         $searchModel  = new FinanceSearch();
@@ -365,8 +367,8 @@ class FinanceController extends Controller
 
         if ($date1 <= $date2)
         {
-            $model      = $this->store_finances(['date1' => $date1, 'date2' => $date2])[0];
-            $model_date = $this->store_finances(['date1' => $date1, 'date2' => $date2])[1];
+            $model      = Finance::get_financials(['queryDate_start' => $date1, 'queryDate_end' => $date2])[0];
+            $model_date = Finance::get_financials(['queryDate_start' => $date1, 'queryDate_end' => $date2])[1];
 
             $dataProvider_date = new ArrayDataProvider([
                 'allModels' => $model_date,
@@ -379,7 +381,7 @@ class FinanceController extends Controller
                     'allModels' => $model,
                 ]);
 
-                return $this->render('ces', [
+                return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider_date' => $dataProvider_date,
                     'dataProvider_all'=> $dataProvider_all,
@@ -389,7 +391,7 @@ class FinanceController extends Controller
             }
 
             //如果当天没有记录
-            return $this->render('ces', [
+            return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider_date' => $dataProvider_date,
                 'dataProvider_all' => array(),
@@ -407,8 +409,8 @@ class FinanceController extends Controller
 
         if ($date1 <= $date2)
         {
-            $model      = $this->store_finances(['date1'=>$date1,'date2'=>$date2,'store_id'=>$store_id])[0];
-            $model_date = $this->store_finances(['date1'=>$date1,'date2'=>$date2,'store_id'=>$store_id])[1];
+            $model      = Finance::get_financials(['queryDate_start'=>$date1,'queryDate_end'=>$date2,'store_id'=>$store_id])[0];
+            $model_date = Finance::get_financials(['queryDate_start'=>$date1,'queryDate_end'=>$date2,'store_id'=>$store_id])[1];
 
             $dataProvider_date = new ArrayDataProvider([
                 'allModels' => $model_date,
