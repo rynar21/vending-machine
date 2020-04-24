@@ -149,7 +149,9 @@ class SiteController extends Controller
               $pricesum[] = $total;
         }
 
-        $s = Item::find()->where(['status' => Item::STATUS_SOLD])->all();
+        $s = Item::find()->where([
+            'status' => Item::STATUS_SOLD
+        ])->all();
 
         foreach ($s as $sum)
         {

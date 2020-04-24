@@ -405,12 +405,12 @@ class FinanceController extends Controller
     public function actionDatecheck_store($date1, $date2, $store_id) //根据时间段查询当前商店所有销售情况
     {
         $searchModel  = new FinanceSearch();
-        $dataProvider = $searchModel->searchDate(Yii::$app->request->queryParams,$date1,$date2);
+        $dataProvider = $searchModel->searchDate(Yii::$app->request->queryParams, $date1, $date2);
 
         if ($date1 <= $date2)
         {
-            $model      = Finance::get_financials(['queryDate_start'=>$date1,'queryDate_end'=>$date2,'store_id'=>$store_id])[0];
-            $model_date = Finance::get_financials(['queryDate_start'=>$date1,'queryDate_end'=>$date2,'store_id'=>$store_id])[1];
+            $model      = Finance::get_financials(['queryDate_start' => $date1, 'queryDate_end' => $date2, 'store_id' => $store_id])[0];
+            $model_date = Finance::get_financials(['queryDate_start' = >$date1, 'queryDate_end' => $date2, 'store_id' => $store_id])[1];
 
             $dataProvider_date = new ArrayDataProvider([
                 'allModels' => $model_date,
