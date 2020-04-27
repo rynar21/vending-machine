@@ -187,8 +187,14 @@ class PaymentController extends Controller
     // 判断 交易订单 的状态
     public function actionCheck($id)
     {
-        $model      = SaleRecord::find()->where(['order_number' => $id])->one();
-        $item_model = item::find()->where(['id' => $model->item_id])->one();
+        $model = SaleRecord::find()
+            ->where(['order_number' => $id])
+            ->one();
+
+        $item_model = item::find()
+            ->where(['id' => $model->item_id])
+            ->one();
+            
         $data = [
             'merchantId' => Yii::$app->spay->merchantId,
             'merOrderNo' => $id,
@@ -266,5 +272,5 @@ class PaymentController extends Controller
 
     }
 
-    
+
 }
