@@ -72,26 +72,26 @@ class Finance extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function remove_duplicate($array2D)
+    public static function remove_duplicate($arr2D)
     {
 
-        foreach ($array2D as $array)
+        foreach ($arr2D as $arr)
         {
-            $array = join(',', $array); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
-            $new_array[] = $array;
+            $arr = join(',', $arr); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
+            $new_arr[] = $arr;
         }
 
-        $new_array = array_unique($new_array);
+        $new_arr = array_unique($new_arr);
          //去掉重复的字符串,也就是重复的一维数组
-        foreach ($new_array as $k => $array)
+        foreach ($new_arr as $k => $arr)
         {
-            $new_array[$k] =  array(
-                'store_id' => explode(',', $array)[0] ,
-                'date' => explode(',', $array)[1] //再将拆开的数组重新组装
+            $new_arr[$k] =  array(
+                'store_id' => explode(',', $arr)[0] ,
+                'date' => explode(',', $arr)[1] //再将拆开的数组重新组装
             );
         }
 
-        return $new_array;
+        return $new_arr;
 
     }
 
