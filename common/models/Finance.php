@@ -331,23 +331,27 @@ class Finance extends \yii\db\ActiveRecord
         $total_earn = 0;
         $net_profit = 0;
 
-        $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+        $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
         ->andWhere(['between','created_at' , $date_start, $date_end + 86399])
         ->all();
 
-        if ($models)
+        if ($records)
         {
-            foreach ($models as $salerecord_model)
+            foreach ($records as $record)
             {
-                $total_earn += $salerecord_model->sell_price;
-                $net_profit += $salerecord_model->sell_price - product::find()->where([
-                    'id' => $salerecord_model->item->product_id
-                ])->one()->cost;
+                $total_earn += $record->sell_price;
+
+                $product_cost = product::find()->where([
+                    'id' => $record->item->product_id
+                ])->one()
+                ->cost;
+
+                $net_profit += $total_earn - $product_cost;
             }
 
             $store_all_data[] =  array(
                 'date'              => $queryDate_start . "/" . $queryDate_end,
-                'quantity_of_order' => count($models),
+                'quantity_of_order' => count($records),
                 'total_earn'        => $total_earn ,
                 'gross_profit'      => $total_earn,
                 'net_profit'        => $net_profit
@@ -381,37 +385,40 @@ class Finance extends \yii\db\ActiveRecord
     public static function get_financials($array)//date
     {
         $queryDate_start    = ArrayHelper::getValue($array,'queryDate_start',Null);
-        $queryDate_end    = ArrayHelper::getValue($array,'queryDate_end',Null);
-        $store_id = ArrayHelper::getValue($array,'store_id',Null);
+        $queryDate_end      = ArrayHelper::getValue($array,'queryDate_end',Null);
+        $store_id           = ArrayHelper::getValue($array,'store_id',Null);
 
         $date_start = strtotime($queryDate_start);
-        $date_end = strtotime($queryDate_end);
+        $date_end   = strtotime($queryDate_end);
 
         $total_earn = 0;
         $net_profit = 0;
 
         if (!empty($store_id))
         {
-            $models = SaleRecord::find()
+            $records = SaleRecord::find()
             ->where(['status' => SaleRecord::STATUS_SUCCESS,])
             ->andWhere(['between','created_at' , $date_start, $date_end+86399])
             ->andWhere(['store_id' => $store_id])
             ->all();
 
-            if ($models)
+            if ($records)
             {
-                foreach ($models as $salerecord_model)
+                foreach ($records as $record)
                 {
-                    $total_earn += $salerecord_model->sell_price;
+                    $total_earn += $record->sell_price;
 
-                    $net_profit += $salerecord_model->sell_price - product::find()->where([
-                       'id' => $salerecord_model->item->product_id
-                    ])->one()->cost;
+                    $product_cost = product::find()->where([
+                        'id' => $record->item->product_id
+                    ])->one()
+                    ->cost;
+
+                    $net_profit += $total_earn - $product_cost;
                 }
 
                 $store_all_data[] = array(
                     'date'              => $queryDate_start . "/" . $queryDate_end,
-                    'quantity_of_order' => count($models),
+                    'quantity_of_order' => count($records),
                     'total_earn'        => $total_earn ,
                     'gross_profit'      => $total_earn,
                     'net_profit'        => $net_profit,
@@ -437,23 +444,28 @@ class Finance extends \yii\db\ActiveRecord
 
         if (empty($store_id))
         {
-            $models = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+            $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
             ->andWhere(['between','created_at' ,$date_start, $date_end+86399])
             ->all();
 
-            if ($models)
+            if ($records)
             {
-                foreach ($models as $salerecord_model)
+                foreach ($records as $record)
                 {
-                    $total_earn += $salerecord_model->sell_price;
-                    $net_profit += $salerecord_model->sell_price - Product::find()->where([
-                        'id' =>$salerecord_model->item->product_id
-                   ])->one()->cost;
+                    $total_earn += $record->sell_price;
+
+                    $product_cost = product::find()->where([
+                        'id' => $record->item->product_id
+                    ])->one()
+                    ->cost;
+
+                    $net_profit += $total_earn - $product_cost;
+                
                 }
 
                 $store_all_data[] =  array(
                     'date'              => $queryDate_start . "/" . $queryDate_end,
-                    'quantity_of_order' => count($models),
+                    'quantity_of_order' => count($records),
                     'total_earn'        => $total_earn ,
                     'gross_profit'      => $total_earn,
                     'net_profit'        => $net_profit
