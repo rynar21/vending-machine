@@ -102,7 +102,8 @@ class Finance extends \yii\db\ActiveRecord
         $total      =  Store::STATUS_INITIAL;
         $cost_price =  Store::STATUS_INITIAL;
 
-        $records = SaleRecord::find()->where(['store_id' => $id])
+        $records = SaleRecord::find()
+            ->where(['store_id' => $id])
             ->andWhere(['status' => SaleRecord::STATUS_SUCCESS])
             ->andWhere(['between', 'updated_at' , $date, $date + 86399])
             ->all();
@@ -130,7 +131,8 @@ class Finance extends \yii\db\ActiveRecord
         {
             $manager = User::find()->where([
                 'id' => $store->user_id]
-            )->one()->username;
+            )->one()
+            ->username;
 
             return [
                 'store_name'        => $store->name,
@@ -154,7 +156,8 @@ class Finance extends \yii\db\ActiveRecord
         $total      =  Store::STATUS_INITIAL;
         $cost_price =  Store::STATUS_INITIAL;
 
-        $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS])
+        $records = SaleRecord::find()
+            ->where(['status' => SaleRecord::STATUS_SUCCESS])
             ->andWhere(['between','updated_at' , $date, $date + 86399])
             ->all();
 
@@ -195,7 +198,8 @@ class Finance extends \yii\db\ActiveRecord
 
         if (!empty($store_id))
         {
-            $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+            $records = SaleRecord::find()
+                ->where(['status' => SaleRecord::STATUS_SUCCESS,])
                 ->andWhere(['between', 'created_at' , $time, $time + 86399])
                 ->andWhere(['store_id' => $store_id])
                 ->all();
@@ -211,7 +215,8 @@ class Finance extends \yii\db\ActiveRecord
                         'store_name'    => $record->store->name,
                         'item_name'     => $record->item->name,
                         'sell_price'    => $record->sell_price,
-                        'cost'          => product::find()->where(['id' => $record->item->product_id])->one()->cost,
+                        'cost'          => $record->item->product->cost,
+                         //product::find()->where(['id' => $record->item->product_id])->one()->cost,
                         'creation_time' => date('d-m-Y H:i:s', $record->created_at),
                         'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
                     ];
@@ -221,7 +226,8 @@ class Finance extends \yii\db\ActiveRecord
 
         if (empty($store_id))
         {
-            $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+            $records = SaleRecord::find()
+                ->where(['status' => SaleRecord::STATUS_SUCCESS,])
                 ->andWhere(['between', 'created_at'  , $time, $time + 86399])
                 //->andWhere(['store_id'=>$store_id])
                 ->all();
@@ -236,7 +242,7 @@ class Finance extends \yii\db\ActiveRecord
                         'store_name'    => $record->store->name,
                         'item_name'     => $record->item->name,
                         'sell_price'    => $record->sell_price,
-                        'cost'          => product::find()->where(['id' => $record->item->product_id])->one()->cost,
+                        'cost'          => $record->item->product->cost,
                         'creation_time' => date('d-m-Y H:i:s', $record->created_at),
                         'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
                     ];
@@ -250,8 +256,8 @@ class Finance extends \yii\db\ActiveRecord
     public static function get_salerecord($array) //导出roder
     {
         $queryDate_start    = ArrayHelper::getValue($array, 'queryDate_start', Null);
-        $queryDate_end   = ArrayHelper::getValue($array, 'queryDate_end', Null);
-        $store_id = ArrayHelper::getValue($array, 'store_id', Null);
+        $queryDate_end      = ArrayHelper::getValue($array, 'queryDate_end', Null);
+        $store_id           = ArrayHelper::getValue($array, 'store_id', Null);
 
         $date_start = strtotime($queryDate_start);
         $date_end = strtotime($queryDate_end);
@@ -261,7 +267,8 @@ class Finance extends \yii\db\ActiveRecord
             for ($i = 1; $i <= (strtotime($queryDate_end) - strtotime($queryDate_start) + 86400) / 86400 ; $i++)
             {
                 $date   = $date_start + 86400 * ($i) - 86400;
-                $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+                $records = SaleRecord::find()
+                    ->where(['status' => SaleRecord::STATUS_SUCCESS,])
                     ->andWhere(['between', 'created_at' , $date, $date + 86399])
                     ->andWhere(['store_id' => $store_id])
                     ->all();
@@ -277,7 +284,7 @@ class Finance extends \yii\db\ActiveRecord
                             'store_name'    => $record->store->name,
                             'item_name'     => $record->item->name,
                             'sell_price'    => $record->sell_price,
-                            'cost'          => product::find()->where(['id' => $record->item->product_id])->one()->cost,
+                            'cost'          => $record->item->product->cost,
                             'creation_time' => date('d-m-Y H:i:s', $record->created_at),
                             'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
                         ];
@@ -293,7 +300,8 @@ class Finance extends \yii\db\ActiveRecord
             for ($i = 1; $i <= (strtotime($queryDate_end) - strtotime($queryDate_start) + 86400) / 86400 ; $i++)
             {
                 $date   = $date_start + 86400 * ($i) - 86400;
-                $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
+                $records = SaleRecord::find()
+                    ->where(['status' => SaleRecord::STATUS_SUCCESS,])
                     ->andWhere(['between', 'created_at' , $date, $date+86399])
                     //->andWhere(['store_id'=>$store_id])
                     ->all();
@@ -309,7 +317,7 @@ class Finance extends \yii\db\ActiveRecord
                             'store_name'    => $record->store->name,
                             'item_name'     => $record->item->name,
                             'sell_price'    => $record->sell_price,
-                            'cost'          => product::find()->where(['id' => $record->item->product_id])->one()->cost,
+                            'cost'          => $record->item->product->cost,
                             'creation_time' => date('d-m-Y H:i:s', $record->created_at),
                             'end_time'      => date('d-m-Y H:i:s', $record->updated_at),
                         ];
@@ -331,9 +339,10 @@ class Finance extends \yii\db\ActiveRecord
         $total_earn = 0;
         $net_profit = 0;
 
-        $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-        ->andWhere(['between','created_at' , $date_start, $date_end + 86399])
-        ->all();
+        $records = SaleRecord::find()
+            ->where(['status' => SaleRecord::STATUS_SUCCESS,])
+            ->andWhere(['between','created_at' , $date_start, $date_end + 86399])
+            ->all();
 
         if ($records)
         {
@@ -397,10 +406,10 @@ class Finance extends \yii\db\ActiveRecord
         if (!empty($store_id))
         {
             $records = SaleRecord::find()
-            ->where(['status' => SaleRecord::STATUS_SUCCESS,])
-            ->andWhere(['between','created_at' , $date_start, $date_end+86399])
-            ->andWhere(['store_id' => $store_id])
-            ->all();
+                ->where(['status' => SaleRecord::STATUS_SUCCESS,])
+                ->andWhere(['between','created_at' , $date_start, $date_end+86399])
+                ->andWhere(['store_id' => $store_id])
+                ->all();
 
             if ($records)
             {
@@ -444,9 +453,10 @@ class Finance extends \yii\db\ActiveRecord
 
         if (empty($store_id))
         {
-            $records = SaleRecord::find()->where(['status' => SaleRecord::STATUS_SUCCESS,])
-            ->andWhere(['between','created_at' ,$date_start, $date_end+86399])
-            ->all();
+            $records = SaleRecord::find()
+                ->where(['status' => SaleRecord::STATUS_SUCCESS,])
+                ->andWhere(['between','created_at' ,$date_start, $date_end+86399])
+                ->all();
 
             if ($records)
             {
@@ -460,7 +470,7 @@ class Finance extends \yii\db\ActiveRecord
                     ->cost;
 
                     $net_profit += $total_earn - $product_cost;
-                
+
                 }
 
                 $store_all_data[] =  array(

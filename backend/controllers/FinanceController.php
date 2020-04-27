@@ -410,7 +410,7 @@ class FinanceController extends Controller
         if ($date1 <= $date2)
         {
             $model      = Finance::get_financials(['queryDate_start' => $date1, 'queryDate_end' => $date2, 'store_id' => $store_id])[0];
-            $model_date = Finance::get_financials(['queryDate_start' = >$date1, 'queryDate_end' => $date2, 'store_id' => $store_id])[1];
+            $model_date = Finance::get_financials(['queryDate_start' => $date1, 'queryDate_end' => $date2, 'store_id' => $store_id])[1];
 
             $dataProvider_date = new ArrayDataProvider([
                 'allModels' => $model_date,
