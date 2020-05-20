@@ -245,7 +245,7 @@ class BoxController extends Controller
             $salerecord_model->success();
         }
 
-        Queue::push($model->store_id, $model->hardware_id,'First');
+        Queue::push($model->store_id, $model->hardware_id);
 
         Yii::$app->session->setFlash('success', 'Please wait.');
 
