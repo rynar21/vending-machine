@@ -21,33 +21,42 @@ use yii\bootstrap\ActiveForm;
         <div class="row">
             <div class="col-sm-12" >
         <?php foreach ($item_dataProvider as $item):?>
-            <a href="<?= Url::base()?>/item/view?id=<?= $item->id ?>">
+
             <div class="col-sm-3 col-xs-6 box_row "  >
                  <!-- 产品 显示框 -->
+
                 <div class=" box_item "  >
+
+                    <a href="<?= Url::base()?>/item/view?id=<?= $item->id ?>">
+
                     <div class="box-code-id text-center b-color">
                         <div class="box-number"><?=$model->prefix . Box::find()->where(['id'=>$item->box_id])->one()->code;  ?></div>
                     </div>
+
                     <!-- 产品：图片 显示框 -->
-                       <div class="row item_image" >
-                           <img src="<?=  $item->product->imageUrl ?>" class="img-responsive center-block"  />
-                       </div>
-                       <!-- 产品：名字 显示框 -->
-                       <div class="row item_name text-center">
-                           <?= $item->name ?>
-                       </div>
-                       <!-- 产品：购买的按钮 -->
-                       <div class="row text-center item-price  " >
-                           <span class="item_price font-color" >
-                               <?= $item->pricing ?>
-                           </span>
-                       </div>
+                    <div class="row item_image" >
+                        <img src="<?=  $item->product->imageUrl ?>" class="img-responsive center-block"  />
+                    </div>
+
+                    <!-- 产品：名字 显示框 -->
+                    <div class="row item_name text-center">
+                        <?= $item->name ?>
+                    </div>
+
+                    <!-- 产品：购买的按钮 -->
+                    <div class="row text-center item-price  " >
+                        <span class="item_price font-color" >
+                            <?= $item->pricing ?>
+                        </span>
+                    </div>
 
                     <div class="box-buy text-center b-color">
                         BUY
                     </div>
+
                     </a>
                 </div>
+
             </div>
         <?php endforeach; ?>
 
