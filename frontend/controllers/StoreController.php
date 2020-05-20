@@ -22,25 +22,16 @@ class StoreController extends Controller
     {
         $item_searchModel = new ItemSearch();
         $data = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
-        $count = $data->query->count(); //数据总条数
+        // $count = $data->query->count(); //数据总条数
         $model = $this->findModel($id);
 
-        $pagination = new Pagination([
-            'totalCount' => $count,
-            'defaultPageSize' => 10
-        ]);  //每页放几条内容
-
-        $articles = $data->query
-        ->offset($pagination->offset)
-        ->limit($pagination->limit)
-        ->all();
+        $articles = $data->query->all();
 
         if ($model->status == $model::STATUS_IN_OPERATION)
         {
             return $this->render('view', [
                 'model' => $model ,
                 'id' => $id,
-                'pages' => $pagination,
                 'item_searchModel' => $item_searchModel,
                 'item_dataProvider' => $articles,
             ]);

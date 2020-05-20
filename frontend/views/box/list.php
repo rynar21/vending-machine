@@ -4,7 +4,7 @@ use common\models\Box;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\widgets\LinkPager;
+// use yii\widgets\LinkPager;
 
 
 // @models $item_dataProvider = ItemSearch() model
@@ -17,9 +17,11 @@ use yii\widgets\LinkPager;
 <script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
 <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
 <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+
         <div class="row">
             <div class="col-sm-12" >
         <?php foreach ($item_dataProvider as $item):?>
+            <a href="<?= Url::base()?>/item/view?id=<?= $item->id ?>">
             <div class="col-sm-3 col-xs-6 box_row "  >
                  <!-- 产品 显示框 -->
                 <div class=" box_item "  >
@@ -40,7 +42,7 @@ use yii\widgets\LinkPager;
                                <?= $item->pricing ?>
                            </span>
                        </div>
-                    <a href="<?= Url::base()?>/item/view?id=<?= $item->id ?>">
+
                     <div class="box-buy text-center b-color">
                         BUY
                     </div>
@@ -51,18 +53,4 @@ use yii\widgets\LinkPager;
 
         </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12 font-color">
-    <?php
-        echo LinkPager::widget([
-        'pagination' => $pages,
-        'maxButtonCount' => 5,//最多显示的几页
-        'firstPageLabel'=>'First',//去到第一页
-        'prevPageLabel'=>'Prev',//返回上一页
-        'nextPageLabel'=>'Next',//下一页
-        'lastPageLabel'=>'Last',//去到最后一页
-       ]);?>
-      </div>
 </div>
