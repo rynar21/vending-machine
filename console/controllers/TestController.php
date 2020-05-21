@@ -26,19 +26,19 @@ class TestController extends Controller {
     public  function actionInspection()
     {
 
-        $models = SaleRecord::find()->where([
+        $records = SaleRecord::find()->where([
                 'status' => SaleRecord::STATUS_PENDING,
             ])->andWhere([
                 '<',
                 'created_at',
                 time()-1
             ])->all();
-            
-            if ($models)
+
+            if ($records)
             {
-                foreach ($models as $model)
+                foreach ($records as $record)
                 {
-                        $model->failed();
+                        $record->failed();
                         echo $model->id . "\n";
                 }
             }

@@ -29,8 +29,18 @@ return [
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
+            //'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'internal',
+                    'pluralize' => false,
+                    'extraPatterns' =>[
+                        'POST access-token' => 'access-token',
+                        'OPTIONS <acton:[\w-]+>' => 'options',
+                    ]
+                ]
             ],
         ],
     ],
