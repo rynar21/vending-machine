@@ -37,6 +37,8 @@ return [
                     'controller' => 'internal',
                     'pluralize' => false,
                     'extraPatterns' =>[
+                        // 'POST controller/action' => 'internal/request'
+                        'GET <internal:[\w-]+>' => 'internal',
                         'POST access-token' => 'access-token',
                         'OPTIONS <acton:[\w-]+>' => 'options',
                     ]
