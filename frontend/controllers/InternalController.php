@@ -3,7 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\data\ArrayDataProvider;
-
+use common\models\SaleRecord;
 use yii\rest\Controller;
 
 /**
@@ -19,7 +19,7 @@ class InternalController extends Controller
             ])->andWhere([
                 '<',
                 'created_at',
-                time()-120
+                time() - 60 * 2
             ])->all();
 
             if ($records)
