@@ -7,25 +7,27 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
+    'id' => 'app-api',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'frontend\controllers',
+    'controllerNamespace' => 'api\controllers',
     'components' => [
-        'request' => [
-            'csrfParam' => '_csrf-frontend',
-        ],
         'user' => [
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'enableAutoLogin' => false,
         ],
-        'session' => [
-            // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+        'request' => [
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
         ],
-        'errorHandler' => [
-            'errorAction' => 'site/error',
+        'response' => [
+            'formatters' => [
+                \yii\web\Response::FORMAT_JSON => [
+                    'class' => 'yii\web\JsonResponseFormatter',
+                    'prettyPrint' => YII_DEBUG,
+                ],
+            ],
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -38,7 +40,17 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'POST request' => 'request',
-                        'OPTIONS <acton:[\w-]+>' => 'options',
+                        'OPTIONS <action:[\w-]+>' => 'options',
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET request' => 'request',
+                        'GET next' => 'next',
+                        'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ]
             ],

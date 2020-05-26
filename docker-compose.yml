@@ -74,3 +74,17 @@ services:
         volumes:
             - "./cdn:/usr/share/nginx/html"
             - "./.docker-data/nginx/conf.d:/etc/nginx/conf.d"
+
+    api:
+        build: api
+        ports:
+            - 21088:80
+        volumes:
+            # Re-use local composer cache via host-volume
+            - ~/.composer-docker/cache:/root/.composer/cache:delegated
+            # Mount source-code for development
+            - ./:/app
+        depends_on:
+            - db
+        env_file:
+            - ./server.env
