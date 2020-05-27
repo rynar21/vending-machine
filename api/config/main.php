@@ -36,7 +36,7 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'internal',
+                    'controller' => 'cron',
                     'pluralize' => false,
                     'extraPatterns' => [
                         'POST request' => 'request',
@@ -45,7 +45,7 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api',
+                    'controller' => 'kiosk',
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET request' => 'request',
