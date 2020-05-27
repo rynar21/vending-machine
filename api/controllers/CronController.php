@@ -9,7 +9,7 @@ use yii\rest\Controller;
 /**
  * Site controller
  */
-class InternalController extends Controller
+class CronController extends Controller
 {
 
     public function actionRequest()

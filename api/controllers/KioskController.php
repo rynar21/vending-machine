@@ -16,7 +16,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
 // BoxController implements the CRUD actions for Box model.
-class ApiController extends Controller
+class KioskController extends Controller
 {
 
     public  function actionRequest($id)
