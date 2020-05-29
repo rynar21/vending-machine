@@ -14,7 +14,7 @@ class m999999_999999_box extends Migration
 
     public function safeUp()
     {
-        for ($i=1; $i < 7 ; $i++)
+        for ($i = 1; $i < 7; $i++)
         {
             $this->insert('box', [
                 'id'            => $i,
@@ -23,7 +23,7 @@ class m999999_999999_box extends Migration
                 'created_at'    => "1584595153",
                 'updated_at'    => "1584595153",
                 'store_id'      => 1,
-                'hardware_id'   => "0".$i ."OK",
+                'hardware_id'   => "0". $i ."OK",
             ]);
         }
     }
