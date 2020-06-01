@@ -6,6 +6,7 @@ use yii\data\ArrayDataProvider;
 use common\models\SaleRecord;
 use yii\rest\Controller;
 
+
 /**
  * Site controller
  */
@@ -22,27 +23,31 @@ class CronController extends Controller
                 time() - 60 * 2
             ])->all();
 
-            if ($records)
+        if ($records)
+        {
+            foreach ($records as $record)
             {
-                foreach ($records as $record)
-                {
-                        $record->failed();
-                }
+                $record->failed();
             }
-        // Slack::postUrl([
-        //     'url'=>'https://hooks.slack.com/services/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',
-        //     'data'=>[
-        //            "stoe_name"=>'one',
-        //             "item_name"=>'col',
-        //              "price"=>'12RM',
-        //     ],
-        // ]);
+        }
+
+        Slack::postUrl([
+            'url'=>'https://hooks.slack.com/services/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',
+            'data'=>[
+                   "stoe_name"=>'one',
+                    "item_name"=>'col',
+                     "price"=>'12RM',
+            ],
+        ]);
+
         return [
             'data' => [
                 'update' => 'ok',
             ]
         ];
     }
+
+
 }
 
 
