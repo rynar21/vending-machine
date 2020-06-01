@@ -31,14 +31,14 @@ class CronController extends Controller
             }
         }
 
-        Slack::postUrl([
-            'url'=>'https://hooks.slack.com/services/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',
-            'data'=>[
-                   "stoe_name"=>'one',
-                    "item_name"=>'col',
-                     "price"=>'12RM',
-            ],
-        ]);
+         Yii::$app->slack->Posturl([
+             'url'=>'https://hooks.slack.com/services/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',
+             'data'=>[
+                     "vm"=>'定时任务',
+
+                     'date'=>date('Y-m-d H:i:s', time()),
+             ],
+         ]);
 
         return [
             'data' => [
