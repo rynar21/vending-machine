@@ -4,14 +4,14 @@ services:
     db:
         image: mysql:8.0.19
         command: --default-authentication-plugin=mysql_native_password
-        container_name: mysql_database
+        container_name: vm_db
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: yii2advanced
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:4.8.4
-        container_name: phpmyadmin_web
+        container_name: vm_phpmyadmin
         environment:
             PMA_HOST: db
             PMA_PORT: 3306
@@ -23,6 +23,7 @@ services:
 
     init:
         build: frontend
+        container_name: vm_init
         volumes:
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
             - ./:/app
@@ -39,12 +40,11 @@ services:
 
     frontend:
         build: frontend
+        container_name: vm_www
         ports:
             - 20080:80
         volumes:
-            # Re-use local composer cache via host-volume
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
-            # Mount source-code for development
             - ./:/app
         depends_on:
             - db
@@ -53,12 +53,11 @@ services:
 
     backend:
         build: backend
+        container_name: vm_admin
         ports:
             - 21080:80
         volumes:
-            # Re-use local composer cache via host-volume
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
-            # Mount source-code for development
             - ./:/app
         depends_on:
             - db
@@ -67,12 +66,11 @@ services:
 
     api:
         build: api
+        container_name: vm_api
         ports:
             - 21088:80
         volumes:
-            # Re-use local composer cache via host-volume
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
-            # Mount source-code for development
             - ./:/app
         depends_on:
             - db
@@ -81,7 +79,7 @@ services:
 
     cdn:
         image: nginx:alpine
-        restart: always
+        container_name: vm_cdn
         ports:
             - 21110:80
         volumes:
