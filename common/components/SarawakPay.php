@@ -42,4 +42,5 @@ class SarawakPay
     {
         return SP_Plugin::decrypt($encryptedData, Yii::getAlias($this->privateKeyPath));
     }
+
 }
