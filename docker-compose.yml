@@ -7,7 +7,7 @@ services:
         container_name: vm_db
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: yii2advanced
+            MYSQL_DATABASE: vm_db
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:4.8.4
@@ -40,7 +40,7 @@ services:
 
     frontend:
         build: frontend
-        container_name: vm_www
+        container_name: vm_frontend
         ports:
             - 20080:80
         volumes:
@@ -53,7 +53,7 @@ services:
 
     backend:
         build: backend
-        container_name: vm_admin
+        container_name: vm_backend
         ports:
             - 21080:80
         volumes:

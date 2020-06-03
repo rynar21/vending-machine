@@ -13,7 +13,7 @@ return [
         ],
         'db' => [
             'class'     => 'yii\db\Connection',
-            'dsn'       => 'mysql:host=' . getenv('RDS_HOSTNAME') . ':' . getenv('RDS_PORT') . ';dbname='  . getenv('RDS_DB_NAME'),
+            'dsn'       => 'mysql:host=' . getenv('RDS_HOSTNAME') . ':' . getenv('RDS_PORT') . ';dbname=vm_db',
             'username'  => getenv('RDS_USERNAME'),
             'password'  => getenv('RDS_PASSWORD'),
             'charset'   => 'utf8mb4',
