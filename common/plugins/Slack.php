@@ -38,8 +38,8 @@ class Slack
     {
             $url = ArrayHelper::getValue($array, 'url', Yii::$app->slack->url);
             $data=ArrayHelper::getValue($array,'data','Hello World!');
-            $getdata=$this->gData($data);
-            $data  = json_encode($getdata);
+            //$getdata=$this->gData($data);
+            $data  = json_encode($data);
             $headerArray =array("Content-type:application/json;charset='utf-8'","Accept:application/json");//设置格式
             $curl = curl_init();//初始化CURL句柄
             curl_setopt($curl, CURLOPT_URL, $url);//设置请求的URL
