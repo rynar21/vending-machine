@@ -17,7 +17,7 @@ class CronController extends Controller
     {
         $this->queryPendingOrder();
 
-        $this->testAPI();
+        // $this->testAPI();
 
         return [
             'data' => [
