@@ -1,1 +1,0 @@
-yii test/inspection

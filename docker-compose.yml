@@ -27,7 +27,7 @@ services:
             - ~/.composer-docker/cache:/root/.composer/cache:delegated
             - ./:/app
         env_file:
-            - ./server.env
+            - ./docker.env
         depends_on:
             - db
         command: >
@@ -49,7 +49,7 @@ services:
         depends_on:
             - db
         env_file:
-            - ./server.env
+            - ./docker.env
 
     backend:
         build: backend
@@ -63,17 +63,7 @@ services:
         depends_on:
             - db
         env_file:
-            - ./server.env
-
-
-    cdn:
-        image: nginx:alpine
-        restart: always
-        ports:
-            - 21110:80
-        volumes:
-            - "./cdn:/usr/share/nginx/html"
-            - "./.docker-data/nginx/conf.d:/etc/nginx/conf.d"
+            - ./docker.env
 
     api:
         build: api
@@ -87,4 +77,13 @@ services:
         depends_on:
             - db
         env_file:
-            - ./server.env
+            - ./docker.env
+
+    cdn:
+        image: nginx:alpine
+        restart: always
+        ports:
+            - 21110:80
+        volumes:
+            - "./cdn:/usr/share/nginx/html"
+            - "./.docker-data/nginx/conf.d:/etc/nginx/conf.d"
