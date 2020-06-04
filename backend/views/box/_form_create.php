@@ -18,6 +18,7 @@ use yii\widgets\ActiveForm;
                  <div class="col-sm-12">
                       <b> Box Code </b>
                   </div>
+                  
                   <div class="col-sm-12">
                       <?= $form->field($model, 'code', [
                         'template' => '<div class="input-group"><span class="input-group-addon">'. $model->prefix .'</span>{input}</div>',
@@ -25,7 +26,22 @@ use yii\widgets\ActiveForm;
 
                     <?= $form->field($model, 'code')->hiddenInput()->label(false) ?>
                  </div>
+
             </div>
+
+            <?php
+
+            if (strlen($model->code) < 2)
+            {
+                $model->hardware_id = "0" . $model->code . "OK";
+            }
+            else
+            {
+                $model->hardware_id = $model->code . "OK";
+            }
+
+            ?>
+
             <?= $form->field($model, 'hardware_id')->textInput(['disabled' => false]) ?>
             <div class="row form-group">
                   <div class="col-sm-1 col-xs-3">

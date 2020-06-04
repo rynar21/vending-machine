@@ -127,6 +127,10 @@ use yii\helpers\ArrayHelper;
                         [
                             'attribute'=> 'code',
                             'label'=> 'Box Code',
+                            'filterInputOptions' => [
+                                'class'  => 'form-control',
+                                'placeholder' => 'Search....'
+                            ],
                             'format' => 'raw',
                             'headerOptions' =>['class'=>'col-lg-2',],
                             'value' => function ($model)
@@ -146,7 +150,11 @@ use yii\helpers\ArrayHelper;
                         [
                             'attribute' => 'name',
                             'label'=> 'Item',
-                            'value' => 'product.name'
+                            'value' => 'product.name',
+                            'filterInputOptions' => [
+                                'class'  => 'form-control',
+                                'placeholder' => 'Search....'
+                             ]
                         ],
                         'item.price:currency',
                         [

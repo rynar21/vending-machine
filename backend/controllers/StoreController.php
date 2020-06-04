@@ -269,7 +269,7 @@ class StoreController extends Controller
             {
                 Yii::$app->session->setFlash('error', 'Non exist username.');
             }
-            
+
         }
 
         return $this->render('store_manager', [
@@ -290,7 +290,7 @@ class StoreController extends Controller
         Box::updateAll(['status' => Box::BOX_STATUS_NOT_AVAILABLE], ['store_id' => $id]);
         Store::updateAll(['status' => Store::STATUS_IN_OPERATION], ['id' => $id]);
 
-        return $this->redirect(['store/view', 'id' => $id]);
+        return $this->redirect(['store/view', 'id' => $id]) && Yii::$app->session->setFlash('success', "Store is published successful.");;
     }
 
     public function actionBox_item($box_id, $store_id)

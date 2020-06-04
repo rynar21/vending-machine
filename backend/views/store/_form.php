@@ -19,7 +19,7 @@ use common\models\user;
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'contact')->textInput() ?>
+    <?= $form->field($model, 'contact')->textInput(['placeholder' => "Eg. 0121231234"]) ?>
 
     <?= $form->field($model, 'prefix')->textInput() ?>
 

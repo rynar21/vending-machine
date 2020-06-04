@@ -66,7 +66,7 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'sku'=>'sku',
+            'sku'=>'SKU (Stock Keeping Unit)',
             'name' => 'Name',
             'description'=>'Description',
             'price' => 'Price',
@@ -119,5 +119,5 @@ class Product extends \yii\db\ActiveRecord
     {
         return parent::afterSave($insert,$changedAttributes);
     }
-    
+
 }
