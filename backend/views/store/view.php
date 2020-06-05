@@ -108,9 +108,21 @@ use yii\helpers\ArrayHelper;
 <div class="btn-group" role="group" aria-label="Second group">
 
     <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info','style'=>"display:"."$str"]) ?>
-    <?= Html::a('Restock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
-    <?= Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
-    <?= Html::a('Open ALL ', ['box/open_all_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]) ?>
+    <?php
+
+
+    if ($model->status != Store::STATUS_IN_MAINTENANCE) {
+        echo Html::a('Restock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]);
+    }
+
+    if ($model->status == Store::STATUS_IN_MAINTENANCE)
+    {
+        echo Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-success','style'=>"display:"."$str"]) ;
+    }
+
+     ?>
+
+    <?= Html::a('Open All Boxes', ['box/open_all_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger','style'=>"display:"."$str"]) ?>
 </div>
 
     <div class="col-sm-12">
