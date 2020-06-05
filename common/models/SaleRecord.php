@@ -245,7 +245,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     public  function queryPendingOrder()
     {
         $sum2 = 0;
-        $data = [];
+        $data[] = '';
         $records = SaleRecord::find()->where([
                 'status' => SaleRecord::STATUS_PENDING,
         ])->all();
@@ -267,14 +267,12 @@ class SaleRecord extends \yii\db\ActiveRecord
 
                 if ($record->status == SaleRecord::STATUS_SUCCESS)
                 {
-                    $data[] = array($record->order_number, '    Failed' );
-
+                    $data[] = $record->order_number. '  Success';
                 }
 
                 if ($record->status == SaleRecord::STATUS_FAILED)
                 {
-                    $data[] = array($record->order_number, '    Failed' );
-
+                    $data[] = $record->order_number. '  Failed';
                 }
             }
         }
@@ -284,8 +282,6 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     private  function testAPI($sum1,$sum2,$data)
     {
-        //$ip = gethostbyname(gethostname()); //主机IP
-
         Yii::$app->slack->Posturl([
             'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=11057651-b2bf-42a9-9eb3-760049e1ac87',
             'data' => [
@@ -294,7 +290,7 @@ class SaleRecord extends \yii\db\ActiveRecord
                     "text" => [
                         "content" => "查询支付中订单:".$sum1."条"."\n".
                         "处理:".$sum2."条"."\n".
-                        "OrderNumber:".'    '."Status:"."\n".($data),
+                        "OrderNumber:".'    '."Status:"."\n".implode("\n",$data),
                     ],
             ],
         ]);
