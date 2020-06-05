@@ -143,7 +143,7 @@ class SaleRecord extends \yii\db\ActiveRecord
            $this->item->status = Item::STATUS_LOCKED;
            $this->item->save();
         }
-        
+
         return $this->save() && $this->item->save();
     }
 
@@ -161,6 +161,8 @@ class SaleRecord extends \yii\db\ActiveRecord
             // 更新 Box盒子 的状态属性 为空
             $this->box->status = Box::BOX_STATUS_NOT_AVAILABLE;
             $this->box->save();
+
+            Queue::push($this->store_id, $this->box->hardware_id);
          }
     }
 
@@ -189,6 +191,113 @@ class SaleRecord extends \yii\db\ActiveRecord
             return $cost_price;
         }
 
+    }
+
+    public function executeUpdateStatus()
+    {
+        if ($this->getIsFinalStatus()) {
+            return false;
+        }
+        return $this->querySpOrderAPI();
+    }
+
+    private function getIsFinalStatus()
+    {
+        if ($this->status == self::STATUS_PENDING) {
+            return false;
+        }
+        return true;
+    }
+
+    private function querySpOrderAPI()
+    {
+        // $response_data = Yii::$app->spay->checkOrder([
+        //     'merOrderNo' => $this->order_number,
+        // ])
+
+        $data = [
+            'merchantId' => Yii::$app->spay->merchantId,
+            'merOrderNo' => $this->order_number,
+        ];
+
+        $response_data = Yii::$app->spay->checkOrder($data);
+
+        $array         = json_decode($response_data);
+        $orderStatus   = $array->{'orderStatus'};
+
+        if ($this->getIsFinalStatus()) {
+            return false;
+        }
+
+        if (Yii::$app->spay->getIsFinalStatus($orderStatus))
+        {
+            return false;
+        }
+
+        if (Yii::$app->spay->getIsPaymentSuccess($orderStatus))
+        {
+            return $this->success();
+        }
+
+        return $this->failed();
+    }
+
+    public  function queryPendingOrder()
+    {
+        $sum2 = 0;
+        $data = [];
+        $records = SaleRecord::find()->where([
+                'status' => SaleRecord::STATUS_PENDING,
+        ])->all();
+
+        if ($records)
+        {
+            foreach ($records as $record)
+            {
+                if ($record->executeUpdateStatus()) {
+                    $sum2 += 0;
+                }
+
+                $sum2 += 1;
+
+                if ($record->status == SaleRecord::STATUS_PENDING)
+                {
+                    $sum2 = $sum2 - 1;
+                }
+
+                if ($record->status == SaleRecord::STATUS_SUCCESS)
+                {
+                    $data[] = array($record->order_number, '    Failed' );
+
+                }
+
+                if ($record->status == SaleRecord::STATUS_FAILED)
+                {
+                    $data[] = array($record->order_number, '    Failed' );
+
+                }
+            }
+        }
+        //return false;
+        return $this->testAPI(count($records),$sum2,$data);
+    }
+
+    private  function testAPI($sum1,$sum2,$data)
+    {
+        //$ip = gethostbyname(gethostname()); //主机IP
+
+        Yii::$app->slack->Posturl([
+            'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=11057651-b2bf-42a9-9eb3-760049e1ac87',
+            'data' => [
+                    "msgtype" => "text",
+
+                    "text" => [
+                        "content" => "查询支付中订单:".$sum1."条"."\n".
+                        "处理:".$sum2."条"."\n".
+                        "OrderNumber:".'    '."Status:"."\n".($data),
+                    ],
+            ],
+        ]);
     }
 
 }

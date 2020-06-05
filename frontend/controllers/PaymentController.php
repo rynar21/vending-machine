@@ -161,21 +161,7 @@ class PaymentController extends Controller
 
             $model = SaleRecord::find()->where(['order_number' => $id])->one();
 
-            if ($model != null)
-            {
-
-                if ($orderStatus == SarawakPay::STATUS_SUCCESS)
-                {
-                    $model->success();
-                    Queue::push($model->store_id, $model->box->hardware_id);
-                }
-                else
-                {
-                    $model->failed();
-                }
-
-            }
-
+            $model->executeUpdateStatus();
         }
 
         return [
@@ -194,7 +180,7 @@ class PaymentController extends Controller
         $item_model = item::find()
             ->where(['id' => $model->item_id])
             ->one();
-            
+
         $data = [
             'merchantId' => Yii::$app->spay->merchantId,
             'merOrderNo' => $id,

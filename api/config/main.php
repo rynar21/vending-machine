@@ -39,7 +39,7 @@ return [
                     'controller' => 'cron',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'POST request' => 'request',
+                        'POST minute' => 'minute',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],

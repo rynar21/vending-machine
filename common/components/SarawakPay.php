@@ -43,4 +43,22 @@ class SarawakPay
         return SP_Plugin::decrypt($encryptedData, Yii::getAlias($this->privateKeyPath));
     }
 
+    public function getIsPaymentSuccess($orderStatus)
+    {
+        if ($orderStatus == self::STATUS_SUCCESS) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getIsFinalStatus($orderStatus)
+    {
+        if ($orderStatus == self::STATUS_PENDING) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
