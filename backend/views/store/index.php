@@ -81,7 +81,7 @@ $this->title = 'Store';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return Html::a('view', ['/store/view','id'=>$model->id]).' | '.Html::a('update', ['/store/update','id'=>$model->id]);
+                  return Html::a('Enter Store', ['/store/view','id'=>$model->id]).' | '.Html::a('Modify Store Detail', ['/store/update','id'=>$model->id]);
                 }
             ],
 
