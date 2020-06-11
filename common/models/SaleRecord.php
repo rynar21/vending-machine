@@ -242,7 +242,7 @@ class SaleRecord extends \yii\db\ActiveRecord
         return $this->failed();
     }
 
-    public  function queryPendingOrder()
+    public function queryPendingOrder()
     {
         $count_number = 0;
         $data = [];
@@ -286,7 +286,8 @@ class SaleRecord extends \yii\db\ActiveRecord
         if (!empty($count_array))
         {
             Yii::$app->slack->Posturl([
-                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=5d2d79f3-836c-49f5-93a8-5412567ac5ff',
+                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=5d2d79f3-836c-49f5-93a8-5412567ac5ff
+                ',
                 'data' => [
                         "msgtype" => "text",
 

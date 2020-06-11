@@ -81,7 +81,10 @@ $this->title = 'Store';
                 'visible' => Yii::$app->user->can('staff'),
                 'value' => function ($model)
                 {
-                  return Html::a('Enter Store', ['/store/view','id'=>$model->id]).' | '.Html::a('Modify Store Detail', ['/store/update','id'=>$model->id]);
+                    if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
+                         return Html::a('Enter Store', ['/store/view','id'=>$model->id]).' | '.Html::a('Modify Store Detail', ['/store/update','id'=>$model->id]);
+                    }
+                    return Html::a('Enter Store', ['/store/view','id'=>$model->id]);
                 }
             ],
 

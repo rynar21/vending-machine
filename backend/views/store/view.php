@@ -29,17 +29,24 @@ use yii\helpers\ArrayHelper;
     <?php echo DetailView::widget([
           'model' => $model,
           'attributes' => [
-              [
-                  'attribute'=>'name',
-                  'format' => 'raw' ,
-                   'visible' => Yii::$app->user->can('admin'),
-                  'value' => function ($model)
-                  {
-                    return $model->name.' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
-                    Html::a('Detailed', ['store/store_detailed', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6 ']).
-                    Html::a('Sales', ['site/index', ], ['class' => 'btn btn-sm  btn-primary col-lg-6  ']).' </div>';
-                  }
-              ],
+                [
+                    'attribute'=>'name',
+                    'format' => 'raw' ,
+                    'visible' => Yii::$app->user->can('staff'),
+                    'value' => function ($model)
+                    {
+                        if ($model->user_id == Yii::$app->user->identity->id) {
+                            return $model->name.' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
+                            Html::a('Detailed', ['store/store_detailed', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6 ']).
+                            Html::a('Sales', ['site/index', ], ['class' => 'btn btn-sm  btn-primary col-lg-6  ']).' </div>';
+                        }
+                        if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
+                            return $model->name.' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
+                            Html::a('Detailed', ['store/store_detailed', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6 ']).
+                            Html::a('Sales', ['site/index', ], ['class' => 'btn btn-sm  btn-primary col-lg-6  ']).' </div>';
+                        }
+                    }
+                ],
               [
                   'attribute'=>'Manager',
                   'format' => 'raw' ,
@@ -92,11 +99,17 @@ use yii\helpers\ArrayHelper;
     <!-- PHP: 展示时间 -->
     <?php //echo Yii::$app->formatter->asDateTime($model->created_at);
         $auth = Yii::$app->authManager;
-        if ($auth->checkAccess(Yii::$app->user->identity->id,'user')) {
+        if (!($auth->checkAccess(Yii::$app->user->identity->id,'staff'))) {
             $str =' none';
         };
-        if ($auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
+        if ($auth->checkAccess(Yii::$app->user->identity->id,'staff')) {
             $str =' ';
+        } ;
+        if (!($auth->checkAccess(Yii::$app->user->identity->id,'admin'))) {
+            $str_admin =' none';
+        };
+        if ($auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
+            $str_admin =' ';
         } ;
         if ($model->status == Store::STATUS_IN_MAINTENANCE) {
             $strr = true;
@@ -124,7 +137,7 @@ use yii\helpers\ArrayHelper;
 
      ?>
 
-    <?= Html::a('Open All Boxes', ['box/open_all_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger','style'=>"display:"."$str"]) ?>
+    <?= Html::a('Open All Boxes', ['box/open_all_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger','style'=>"display:"."$str_admin"]) ?>
 </div>
 
     <div class="col-sm-12">
@@ -192,7 +205,7 @@ use yii\helpers\ArrayHelper;
                             // 'attribute'=>'Item History',
                             'format' => 'raw' ,
                             'headerOptions' =>['class'=>'col-lg-2',],
-                            'visible' => Yii::$app->user->can('admin'),
+                            'visible' => Yii::$app->user->can('staff'),
                             'value' => function ($model)
                                 {
                                     return Html::a('Edit Box', ['/box/update','id'=>$model->id]).

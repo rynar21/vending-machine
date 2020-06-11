@@ -38,17 +38,26 @@ use common\models\User;
                 [
                     'attribute'=>'Roles',
                     'format' => 'raw' ,
-                    'value' => function($data) {
+                    'value' => function($data)
+                    {
                         $roles = Yii::$app->authManager->getRolesByUser($data->id);
-                        if ($roles) {
+                        if ($roles)
+                        {
                             $array = array_keys($roles);
-                          if (count($roles)>=2) {
-                          return  ($array[1]);
-                          }
+
+                            if (count($roles)>=2)
+                            {
+                                return  ($array[1]);
+                            }
                         }
-                        if (empty($roles)) {
+
+                        if (empty($roles))
+                        {
                             return 'No roles';
-                        }else {
+                        }
+
+                        else
+                        {
                             return '<span style="color:#CD0000">' .'no roles'.'';
                         }
                     }
@@ -60,8 +69,8 @@ use common\models\User;
                     'visible' => Yii::$app->user->can('admin'),
                     'value' => function ($model)
                     {
-                       return ' <div class="btn-group mr-2 pull-left col-lg-6 " role="group" aria-label="Second group"> '.
-                       Html::a('Suspend', ['update-status','status'=> User::STATUS_SUSPEND, 'id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).
+                        return ' <div class="btn-group mr-2 pull-left col-lg-6 " role="group" aria-label="Second group"> '.
+                        Html::a('Suspend', ['update-status','status'=> User::STATUS_SUSPEND, 'id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).
                         Html::a('Unsuspend', ['update-status','status'=> User::STATUS_ACTIVE,'id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
                         Html::a('Terminate', ['update-status','status'=> User::STATUS_DELETED,'id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).
                         '</div>';
@@ -74,11 +83,18 @@ use common\models\User;
                     'visible' => Yii::$app->user->can('supervisor'),
                     'value' => function ($model)
                     {
-                       return ' <div class="btn-group mr-2 pull-left col-lg-6 " role="group" aria-label="Second group"> '.
-                       Html::a('User', ['assign', 'role'=>'user','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
+                        if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
+                            return ' <div class="btn-group mr-2 pull-left col-lg-6 " role="group" aria-label="Second group"> '.
+                            Html::a('User', ['assign', 'role'=>'user','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
+                            Html::a('Staff', ['assign' ,'role'=>'staff','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
+                            Html::a('Supervisor', ['assign','role'=>'supervisor','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
+                            Html::a('Revoke', ['revoke','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).'</div>';
+                        }
+
+                        return ' <div class="btn-group mr-2 pull-left col-lg-6 " role="group" aria-label="Second group"> '.
+                        Html::a('User', ['assign', 'role'=>'user','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
                         Html::a('Staff', ['assign' ,'role'=>'staff','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
-                        Html::a('Supervisor', ['assign','role'=>'supervisor','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
-                        Html::a('Revoke', ['revoke','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).'</div>';
+                        Html::a('Supervisor', ['assign','role'=>'supervisor','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']);
                     }
                 ],
             ],

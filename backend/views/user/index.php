@@ -54,16 +54,26 @@ $this->title = 'User';
                 'header' => 'Roles',
                 'format' => 'raw' ,
                 'value' => function($data) {
+
                     $roles = Yii::$app->authManager->getRolesByUser($data->id);
-                    if ($roles) {
+
+                    if ($roles)
+                    {
                         $array = array_keys($roles);
-                      if (count($roles)>=2) {
-                      return  ($array[1]);
-                      }
+
+                        if (count($roles) >= 2)
+                        {
+                            return  ($array[1]);
+                        }
                     }
-                    if (empty($roles)) {
+
+                    if (empty($roles))
+                    {
                         return 'No roles';
-                    }else {
+                    }
+
+                    else
+                    {
                         return '<span style="color:#CD0000">' .'no roles'.'';
                     }
                 }
@@ -78,7 +88,7 @@ $this->title = 'User';
                 'attribute'=>'',
                 'format' => 'raw' ,
                 'headerOptions' =>['class'=>'col-lg-1',],
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                   return Html::a('view', ['/user/view','id'=>$model->id]);

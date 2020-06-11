@@ -179,6 +179,11 @@ class UserController extends Controller
     //To assign user Role
     public function actionAssign($role, $id)
     {
+        if ($id == Yii::$app->user->identity->id)
+        {
+             Yii::$app->session->setFlash('danger', "Can't give yourself permission");
+        }
+
         $auth = Yii::$app->authManager;
         $user = User::findOne([
             'id' => $id,
@@ -207,7 +212,7 @@ class UserController extends Controller
 
             if ($auth->checkAccess(Yii::$app->user->identity->id, 'supervisor'))
             {
-
+                //echo  '1';
                 if (!$auth->checkAccess($id, 'admin') && !$auth->checkAccess($id, 'supervisor'))
                 {
 
@@ -218,13 +223,14 @@ class UserController extends Controller
                         $auth->assign($auth_role, $id);
                         Yii::$app->session->setFlash('success', "Edit Success.");
                     }
+
                     else
                     {
                         Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
                     }
 
                 }
-
+                Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
             }
 
         }
