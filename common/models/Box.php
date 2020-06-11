@@ -200,4 +200,21 @@ class Box extends \yii\db\ActiveRecord
         return null;
     }
 
+    public static function last_item($store_id,$box_id)
+    {
+        $item = Item::find()->where([
+            'store_id' => $store_id,
+            'box_id' => $box_id,
+            'status' => Item::STATUS_SOLD,
+        ])->orderBy([
+            'created_at' => SORT_DESC,
+        ])->one();
+
+        if ($item)
+        {
+            return $item->name;
+        }
+        return  false;
+    }
+
 }

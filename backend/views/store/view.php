@@ -6,9 +6,11 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use common\models\User;
 use common\models\Store;
+use common\models\Item;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use common\models\Box;
+use common\models\product;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -167,6 +169,14 @@ use yii\helpers\ArrayHelper;
                                 'class'  => 'form-control',
                                 'placeholder' => 'Search....'
                              ]
+                        ],
+                        [
+                            'attribute' => 'name',
+                            'label'=> 'Last Item',
+                            'value' => function ($model)
+                                {
+                                    return Box::last_item($model->store_id,$model->id);
+                                }
                         ],
                         'item.price:currency',
                         [

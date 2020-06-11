@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\Product;
+use common\models\Box;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveField;
 use yii\jui\AutoComplete;
@@ -32,6 +33,14 @@ use yii\web\JsExpression;
                 Store ID:
             </div>
             <?= $model->store_id ?>
+        </div>
+
+        <!-- 上一次添加的产品 -->
+        <div class="row f_label">
+            <div class="col-sm-1">
+                Last Item:
+            </div>
+            <?= Box::last_item($model->store_id,$model->box_id);?>
         </div>
         <!-- 产品名称 -->
 

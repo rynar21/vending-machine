@@ -85,13 +85,14 @@ class FinanceController extends Controller
             'queryDate_end' => $arr[1]
         ]);
 
-        $fields = ['Date','Order ID', 'Box Code', 'Store Name', 'Sale Price', 'Cost', 'Order Time', 'Payment Time'];
+        $fields = ['Date','Order ID', 'Item Name', 'Box Code', 'Store Name', 'Sale Price', 'Cost', 'Order Time', 'Payment Time'];
 
         foreach ( $datas as  $data )
         {
             $model[] = [
                 $data['date'],
                 $data['order_number'],
+                $data['item_name'],
                 $data['box_code'],
                 $data['store_name'],
                 $data['sell_price'],
@@ -116,13 +117,14 @@ class FinanceController extends Controller
             'store_id' => $store_id
         ]);
 
-        $fields = ['Date', 'Order ID', 'Box Code', 'Store Name', 'Sale Price', 'Cost', 'Order Time', 'Payment Time'];
+        $fields = ['Date', 'Order ID','item Nmae', 'Box Code', 'Store Name', 'Sale Price', 'Cost', 'Order Time', 'Payment Time'];
 
         foreach ( $datas as  $data)
         {
             $model[] = [
                 $data['date'],
                 $data['order_number'],
+                $data['item_name'],
                 $data['box_code'],
                 $data['store_name'],
                 $data['sell_price'],

@@ -162,7 +162,7 @@ class Item extends \yii\db\ActiveRecord
     public function getPricing()
     {
         $num = number_format($this->price, 2);
-        
+
         return 'RM '.$num;
     }
 
@@ -183,11 +183,14 @@ class Item extends \yii\db\ActiveRecord
     {
       return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
+
     public function getName()
-   {
+    {
        if (!empty($this->product->name))
        {
            return $this->product->name;
        }
-   }
+    }
+
+
 }
