@@ -283,37 +283,48 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     private  function testAPI($count_array, $count_number, $data)
     {
+        if (!empty($count_array))
+        {
+            Yii::$app->slack->Posturl([
+                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=5d2d79f3-836c-49f5-93a8-5412567ac5ff',
+                'data' => [
+                        "msgtype" => "text",
 
-        Yii::$app->slack->Posturl([
-            'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=11057651-b2bf-42a9-9eb3-760049e1ac87',
-            'data' => [
-                    "msgtype" => "text",
+                        "text" => [
+                            "content" => "查询支付中订单:".$count_array."条"."\n".
+                            "处理:".$count_number."条"."\n".
+                            "OrderNumber:".'    '."Status:"."\n". implode("\n", $data),
+                        ],
+                ],
+            ]);
 
-                    "text" => [
-                        "content" => "查询支付中订单:".$count_array."条"."\n".
-                        "处理:".$count_number."条"."\n".
-                        "OrderNumber:".'    '."Status:"."\n". implode("\n", $data),
-                    ],
-            ],
-        ]);
-        return $this->testStockManage($count_array, $count_number, $data);
+            return $this->testStockManage($count_array, $count_number, $data);
+        }
+
+        return  false;
     }
 
     private  function testStockManage($count_array, $count_number, $data)
     {
+        if (!empty($count_array))
+        {
+            Yii::$app->slack->Posturl([
+                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=fd873fcf-db44-4e7e-b1cb-b7bfad02401b',
+                'data' => [
+                        "msgtype" => "text",
 
-        Yii::$app->slack->Posturl([
-            'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=fd873fcf-db44-4e7e-b1cb-b7bfad02401b',
-            'data' => [
-                    "msgtype" => "text",
+                        "text" => [
+                            "content" => "查询支付中订单:".$count_array."条"."\n".
+                            "处理:".$count_number."条"."\n".
+                            "OrderNumber:".'    '."Status:"."\n". implode("\n", $data),
+                        ],
+                ],
+            ]);
+        }
 
-                    "text" => [
-                        "content" => "查询支付中订单:".$count_array."条"."\n".
-                        "处理:".$count_number."条"."\n".
-                        "OrderNumber:".'    '."Status:"."\n". implode("\n", $data),
-                    ],
-            ],
-        ]);
+        return false;
+
+
     }
 
 }
