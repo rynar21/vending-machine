@@ -51,6 +51,7 @@ class Store extends \yii\db\ActiveRecord
             [['name', 'address', 'contact',], 'required'],
             [['contact','user_id','status'], 'integer'],
             [['prefix','username',], 'safe'],
+            [['prefix'], 'string', 'max' => 1],
             [['name', 'address','description'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
             [['manager'],'safe'],
