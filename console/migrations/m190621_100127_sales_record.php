@@ -16,17 +16,17 @@ class m190621_100127_sales_record extends Migration
 
         $this->createTable('sale_record', [
           'id' =>$this->primaryKey(),
-          'order_number'=>$this->string(20)->notNull(),//
+          'order_number'=>$this->string()->notNull(),//
           'store_id' =>$this->integer()->notNull(),
           'box_id' =>$this->integer()->notNull(),
           'item_id' =>$this->integer()->notNull(),
           'sell_price' =>$this->float(10,2)->notNull(),
           'status' =>$this->smallInteger()->notNull(),
-          'unique_id' =>$this->string(20)->notNull()->unique(),
+          'unique_id' =>$this->string()->notNull()->unique(),
           'created_at' => $this->integer()->notNull(),
           'updated_at' => $this->integer()->notNull(),
           'store_name'=>$this->string(255)->notNull(),
-          'item_name'=>$this->string(50)->notNull(),
+          'item_name'=>$this->string()->notNull(),
           'box_code'=>$this->string(20)->notNull(),
       ]);
 
