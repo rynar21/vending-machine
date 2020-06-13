@@ -3,26 +3,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-
-// require_once('log.php');
-
-
-$this->title = 'Loadings';
-//echo $salerecord_id;
-?>
-
-
-<!-- <form id="demo"  method="POST" action="<?php// Url::to(['payment/create-order'])?>">
-
-    <input name="salerecord_id" value="<?php// $salerecord_id?>" type="hidden" >
-    <input name="price" value="<?php// $price?>" type="hidden" >
-
-</form>
-<$this->registerJs("
-    $('#demo').submit();
-") ?> -->
-
-<?php
 /* @var $this yii\web\View */
 $this->title = 'Pay & Go';
 ?>
@@ -40,14 +20,15 @@ $this->title = 'Pay & Go';
 <?php
 $js = <<< JS
 var device_tag = '111111';
-var amount = $price; //((Math.random() * 11) + 1).toFixed(2);
-// var salerecord_id = $salerecord_id;
+var amount = $price;
+//((Math.random() * 11) + 1).toFixed(2);
 
 // Do not change the function name, this function will be called by Native APP after payment
 function getDeviceTag(message) {
     var param = JSON.parse(message);
     console.log(param.deviceTag);
-    device_tag = '111111'; //param.deviceTag;
+    device_tag = "111111";
+    //param.deviceTag;
 }
 
 function makePayment(){
@@ -58,8 +39,8 @@ function makePayment(){
         },
         body: JSON.stringify({
             amount: amount,
-            name: "VM H5 Payment ",
-            remark: "Vending Machine Order Payment"
+            name: "H5 Payment",
+            remark: "Demo from H5"
         })
     }).then(response => {
         return response.json();
