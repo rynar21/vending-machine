@@ -39,7 +39,7 @@ class TestController extends Controller {
                 foreach ($records as $record)
                 {
                         $record->failed();
-                        echo $model->id . "\n";
+                        echo $record->id . "\n";
                 }
             }
 
