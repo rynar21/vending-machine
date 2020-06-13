@@ -26,75 +26,81 @@ use yii\helpers\ArrayHelper;
             //echo $md;
             ?>
     </div>
-    <?php echo DetailView::widget([
-          'model' => $model,
-          'attributes' => [
-                [
-                    'attribute'=>'name',
-                    'format' => 'raw' ,
-                    'visible' => Yii::$app->user->can('staff'),
-                    'value' => function ($model)
-                    {
-                        if ($model->user_id == Yii::$app->user->identity->id) {
-                            return $model->name.' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
-                            Html::a('Detailed', ['store/store_detailed', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6 ']).
-                            Html::a('Sales', ['site/index', ], ['class' => 'btn btn-sm  btn-primary col-lg-6  ']).' </div>';
+<?php
+
+    if ($model->status != Store::STATUS_IN_MAINTENANCE)
+    {
+        echo DetailView::widget([
+              'model' => $model,
+              'attributes' => [
+                    [
+                        'attribute'=>'name',
+                        'format' => 'raw' ,
+                        'visible' => Yii::$app->user->can('staff'),
+                        'value' => function ($model)
+                        {
+                            if ($model->user_id == Yii::$app->user->identity->id) {
+                                return $model->name.' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
+                                Html::a('Detailed', ['store/store_detailed', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6 ']).
+                                Html::a('Sales', ['site/index', ], ['class' => 'btn btn-sm  btn-primary col-lg-6  ']).' </div>';
+                            }
+                            if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
+                                return $model->name.' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
+                                Html::a('Detailed', ['store/store_detailed', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6 ']).
+                                Html::a('Sales', ['site/index', ], ['class' => 'btn btn-sm  btn-primary col-lg-6  ']).' </div>';
+                            }
                         }
-                        if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
-                            return $model->name.' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
-                            Html::a('Detailed', ['store/store_detailed', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6 ']).
-                            Html::a('Sales', ['site/index', ], ['class' => 'btn btn-sm  btn-primary col-lg-6  ']).' </div>';
-                        }
-                    }
-                ],
-              [
-                  'attribute'=>'Manager',
-                  'format' => 'raw' ,
-                  'visible' => Yii::$app->user->can('admin'),
-                  'value' => function ($model)
-                  {
-                    return $model->User_name
-                    .' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
-                    Html::a('Add', ['store/add_update', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6']).
-                    Html::a('Revoke', ['store/manager_revoke', 'id' => $model->id], ['class' => 'btn btn-sm  btn-primary col-lg-6 ',
-                    'data' => ['confirm' => 'Are you sure you want to revoke this manager?',],]).' </div>';
-                  }
+                    ],
+                  [
+                      'attribute'=>'Manager',
+                      'format' => 'raw' ,
+                      'visible' => Yii::$app->user->can('admin'),
+                      'value' => function ($model)
+                      {
+                        return $model->User_name
+                        .' <div class="btn-group mr-2 pull-right col-lg-4 " role="group" aria-label="Second group"> '.
+                        Html::a('Add', ['store/add_update', 'id' => $model->id], ['class' => 'btn btn-sm btn-info col-lg-6']).
+                        Html::a('Revoke', ['store/manager_revoke', 'id' => $model->id], ['class' => 'btn btn-sm  btn-primary col-lg-6 ',
+                        'data' => ['confirm' => 'Are you sure you want to revoke this manager?',],]).' </div>';
+                      }
+                  ],
+                  [
+                      'attribute'=>'Profit today',
+                      'format' => 'currency' ,
+                      'value' => function ($model)
+                      {
+                        return $model->profit_today;
+                      }
+                  ],
+                  [
+                      'attribute'=>'Yesterday earnings',
+                      'format' => 'currency' ,
+                      'value' => function ($model)
+                      {
+                        return $model->yesterday_earnings;
+                      }
+                  ],
+                  [
+                      'attribute'=>'Statement inquiry',
+                      'format' => 'raw' ,
+                      'value' => function ($model)
+                      {
+                        return
+                            '<div class="btn-group mr-2 pull-left col-lg-12 " role="group" aria-label="Second group">
+                            <form method="GET" action='.Url::to(['finance/datecheck_store']).'>
+                                <input name="date1"  type="date" required min="2000-01-02"  class=" col-sm-3" >
+                                <div class="col-sm-1 text-center">-</div>
+                                <input name="date2"  type="date" required min="2000-01-02" class=" col-sm-3" >
+                                <input name="store_id" value='.$model->id.' type="hidden"  >
+                                <input type="submit" name="submit" value="Search" class=" btn btn-sm btn-primary col-sm-2 pull-right">
+                            </form>
+                            </div>';
+                      }
+                  ],
               ],
-              [
-                  'attribute'=>'Profit today',
-                  'format' => 'currency' ,
-                  'value' => function ($model)
-                  {
-                    return $model->profit_today;
-                  }
-              ],
-              [
-                  'attribute'=>'Yesterday earnings',
-                  'format' => 'currency' ,
-                  'value' => function ($model)
-                  {
-                    return $model->yesterday_earnings;
-                  }
-              ],
-              [
-                  'attribute'=>'Statement inquiry',
-                  'format' => 'raw' ,
-                  'value' => function ($model)
-                  {
-                    return
-                        '<div class="btn-group mr-2 pull-left col-lg-12 " role="group" aria-label="Second group">
-                        <form method="GET" action='.Url::to(['finance/datecheck_store']).'>
-                            <input name="date1"  type="date" required min="2000-01-02"  class=" col-sm-3" >
-                            <div class="col-sm-1 text-center">-</div>
-                            <input name="date2"  type="date" required min="2000-01-02" class=" col-sm-3" >
-                            <input name="store_id" value='.$model->id.' type="hidden"  >
-                            <input type="submit" name="submit" value="Search" class=" btn btn-sm btn-primary col-sm-2 pull-right">
-                        </form>
-                        </div>';
-                  }
-              ],
-          ],
-     ]); ?>
+          ]);
+    }
+?>
 
     <!-- PHP: 展示时间 -->
     <?php //echo Yii::$app->formatter->asDateTime($model->created_at);
@@ -129,11 +135,11 @@ use yii\helpers\ArrayHelper;
     if ($model->status != Store::STATUS_IN_MAINTENANCE) {
         echo Html::a('Restock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary','style'=>"display:"."$str"]);
     }
-
-    if ($model->status == Store::STATUS_IN_MAINTENANCE)
-    {
-        echo Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-success','style'=>"display:"."$str"]) ;
-    }
+    // Hide for because easy to forget release store.
+    // if ($model->status == Store::STATUS_IN_MAINTENANCE)
+    // {
+    //     echo Html::a('Release ', ['store/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-success','style'=>"display:"."$str"]) ;
+    // }
 
      ?>
 
@@ -141,7 +147,7 @@ use yii\helpers\ArrayHelper;
 </div>
 
     <div class="col-sm-12">
-         <div class="row">
+        <div class="row">
 
                 <?= GridView::widget([
                     'options' => [
@@ -151,6 +157,15 @@ use yii\helpers\ArrayHelper;
                     'filterModel' => $boxSearch,
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
+                        [
+                            'label'=>'Action',
+                            'format' => 'raw',
+                            'visible' => $strr,
+                            'value' => function ($model)
+                                {
+                                    return $model->action;
+                                }
+                        ],
                         [
                             'attribute'=> 'code',
                             'label'=> 'Box Code',
@@ -164,15 +179,6 @@ use yii\helpers\ArrayHelper;
                                 {
                                     return $model->boxcode;
                                 }
-                        ],
-                        [
-                            'attribute'=> 'status',
-                            'label' =>'Status',
-                            'value' => 'statusText',
-                            'filter' => Html::activeDropDownList(
-                                $boxSearch,
-                                'status', [Box::BOX_STATUS_AVAILABLE => 'Available', Box::BOX_STATUS_NOT_AVAILABLE => 'Not Available'],
-                                ['class'=>'form-control','prompt' => 'All Status']),
                         ],
                         [
                             'attribute' => 'name',
@@ -191,16 +197,16 @@ use yii\helpers\ArrayHelper;
                                     return Box::last_item($model->store_id,$model->id);
                                 }
                         ],
-                        'item.price:currency',
                         [
-                            'label'=>'Action',
-                            'format' => 'raw',
-                            'visible' => $strr,
-                            'value' => function ($model)
-                                {
-                                    return $model->action;
-                                }
+                            'attribute'=> 'status',
+                            'label' =>'Status',
+                            'value' => 'statusText',
+                            'filter' => Html::activeDropDownList(
+                                $boxSearch,
+                                'status', [Box::BOX_STATUS_AVAILABLE => 'Available', Box::BOX_STATUS_NOT_AVAILABLE => 'Not Available'],
+                                ['class'=>'form-control','prompt' => 'All Status']),
                         ],
+                        'item.price:currency',
                         [
                             // 'attribute'=>'Item History',
                             'format' => 'raw' ,
@@ -208,14 +214,35 @@ use yii\helpers\ArrayHelper;
                             'visible' => Yii::$app->user->can('staff'),
                             'value' => function ($model)
                                 {
-                                    return Html::a('Edit Box', ['/box/update','id'=>$model->id]).
+                                    return Html::a('Edit Hardware ID', ['/box/update','id'=>$model->id]).
                                     ' | '. Html::a('Item History', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id]).
                                     ' | '. Html::a('Order History', ['/sale-record/store_onebox_allsalerecord','box_id'=>$model->id,'store_id'=>$model->store_id]);
                                 }
                         ],
                         ],
                     ]); ?>
-         </div>
+        </div>
+
+        <div class="row">
+
+            <div class="container-fluid">
+                <div class="col-lg-12">
+                    <?php
+                    if ($model->status == Store::STATUS_IN_MAINTENANCE)
+                    {
+                        echo Html::a('Confirm', ['store/open_box', 'id' => $model->id], ['class' => 'pull-right col-lg-3  btn btn-lg btn-success ','style'=>"display:"."$str"]) ;
+                    }
+                    ?>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container-fluid">
+
+
 
     </div>
 
