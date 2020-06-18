@@ -27,29 +27,37 @@ $this->title = $model->order_number;
             [
                 'attribute'=>'SKU',
                 'format' => 'raw',
+                'label' =>'Stock Keeping Unti (SKU)',
                 'value' => function($model)
                 {
-                    return Product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->sku;
+                    return Product::find()->where(['id' => $model->item->product_id])->one()->sku;
                 }
             ],
-            'text:text:Order number',
+            'order_number:text:Order No.',
+            'unique_id:text:Reference No.',
             'store_name',
+            [
+              'attribute'=>'image',
+              'value'=> $model->product->imageUrl,
+              'format'=>['image', ['width'=>'250', 'height'=>'250']],
+              //['width'=>'400', 'height'=>'300']
+            ],
             'box_code',
             'item_name',
-            'store.name',
+            //'store_name',
             'sell_price:currency',
+            //'box_id',
+            //'item_id',
+
             [
                 'attribute'=>'cost',
                 'format' => 'currency',
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function($model)
                 {
-                    return Product::find()->where(['id'=>Item::find()->where(['id'=>$model->item_id])->one()->product_id])->one()->cost;
+                    return Product::find()->where(['id' => $model->item->product_id])->one()->cost;
                 }
             ],
-            //'box_id',
-            //'item_id',
-            'unique_id',
             //'trans_id',
             //'status',
             [
@@ -93,12 +101,7 @@ $this->title = $model->order_number;
             ],
             'created_at:datetime',
             'updated_at:datetime',
-            [
-              'attribute'=>'image',
-              'value'=> $model->product->imageUrl,
-              'format'=>['image', ['width'=>'250', 'height'=>'250']],
-              //['width'=>'400', 'height'=>'300']
-            ],
+
         ],
     ]) ?>
 

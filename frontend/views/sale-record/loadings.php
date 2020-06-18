@@ -19,16 +19,17 @@ $this->title = 'Pay & Go';
 
 <?php
 $js = <<< JS
-var device_tag = '111111';
+var device_tag = '';
 var amount = $price;
+var salerecord_id = "$salerecord_id";
+
 //((Math.random() * 11) + 1).toFixed(2);
 
 // Do not change the function name, this function will be called by Native APP after payment
 function getDeviceTag(message) {
     var param = JSON.parse(message);
     console.log(param.deviceTag);
-    device_tag = "111111";
-    //param.deviceTag;
+    device_tag =param.deviceTag;
 }
 
 function makePayment(){
@@ -39,8 +40,8 @@ function makePayment(){
         },
         body: JSON.stringify({
             amount: amount,
-            name: "H5 Payment",
-            remark: "Demo from H5"
+            name: "VM H5 Payment",
+            remark: "Vending Machine Order Payment"
         })
     }).then(response => {
         return response.json();
@@ -51,15 +52,18 @@ function makePayment(){
             method: 'showCheckout'
         };
         console.log(params)
+        updateSale(data.order_id);
         checkout.postMessage(JSON.stringify(params));
     }).catch(error => {
         console.log(error);
     });
+
+
 }
 
 
 
-// Do not change the function name, this function will be called by Native APP after payment
+//Do not change the function name, this function will be called by Native APP after payment
 function updateStatus(message) {
     var param = JSON.parse(message);
     console.log(param.order_id);
@@ -77,6 +81,19 @@ function updateStatus(message) {
     }).catch(error => {
         alert(error);
         console.log(error);
+    });
+}
+
+function updateSale(order_id) {
+    fetch('http://localhost:20080/sale-record/sale?order_number=' + order_id + '&salerecord_id=' + salerecord_id , {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        console.log(data);
     });
 }
 JS;

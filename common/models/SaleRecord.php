@@ -211,30 +211,25 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     private function querySpOrderAPI()
     {
-        // $response_data = Yii::$app->spay->checkOrder([
-        //     'merOrderNo' => $this->order_number,
-        // ])
 
-        $data = [
-            'merchantId' => Yii::$app->spay->merchantId,
-            'merOrderNo' => $this->order_number,
-        ];
+        $order_id = $this->unique_id;
 
-        $response_data = Yii::$app->spay->checkOrder($data);
+        //$response_data = Yii::$app->spay->checkOrder($data);
+        $data =  Yii::$app->payandgo->checkOrder($order_id);
 
-        $array         = json_decode($response_data);
-        $orderStatus   = $array->{'orderStatus'};
+        $data = json_decode($data,true);
+        $orderStatus   = $data['data']['status'];
 
         if ($this->getIsFinalStatus()) {
             return false;
         }
 
-        if (Yii::$app->spay->getIsFinalStatus($orderStatus))
+        if (Yii::$app->payandgo->getIsFinalStatus($orderStatus))
         {
             return false;
         }
 
-        if (Yii::$app->spay->getIsPaymentSuccess($orderStatus))
+        if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
         {
             return $this->success();
         }

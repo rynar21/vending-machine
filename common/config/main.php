@@ -28,6 +28,11 @@ return [
             'class'=>'common\plugins\Slack',
             'url'=>'https://hooks.slack.com/services/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',
         ],
+        'payandgo' => [
+            'class'                     => 'common\components\PayAndGo',
+            //'merchantId'                => 'M100001040',
+            'url'                       => 'https://',
+        ],
         's3' => [
             'class' => '\frostealth\yii2\aws\s3\Storage',
             'credentials' => [
