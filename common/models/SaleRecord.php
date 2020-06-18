@@ -281,7 +281,7 @@ class SaleRecord extends \yii\db\ActiveRecord
         if (!empty($count_array))
         {
             Yii::$app->slack->Posturl([
-                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=5d2d79f3-836c-49f5-93a8-5412567ac5ff
+                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=ab93fb5a-cb7d-49e6-b74a-068723427fa9
                 ',
                 'data' => [
                         "msgtype" => "text",
