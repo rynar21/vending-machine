@@ -76,17 +76,20 @@ class SaleRecordController extends Controller
     public function actionSale($order_number,$salerecord_id)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    
         $model =  SaleRecord ::find()->where(['order_number' => $salerecord_id])->one();
-        if ($model) {
+        if ($model)
+        {
             $model->unique_id = $order_number;
             $model->save();
+            return true;
         }
-        //SaleRecord::updateAll(['unique_id' => $order_number], 'order_number' => $salerecord_id );
-        //$model = SaleRecord::findOne('order_number' => $salerecord_id);
 
-        return  [
-            'id' => $order_number.'----'.$salerecord_id,
-        ];
+        return false;
+
+        // return  [
+        //     'id' => $order_number.'----'.$salerecord_id,
+        // ];
 
     }
 
