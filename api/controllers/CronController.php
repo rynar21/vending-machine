@@ -32,26 +32,7 @@ class CronController extends Controller
         $SaleRecord->queryPendingOrder();
     }
 
-    private function testAPI()
-    {
-        $ip = gethostbyname(gethostname()); //主机IP
-        Yii::$app->slack->Posturl([
-            'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=216b4e9e-8404-457c-8996-fd171fa3224f',
-            'data' => [
-                    "msgtype" => "text",
-
-                    "text" => [
-                        "content" => date('Y-m-d H:i:s', time()). ' '."IP:".$ip,
-                    ],
-            ],
-        ]);
-    }
-
-
-
-
-
-
+    
 
 }
 
