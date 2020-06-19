@@ -176,6 +176,9 @@ class SaleRecord extends \yii\db\ActiveRecord
 
             $this->item->status = Item::STATUS_AVAILABLE;
             $this->item->save();
+
+            // $this->box->status = Box::BOX_STATUS_AVAILABLE;
+            // $this->box->save();
         }
     }
 
