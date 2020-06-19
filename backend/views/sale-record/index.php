@@ -69,6 +69,7 @@ $this->title = 'Sale Records';
                ]
             ],
             'sell_price:currency',
+            'unique_id:text:Reference No.',
             [
                 'attribute'=>'status',
                 'format' => 'raw' ,

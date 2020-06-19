@@ -73,10 +73,10 @@ class SaleRecordController extends Controller
         $mpdf->Output($file_name, 'D');
     }
 
-    public function actionSale($order_number,$salerecord_id)
+    public function actionReference($order_number,$salerecord_id)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-    
+
         $model =  SaleRecord ::find()->where(['order_number' => $salerecord_id])->one();
         if ($model)
         {
