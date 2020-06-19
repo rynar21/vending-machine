@@ -41,24 +41,24 @@ $this->title = 'Sale Records';
                        'placeholder' => 'Search....'
                     ]
             ],
-            [
-               'attribute' =>'box_code',
-               //'headerOptions' =>['class'=>'col-lg-6',],
-                   'filterInputOptions' => [
-                       'class'  => 'form-control',
-                       'placeholder' => 'Search....'
-                    ]
-            ],
-            //'box_code:text:Box Code',
-            [
-              'label' => 'Store',
-              'attribute' => 'storename',
-              'value' => 'store.name',
-              'filterInputOptions' => [
-                  'class'  => 'form-control',
-                  'placeholder' => 'Search....'
-               ]
-            ],
+            // [
+            //    'attribute' =>'box_code',
+            //    //'headerOptions' =>['class'=>'col-lg-6',],
+            //        'filterInputOptions' => [
+            //            'class'  => 'form-control',
+            //            'placeholder' => 'Search....'
+            //         ]
+            // ],
+            'box_code:text:Box Code',
+            // [
+            //   'label' => 'Store',
+            //   'attribute' => 'storename',
+            //   'value' => 'store.name',
+            //   'filterInputOptions' => [
+            //       'class'  => 'form-control',
+            //       'placeholder' => 'Search....'
+            //    ]
+            // ],
             [
               'label' => 'Item',
               'attribute' => 'itemname',
@@ -69,7 +69,13 @@ $this->title = 'Sale Records';
                ]
             ],
             'sell_price:currency',
-            'unique_id:text:Reference No.',
+            [
+               'attribute' =>'unique_id',
+                   'filterInputOptions' => [
+                       'class'  => 'form-control',
+                       'placeholder' => 'Search....'
+                    ]
+            ],
             [
                 'attribute'=>'status',
                 'format' => 'raw' ,
@@ -89,14 +95,14 @@ $this->title = 'Sale Records';
                     }
 
                 },
-                'filterInputOptions' => [
-                    'class'  => 'form-control',
-                    'placeholder' => 'Search....'
-                 ]
+                'filter' => Html::activeDropDownList(
+                    $searchModel,
+                    'status', [SaleRecord::STATUS_PENDING => 'Pending', SaleRecord::STATUS_SUCCESS => 'Success', SaleRecord::STATUS_FAILED => 'Failed'],
+                    ['class'=>'form-control','prompt' => 'All']),
             ],
             //'unique_id',
             'created_at:datetime:Order Time',
-            'updated_at:datetime:Payment Time',
+            // 'updated_at:datetime:Payment Time',
             [
                 'attribute'=>'',
                 'format' => 'raw' ,

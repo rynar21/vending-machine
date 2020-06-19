@@ -63,6 +63,7 @@ class SaleRecord extends \yii\db\ActiveRecord
             'status' => 'Status',
             'sell_price' => 'Price',
             'text'=>'SaleRecord_ID',
+            'unique_id' => 'Reference No.',
         ];
     }
 
@@ -73,6 +74,7 @@ class SaleRecord extends \yii\db\ActiveRecord
    //         return $this->store->name;
    //     }
    // }
+
 
     public function getText()
     {

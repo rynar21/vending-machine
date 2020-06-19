@@ -26,8 +26,8 @@ class SaleRecordSearch extends SaleRecord
         return [
             [['id', 'box_id', 'item_id','store_id', ], 'integer'],
             [['storename','itemname'], 'safe'],
-            [['order_number','box_code','store_name','item_name','storename','itemname'], 'trim'],
-            [['status','box_code','item_name','store_name'], 'string'],
+            [['order_number','box_code','store_name','item_name','storename','itemname','unique_id'], 'trim'],
+            [['status','box_code','item_name','store_name','unique_id'], 'string'],
         ];
     }
 
@@ -66,31 +66,32 @@ class SaleRecordSearch extends SaleRecord
             return $dataProvider;
         }
 
-        //$domain = strstr($this->status, 's');
-        if (strstr($this->status, 's') || strstr($this->status, 'S'))
-        {
-            $this->stu = SaleRecord::STATUS_SUCCESS;
-        }
-
-        if (strstr($this->status, 'f') || strstr($this->status, 'F'))
-        {
-            $this->stu = SaleRecord::STATUS_FAILED;
-        }
-
-        if (strstr($this->status, 'p') || strstr($this->status, 'P'))
-        {
-            $this->stu = SaleRecord::STATUS_PENDING;
-        }
+        // $domain = strstr($this->status, 's');
+        // if (strstr($this->status, 's') || strstr($this->status, 'S'))
+        // {
+        //     $this->stu = SaleRecord::STATUS_SUCCESS;
+        // }
+        //
+        // if (strstr($this->status, 'f') || strstr($this->status, 'F'))
+        // {
+        //     $this->stu = SaleRecord::STATUS_FAILED;
+        // }
+        //
+        // if (strstr($this->status, 'p') || strstr($this->status, 'P'))
+        // {
+        //     $this->stu = SaleRecord::STATUS_PENDING;
+        // }
 
         //$query->joinWith('item');
         $query->andFilterWhere([
             //'id' => $this->id,
             'box_id' => $this->box_id,
             'item_id' => $this->item_id,
-            //'status' => $this->stu,
+            'status' => $this->status,
             'sell_price' => $this->sell_price,
             'box_code' => $this->box_code,
             'order_number' =>$this->order_number,
+            'unique_id' => $this->unique_id
         ]);
 
         if ($this->status)
