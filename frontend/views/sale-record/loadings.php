@@ -1,5 +1,5 @@
 <?php
-//use Yii;
+// use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -18,18 +18,21 @@ $this->title = 'Pay & Go';
 </div>
 
 <?php
+$urlFronted = Yii::getAlias('@urlFrontend/');
+
 $js = <<< JS
 var device_tag = '';
 var amount = $price;
 var salerecord_id = "$salerecord_id";
-
+var urlFrontend = "$urlFronted";
+//"http://localhost:20080/";
 //((Math.random() * 11) + 1).toFixed(2);
 
 // Do not change the function name, this function will be called by Native APP after payment
 function getDeviceTag(message) {
     var param = JSON.parse(message);
     console.log(param.deviceTag);
-    device_tag =param.deviceTag;
+    device_tag = param.deviceTag;
 }
 
 function makePayment(){
@@ -51,7 +54,8 @@ function makePayment(){
             order_id: data.order_id,
             method: 'showCheckout'
         };
-        console.log(params)
+        console.log(params);
+        console.log('123456');
         updateSale(data.order_id);
         checkout.postMessage(JSON.stringify(params));
     }).catch(error => {
@@ -60,7 +64,6 @@ function makePayment(){
 
 
 }
-
 
 
 //Do not change the function name, this function will be called by Native APP after payment
@@ -85,7 +88,7 @@ function updateStatus(message) {
 }
 
 function updateSale(order_id) {
-    fetch('http://vm.payandgo.link/sale-record/reference?order_number=' + order_id + '&salerecord_id=' + salerecord_id , {
+    fetch(urlFrontend + 'sale-record/reference?order_number=' + order_id + '&salerecord_id=' + salerecord_id , {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

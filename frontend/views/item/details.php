@@ -16,7 +16,7 @@ use common\models\Product;
             </div>
             <div class="item_details_name  col-sm-7 col-lg-8 col-xs-6">
                 <b><?= $model->name?></b>
-                <div style=" font-size:14px;color: #6F6F6F; "><?= product::find()->where(['id'=>$model ->product_id])->one()->description ?></div>
+                <div style=" font-size:14px;color: #6F6F6F; "><?= $model->product->description ?></div>
             </div>
         </div>
 
