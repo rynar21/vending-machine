@@ -55,17 +55,7 @@ class StoreController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionTry()
-    {
-        $order_id = 'P2306200001139078';
-
-        //$response_data = Yii::$app->spay->checkOrder($data);
-        $data =  Yii::$app->payandgo->checkOrder($order_id);
-
-        $data = json_decode($data,true);
-        $orderStatus   = $data['data']['status'];
-        return $orderStatus;
-    }
+    
 
 
 }
