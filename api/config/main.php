@@ -52,7 +52,16 @@ return [
                         'GET next' => 'next',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
-                ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'cron',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST minute' => 'minute',
+                        'OPTIONS <action:[\w-]+>' => 'options',
+                    ]
+                ],
             ],
         ],
     ],
