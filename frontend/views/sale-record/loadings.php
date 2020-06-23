@@ -87,7 +87,7 @@ function updateStatus(message) {
 }
 
 function updateSale(order_id) {
-    fetch('http://vm.payandgo.linksale-record/reference?order_number=' + order_id + '&salerecord_id=' + salerecord_id , {
+    fetch('http://vm.payandgo.link/sale-record/reference?order_number=' + order_id + '&salerecord_id=' + salerecord_id , {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
