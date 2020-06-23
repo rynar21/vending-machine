@@ -18,13 +18,13 @@ $this->title = 'Pay & Go';
 </div>
 
 <?php
-$urlFronted = 'http://vm.payandgo.link/';
+
 
 $js = <<< JS
 var device_tag = '';
 var amount = $price;
 var salerecord_id = "$salerecord_id";
-var urlFrontend = "$urlFronted";
+
 
 //((Math.random() * 11) + 1).toFixed(2);
 
@@ -87,7 +87,7 @@ function updateStatus(message) {
 }
 
 function updateSale(order_id) {
-    fetch(urlFrontend + 'sale-record/reference?order_number=' + order_id + '&salerecord_id=' + salerecord_id , {
+    fetch('http://vm.payandgo.linksale-record/reference?order_number=' + order_id + '&salerecord_id=' + salerecord_id , {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

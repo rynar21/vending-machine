@@ -57,7 +57,7 @@ class StoreController extends Controller
 
     public function actionTry()
     {
-        $order_id = '5EED77B6E3E00';
+        $order_id = 'P2306200001139078';
 
         //$response_data = Yii::$app->spay->checkOrder($data);
         $data =  Yii::$app->payandgo->checkOrder($order_id);

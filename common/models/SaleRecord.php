@@ -221,6 +221,7 @@ class SaleRecord extends \yii\db\ActiveRecord
 
         //$response_data = Yii::$app->spay->checkOrder($data);
         $data =  Yii::$app->payandgo->checkOrder($order_id);
+
         if ($data)
         {
             $data = json_decode($data,true);
@@ -309,9 +310,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     }
 
     private  function testStockManage($count_array, $count_number, $data)
-    {
-        if (!empty($count_array))
-        {
+    {    
             Yii::$app->slack->Posturl([
                 'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=fd873fcf-db44-4e7e-b1cb-b7bfad02401b',
                 'data' => [
@@ -324,11 +323,8 @@ class SaleRecord extends \yii\db\ActiveRecord
                         ],
                 ],
             ]);
-        }
 
         return false;
-
-
     }
 
 }
