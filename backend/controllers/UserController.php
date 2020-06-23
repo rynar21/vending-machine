@@ -210,9 +210,10 @@ class UserController extends Controller
 
             }
 
+            // Check CUrrent user role is supervisor
             if ($auth->checkAccess(Yii::$app->user->identity->id, 'supervisor'))
             {
-                //echo  '1';
+                // Feature to assign role other than admin and supervisor
                 if (!$auth->checkAccess($id, 'admin') && !$auth->checkAccess($id, 'supervisor'))
                 {
 
@@ -229,7 +230,12 @@ class UserController extends Controller
                     }
 
                 }
-                // Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
+                // Error message for other role that unable to assign admin.
+                if ($auth->checkAccess($id, 'admin'))
+                {
+                    Yii::$app->session->setFlash('danger', "Authorization Denied: No authority to assign this role.");
+                }
+
             }
 
         }
