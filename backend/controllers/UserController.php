@@ -223,14 +223,13 @@ class UserController extends Controller
                         $auth->assign($auth_role, $id);
                         Yii::$app->session->setFlash('success', "Edit Success.");
                     }
-
                     else
                     {
-                        Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
+                        Yii::$app->session->setFlash('danger', "Authorization Denied: No authority to assign this role.");
                     }
 
                 }
-                Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
+                // Yii::$app->session->setFlash('danger', "Unable to give supervisor authority");
             }
 
         }
