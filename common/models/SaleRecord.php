@@ -221,25 +221,29 @@ class SaleRecord extends \yii\db\ActiveRecord
 
         //$response_data = Yii::$app->spay->checkOrder($data);
         $data =  Yii::$app->payandgo->checkOrder($order_id);
-
-        $data = json_decode($data,true);
-        $orderStatus   = $data['data']['status'];
-
-        if ($this->getIsFinalStatus()) {
-            return false;
-        }
-
-        if (Yii::$app->payandgo->getIsFinalStatus($orderStatus))
+        if ($data)
         {
-            return false;
+            $data = json_decode($data,true);
+            $orderStatus   = $data['data']['status'];
+
+            if ($this->getIsFinalStatus()) {
+                return false;
+            }
+
+            if (Yii::$app->payandgo->getIsFinalStatus($orderStatus))
+            {
+                return false;
+            }
+
+            if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
+            {
+                return $this->success();
+            }
+
+            return $this->failed();
         }
 
-        if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
-        {
-            return $this->success();
-        }
-
-        return $this->failed();
+        return false;
     }
 
     public function queryPendingOrder()
@@ -286,8 +290,7 @@ class SaleRecord extends \yii\db\ActiveRecord
         if (!empty($count_array))
         {
             Yii::$app->slack->Posturl([
-                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=ab93fb5a-cb7d-49e6-b74a-068723427fa9
-                ',
+                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=ab93fb5a-cb7d-49e6-b74a-068723427fa9',
                 'data' => [
                         "msgtype" => "text",
 
@@ -299,10 +302,10 @@ class SaleRecord extends \yii\db\ActiveRecord
                 ],
             ]);
 
-            return $this->testStockManage($count_array, $count_number, $data);
+
         }
 
-        return  false;
+        return $this->testStockManage($count_array, $count_number, $data);
     }
 
     private  function testStockManage($count_array, $count_number, $data)

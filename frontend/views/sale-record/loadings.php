@@ -18,14 +18,14 @@ $this->title = 'Pay & Go';
 </div>
 
 <?php
-$urlFronted = Yii::getAlias('@urlFrontend/');
+$urlFronted = 'http://vm.payandgo.link/';
 
 $js = <<< JS
 var device_tag = '';
 var amount = $price;
 var salerecord_id = "$salerecord_id";
 var urlFrontend = "$urlFronted";
-//"http://localhost:20080/";
+
 //((Math.random() * 11) + 1).toFixed(2);
 
 // Do not change the function name, this function will be called by Native APP after payment
@@ -55,7 +55,6 @@ function makePayment(){
             method: 'showCheckout'
         };
         console.log(params);
-        console.log('123456');
         updateSale(data.order_id);
         checkout.postMessage(JSON.stringify(params));
     }).catch(error => {
