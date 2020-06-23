@@ -230,6 +230,7 @@ class UserController extends Controller
                     }
 
                 }
+
                 // Error message for other role that unable to assign admin.
                 if ($auth->checkAccess($id, 'admin'))
                 {
