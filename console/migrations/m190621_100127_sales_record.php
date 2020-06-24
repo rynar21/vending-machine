@@ -12,8 +12,6 @@ class m190621_100127_sales_record extends Migration
      */
     public function safeUp()
     {
-        $this->dropTable('sale_record');
-
         $this->createTable('sale_record', [
           'id' =>$this->primaryKey(),
           'order_number'=>$this->string()->notNull(),//
@@ -38,12 +36,5 @@ class m190621_100127_sales_record extends Migration
     public function safeDown()
     {
           $this->dropTable('sale_record');
-
-          $this->createTable('sale_record', [
-              'box_id' =>$this->integer()->notNull(),
-              'item_id' =>$this->integer()->notNull(),
-              'trans_id' =>$this->integer()->notNull(),
-              'status' =>$this->smallInteger()->notNull()->defaultValue(10),
-          ]);
     }
 }

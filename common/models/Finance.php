@@ -331,65 +331,7 @@ class Finance extends \yii\db\ActiveRecord
         return $all_order;
     }
 
-    public static function render_financials($queryDate_start, $queryDate_end)//date
-    {
-        $date_start = strtotime($queryDate_start);
-        $date_end = strtotime($queryDate_end);
-
-        $total_earn = 0;
-        $net_profit = 0;
-
-        $records = SaleRecord::find()
-            ->where(['status' => SaleRecord::STATUS_SUCCESS,])
-            ->andWhere(['between','created_at' , $date_start, $date_end + 86399])
-            ->all();
-
-        if ($records)
-        {
-            foreach ($records as $record)
-            {
-                $total_earn += $record->sell_price;
-
-                $product_cost = product::find()->where([
-                    'id' => $record->item->product_id
-                ])->one()
-                ->cost;
-
-                $net_profit += $total_earn - $product_cost;
-            }
-
-            $store_all_data[] =  array(
-                'date'              => $queryDate_start . "/" . $queryDate_end,
-                'quantity_of_order' => count($records),
-                'total_earn'        => $total_earn ,
-                'gross_profit'      => $total_earn,
-                'net_profit'        => $net_profit
-            );
-        }
-
-        for ($i = 1; $i <= (strtotime($queryDate_end) - strtotime($queryDate_start) + 86400) / 86400; $i++)
-        {
-            $date = $date_start + 86400 * ($i) - 86400;
-
-            $all_date[] = array(
-                'date'              => $date,
-                'quantity_of_order' => Finance::total_financial_inquiry($date)['quantity_of_order'],
-                'total_earn'        => Finance::total_financial_inquiry($date)['total_earn'],
-                'gross_profit'      => Finance::total_financial_inquiry($date)['gross_profit'],
-                'net_profit'        => Finance::total_financial_inquiry($date)['net_profit'],
-            );
-        }
-
-        if (!empty($store_all_data))
-        {
-            return array($store_all_data, $all_date);
-        }
-
-
-        return array(array(),$all_date);
-
-    }
-
+    
 
     public static function get_financials($array)//date
     {
@@ -401,7 +343,7 @@ class Finance extends \yii\db\ActiveRecord
         $date_end   = strtotime($queryDate_end);
 
         $total_earn = 0;
-        $net_profit = 0;
+        $product_cost = 0;
 
         if (!empty($store_id))
         {
@@ -417,13 +359,12 @@ class Finance extends \yii\db\ActiveRecord
                 {
                     $total_earn += $record->sell_price;
 
-                    $product_cost = product::find()->where([
+                    $product_cost += product::find()->where([
                         'id' => $record->item->product_id
                     ])->one()
                     ->cost;
-
-                    $net_profit += $total_earn - $product_cost;
                 }
+                $net_profit = $total_earn - $product_cost;
 
                 $store_all_data[] = array(
                     'date'              => $queryDate_start . "/" . $queryDate_end,
@@ -464,14 +405,13 @@ class Finance extends \yii\db\ActiveRecord
                 {
                     $total_earn += $record->sell_price;
 
-                    $product_cost = product::find()->where([
+                    $product_cost += product::find()->where([
                         'id' => $record->item->product_id
                     ])->one()
                     ->cost;
-
-                    $net_profit += $total_earn - $product_cost;
-
                 }
+
+                $net_profit = $total_earn - $product_cost;
 
                 $store_all_data[] =  array(
                     'date'              => $queryDate_start . "/" . $queryDate_end,
@@ -505,19 +445,6 @@ class Finance extends \yii\db\ActiveRecord
 
 
     }
-    // public static function net_profit($id)
-    // {
-    //     $p_id  = Item::find()->where(['id' => $id])->one()->product_id;
-    //     $model = Product ::find()->where(['id' => $p_id])->one();
-    //
-    //     if (!empty($model->cost))
-    //     {
-    //         $cost_price = $model->cost;
-    //
-    //         return $cost_price;
-    //     }
-    //
-    //     return 0;
-    // }
+
 
 }

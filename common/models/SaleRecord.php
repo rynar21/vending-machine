@@ -184,19 +184,19 @@ class SaleRecord extends \yii\db\ActiveRecord
         }
     }
 
-    public function getNet_profit($id)
-    {
-        $p_id    = Item::find()->where(['store_id' => $id])->one()->product_id;
-        $model   = Product ::find()->where(['id' => $p_id])->one();
-
-        if (!empty($model->cost))
-        {
-            $cost_price = $model->cost;
-
-            return $cost_price;
-        }
-
-    }
+    // public function getNet_profit($id)
+    // {
+    //     $p_id    = Item::find()->where(['store_id' => $id])->one()->product_id;
+    //     $model   = Product ::find()->where(['id' => $p_id])->one();
+    //
+    //     if (!empty($model->cost))
+    //     {
+    //         $cost_price = $model->cost;
+    //
+    //         return $cost_price;
+    //     }
+    //
+    // }
 
     public function executeUpdateStatus()
     {

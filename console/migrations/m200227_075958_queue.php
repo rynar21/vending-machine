@@ -2,7 +2,6 @@
 
 use yii\db\Migration;
 
-use common\models\User;
 
 /**
  * Class m200227_075958_queue

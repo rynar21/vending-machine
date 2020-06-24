@@ -40,7 +40,7 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET view' => 'view',
-                        'GET Reference' => 'reference',
+                        'GET reference' => 'reference',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],

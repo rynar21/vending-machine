@@ -71,7 +71,7 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return Html::a('Download', ['finance/export_data_one_store','date'=>$model['date'],'store_id'=>$model['store_id']]);
+                  return Html::a('Download', ['finance/export_data_one_store','date'=>$model['date'], 'store_id'=>$model['store_id']]);
                 }
             ],
             [
@@ -81,7 +81,7 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                  return Html::a('Download', ['finance/export_order_onestore','date'=>$model['date'],'store_id'=>$model['store_id']]);
+                  return Html::a('Download', ['finance/export_order_onestore','date'=>$model['date'], 'store_id'=>$model['store_id']]);
                 }
             ],
         ],

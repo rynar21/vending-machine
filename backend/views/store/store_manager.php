@@ -34,7 +34,7 @@ use common\models\User;
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
        </div>
         <div class="col-sm-1 col-xs-3">
-              <?= Html::a('Cancel', ['/store/view','id'=>$model->id], ['class' => 'btn btn-danger']) ?>
+              <?= Html::a('Cancel', ['/store/view','id' => $model->id], ['class' => 'btn btn-danger']) ?>
        </div>
     </div>
 

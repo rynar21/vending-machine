@@ -81,15 +81,15 @@ $this->title = 'Sale Records';
                 'format' => 'raw' ,
                 'value' => function ($model)
                 {
-                    if ($model->status==SaleRecord::STATUS_SUCCESS) {
+                    if ($model->status == SaleRecord::STATUS_SUCCESS) {
                         //return 'Success';
                         return '<span style="color:#11ff06">' .'Success'.'';
                     }
-                    if ($model->status==SaleRecord::STATUS_FAILED) {
+                    if ($model->status == SaleRecord::STATUS_FAILED) {
                         //return 'Failure';
                         return '<span style="color:#CD0000">' .'Failure'.'';
                     }
-                    if ($model->status==SaleRecord::STATUS_PENDING) {
+                    if ($model->status == SaleRecord::STATUS_PENDING) {
                         //return 'Failure';
                         return '<span style="color:#2a5caa">' .'Pending'.'';
                     }

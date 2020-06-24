@@ -47,7 +47,7 @@ $this->title = 'Finances';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                   return Finance::financial_detail_inquiry($model['store_id'],$model['date'])['store_name'];
+                   return Finance::financial_detail_inquiry($model['store_id'], $model['date'])['store_name'];
                 }
             ],
             [
@@ -56,7 +56,7 @@ $this->title = 'Finances';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                   return Finance::financial_detail_inquiry($model['store_id'],$model['date'])['store_manager'];
+                   return Finance::financial_detail_inquiry($model['store_id'], $model['date'])['store_manager'];
                 }
             ],
             [
@@ -65,7 +65,7 @@ $this->title = 'Finances';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                 return Finance::financial_detail_inquiry($model['store_id'],$model['date'])['quantity_of_order'];
+                 return Finance::financial_detail_inquiry($model['store_id'], $model['date'])['quantity_of_order'];
                 }
             ],
             [
@@ -74,7 +74,7 @@ $this->title = 'Finances';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                return Finance::financial_detail_inquiry($model['store_id'],$model['date'])['total_earn'];
+                return Finance::financial_detail_inquiry($model['store_id'], $model['date'])['total_earn'];
                 }
             ],
             [
@@ -83,7 +83,7 @@ $this->title = 'Finances';
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
-                    return Finance::financial_detail_inquiry($model['store_id'],$model['date'])['net_profit'];
+                    return Finance::financial_detail_inquiry($model['store_id'], $model['date'])['net_profit'];
                 }
             ],
             //['class' => 'yii\grid\ActionColumn'],
@@ -94,7 +94,7 @@ $this->title = 'Finances';
                 'value' => function ($model)
                 {
                   return Html::a('view', ['/sale-record/one_store_all_salerecord',
-                  'store_id'=>$model['store_id'],'date'=>$model['date']]);
+                  'store_id'=>$model['store_id'],'date' => $model['date']]);
                 }
             ],
         ],

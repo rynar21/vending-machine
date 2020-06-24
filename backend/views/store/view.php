@@ -214,9 +214,9 @@ use yii\helpers\ArrayHelper;
                             'visible' => Yii::$app->user->can('staff'),
                             'value' => function ($model)
                                 {
-                                    return Html::a('Edit Hardware ID', ['/box/update','id'=>$model->id]).
-                                    ' | '. Html::a('Item History', ['/store/box_item','box_id'=>$model->id,'store_id'=>$model->store_id]).
-                                    ' | '. Html::a('Order History', ['/sale-record/store_onebox_allsalerecord','box_id'=>$model->id,'store_id'=>$model->store_id]);
+                                    return Html::a('Edit Hardware ID', ['/box/update','id' => $model->id]).
+                                    ' | '. Html::a('Item History', ['/store/box_item','box_id' => $model->id,'store_id' => $model->store_id]).
+                                    ' | '. Html::a('Order History', ['/sale-record/store_onebox_allsalerecord','box_id' => $model->id,'store_id' => $model->store_id]);
                                 }
                         ],
                         ],

@@ -30,7 +30,7 @@ $this->title = $model->order_number;
                 'label' =>'Stock Keeping Unti (SKU)',
                 'value' => function($model)
                 {
-                    return Product::find()->where(['id' => $model->item->product_id])->one()->sku;
+                    return  $model->item->product->sku;
                 }
             ],
             'order_number:text:Order No.',
@@ -55,44 +55,26 @@ $this->title = $model->order_number;
                 'visible' => Yii::$app->user->can('admin'),
                 'value' => function($model)
                 {
-                    return Product::find()->where(['id' => $model->item->product_id])->one()->cost;
+                    return $model->item->product->cost;
                 }
             ],
             //'trans_id',
             //'status',
             [
-                'attribute'=>'box  status',
-                'format' => 'raw' ,
-                'value' => function ($model)
-                {
-                    $queue_model = Queue::find()->where(['priority'=>$model->order_number])->one();
-                    if ($queue_model) {
-                        if ($queue_model->status == Queue::STATUS_WAITING) {
-                            //return 'Success';
-                            return '<span style="color:#2a5caa">' .'Waiting to open'.'';
-                        }
-                        if ($queue_model->status == Queue::STATUS_SUCCESS) {
-                            //return 'Failure';
-                            return '<span style="color:#11ff06">' .'Opened'.'';
-                        }
-                    }
-                    return false;
-                },
-            ],
-            [
                 'attribute'=>'status',
+                'label' => 'Order Status',
                 'format' => 'raw' ,
                 'value' => function ($model)
                 {
-                    if ($model->status==SaleRecord::STATUS_SUCCESS) {
+                    if ($model->status == SaleRecord::STATUS_SUCCESS) {
                         //return 'Success';
                         return '<span style="color:#11ff06">' .'Success'.'';
                     }
-                    if ($model->status==SaleRecord::STATUS_FAILED) {
+                    if ($model->status == SaleRecord::STATUS_FAILED) {
                         //return 'Failure';
                         return '<span style="color:#CD0000">' .'Failure'.'';
                     }
-                    if ($model->status==SaleRecord::STATUS_PENDING) {
+                    if ($model->status == SaleRecord::STATUS_PENDING) {
                         //return 'Failure';
                         return '<span style="color:#2a5caa">' .'Pending'.'';
                     }

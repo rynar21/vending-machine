@@ -385,7 +385,7 @@ class FinanceController extends Controller
 
                 return $this->render('index', [
                     'searchModel' => $searchModel,
-                    'dataProvider_date' => $dataProvider_date,
+                    'dataProvider_date' => $dataProvider_date, 
                     'dataProvider_all'=> $dataProvider_all,
                     'start_time' => $date1,
                     'end_time' => $date2,

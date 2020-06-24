@@ -82,9 +82,9 @@ $this->title = 'Store';
                 'value' => function ($model)
                 {
                     if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
-                         return Html::a('Enter Store', ['/store/view','id'=>$model->id]).' | '.Html::a('Modify Store Detail', ['/store/update','id'=>$model->id]);
+                         return Html::a('Enter Store', ['/store/view','id' => $model->id]).' | '.Html::a('Modify Store Detail', ['/store/update','id' => $model->id]);
                     }
-                    return Html::a('Enter Store', ['/store/view','id'=>$model->id]);
+                    return Html::a('Enter Store', ['/store/view','id' => $model->id]);
                 }
             ],
 
