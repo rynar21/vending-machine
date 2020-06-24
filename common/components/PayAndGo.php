@@ -28,7 +28,7 @@ class PayAndGo
 
         private function get_url($url)
         {
-            return Yii::$app->slack->get_url($url);
+            return Yii::$app->plugin->get_url($url);
         }
 
         public function getIsPaymentSuccess($orderStatus)
@@ -37,21 +37,22 @@ class PayAndGo
                 return true;
             }
 
-
             return false;
         }
 
         public function getIsFinalStatus($orderStatus)
         {
             if ($orderStatus == self::STATUS_PENDING) {
-                return true;
+                return false;
             }
             if ($orderStatus == self::STATUS_INIT) {
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
+
+
 
 
 

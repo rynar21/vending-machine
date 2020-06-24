@@ -203,7 +203,7 @@ class SaleRecord extends \yii\db\ActiveRecord
         if ($this->getIsFinalStatus()) {
             return false;
         }
-        return $this->querySpOrderAPI();
+        return $this->queryPayAndGoOrderAPI();
     }
 
     private function getIsFinalStatus()
@@ -214,12 +214,11 @@ class SaleRecord extends \yii\db\ActiveRecord
         return true;
     }
 
-    private function querySpOrderAPI()
+    private function queryPayAndGoOrderAPI()
     {
 
         $order_id = $this->unique_id;
 
-        //$response_data = Yii::$app->spay->checkOrder($data);
         $data =  Yii::$app->payandgo->checkOrder($order_id);
 
         if ($data)
@@ -235,98 +234,19 @@ class SaleRecord extends \yii\db\ActiveRecord
 
             if (Yii::$app->payandgo->getIsFinalStatus($orderStatus))
             {
-                return false;
+                if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
+                {
+                    return $this->success();
+                }
+
+                return $this->failed();
             }
 
-            if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
-            {
-                return $this->success();
-            }
-
-            return $this->failed();
+            return false;
         }
 
         return false;
     }
 
-    public function queryPendingOrder()
-    {
-        $count_number = 0;
-        $data = [];
-        $records = SaleRecord::find()->where([
-                'status' => SaleRecord::STATUS_PENDING,
-        ])->all();
-
-        if ($records)
-        {
-            foreach ($records as $record)
-            {
-                if ($record->executeUpdateStatus()) {
-                    $count_number += 0;
-                }
-
-                $count_number += 1;
-
-                if ($record->status == SaleRecord::STATUS_PENDING)
-                {
-                    $count_number = $count_number - 1;
-                }
-
-                if ($record->status == SaleRecord::STATUS_SUCCESS)
-                {
-                    $data[] = $record->order_number . ' Success';
-                }
-
-                if ($record->status == SaleRecord::STATUS_FAILED)
-                {
-                    $data[] = $record->order_number . ' Failed';
-                }
-
-            }
-        }
-
-        return $this->testAPI(count($records), $count_number, $data);
-    }
-
-    private  function testAPI($count_array, $count_number, $data)
-    {
-        if (!empty($count_array))
-        {
-            Yii::$app->slack->Posturl([
-                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=ab93fb5a-cb7d-49e6-b74a-068723427fa9',
-                'data' => [
-                        "msgtype" => "text",
-
-                        "text" => [
-                            "content" => "查询支付中订单:".$count_array."条"."\n".
-                            "处理:".$count_number."条"."\n".
-                            "OrderNumber:".'    '."Status:"."\n". implode("\n", $data),
-                        ],
-                ],
-            ]);
-
-
-        }
-
-        return $this->testStockManage($count_array, $count_number, $data);
-    }
-
-    private  function testStockManage($count_array, $count_number, $data)
-    {
-            Yii::$app->slack->Posturl([
-                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=fd873fcf-db44-4e7e-b1cb-b7bfad02401b',
-                'data' => [
-                        "msgtype" => "text",
-
-                        "text" => [
-                            "content" => "查询支付中订单:".$count_array."条"."\n".
-                            "处理:".$count_number."条"."\n".
-                            "OrderNumber:".'    '."Status:"."\n". implode("\n", $data),
-                        ],
-                ],
-            ]);
-
-        return false;
-    }
 
 }

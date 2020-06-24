@@ -55,5 +55,18 @@ class PaymentController extends Controller
 
     }
 
+    public function actionReference($order_number,$salerecord_id)
+    {
+        $model =  SaleRecord ::find()->where(['order_number' => $salerecord_id])->one();
+        if ($model)
+        {
+            $model->unique_id = $order_number;
+            $model->save();
+            return true;
+        }
+
+        return false;
+    }
+
 
 }

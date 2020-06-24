@@ -28,6 +28,9 @@ return [
             'class'=>'common\plugins\Slack',
             'url'=>'https://hooks.slack.com/services/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',
         ],
+        'plugin' =>[
+            'class' => 'common\components\Plugin',
+        ],   'url' => '',
         'payandgo' => [
             'class'                     => 'common\components\PayAndGo',
             //'merchantId'                => 'M100001040',
