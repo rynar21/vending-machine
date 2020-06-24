@@ -6,6 +6,7 @@ use Yii;
 use common\models\Store;
 use common\models\Item;
 use backend\models\ItemSearch;
+use common\models\SaleRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\Pagination;
@@ -57,14 +58,8 @@ class StoreController extends Controller
 
     public function actionTry()
     {
-        $order_id = 'P2306200001139078';
-
-        //$response_data = Yii::$app->spay->checkOrder($data);
-        $data =  Yii::$app->payandgo->checkOrder($order_id);
-
-        $data = json_decode($data,true);
-        $orderStatus   = $data['data']['status'];
-        return $orderStatus;
+        $model = SaleRecord::findOne(137);
+        return $model->executeUpdateStatus();
     }
 
 

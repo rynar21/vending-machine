@@ -224,8 +224,10 @@ class SaleRecord extends \yii\db\ActiveRecord
 
         if ($data)
         {
+
             $data = json_decode($data,true);
-            $orderStatus   = $data['data']['status'];
+            $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
+            //$orderStatus   = $data['data']['status'];
 
             if ($this->getIsFinalStatus()) {
                 return false;
@@ -310,7 +312,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     }
 
     private  function testStockManage($count_array, $count_number, $data)
-    {    
+    {
             Yii::$app->slack->Posturl([
                 'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=fd873fcf-db44-4e7e-b1cb-b7bfad02401b',
                 'data' => [

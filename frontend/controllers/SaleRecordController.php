@@ -86,11 +86,6 @@ class SaleRecordController extends Controller
         }
 
         return false;
-
-        // return  [
-        //     'id' => $order_number.'----'.$salerecord_id,
-        // ];
-
     }
 
 }
