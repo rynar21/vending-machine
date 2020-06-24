@@ -55,13 +55,12 @@ class PaymentController extends Controller
 
     }
 
-    public function actionReference($order_number,$salerecord_id)
+    public function actionReference($payandgo_order_number,$vm_order_number)
     {
-        $model =  SaleRecord ::find()->where(['order_number' => $salerecord_id])->one();
+        $model =  SaleRecord ::find()->where(['order_number' => $vm_order_number])->one();
         if ($model)
         {
-            $model->unique_id = $order_number;
-            $model->save();
+            $model->updateReference($payandgo_order_number);
             return true;
         }
 

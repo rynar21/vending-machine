@@ -248,5 +248,11 @@ class SaleRecord extends \yii\db\ActiveRecord
         return false;
     }
 
+    public function updateReference($reference_number)
+    {
+        $this->unique_id = $reference_number;
+        $this->save();
+    }
+
 
 }

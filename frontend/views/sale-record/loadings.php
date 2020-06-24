@@ -86,7 +86,7 @@ function updateStatus(message) {
 }
 
 function updateSale(order_id) {
-    fetch('https://vm-api.payandgo.link/payment/reference?order_number=' + order_id + '&salerecord_id=' + salerecord_id , {
+    fetch('https://vm-api.payandgo.link/payment/reference?payandgo_order_number=' + order_id + '&vm_order_number=' + salerecord_id , {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
