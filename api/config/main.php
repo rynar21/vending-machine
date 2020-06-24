@@ -36,10 +36,10 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'cron',
+                    'controller' => 'payment',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'POST minute' => 'minute',
+                        'GET view' => 'view',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],
@@ -52,7 +52,16 @@ return [
                         'GET next' => 'next',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
-                ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'cron',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST minute' => 'minute',
+                        'OPTIONS <action:[\w-]+>' => 'options',
+                    ]
+                ],
             ],
         ],
     ],

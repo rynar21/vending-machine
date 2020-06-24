@@ -12,6 +12,7 @@ class PayAndGo
 {
         const STATUS_SUCCESS = 1;    //购买成功
         const STATUS_PENDING = 0;   //购买中
+        const STATUS_INIT    = 10; //初始状态
 
         public function checkOrder($order_id)
         {
@@ -36,12 +37,16 @@ class PayAndGo
                 return true;
             }
 
+
             return false;
         }
 
         public function getIsFinalStatus($orderStatus)
         {
             if ($orderStatus == self::STATUS_PENDING) {
+                return true;
+            }
+            if ($orderStatus == self::STATUS_INIT) {
                 return true;
             }
 

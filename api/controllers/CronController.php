@@ -28,11 +28,16 @@ class CronController extends Controller
 
     private function queryPendingOrder()
     {
-        $SaleRecord = new SaleRecord();
-        $SaleRecord->queryPendingOrder();
+        $records = SaleRecord::find()->where([
+                'status' => SaleRecord::STATUS_PENDING,
+        ])->all();
+        
+        foreach ($records as $record) {
+            $record->executeUpdateStatus();.
+        }
     }
 
-    
+
 
 }
 
