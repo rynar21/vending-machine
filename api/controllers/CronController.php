@@ -27,7 +27,7 @@ class CronController extends Controller
     }
 
     private function queryPendingOrder()
-    {    
+    {
         $count_number = 0;
         $data = [];
         $records = SaleRecord::find()->where([
@@ -69,10 +69,10 @@ class CronController extends Controller
 
     private  function testAPI($count_array, $count_number, $data)//vm -测试机器人
     {
-        if (!empty($count_array))
+        if (($count_number) > 0)
         {
             Yii::$app->slack->Posturl([
-                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=ab93fb5a-cb7d-49e6-b74a-068723427fa9',
+                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=e7ac265a-747d-4eb0-9706-9957c18c8200',
                 'data' => [
                         "msgtype" => "text",
 
