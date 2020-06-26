@@ -24,6 +24,12 @@ $this->title = 'Finances';
         <br/>
 
     <?= GridView::widget([
+        'tableOptions' => [
+        'class' => 'table   table-bordered  table-hover ',
+        ],
+        'options' => [
+            'class' => 'table-responsive ',
+        ],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [

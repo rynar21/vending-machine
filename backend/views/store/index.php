@@ -30,6 +30,9 @@ $this->title = 'Store';
 
     <!-- 商店列表 -->
     <?= GridView::widget([
+        'tableOptions' => [
+        'class' => 'table   table-bordered  table-hover ',
+        ],
         'options' => [
             'class' => 'table-responsive',
         ],

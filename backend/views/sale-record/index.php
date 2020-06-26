@@ -26,6 +26,9 @@ $this->title = 'Sale Records';
     <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
+        'tableOptions' => [
+        'class' => 'table   table-bordered  table-hover ',
+        ],
         'options' => [
             'class' => 'table-responsive',
         ],
@@ -35,11 +38,11 @@ $this->title = 'Sale Records';
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',],
             [
-               'attribute' =>'order_number',
-                   'filterInputOptions' => [
-                       'class'  => 'form-control',
-                       'placeholder' => 'Search....'
-                    ]
+                'attribute' =>'order_number',
+                'filterInputOptions' => [
+                   'class'  => 'form-control',
+                   'placeholder' => 'Search....'
+                ]
             ],
             // [
             //    'attribute' =>'box_code',
@@ -79,6 +82,7 @@ $this->title = 'Sale Records';
             [
                 'attribute'=>'status',
                 'format' => 'raw' ,
+                'headerOptions' =>['class'=>'col-sm-2',],
                 'value' => function ($model)
                 {
                     if ($model->status == SaleRecord::STATUS_SUCCESS) {
@@ -98,7 +102,7 @@ $this->title = 'Sale Records';
                 'filter' => Html::activeDropDownList(
                     $searchModel,
                     'status', [SaleRecord::STATUS_PENDING => 'Pending', SaleRecord::STATUS_SUCCESS => 'Success', SaleRecord::STATUS_FAILED => 'Failed'],
-                    ['class'=>'form-control','prompt' => 'All']),
+                    ['class'=>'form-control ','prompt' => 'All']),
             ],
             //'unique_id',
             'created_at:datetime:Order Time',

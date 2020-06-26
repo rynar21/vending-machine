@@ -49,6 +49,12 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
     </div>
 
     <?= GridView::widget([
+        'tableOptions' => [
+        'class' => 'table   table-borderless  table-hover ',
+        ],
+        'options' => [
+            'class' => 'table-responsive ',
+        ],
         'dataProvider' => $dataProvider_all,
         //'filterModel' => '',
         'columns' => [
@@ -87,6 +93,12 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
         ],
     ]); ?>
     <?= GridView::widget([
+        'tableOptions' => [
+        'class' => 'table   table-bordered  table-hover ',
+        ],
+        'options' => [
+            'class' => 'table-responsive ',
+        ],
         'dataProvider' => $dataProvider_date,
         'filterModel' => '',
         'columns' => [

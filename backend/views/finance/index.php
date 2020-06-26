@@ -21,14 +21,24 @@ $this->title = 'Financial Records';
 <div class="finance-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <div class="row col-sm-12">
-        <form method="GET" action="<?= Url::to(['finance/datecheck'])?>">
-            <input name="date1"  type="date" required min="2000-01-02"  class=" col-sm-2">
-            <div class="col-sm-1 text-center">-</div>
-            <input name="date2"  type="date"  required min="2000-01-02" class=" col-sm-2" >
-            <input type="submit" name="submit" value="Search" class=" btn btn-sm btn-primary col-sm-1 ">
-        </form>
+    <div class=" row col-lg-12 " >
+        <div class="row col-lg-7   ">
+            <form method="GET" action="<?= Url::to(['finance/datecheck'])?>">
+                <div class=" form-group  ">
+                    <label for="disabledTextInput">Start Time</label>
+                    <input  name="date1"  type="date" required min="2000-01-02"  id="disabledTextInput" class="form-control " >
+                </div>
+                <div class=" form-group ">
+                    <label for="disabledSelect">End Time</label>
+                    <input name="date2"  type="date" required min="2000-01-02" id="disabledSelect" class="form-control">
+                </div>
+                <div class="to form-group ">
+                <input type="submit" class="btn btn-primary"  value="Search">
+                </div>
+            </form>
+        </div>
     </div>
+
     <?php  if (empty($dataProvider_all)) {
         $dataProvider_all = new ArrayDataProvider([
            'allModels' => array(),
@@ -39,10 +49,15 @@ $this->title = 'Financial Records';
                'allModels' => array(),
            ]);
         }
-
    ?>
-
+   <div class="row"></div>
     <?= GridView::widget([
+        'tableOptions' => [
+        'class' => 'table table-borderless table-hover',
+        ],
+        'options' => [
+            'class' => 'table-responsive',
+        ],
         'dataProvider' => $dataProvider_all,
         //'filterModel' => '',
 
@@ -84,6 +99,12 @@ $this->title = 'Financial Records';
         ],
     ]); ?>
     <?= GridView::widget([
+        'tableOptions' => [
+        'class' => 'table   table-bordered  table-hover ',
+        ],
+        'options' => [
+            'class' => 'table-responsive ',
+        ],
         'dataProvider' => $dataProvider_date,
         'filterModel' => '',
         'columns' => [

@@ -150,6 +150,9 @@ use yii\helpers\ArrayHelper;
         <div class="row">
 
                 <?= GridView::widget([
+                    'tableOptions' => [
+                    'class' => 'table   table-bordered  table-hover ',
+                    ],
                     'options' => [
                         'class' => 'table-responsive',
                     ],

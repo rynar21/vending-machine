@@ -28,8 +28,11 @@ $this->title = 'Finances';
        ]);
     }?>
     <?= GridView::widget([
+        'tableOptions' => [
+        'class' => 'table   table-borderless  table-hover ',
+        ],
         'options' => [
-            'class' => 'table-responsive',
+            'class' => 'table-responsive ',
         ],
         'dataProvider' => $dataProvider_all,
         //'filterModel' => '',
@@ -43,8 +46,11 @@ $this->title = 'Finances';
     ]); ?>
 
     <?= GridView::widget([
+        'tableOptions' => [
+        'class' => 'table   table-bordered  table-hover ',
+        ],
         'options' => [
-            'class' => 'table-responsive',
+            'class' => 'table-responsive ',
         ],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
