@@ -12,8 +12,6 @@ class m190621_100127_sales_record extends Migration
      */
     public function safeUp()
     {
-        $this->dropTable('sale_record');
-
         $this->createTable('sale_record', [
           'id' =>$this->primaryKey(),
           'order_number'=>$this->string()->notNull(),//
