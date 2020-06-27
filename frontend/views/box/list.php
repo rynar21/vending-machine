@@ -22,7 +22,7 @@ use yii\bootstrap\ActiveForm;
         <div class="row">
             <div class="col-sm-12" >
         <?php foreach ($item_dataProvider as $item):?>
-            <?php if ($item->status == Item::STATUS_AVAILABLE) { ?>
+            <?php if ($item->status == Item::STATUS_AVAILABLE): ?>
                 <div class="col-sm-3 col-xs-6 box_row "  >
                      <!-- 产品 显示框 -->
 
@@ -59,7 +59,7 @@ use yii\bootstrap\ActiveForm;
                     </div>
 
                 </div>
-            <?php }elseif ($item->status == Item::STATUS_LOCKED) { ?>
+            <?php elseif ($item->status == Item::STATUS_LOCKED): ?>
                 <div class="col-sm-3 col-xs-6 box_row "  >
                      <!-- 产品 显示框 -->
 
@@ -90,14 +90,14 @@ use yii\bootstrap\ActiveForm;
                         </div>
 
                         <div class="box-buy text-center background-grey">
-                            BUY
+                            Not Available
                         </div>
 
                         </a>
                     </div>
 
                 </div>
-        <?php     } ?>
+        <?php endif; ?>
 
         <?php endforeach; ?>
 
