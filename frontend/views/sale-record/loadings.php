@@ -141,6 +141,6 @@ $this->registerJs($js);
 ?>
 <?php if ($model->status != SaleRecord::STATUS_SUCCESS): ?>
     <script type="text/javascript">
-        setTimeout("location.reload();",2000);
+        setTimeout("location.reload();",3000);
     </script>
 <?php endif ?>
