@@ -214,8 +214,11 @@ class SaleRecord extends \yii\db\ActiveRecord
             $data = json_decode($data,true);
             $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
             //$orderStatus   = $data['data']['status'];
-            if (empty($orderStatus)) {
-                return $this->failed();
+            if (empty($orderStatus))
+            {
+                if (time() - $this->created_at > 600) {
+                    $this->failed();
+                }
             }
             if ($this->getIsFinalStatus()) {
                 return false;
