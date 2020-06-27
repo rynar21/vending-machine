@@ -25,12 +25,11 @@ class PaymentController extends Controller
     {
         $request = \Yii::$app->request;//获取商品信息
         $id = $request->get('id');
-        $time = $request->get('time');
         $price = $request->get('price');
 
         return $this->render('/sale-record/loading',[
             'id' => $id,
-            'time' => $time,
+            //'time' => $time,
             'price' => $price,
         ]);
     }
@@ -38,77 +37,92 @@ class PaymentController extends Controller
 
     // 如果产品ID没有在于 SaleRecord 表里：创新新订单
     // 运行 购买流程
-    public function actionCreate($id,$time)
+    public function actionCreate($id)
     {
-        $salerecord_model = SaleRecord::find()->where([
-            'item_id' => $id,
-            'status' => SaleRecord::STATUS_PENDING
-        ])->one();
+        if ($record = $this->generateOrder($id)) {
 
-        if ($salerecord_model)
-        {
-            return $this->redirect([
-                'item/view',
-                'id' => $salerecord_model->item_id,
-            ]);
+            return   $this->redirect([
+                    'payment/demo',
+                    'record_id' => $record->id,
+                ]);
         }
-
-        $item_model = Item::findOne($id);   // 寻找 Item
-        $model = new SaleRecord();
-
-        $_item = $model->findOne(['item_id' => $id]);
-        $_itemFailed = $model->find()->orderBy([
-            'id' => SORT_DESC
-        ])->where([
-            'item_id' => $id,
-            'status' => SaleRecord::STATUS_FAILED
-        ])->one();
-
-        if ($item_model)
-        {
-
-            if(empty($_item) || $_itemFailed )
-            {
-                // 创建 新订单
-                $model->item_id      = $id;
-                $model->order_number = $item_model->store->prefix.$item_model->box->code.$time;
-                $model->box_id       = $item_model->box_id;
-                $model->store_id     = $item_model->store_id;
-                $model->sell_price   = $item_model->price;
-                $model->unique_id    = $time;
-                $model->store_name   = $item_model->store->name;
-                $model->item_name    = $item_model->name;
-                $model->box_code     = $item_model->store->prefix.$item_model->box->code;
-                $model->save();
-                $model->pending();
-            }//
-
-            $salerecord = SaleRecord::find()->where([
-                'item_id' => $id,
-                'status' => SaleRecord::STATUS_PENDING
-            ])->orderBy([
-                'created_at' => SORT_ASC,
-                'id' => SORT_ASC
-            ])->one();
-
-            if ($salerecord)
-            {
-                if ($model->id == $salerecord->id)
-                {
-                    return $this->render('/sale-record/loadings',[
-                        'salerecord_id' => $model->order_number,
-                        'price' =>$item_model->price,
-                    ]);
-                    //return $this->redirect(['check','id'=>$model->id]);
-                }
-            }
-
-            return "Order or product does not exist";
-        }
+        return  $this->redirect([
+            'item/view',
+            'id' => $id,
+        ]);
 
         throw new NotFoundHttpException("Requested item cannot be found.");
     }
 
+    public function actionDemo($record_id)
+    {
+        $model = SaleRecord::findOne($record_id);
+        $data =  Yii::$app->payandgo->checkOrder($model->unique_id);
+        if ($data)
+        {
+            $data = json_decode($data,true);
+            $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
+            
+            if (empty($orderStatus)) {
+
+                return   $this->render('/sale-record/loadings',[
+                    'model' => $model,
+                ]);
+            }
+
+            if (Yii::$app->payandgo->getIsFinalStatus($orderStatus))
+            {
+                if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
+                {
+                     $model->success();
+                }
+
+                $model->failed();
+            }
+            return   $this->render('/sale-record/loadings',[
+                'model' => $model,
+            ]);
+        }
+        return   $this->render('/sale-record/loadings',[
+            'model' => $model,
+        ]);
+    }
+
+    public function generateOrder($id)
+    {
+
+        $item_model = Item::findOne($id);
+           // 寻找 Item
+        if ($item_model)
+        {
+            if($item_model->status != Item::STATUS_SOLD && $item_model->status != Item::STATUS_LOCKED )
+            {
+                return $this->generateOrderNumber($item_model);
+            }//
+
+            return false;
+        }
+
+    }
+
+    public function generateOrderNumber($item_model)
+    {
+        $time = time();
+        $model = new SaleRecord();
+        // 创建 新订单
+        $model->item_id      = $item_model->id;
+        $model->order_number = $item_model->store->prefix.$item_model->box->code.$time;
+        $model->box_id       = $item_model->box_id;
+        $model->store_id     = $item_model->store_id;
+        $model->sell_price   = $item_model->price;
+        $model->unique_id    = $time;
+        $model->store_name   = $item_model->store->name;
+        $model->item_name    = $item_model->name;
+        $model->box_code     = $item_model->store->prefix.$item_model->box->code;
+        $model->save();
+        $model->pending();
+        return $model;
+    }
 
     ///spay端的创建订单
     public function actionCreateOrder()

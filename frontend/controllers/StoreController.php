@@ -58,8 +58,8 @@ class StoreController extends Controller
 
     public function actionTry()
     {
-        // $model = SaleRecord::findOne(4);
-        // $model->executeUpdateStatus();
+        $model = SaleRecord::findOne(4);
+        $model->executeUpdateStatus();
         // $model1 = SaleRecord::findOne(6);
         // $model1->executeUpdateStatus();
     }

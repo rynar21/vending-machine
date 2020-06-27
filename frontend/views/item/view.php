@@ -8,8 +8,8 @@ use yii\data\BaseDataProvider;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-$this->title = 'My Yii Application';
-$time=time();
+
+
 ?>
 
 <div class="item-view">
@@ -33,8 +33,8 @@ $time=time();
             <div class="col-sm-offset-4 col-sm-4 col-lg-offset-2 col-lg-8 text-center" >
                 <br/>
                 <br/>
-                <?php if($model->status == $model::STATUS_AVAILABLE&&$model->box->status != $model->box::BOX_STATUS_LOCK):?>
-                    <?= Html::a('Pay',  ['/payment/generate',  'id' => $model->id,'time'=>$time,'price'=>$model->price],['class'=>"btn btn-primary btn-available b-color"],
+                <?php if($model->status == $model::STATUS_AVAILABLE && $model->box->status != $model->box::BOX_STATUS_LOCK):?>
+                    <?= Html::a('Pay',  ['/payment/generate',  'id' => $model->id,'price'=>$model->price],['class'=>"btn btn-primary btn-available b-color"],
                      [
                         'data' => [
                             'method' => 'post',

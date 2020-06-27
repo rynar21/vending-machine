@@ -13,7 +13,7 @@ $this->title = 'Loading';
 
 <form id="demo" action="<?=  Url::to(['payment/create'])?>">
     <input name="id" value="<?=$id?>" type="hidden" >
-    <input name="time" value="<?=$time?>" type="hidden">
+    
 </form>
 
 <?php $this->registerJs("

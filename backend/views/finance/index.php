@@ -22,17 +22,18 @@ $this->title = 'Financial Records';
 
     <h1><?= Html::encode($this->title) ?></h1>
     <div class=" row col-lg-12 " >
-        <div class="row col-lg-7   ">
+        <div class="   ">
             <form method="GET" action="<?= Url::to(['finance/datecheck'])?>">
-                <div class=" form-group  ">
+                <div class=" row col-lg-6 form-group  ">
                     <label for="disabledTextInput">Start Time</label>
                     <input  name="date1"  type="date" required min="2000-01-02"  id="disabledTextInput" class="form-control " >
                 </div>
-                <div class=" form-group ">
+
+                <div class=" row col-lg-6 form-group ">
                     <label for="disabledSelect">End Time</label>
                     <input name="date2"  type="date" required min="2000-01-02" id="disabledSelect" class="form-control">
                 </div>
-                <div class="to form-group ">
+                <div class=" form-group ">
                 <input type="submit" class="btn btn-primary"  value="Search">
                 </div>
             </form>

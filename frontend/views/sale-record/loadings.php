@@ -2,19 +2,37 @@
 // use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\SaleRecord;
 
 /* @var $this yii\web\View */
 $this->title = 'Pay & Go';
 ?>
+<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
 <div class="site-index">
-    <h3>Pay & Go Demo</h3>
+    <h3>Pay & Go</h3>
     <br>
     <br>
+    <?php if ($model->status != SaleRecord::STATUS_SUCCESS): ?>
     <h3 class="text-danger">
         Price: RM <span id="price"></span>
     </h3>
+    <?php endif ?>
+    <?php if ($model->status == SaleRecord::STATUS_SUCCESS): ?>
+        <h3 class="text-danger">
+        Please Take your Item. Thank you.
+        </h3>
+    <?php endif ?>
     <br><br>
-    <a onclick="makePayment()" class="btn btn-success btn-lg btn-block">Demo Checkout</a>
+    <?php if ($model->status != SaleRecord::STATUS_SUCCESS): ?>
+    <div v-if="">
+    <a onclick="makePayment()" class="btn btn-primary btn-lg btn-block">Checkout</a>
+    </div>
+    <?php endif ?>
+    <?php if ($model->status == SaleRecord::STATUS_SUCCESS): ?>
+    <div v-if="">
+    <a onclick="window.history.go(-2); return false;" class="btn btn-success btn-lg btn-block">Continue Shopping</a>
+    </div>
+    <?php endif ?>
 </div>
 
 <?php
@@ -22,8 +40,8 @@ $this->title = 'Pay & Go';
 
 $js = <<< JS
 var device_tag = '';
-var amount = $price;
-var salerecord_id = "$salerecord_id";
+var amount = $model->sell_price;
+var salerecord_id = "$model->order_number";
 //((Math.random() * 11) + 1).toFixed(2);
 
 // Do not change the function name, this function will be called by Native APP after payment
