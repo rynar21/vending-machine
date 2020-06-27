@@ -26,6 +26,15 @@ $this->title = 'Pay & Go';
     <?php if ($model->status != SaleRecord::STATUS_SUCCESS): ?>
     <div v-if="">
     <a onclick="makePayment()" class="btn btn-primary btn-lg btn-block">Checkout</a>
+    <div class="row">
+        <div class=" col-sm-12 col-lg-12 text-center" style="margin-top:20px;">
+            <?= Html::a('Cancel',['/payment/cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel font-color",
+            'data' => [
+                'confirm' => 'Are you sure you want to exit this Store?',
+                'method' => 'post']])?>
+
+        </div>
+    </div>
     </div>
     <?php endif ?>
     <?php if ($model->status == SaleRecord::STATUS_SUCCESS): ?>
