@@ -56,13 +56,5 @@ class StoreController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionTry()
-    {
-        $model = SaleRecord::findOne(4);
-        $model->executeUpdateStatus();
-        // $model1 = SaleRecord::findOne(6);
-        // $model1->executeUpdateStatus();
-    }
-
 
 }
