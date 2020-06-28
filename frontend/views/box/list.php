@@ -31,7 +31,7 @@ use yii\bootstrap\ActiveForm;
                         <a href="<?= Url::base()?>/item/view?id=<?= $item->id ?>">
 
                         <div class="box-code-id text-center b-color">
-                            <div class="box-number"><?=$model->prefix . Box::find()->where(['id'=>$item->box_id])->one()->code;  ?></div>
+                            <div class="box-number"><?=$model->prefix . $item->box->code;  ?></div>
                         </div>
 
                         <!-- 产品：图片 显示框 -->
@@ -65,10 +65,10 @@ use yii\bootstrap\ActiveForm;
 
                     <div class=" box_item "  >
 
-                        <a href="<?= Url::base()?>/item/view?id=<?= $item->id ?>">
+
 
                         <div class="box-code-id text-center background-grey">
-                            <div class="box-number"><?=$model->prefix . Box::find()->where(['id'=>$item->box_id])->one()->code;  ?></div>
+                            <div class="box-number"><?=$model->prefix . $item->box->code;  ?></div>
                         </div>
 
                         <!-- 产品：图片 显示框 -->
@@ -93,7 +93,7 @@ use yii\bootstrap\ActiveForm;
                             Not Available
                         </div>
 
-                        </a>
+                        
                     </div>
 
                 </div>
