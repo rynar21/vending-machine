@@ -216,7 +216,7 @@ class SaleRecord extends \yii\db\ActiveRecord
             //$orderStatus   = $data['data']['status'];
             if (empty($orderStatus))
             {
-                if (time() - $this->created_at > 600) {
+                if (time() - $this->created_at > 60) {
                     $this->failed();
                 }
             }

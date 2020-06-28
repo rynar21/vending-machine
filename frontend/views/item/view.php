@@ -55,7 +55,7 @@ use yii\helpers\Url;
                     <br/>
                 <?php endif; ?>
 
-                <a href="<?= Url::base()?>/store/view?id=<?= $model->store_id?>"  class="font-color btn btn-default btn-cancel " >
+                <a href="<?= Url::base()?>/store/view?id=<?= $model->store_id?>"  class="font-color btn btn-default btn-cancel " style="padding: 9px 12px;" >
                     Cancel
                 </a>
             </div>

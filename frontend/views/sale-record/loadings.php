@@ -12,36 +12,49 @@ $this->title = 'Pay & Go';
     <h3>Pay & Go</h3>
     <br>
     <br>
-    <?php if ($model->status != SaleRecord::STATUS_SUCCESS): ?>
-    <h3 class="text-danger">
-        Price: RM <span id="price"></span>
-    </h3>
+    <?php if ($model->status == SaleRecord::STATUS_PENDING): ?>
+        <h3 class="text-danger">
+            Price: RM <span id="price"></span>
+        </h3>
     <?php endif ?>
+
     <?php if ($model->status == SaleRecord::STATUS_SUCCESS): ?>
         <h3 class="text-danger">
         Please Take your Item. Thank you.
         </h3>
     <?php endif ?>
-    <br><br>
-    <?php if ($model->status != SaleRecord::STATUS_SUCCESS): ?>
-    <div v-if="">
-    <a onclick="makePayment()" class="btn b-color  btn-lg btn-block" style="color:#FFFF;">Checkout</a>
-    <div class="row">
-        <div class=" col-sm-12 col-lg-12 text-center" style="margin-top:20px;">
-            <?= Html::a('Cancel',['/payment/cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel font-color",
-            'data' => [
-                'confirm' => 'Are you sure you want to exit this Store?',
-                'method' => 'post']])?>
 
-        </div>
-    </div>
-    </div>
+    <?php if ($model->status == SaleRecord::STATUS_FAILED): ?>
+        <h3 class="text-danger">
+        Sorry. Your payment has failed.
+        </h3>
     <?php endif ?>
-    <?php if ($model->status == SaleRecord::STATUS_SUCCESS): ?>
+
+    <br><br>
+
+    <?php if ($model->status == SaleRecord::STATUS_PENDING): ?>
     <div v-if="">
-    <a onclick="window.history.go(-2); return false;" class="btn btn-success btn-lg btn-block">Continue Shopping</a>
+        <a onclick="makePayment()" class="btn b-color  btn-lg btn-block" style="color:#FFFF;">Checkout</a>
+
+        <div class="row">
+            <div class=" col-sm-12 col-lg-12 text-center" style="margin-top:20px; ">
+                <?= Html::a('Cancel',['/payment/cancel', 'id' => $model->id],['class' => "btn btn-default btn-cancel font-color",'style' =>'padding: 9px 12px',
+                'data' => [
+                    'confirm' => 'Are you sure you want to exit this Store?',
+                    'method' => 'post']])?>
+
+            </div>
+        </div>
+
     </div>
     <?php endif ?>
+
+    <?php if ($model->status == SaleRecord::STATUS_SUCCESS || $model->status == SaleRecord::STATUS_FAILED): ?>
+        <a href="<?= Url::to(['store/view','id'=>$model->store_id]) ?>" class="btn btn-default btn-cancel font-color " style="padding: 9px 12px;">
+             Done
+        </a>
+    <?php endif ?>
+
 </div>
 
 <?php
@@ -139,7 +152,7 @@ JS;
 
 $this->registerJs($js);
 ?>
-<?php if ($model->status != SaleRecord::STATUS_SUCCESS): ?>
+<?php if ($model->status == SaleRecord::STATUS_PENDING): ?>
     <script type="text/javascript">
         setTimeout("location.reload();",5000);
     </script>

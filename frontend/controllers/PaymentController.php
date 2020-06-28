@@ -62,10 +62,10 @@ class PaymentController extends Controller
         {
             $data = json_decode($data,true);
             $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
-            
+
             if (empty($orderStatus)) {
 
-                return   $this->render('/sale-record/loadings',[
+                return $this->render('/sale-record/loadings',[
                     'model' => $model,
                 ]);
             }

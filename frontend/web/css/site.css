@@ -9,6 +9,7 @@ body {
 /* .pagination > .active > span:focus {
     color: #FE5802;
 } */
+
 .pagination >li >a{
     color: #FE5802;
 }
