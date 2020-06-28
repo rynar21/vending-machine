@@ -25,7 +25,7 @@ $this->title = 'Pay & Go';
     <br><br>
     <?php if ($model->status != SaleRecord::STATUS_SUCCESS): ?>
     <div v-if="">
-    <a onclick="makePayment()" class="btn btn-primary btn-lg btn-block">Checkout</a>
+    <a onclick="makePayment()" class="btn b-color  btn-lg btn-block" style="color:#FFFF;">Checkout</a>
     <div class="row">
         <div class=" col-sm-12 col-lg-12 text-center" style="margin-top:20px;">
             <?= Html::a('Cancel',['/payment/cancel', 'id' => $model->id],['class'=>"btn btn-default btn-cancel font-color",
@@ -141,6 +141,6 @@ $this->registerJs($js);
 ?>
 <?php if ($model->status != SaleRecord::STATUS_SUCCESS): ?>
     <script type="text/javascript">
-        setTimeout("location.reload();",3000);
+        setTimeout("location.reload();",5000);
     </script>
 <?php endif ?>
