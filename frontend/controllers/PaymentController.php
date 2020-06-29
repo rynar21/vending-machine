@@ -79,11 +79,8 @@ class PaymentController extends Controller
 
                 $model->failed();
             }
-            return   $this->render('/sale-record/loadings',[
-                'model' => $model,
-            ]);
         }
-        return   $this->render('/sale-record/loadings',[
+        return  $this->render('/sale-record/loadings',[
             'model' => $model,
         ]);
     }
