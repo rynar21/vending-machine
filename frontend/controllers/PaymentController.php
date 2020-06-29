@@ -57,29 +57,8 @@ class PaymentController extends Controller
     public function actionDemo($record_id)
     {
         $model = SaleRecord::findOne($record_id);
-        $data =  Yii::$app->payandgo->checkOrder($model->unique_id);
-        if ($data)
-        {
-            $data = json_decode($data,true);
-            $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
-
-            if (empty($orderStatus)) {
-
-                return $this->render('/sale-record/loadings',[
-                    'model' => $model,
-                ]);
-            }
-
-            if (Yii::$app->payandgo->getIsFinalStatus($orderStatus))
-            {
-                if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
-                {
-                     $model->success();
-                }
-
-                $model->failed();
-            }
-        }
+        $model->executeUpdateStatus();
+        
         return  $this->render('/sale-record/loadings',[
             'model' => $model,
         ]);

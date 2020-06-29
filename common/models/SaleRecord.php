@@ -210,15 +210,14 @@ class SaleRecord extends \yii\db\ActiveRecord
 
         if ($data)
         {
-
             $data = json_decode($data,true);
             $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
-            //$orderStatus   = $data['data']['status'];
             if (empty($orderStatus))
             {
                 if (time() - $this->created_at > 60) {
-                    $this->failed();
+                    return $this->failed();
                 }
+                return false;
             }
             if ($this->getIsFinalStatus()) {
                 return false;
@@ -236,7 +235,6 @@ class SaleRecord extends \yii\db\ActiveRecord
 
             return false;
         }
-
 
         return false;
     }
