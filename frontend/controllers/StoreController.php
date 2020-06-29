@@ -11,7 +11,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
-use common\components\PayAndGo;
 use yii\helpers\Json;
 /**
  * StoreController implements the CRUD actions for Store model.
@@ -56,6 +55,10 @@ class StoreController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    
+    public function actionTry()
+    {
+        //$model = SaleRecord::findOne(13);
+        //$model->success();
+    }
 
 }
