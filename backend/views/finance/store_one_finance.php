@@ -38,22 +38,34 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
         // }
    ?>
     <h1><?= Html::encode($this->title) ?></h1>
-    <div class="row col-sm-12">
-        <form method="GET" action="<?= Url::to(['finance/datecheck_store'])?>">
-            <input name="date1"  type="date" required min="2000-01-02"  class=" col-sm-2">
-            <div class="col-sm-1 text-center">-</div>
-            <input name="date2"  type="date" required min="2000-01-02" class=" col-sm-2" >
-            <input name="store_id" value="<?= $store_id?>"type="hidden"  >
-            <input type="submit" name="submit" value="Search" class=" btn btn-sm btn-primary col-sm-1 ">
-        </form>
+    <div class = " row col-lg-12 " >
+        <div class = "   ">
+            <form method = "GET" action = "<?= Url::to(['finance/datecheck_store'])?>">
+                <div class = " row col-lg-6 form-group  ">
+                    <label for = "disabledTextInput">Start Time</label>
+                    <input  name = "date1"  type = "date" required min = "2000-01-02"  id = "disabledTextInput" class = "form-control " >
+                </div>
+                <div class = " row col-lg-6 form-group ">
+                    <label for = "disabledSelect">End Time</label>
+                    <input name = "date2"  type = "date" required min = "2000-01-02" id = "disabledSelect" class = "form-control">
+                </div>
+                    <input name = "store_id" value = "<?= $store_id?>" type = "hidden"  >
+                <div class = " form-group ">
+                <input type = "submit" class = "btn btn-primary"  value = "Search">
+                </div>
+            </form>
+        </div>
     </div>
-
+    <div class = "row"></div>
     <?= GridView::widget([
+
         'tableOptions' => [
-        'class' => 'table   table-borderless  table-hover ',
+
+            'class' => 'table table-borderless table-hover',
         ],
         'options' => [
-            'class' => 'table-responsive ',
+
+            'class' => 'table-responsive',
         ],
         'dataProvider' => $dataProvider_all,
         //'filterModel' => '',
@@ -107,7 +119,7 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
                 'attribute'=>'date',
                 'format' => 'raw',
                  'headerOptions' =>['class'=>'col-lg-2',],
-                'visible' => Yii::$app->user->can('admin'),
+                //'visible' => Yii::$app->user->can('admin'),
                 'value' => function ($model)
                 {
                    return Yii::t('app', ' {0, date}', $model['date']) ;
@@ -123,7 +135,7 @@ $this->title = Store::find()->where(['id' => $store_id])->one()->name . "'s Fina
             [
                 'attribute'=>'',
                 'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                   return Html::a('View', ['/sale-record/one_store_all_salerecord',

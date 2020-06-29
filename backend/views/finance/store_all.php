@@ -38,7 +38,7 @@ $this->title = 'Finances';
                 'attribute'=>'date',
                 'format' => 'raw',
                 'headerOptions' =>['class'=>'col-lg-2',],
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                    return Yii::t('app', ' {0, date}', $model['date']) ;
@@ -50,7 +50,7 @@ $this->title = 'Finances';
             [
                 'attribute'=>'store',
                 'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                    return Finance::financial_detail_inquiry($model['store_id'], $model['date'])['store_name'];
@@ -59,7 +59,7 @@ $this->title = 'Finances';
             [
                 'attribute'=>'manager',
                 'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                    return Finance::financial_detail_inquiry($model['store_id'], $model['date'])['store_manager'];
@@ -68,7 +68,7 @@ $this->title = 'Finances';
             [
                 'attribute'=>'Order Quantity',
                 'format' => 'raw',
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                  return Finance::financial_detail_inquiry($model['store_id'], $model['date'])['quantity_of_order'];
@@ -77,7 +77,7 @@ $this->title = 'Finances';
             [
                 'attribute'=>'Total Earnings',
                 'format' => 'currency',
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                 return Finance::financial_detail_inquiry($model['store_id'], $model['date'])['total_earn'];
@@ -86,7 +86,7 @@ $this->title = 'Finances';
             [
                 'attribute'=>'Net Profit',
                 'format' => 'currency',
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                     return Finance::financial_detail_inquiry($model['store_id'], $model['date'])['net_profit'];
@@ -96,7 +96,7 @@ $this->title = 'Finances';
             [
                 'attribute'=>'',
                 'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                   return Html::a('view', ['/sale-record/one_store_all_salerecord',

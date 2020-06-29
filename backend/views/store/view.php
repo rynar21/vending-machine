@@ -86,16 +86,35 @@ use yii\helpers\ArrayHelper;
                       'value' => function ($model)
                       {
                         return
-                            '<div class="btn-group mr-2 pull-left col-lg-12 " role="group" aria-label="Second group">
-                            <form method="GET" action='.Url::to(['finance/datecheck_store']).'>
-                                <input name="date1"  type="date" required min="2000-01-02"  class=" col-sm-3" >
-                                <div class="col-sm-1 text-center">-</div>
-                                <input name="date2"  type="date" required min="2000-01-02" class=" col-sm-3" >
-                                <input name="store_id" value='.$model->id.' type="hidden"  >
-                                <input type="submit" name="submit" value="Search" class=" btn btn-sm btn-primary col-sm-2 pull-right">
-                            </form>
+                            // '<div class="btn-group mr-2 pull-left col-lg-12 " role="group" aria-label="Second group">
+                            // <form method="GET" action='.Url::to(['finance/datecheck_store']).'>
+                            //     <input name="date1"  type="date" required min="2000-01-02"  class=" col-sm-3" >
+                            //     <div class="col-sm-1 text-center">-</div>
+                            //     <input name="date2"  type="date" required min="2000-01-02" class=" col-sm-3" >
+                            //     <input name="store_id" value='.$model->id.' type="hidden"  >
+                            //     <input type="submit" name="submit" value="Search" class=" btn btn-sm btn-primary col-sm-2 pull-right">
+                            // </form>
+                            // </div>'
+                            '<div class=" row col-lg-12 " >
+                                <div class="   ">
+                                    <form method="GET" action='. Url::to(['finance/datecheck_store']).'>
+                                        <div class=" row col-lg-6 form-group  ">
+                                            <label for="disabledTextInput">Start Time</label>
+                                            <input  name="date1"  type="date" required min="2000-01-02"  id="disabledTextInput" class="form-control " >
+                                        </div>
+
+                                        <div class=" row col-lg-6 form-group ">
+                                            <label for="disabledSelect">End Time</label>
+                                            <input name="date2"  type="date" required min="2000-01-02" id="disabledSelect" class="form-control">
+                                        </div>
+                                            <input name="store_id" value='.$model->id.' type="hidden"  >
+                                        <div class=" form-group ">
+                                        <input type="submit" class="btn btn-primary"  value="Search">
+                                        </div>
+                                    </form>
+                                </div>
                             </div>';
-                      }
+                      } 
                   ],
               ],
           ]);

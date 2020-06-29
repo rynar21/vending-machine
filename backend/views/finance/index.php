@@ -114,7 +114,7 @@ $this->title = 'Financial Records';
                 'attribute'=>'date',
                 'format' => 'raw',
                  'headerOptions' =>['class'=>'col-lg-2',],
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                    return Yii::t('app', ' {0, date}', $model['date']) ;
@@ -127,7 +127,7 @@ $this->title = 'Financial Records';
             [
                 'attribute'=>'',
                 'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                   return Html::a('view', ['finance/store_all','date'=>$model['date']]);

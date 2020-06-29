@@ -17,8 +17,17 @@ $this->title = $model->order_number;
 <div class="sale-record-view">
 
     <h1></h1>
+    <?php //echo Yii::$app->formatter->asDateTime($model->created_at);
+        $auth = Yii::$app->authManager;
+        if ($auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
+            $str =' ';
+        }
+        if (!$auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
+            $str ='none';
+        }
+    ?>
     <p>
-        <?= Html::a('Open Box', ['box/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
+        <?= Html::a('Open Box', ['box/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-info' ,'style'=>"display:"."$str"]) ?>
     </p>
 
     <?= DetailView::widget([

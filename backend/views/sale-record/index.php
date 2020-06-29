@@ -110,10 +110,10 @@ $this->title = 'Sale Records';
             [
                 'attribute'=>'',
                 'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('admin'),
+                'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
-                  return Html::a('view', ['sale-record/view','id'=>$model->id]);
+                  return Html::a('view', ['sale-record/view', 'id' => $model->id]);
                 }
             ],
         ],
