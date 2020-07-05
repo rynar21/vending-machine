@@ -2,16 +2,7 @@
 
 namespace console\controllers;
 use Yii;
-
-use common\models\SaleRecord;
-use common\models\Box;
 use common\models\User;
-use common\models\Product;
-use common\models\Store;
-use common\models\Item;
-use common\models\Queue;
-use common\models\Finance;
-use yii\helpers\ArrayHelper;
 use yii\console\Controller;
 
 class UserController extends Controller {
