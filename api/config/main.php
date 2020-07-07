@@ -41,6 +41,7 @@ return [
                     'extraPatterns' => [
                         'GET view' => 'view',
                         'GET reference' => 'reference',
+                        'POST queryorder' = 'signalling',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],
