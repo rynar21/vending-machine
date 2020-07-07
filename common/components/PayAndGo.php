@@ -10,9 +10,11 @@ use yii\helpers\Json;
 
 class PayAndGo
 {
-        const STATUS_SUCCESS = 1;    //购买成功
-        const STATUS_PENDING = 0;   //购买中
-        const STATUS_INIT    = 10; //初始状态
+        const STATUS_SUCCESS  = 1;    //购买成功
+        const STATUS_PENDING  = 0;   //购买中
+        const STATUS_INIT     = 10; //初始状态
+        const STATUS_FAILED   = 2;
+        const STATUS_CANCELED = 3;
 
         public function checkOrder($order_id)
         {
@@ -33,7 +35,8 @@ class PayAndGo
 
         public function getIsPaymentSuccess($orderStatus)
         {
-            if ($orderStatus == self::STATUS_SUCCESS) {
+            if ($orderStatus == self::STATUS_SUCCESS)
+            {
                 return true;
             }
 
@@ -42,7 +45,8 @@ class PayAndGo
 
         public function getIsFinalStatus($orderStatus)
         {
-            if ($orderStatus == self::STATUS_PENDING) {
+            if ($orderStatus == self::STATUS_PENDING)
+            {
                 return false;
             }
 
@@ -51,13 +55,28 @@ class PayAndGo
 
         public function getIsInitStatus()
         {
-            if ($orderStatus == self::STATUS_INIT) {
+            if ($orderStatus == self::STATUS_INIT)
+            {
                 return true;
             }
 
             return false;
         }
 
+        public function getIsPaymentFailed($orderStatus)
+        {
+            if ($orderStatus == self::STATUS_FAILED)
+            {
+                return true;
+            }
+
+            if ($orderStatus == self::STATUS_CANCELED)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
 
 
