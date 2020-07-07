@@ -45,11 +45,17 @@ class PayAndGo
             if ($orderStatus == self::STATUS_PENDING) {
                 return false;
             }
-            if ($orderStatus == self::STATUS_INIT) {
-                return false;
-            }
 
             return true;
+        }
+
+        public function getIsInitStatus()
+        {
+            if ($orderStatus == self::STATUS_INIT) {
+                return true;
+            }
+
+            return false;
         }
 
 
