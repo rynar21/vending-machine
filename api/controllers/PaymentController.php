@@ -67,8 +67,12 @@ class PaymentController extends Controller
         return false;
     }
 
-    public function actionSignalling($order_id)
+    public function actionSignalling()
     {
+        $order_id = Yii::$app->request->getBodyParam('order_id');
+
+        // return $order_id;
+
         $order = SaleRecord::findone(['unique_id' => $order_id]);
 
         $order->queryOrderStatus();
