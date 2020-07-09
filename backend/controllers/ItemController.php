@@ -116,7 +116,7 @@ class ItemController extends Controller
 
             if($getsku)
             {
-                $model->product_id=$getsku->id;
+                $model->product_id = $getsku->id;
 
                 if ($model->price <= 0)
                 {
