@@ -53,7 +53,7 @@ class PayAndGo
             return true;
         }
 
-        public function getIsInitStatus()
+        public function getIsInitStatus($orderStatus)
         {
             if ($orderStatus == self::STATUS_INIT)
             {
