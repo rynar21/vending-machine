@@ -127,9 +127,13 @@ class ItemController extends Controller
                 if ($model->box->status == Box::BOX_STATUS_AVAILABLE)
                 {
                     Yii::$app->session->setFlash('danger', 'This product has been added.');
-                    return false;
+                    return $this->redirect([
+                        'store/view',
+                        'id' => $model->store_id
+                    ]);
                 }
-                elseif($model->save())
+                
+                if($model->save())
                 {
                     // 返回 store/view页面 当保存成功
                     return $this->redirect([
