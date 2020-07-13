@@ -124,8 +124,12 @@ class ItemController extends Controller
                     $model->price = $model->product->price;
                 }
 
-                // 保存 数据 进入Item表单里
-                if($model->save())
+                if ($model->box->status == Box::BOX_STATUS_AVAILABLE)
+                {
+                    Yii::$app->session->setFlash('danger', 'This product has been added.');
+                    return false;
+                }
+                elseif($model->save())
                 {
                     // 返回 store/view页面 当保存成功
                     return $this->redirect([
