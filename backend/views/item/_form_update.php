@@ -29,12 +29,12 @@ use yii\widgets\ActiveForm;
                 Store ID:
             </div>
             <?= $model->store_id ?>
-        </div>
 
-        <!-- 强行下架产品 为不可出售 -->
-        <p>
-            <?= Html::a('Void Item', ['void', 'id'=> $model->id], ['class' => 'btn btn-danger pull-right']) ?>
-        </p>
+            <!-- 强行下架产品 为不可出售 -->
+            <div class="row">
+                <?= Html::a('Void Item', ['void', 'id'=> $model->id], ['class' => 'btn btn-danger pull-right']) ?>
+            </div>
+        </div>
 
         <!-- 产品名称 -->
         <div class="row">

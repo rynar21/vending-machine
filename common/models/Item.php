@@ -166,6 +166,18 @@ class Item extends \yii\db\ActiveRecord
         return 'RM '.$num;
     }
 
+    // public function beforeSave($insert)
+    // {
+    //     if ($this->box->status == Box::BOX_STATUS_AVAILABLE)
+    //     {
+    //         Yii::$app->session->setFlash('danger', 'This product has been added.');
+    //
+    //         return false;
+    //     }
+    //
+    //     return parent::beforeSave($insert);
+    // }
+
     // 搜索 对应产品的 Store商店
     public function getStore()
     {

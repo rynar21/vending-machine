@@ -54,7 +54,7 @@ use yii\web\JsExpression;
              $form->field($model, 'sku')->widget(\yii\jui\AutoComplete::classname(), [
                  'options' => [
                      'class' => 'form-control ',
-                     'placeholder' => 'Please enter your itemname',
+                     'placeholder' => 'Please enter your item name',
                  ],
                  'clientOptions' => [
                         'name'   => '2',
@@ -80,4 +80,5 @@ use yii\web\JsExpression;
         </div>
 
     <?php ActiveForm::end(); ?>
+
 </div>

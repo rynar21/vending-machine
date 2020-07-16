@@ -116,7 +116,7 @@ class ItemController extends Controller
 
             if($getsku)
             {
-                $model->product_id=$getsku->id;
+                $model->product_id = $getsku->id;
 
                 if ($model->price <= 0)
                 {
@@ -124,7 +124,15 @@ class ItemController extends Controller
                     $model->price = $model->product->price;
                 }
 
-                // 保存 数据 进入Item表单里
+                if ($model->box->status == Box::BOX_STATUS_AVAILABLE)
+                {
+                    Yii::$app->session->setFlash('danger', 'This product has been added.');
+                    return $this->redirect([
+                        'store/view',
+                        'id' => $model->store_id
+                    ]);
+                }
+                
                 if($model->save())
                 {
                     // 返回 store/view页面 当保存成功
