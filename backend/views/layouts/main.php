@@ -84,7 +84,7 @@ AppAsset::register($this);
 
         <footer class="footer">
             <div class="container">
-                
+
             </div>
         </footer>
       <?php $this->endBody() ?>
