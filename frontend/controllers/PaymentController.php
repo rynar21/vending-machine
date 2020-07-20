@@ -17,6 +17,8 @@ use common\components\SarawakPay;
 
 class PaymentController extends Controller
 {
+    public $layout = 'main_mobile';
+    
     public $imodel;
     public $enableCsrfValidation = false;
 
@@ -58,7 +60,7 @@ class PaymentController extends Controller
     {
         $model = SaleRecord::findOne($record_id);
         $model->executeUpdateStatus();
-        
+
         return  $this->render('/sale-record/loadings',[
             'model' => $model,
         ]);

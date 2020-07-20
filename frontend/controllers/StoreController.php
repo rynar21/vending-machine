@@ -17,6 +17,7 @@ use yii\helpers\Json;
  */
 class StoreController extends Controller
 {
+    public $layout = 'main_mobile';
 
     // 显示 Store表 其中一个数据 详情
     // 采用 ItemSeearch表 来寻找 未购买成功的产品

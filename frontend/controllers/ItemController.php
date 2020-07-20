@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 //ItemController implements the CRUD actions for Item model.
 class ItemController extends Controller
 {
+    public $layout = 'main_mobile';
+
     public function actionIndex()
     {
         // 获取 ItemSearch 数据表
@@ -42,7 +44,7 @@ class ItemController extends Controller
                 'id' => $model->store_id,
             ]);
         }
-        
+
         throw new NotFoundHttpException("Requested item cannot be found.");
 
 
