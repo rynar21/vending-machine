@@ -73,7 +73,11 @@ class PaymentController extends Controller
 
         $order = SaleRecord::findone(['unique_id' => $order_id]);
 
-        $order->queryOrderStatus();
+        if ($order)
+        {
+            $order->queryOrderStatus();
+        }
+
     }
 
     public function actionCreate()
