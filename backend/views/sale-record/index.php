@@ -97,11 +97,16 @@ $this->title = 'Sale Records';
                         //return 'Failure';
                         return '<span style="color:#2a5caa">' .'Pending'.'';
                     }
+                    if ($model->status == SaleRecord::STATUS_INIT) {
+                        //return 'Failure';
+                        return '<span style="color:	#FFCC00">' .'INIT'.'';
+                    }
 
                 },
                 'filter' => Html::activeDropDownList(
                     $searchModel,
-                    'status', [SaleRecord::STATUS_PENDING => 'Pending', SaleRecord::STATUS_SUCCESS => 'Success', SaleRecord::STATUS_FAILED => 'Failed'],
+                    'status', [SaleRecord::STATUS_PENDING => 'Pending', SaleRecord::STATUS_SUCCESS => 'Success',
+                     SaleRecord::STATUS_FAILED => 'Failed',SaleRecord::STATUS_INIT => 'Init'],
                     ['class'=>'form-control ','prompt' => 'All']),
             ],
             //'unique_id',
