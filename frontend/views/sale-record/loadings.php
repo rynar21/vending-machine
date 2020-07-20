@@ -152,8 +152,3 @@ JS;
 
 $this->registerJs($js);
 ?>
-<?php if ($model->status == SaleRecord::STATUS_PENDING): ?>
-    <script type="text/javascript">
-        setTimeout("location.reload();",5000);
-    </script>
-<?php endif ?>
