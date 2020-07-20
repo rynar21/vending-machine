@@ -98,6 +98,7 @@ function makePayment(){
         checkout.postMessage(JSON.stringify(params));
     }).catch(error => {
         console.log(error);
+        alert('makePayment: ' + error);
     });
 
 
@@ -120,7 +121,7 @@ function updateStatus(message) {
         console.log(data);
         alert(data.data.order.status_label);
     }).catch(error => {
-        alert(error);
+        alert('updateStatus: ' + error);
         console.log(error);
     });
 }
@@ -136,7 +137,7 @@ function updateSale(order_id) {
     }).then(data => {
         console.log(data);
     }).catch(error => {
-        alert(error);
+        alert('updateSale: ' + error);
         console.log(error);
     });
 }
