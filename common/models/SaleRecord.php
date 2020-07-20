@@ -161,7 +161,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     // 交易状态：购买成功
     public function success()
     {
-        if ($this->status == SaleRecord::STATUS_PENDING)
+        if ($this->status != SaleRecord::STATUS_FAILED)
         {
             // 更新 Item产品 的状态属性 为购买成功
             $this->status = SaleRecord::STATUS_SUCCESS;
