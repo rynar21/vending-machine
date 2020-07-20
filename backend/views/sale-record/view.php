@@ -55,8 +55,8 @@ $this->title = $model->order_number;
             'item_name',
             //'store_name',
             'sell_price:currency',
-            //'box_id',
-            //'item_id',
+            'box_id',
+            'item_id',
 
             [
                 'attribute'=>'cost',
