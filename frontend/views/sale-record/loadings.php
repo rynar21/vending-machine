@@ -14,7 +14,7 @@ $this->title = 'Pay & Go';
     <br>
     <?php if ($model->status == SaleRecord::STATUS_PENDING): ?>
         <h3 class="text-danger">
-            Price: RM <?= $model->sell_price ?>
+            Price: RM <span id="price"></span>
         </h3>
     <?php endif ?>
 
@@ -98,7 +98,6 @@ function makePayment(){
         checkout.postMessage(JSON.stringify(params));
     }).catch(error => {
         console.log(error);
-        alert('makePayment: ' + error);
     });
 
 
@@ -121,7 +120,7 @@ function updateStatus(message) {
         console.log(data);
         alert(data.data.order.status_label);
     }).catch(error => {
-        alert('updateStatus: ' + error);
+        alert(error);
         console.log(error);
     });
 }
@@ -137,7 +136,7 @@ function updateSale(order_id) {
     }).then(data => {
         console.log(data);
     }).catch(error => {
-        alert('updateSale: ' + error);
+        alert(error);
         console.log(error);
     });
 }
