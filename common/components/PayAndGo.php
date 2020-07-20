@@ -49,6 +49,10 @@ class PayAndGo
             {
                 return false;
             }
+            if ($orderStatus == self::STATUS_INIT) {
+                
+                return false;
+            }
 
             return true;
         }

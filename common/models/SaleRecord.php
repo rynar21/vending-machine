@@ -230,14 +230,16 @@ class SaleRecord extends \yii\db\ActiveRecord
                     return $this->success();
                 }
 
-                if (Yii::$app->payandgo->getIsInitStatus($orderStatus)) {
-                    if (time() - $this->created_at > 60) {
-                        return $this->failed();
-                    }
-                    return false;
+                return $this->failed();
+            }
+
+            if (Yii::$app->payandgo->getIsInitStatus($orderStatus))
+            {
+                if (time() - $this->created_at > 120) {
+                    return $this->failed();
                 }
 
-                return $this->failed();
+                return false;
             }
 
             return false;
