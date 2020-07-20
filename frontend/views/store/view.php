@@ -164,7 +164,7 @@ store_vue = new Vue({
     methods: {
         createPayment(item_id, amount)
         {
-            alert("createPayment: " + item_id + ", RM " + amount);
+            // alert("createPayment: " + item_id + ", RM " + amount);
 
             // return false;
 
@@ -196,7 +196,7 @@ store_vue = new Vue({
             checkout.postMessage(JSON.stringify(params));
         },
         createSaleRecord(order_id, item_id) {
-            alert("createSaleRecord: " + order_id + ", item_id: " + item_id);
+            // alert("createSaleRecord: " + order_id + ", item_id: " + item_id);
 
             //return false;
 
@@ -220,7 +220,7 @@ store_vue = new Vue({
         },
         updateInfo(order_id)
         {
-            alert("i am here " + order_id);
+            // alert("i am here " + order_id);
 
             //return false;
 
