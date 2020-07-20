@@ -166,7 +166,7 @@ new Vue({
     methods: {
         createPayment(item_id, amount)
         {
-            alert("createPayment: " . item_id . ", RM " . amount);
+            alert("createPayment: " + item_id + ", RM " + amount);
 
             return false;
 
