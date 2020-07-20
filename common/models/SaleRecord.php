@@ -326,6 +326,7 @@ class SaleRecord extends \yii\db\ActiveRecord
                 return $model;
             }
 
+            return false;
         }
 
         return false;
