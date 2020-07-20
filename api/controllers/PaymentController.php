@@ -83,7 +83,6 @@ class PaymentController extends Controller
 
         $reference_no = Yii::$app->request->getBodyParam('reference_no');
 
-        //return $item_id.'+'.$reference_no;
         $model =  new SaleRecord();
         return $model->createOrder($item_id,$reference_no);
 
