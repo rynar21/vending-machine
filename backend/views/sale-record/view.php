@@ -87,6 +87,10 @@ $this->title = $model->order_number;
                         //return 'Failure';
                         return '<span style="color:#2a5caa">' .'Pending'.'';
                     }
+                    if ($model->status == SaleRecord::STATUS_INIT) {
+                        //return 'Failure';
+                        return '<span style="color:#FFCC00">' .'INIT'.'';
+                    }
 
                 },
             ],
