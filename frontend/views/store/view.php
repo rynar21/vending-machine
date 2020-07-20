@@ -198,9 +198,9 @@ store_vue = new Vue({
         createSaleRecord(order_id, item_id) {
             alert("createSaleRecord: " + order_id + ", item_id: " + item_id);
 
-            return false;
+            //return false;
 
-            fetch('https://vm-api.payandgo.link/payment/create', {
+            fetch('http://localhost:21088/payment/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -222,7 +222,7 @@ store_vue = new Vue({
         {
             alert("i am here " + order_id);
 
-            return false;
+            //return false;
 
             fetch('https://api.payandgo.link/payment/view?order_id=' + order_id, {
                 method: 'GET',

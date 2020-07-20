@@ -309,11 +309,11 @@ class SaleRecord extends \yii\db\ActiveRecord
         {
             if($item_model->status != Item::STATUS_SOLD && $item_model->status != Item::STATUS_LOCKED )
             {
-                //$time = time();
+                $time = time();
                 $model = new SaleRecord();
                 // 创建 新订单
                 $model->item_id      = $item_model->id;
-                $model->order_number = $item_model->store->prefix.$item_model->box->code;
+                $model->order_number = $item_model->store->prefix.$item_model->box->code.$time;
                 $model->box_id       = $item_model->box_id;
                 $model->store_id     = $item_model->store_id;
                 $model->sell_price   = $item_model->price;
@@ -326,7 +326,6 @@ class SaleRecord extends \yii\db\ActiveRecord
                 return $model;
             }
 
-            return false;
         }
 
         return false;
