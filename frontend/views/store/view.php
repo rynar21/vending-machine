@@ -200,7 +200,7 @@ store_vue = new Vue({
 
             //return false;
 
-            fetch('http://localhost:21088/payment/create', {
+            fetch('https://vm-api.payandgo.link/payment/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
