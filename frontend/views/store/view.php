@@ -47,8 +47,6 @@ $this->title = 'Vending Machine';
 <?php
 $js = <<< JS
 var device_tag = '';
-var amount = $model->sell_price;
-var salerecord_id = "$model->order_number";
 //((Math.random() * 11) + 1).toFixed(2);
 
 // Do not change the function name, this function will be called by Native APP after payment
@@ -171,7 +169,7 @@ new Vue({
             alert("createPayment: " . item_id . ", RM " . amount);
 
             return false;
-            
+
             fetch('https://api.payandgo.link/payment?device_tag=' + device_tag, {
                 method: 'POST',
                 headers: {
