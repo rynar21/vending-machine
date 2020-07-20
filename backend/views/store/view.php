@@ -114,7 +114,7 @@ use yii\helpers\ArrayHelper;
                                     </form>
                                 </div>
                             </div>';
-                      } 
+                      }
                   ],
               ],
           ]);
@@ -162,7 +162,10 @@ use yii\helpers\ArrayHelper;
 
      ?>
 
-    <?= Html::a('Open All Boxes', ['box/open_all_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger','style'=>"display:"."$str_admin"]) ?>
+    <?= Html::a('Open All Boxes', ['box/open_all_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger','style'=>"display:"."$str_admin",
+    'data' => [
+        'confirm' => 'Make sure to open all boxes?',
+        'method' => 'post']]) ?>
 </div>
 
     <div class="col-sm-12">
