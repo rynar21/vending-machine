@@ -7,7 +7,6 @@ use common\models\SaleRecord;
 /* @var $this yii\web\View */
 $this->title = 'Pay & Go';
 ?>
-<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
 <div class="site-index">
     <h3>Pay & Go</h3>
     <br>
@@ -58,8 +57,6 @@ $this->title = 'Pay & Go';
 </div>
 
 <?php
-
-
 $js = <<< JS
 var device_tag = '';
 var amount = $model->sell_price;

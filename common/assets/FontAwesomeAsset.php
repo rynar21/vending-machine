@@ -13,6 +13,6 @@ class FontAwesomeAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        '//use.fontawesome.com/releases/v5.11.2/css/all.css'
+        'https://use.fontawesome.com/releases/v5.11.2/css/all.css'
     ];
 }
