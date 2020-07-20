@@ -207,6 +207,11 @@ class SaleRecord extends \yii\db\ActiveRecord
         if ($this->status == self::STATUS_PENDING) {
             return false;
         }
+
+        if ($this->status == self::STATUS_INIT) {
+            return false;
+        }
+
         return true;
     }
 
