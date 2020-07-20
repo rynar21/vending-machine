@@ -50,7 +50,7 @@ class PayAndGo
                 return false;
             }
             if ($orderStatus == self::STATUS_INIT) {
-                
+
                 return false;
             }
 
@@ -82,6 +82,15 @@ class PayAndGo
             return false;
         }
 
+        public function getIsPaymentPending($orderStatus)
+        {
+            if ($orderStatus == self::STATUS_PENDING)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
 
 

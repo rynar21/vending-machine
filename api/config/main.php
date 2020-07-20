@@ -42,6 +42,7 @@ return [
                         'GET view' => 'view',
                         'GET reference' => 'reference',
                         'POST signalling' => 'signalling',
+                        'POST create' => 'create',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],

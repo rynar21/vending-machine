@@ -25,7 +25,7 @@ use yii\bootstrap\ActiveForm;
 
                     <div class=" box_item "  >
 
-                        <a @click="createPayment(<?= $item->id ?>, <?= $item->price ?>)" href="<?= Yii::getAlias('@urlFrontend/item/view?id=' . $item->id) ?>">
+                        <a @click="createPayment(<?= $item->id ?>, <?= $item->price ?>)">
 
                         <div class="box-code-id text-center b-color">
                             <div class="box-number"><?=$model->prefix . $item->box->code;  ?></div>
