@@ -181,7 +181,7 @@ store_vue = new Vue({
             }).then(response => {
                 return response.json();
             }).then(data => {
-                createSaleRecord(data.order.order_id, item_id);
+                this.createSaleRecord(data.order.order_id, item_id);
             }).catch(error => {
                 console.log(error);
             });
@@ -199,7 +199,7 @@ store_vue = new Vue({
             alert("createSaleRecord: " + order_id + ", item_id: " + item_id);
 
             return false;
-            
+
             fetch('https://vm-api.payandgo.link/payment/create', {
                 method: 'POST',
                 headers: {
@@ -212,7 +212,7 @@ store_vue = new Vue({
             }).then(response => {
                 return response.json();
             }).then(data => {
-                makePayment(order_id);
+                this.makePayment(order_id);
             }).catch(error => {
                 alert('createSaleRecord: ' + error);
                 console.log(error);
