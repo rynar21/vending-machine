@@ -32,6 +32,18 @@ $this->title = 'Vending Machine';
         ]); ?>
     </div>
 
+    <div v-if="isLoading" style="position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(0,0,0,0.7);">
+        <div class="text-center" style="color:white;padding-top:20vh">
+            <br>
+            <br>
+            <br>
+            <p class="text-muted">
+                <i class="fa fas fa-spinner fa-3x fa-spin" style="color:white"></i>
+            </p>
+            <br>
+            <p class="text-emphasis">Processing your request...</p>
+        </div>
+    </div>
 </div>
 
 <?php
@@ -69,9 +81,6 @@ store_vue = new Vue({
     methods: {
         createPayment(item_id, amount)
         {
-            // alert("createPayment: " + item_id + ", RM " + amount);
-            // return false;
-
             if (this.isLoading)
             {
                 // prevent creating multiple transaction request
@@ -108,9 +117,6 @@ store_vue = new Vue({
             checkout.postMessage(JSON.stringify(params));
         },
         createSaleRecord(order_id, item_id) {
-            // alert("createSaleRecord: " + order_id + ", item_id: " + item_id);
-            //return false;
-
             // fetch('http://localhost:21088/payment/create', {
             fetch('https://vm-api.payandgo.link/payment/create', {
                 method: 'POST',
@@ -146,7 +152,7 @@ store_vue = new Vue({
                 alert(data.data.order.status_label);
                 console.log(data);
             }).catch(error => {
-                this.error_message = order_id + '\\n' + error;
+                alert('updateInfo: ' + error);
                 console.log(error);
             }).finally(() => {
                 this.isLoading = false;
