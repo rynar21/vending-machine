@@ -277,6 +277,11 @@ class SaleRecord extends \yii\db\ActiveRecord
                 return $this->failed();
             }
 
+            if (Yii::$app->payandgo->getIsPaymentPending($orderStatus))
+            {
+                return $this->pending();
+            }
+
             return false;
 
         }

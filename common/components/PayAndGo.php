@@ -49,6 +49,13 @@ class PayAndGo
             {
                 return false;
             }
+<<<<<<< Updated upstream
+=======
+            if ($orderStatus == self::STATUS_INIT) {
+
+                return false;
+            }
+>>>>>>> Stashed changes
 
             return true;
         }
@@ -78,6 +85,15 @@ class PayAndGo
             return false;
         }
 
+        public function getIsPaymentPending($orderStatus)
+        {
+            if ($orderStatus == self::STATUS_PENDING)
+            {
+                return true;
+            }
+            
+            return false;
+        }
 
 
 
