@@ -61,9 +61,4 @@ use yii\helpers\Url;
             </div>
         </div>
  </div>
-
-<style>
-    .pay_failed a:hover{
-        text-decoration: none;
-    }
-</style>
+ 

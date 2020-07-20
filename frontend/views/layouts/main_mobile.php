@@ -9,11 +9,13 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\assets\AppAsset;
 use common\assets\FontAwesomeAsset;
+use common\assets\VueJsAsset;
 use common\widgets\Alert;
 use yii\helpers\BaseUrl;
 
 AppAsset::register($this);
 FontAwesomeAsset::register($this);
+VueJsAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

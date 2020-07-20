@@ -15,9 +15,6 @@ use yii\bootstrap\ActiveForm;
     3. Views > box > _view.php
 */
 ?>
-<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
-<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
-<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
 
         <div class="row">
             <div class="col-sm-12" >
@@ -28,7 +25,7 @@ use yii\bootstrap\ActiveForm;
 
                     <div class=" box_item "  >
 
-                        <a href="<?= Url::base()?>/item/view?id=<?= $item->id ?>">
+                        <a @click="createPayment(<?= $item->id ?>, <?= $item->price ?>)" href="<?= Yii::getAlias('@urlFrontend/item/view?id=' . $item->id) ?>">
 
                         <div class="box-code-id text-center b-color">
                             <div class="box-number"><?=$model->prefix . $item->box->code;  ?></div>
@@ -93,7 +90,7 @@ use yii\bootstrap\ActiveForm;
                             Not Available
                         </div>
 
-                        
+
                     </div>
 
                 </div>
