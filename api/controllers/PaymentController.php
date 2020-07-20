@@ -5,6 +5,7 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\rest\Controller;
+use common\models\Item;
 use common\models\SaleRecord;
 use yii\helpers\Url;
 use yii\helpers\Json;
@@ -49,12 +50,6 @@ class PaymentController extends Controller
         $headers->set('Access-Control-Max-Age', '3600');
 	}
 
-
-    public function actionView($id)
-    {
-
-    }
-
     public function actionReference($payandgo_order_number,$vm_order_number)
     {
         $model =  SaleRecord ::find()->where(['order_number' => $vm_order_number])->one();
@@ -82,15 +77,39 @@ class PaymentController extends Controller
 
     public function actionCreate()
     {
+        $item_id        = Yii::$app->request->getBodyParam('item_id');
+        $reference_no   = Yii::$app->request->getBodyParam('reference_no');
 
-        $item_id = Yii::$app->request->getBodyParam('item_id');
+        $item = Item::findOne($item_id);
 
-        $reference_no = Yii::$app->request->getBodyParam('reference_no');
-        
-        $model =  new SaleRecord();
-        return $model->createOrder($item_id,$reference_no);
+        if ($item)
+        {
+            if ($item->getIsAvailable())
+            {
+                $model = new SaleRecord();
+                // 创建 新订单
+                $model->item_id      = $item->id;
+                $model->order_number = $item->store->prefix . $item->box->code . time();
+                $model->box_id       = $item->box_id;
+                $model->store_id     = $item->store_id;
+                $model->sell_price   = $item->price;
+                $model->unique_id    = $reference_no;
+                $model->store_name   = $item->store->name;
+                $model->item_name    = $item->name;
+                $model->box_code     = $item->store->prefix . $item->box->code;
+                $model->status       = SaleRecord::STATUS_INIT;
+                $model->save();
 
+                return $model;
+            }
+
+            return [
+                'error' => 'Item is not available for purchase',
+            ];
+        }
+
+        return [
+            'error' => 'Item not found',
+        ];
     }
-
-
 }

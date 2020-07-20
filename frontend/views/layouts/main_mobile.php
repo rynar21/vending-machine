@@ -27,6 +27,12 @@ VueJsAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+
+    <style>
+    .wrap > .container {
+        padding: 20px 15px 20px;
+    }
+    </style>
 </head>
 <!-- <style>
 .my-navbar{
@@ -39,9 +45,6 @@ VueJsAsset::register($this);
 
 <div class="wrap c-color">
     <div class="container">
-        <?php /* Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ])*/ ?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>

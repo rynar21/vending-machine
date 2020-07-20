@@ -39,10 +39,10 @@ return [
                     'controller' => 'payment',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'GET view' => 'view',
-                        'GET reference' => 'reference',
-                        'POST signalling' => 'signalling',
-                        'POST create' => 'create',
+                        'GET view'          => 'view',
+                        'GET reference'     => 'reference',
+                        'POST signalling'   => 'signalling',
+                        'POST create'       => 'create',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],
@@ -51,8 +51,8 @@ return [
                     'controller' => 'kiosk',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'GET request' => 'request',
-                        'GET next' => 'next',
+                        'GET request'   => 'request',
+                        'GET next'      => 'next',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],

@@ -204,5 +204,18 @@ class Item extends \yii\db\ActiveRecord
        }
     }
 
+    public function getIsAvailable()
+    {
+        if ($this->status == Item::STATUS_SOLD)
+        {
+            return false;
+        }
 
+        if ($this->status == Item::STATUS_LOCKED)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

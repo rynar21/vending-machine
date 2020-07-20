@@ -12,31 +12,31 @@ $this->title = 'Vending Machine';
 ?>
 <div id="store-vue" class="store-view">
 
+    <?php /*
     <div class="row">
         <?php
-        $item_searchModel = new ItemSearch();
-         echo $this->render('/item/_search', [
-            'id' => $id,
-            'item_searchModel' => $item_searchModel,
-            ]); ?>
+            $item_searchModel = new ItemSearch();
+            echo $this->render('/item/_search', [
+                'id' => $id,
+                'item_searchModel' => $item_searchModel,
+            ]);
+        ?>
     </div>
+    */ ?>
 
-    <hr/>
-
-    <?=
-    $this->render('/box/list', [
+    <div class="row">
+        <?= $this->render('/box/list', [
             'model' => $model,
             'item_dataProvider' => $item_dataProvider,
             'store_id'=>$id,
-        ]);
+        ]); ?>
+    </div>
 
-
-        ?>
 </div>
 
 <?php
 $js = <<< JS
-var device_tag = '';
+var device_tag = '1111';
 
 // Do not change the function name, this function will be called by Native APP after payment
 function getDeviceTag(message) {
@@ -70,8 +70,15 @@ store_vue = new Vue({
         createPayment(item_id, amount)
         {
             // alert("createPayment: " + item_id + ", RM " + amount);
-
             // return false;
+
+            if (this.isLoading)
+            {
+                // prevent creating multiple transaction request
+                return false;
+            }
+
+            this.isLoading = true;
 
             fetch('https://api.payandgo.link/payment?device_tag=' + device_tag, {
                 method: 'POST',
@@ -102,9 +109,9 @@ store_vue = new Vue({
         },
         createSaleRecord(order_id, item_id) {
             // alert("createSaleRecord: " + order_id + ", item_id: " + item_id);
-
             //return false;
 
+            // fetch('http://localhost:21088/payment/create', {
             fetch('https://vm-api.payandgo.link/payment/create', {
                 method: 'POST',
                 headers: {
@@ -121,14 +128,12 @@ store_vue = new Vue({
             }).catch(error => {
                 alert('createSaleRecord: ' + error);
                 console.log(error);
+            }).finally(() => {
+                this.isLoading = false;
             });
         },
         updateInfo(order_id)
         {
-            // alert("i am here " + order_id);
-
-            //return false;
-
             fetch('https://api.payandgo.link/payment/view?order_id=' + order_id, {
                 method: 'GET',
                 headers: {

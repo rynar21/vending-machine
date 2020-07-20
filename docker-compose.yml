@@ -9,6 +9,10 @@ services:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: vm_db
 
+    redis:
+        image: redis:5.0
+        container_name: vm_redis
+
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:4.8.4
         container_name: vm_phpmyadmin

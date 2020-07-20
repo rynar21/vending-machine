@@ -204,15 +204,15 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     private function getIsFinalStatus()
     {
-        if ($this->status == self::STATUS_PENDING) {
-            return false;
+        if ($this->status == self::STATUS_SUCCESS) {
+            return true;
         }
 
-        if ($this->status == self::STATUS_INIT) {
-            return false;
+        if ($this->status == self::STATUS_FAILED) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     private function queryPayAndGoOrderAPI()
@@ -302,36 +302,4 @@ class SaleRecord extends \yii\db\ActiveRecord
         return false;
 
     }
-
-    public function createOrder($item_id,$reference_no)
-    {
-        $item_model = Item::findone($item_id);
-
-        if ($item_model)
-        {
-            if($item_model->status != Item::STATUS_SOLD && $item_model->status != Item::STATUS_LOCKED )
-            {
-                $time = time();
-                $model = new SaleRecord();
-                // 创建 新订单
-                $model->item_id      = $item_model->id;
-                $model->order_number = $item_model->store->prefix.$item_model->box->code.$time;
-                $model->box_id       = $item_model->box_id;
-                $model->store_id     = $item_model->store_id;
-                $model->sell_price   = $item_model->price;
-                $model->unique_id    = $reference_no;
-                $model->store_name   = $item_model->store->name;
-                $model->item_name    = $item_model->name;
-                $model->box_code     = $item_model->store->prefix.$item_model->box->code;
-                $model->save();
-                $model->init();
-                return $model;
-            }
-            return false;
-        }
-
-        return false;
-
-    }
-
 }

@@ -20,6 +20,10 @@ return [
                 'text/json' => 'yii\web\JsonParser',
             ],
         ],
+        'session' => [
+            'class' => 'yii\redis\Session',
+            'name' => '_session',
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'itemTable' => '{{%auth_item}}',
