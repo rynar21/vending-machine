@@ -32,7 +32,6 @@ class CronController extends Controller
         $data = [];
         $records = SaleRecord::find()->where([
             'status' => SaleRecord::STATUS_PENDING,
-            'status' => SaleRecord::STATUS_INIT,
         ])->all();
 
         if ($records)
