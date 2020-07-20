@@ -131,7 +131,7 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
 
 <?php
 $js = <<< JS
-var device_tag = '1111';
+var device_tag = '';
 
 // Do not change the function name, this function will be called by Native APP after payment
 function getDeviceTag(message) {
