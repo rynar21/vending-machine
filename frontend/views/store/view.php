@@ -221,7 +221,7 @@ store_vue = new Vue({
         updateInfo(order_id)
         {
             alert("i am here " + order_id);
-            
+
             return false;
 
             fetch('https://api.payandgo.link/payment/view?order_id=' + order_id, {

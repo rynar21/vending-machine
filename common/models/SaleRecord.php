@@ -19,7 +19,7 @@ class SaleRecord extends \yii\db\ActiveRecord
 {
     //public $text;
     // 交易订单 状态
-
+    const STATUS_INIT = 0; //初始
     const STATUS_PENDING = 9;    //购买中
     const STATUS_SUCCESS = 10;   //购买成功
     const STATUS_FAILED  = 8;  //购买失败
@@ -133,6 +133,15 @@ class SaleRecord extends \yii\db\ActiveRecord
         return implode(',', $arr);
     }
 
+    public function init()
+    {
+        if ($this->status != self::STATUS_SUCCESS && $this->status != self::STATUS_FAILED && $this->status != self::STATUS_PENDING) {
+            $this->status = SaleRecord::STATUS_INIT;
+            $this->save();
+        }
+
+    }
+
     // 更新 对应的数据表里的 属性
     // 交易状态： 购买当中
     public function pending()
@@ -146,7 +155,7 @@ class SaleRecord extends \yii\db\ActiveRecord
            $this->item->save();
         }
 
-        return $this->save() && $this->item->save();
+        return false;
     }
 
     // 交易状态：购买成功
@@ -280,6 +289,37 @@ class SaleRecord extends \yii\db\ActiveRecord
             }
 
             return false;
+
+        }
+
+        return false;
+
+    }
+
+    public function createOrder($item_id,$reference_no)
+    {
+        $item_model = Item::findone($item_id);
+
+        if ($item_model)
+        {
+            if($item_model->status != Item::STATUS_SOLD && $item_model->status != Item::STATUS_LOCKED )
+            {
+                //$time = time();
+                $model = new SaleRecord();
+                // 创建 新订单
+                $model->item_id      = $item_model->id;
+                $model->order_number = $item_model->store->prefix.$item_model->box->code;
+                $model->box_id       = $item_model->box_id;
+                $model->store_id     = $item_model->store_id;
+                $model->sell_price   = $item_model->price;
+                $model->unique_id    = $reference_no;
+                $model->store_name   = $item_model->store->name;
+                $model->item_name    = $item_model->name;
+                $model->box_code     = $item_model->store->prefix.$item_model->box->code;
+                $model->save();
+                $model->init();
+                return $model;
+            }
 
         }
 
