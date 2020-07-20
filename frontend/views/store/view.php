@@ -132,7 +132,6 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
 <?php
 $js = <<< JS
 var device_tag = '1111';
-var parking_vue;
 
 // Do not change the function name, this function will be called by Native APP after payment
 function getDeviceTag(message) {
@@ -144,11 +143,10 @@ function getDeviceTag(message) {
 // Do not change the function name, this function will be called by Native APP after payment
 function updateStatus(message) {
     var param = JSON.parse(message);
-    parking_vue.clearInfo();
-    parking_vue.loadingAnimation();
+
     setTimeout(function() {
         console.log('should wait 1 s');
-        parking_vue.updateInfo(param.order_id);
+        store_vue.updateInfo(param.order_id);
     }, 1000);
 }
 JS;
@@ -158,7 +156,7 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
 
 <?php
 $vue_js = <<< JS
-new Vue({
+store_vue = new Vue({
     el: '#store-vue',
     data: {
         isLoading: false,
@@ -168,7 +166,7 @@ new Vue({
         {
             alert("createPayment: " + item_id + ", RM " + amount);
 
-            return false;
+            // return false;
 
             fetch('https://api.payandgo.link/payment?device_tag=' + device_tag, {
                 method: 'POST',
@@ -183,25 +181,63 @@ new Vue({
             }).then(response => {
                 return response.json();
             }).then(data => {
-                this.parking_info = data;
+                createSaleRecord(data.order.order_id, item_id);
             }).catch(error => {
                 console.log(error);
             });
         },
-        makePayment()
+        makePayment(order_id)
         {
-            if (this.parking_info == null) {
-                console.log('no info');
-                return false;
-            }
-
             var params = {
-                order_id: this.parking_info.order_id,
+                order_id: order_id,
                 method: 'showCheckout'
             };
             console.log('Native API: ', params)
             checkout.postMessage(JSON.stringify(params));
         },
+        createSaleRecord(order_id, item_id) {
+            alert("createSaleRecord: " + order_id + ", item_id: " + item_id);
+
+            return false;
+            
+            fetch('https://vm-api.payandgo.link/payment/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    reference_no: order_id,
+                    item_id: item_id,
+                })
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                makePayment(order_id);
+            }).catch(error => {
+                alert('createSaleRecord: ' + error);
+                console.log(error);
+            });
+        },
+        updateInfo(order_id)
+        {
+            fetch('https://api.payandgo.link/payment/view?order_id=' + order_id, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                // do something here
+                alert(data.data.order.status_label);
+                console.log(data);
+            }).catch(error => {
+                this.error_message = order_id + '\\n' + error;
+                console.log(error);
+            }).finally(() => {
+                this.isLoading = false;
+            });
+        }
     },
 });
 JS;
