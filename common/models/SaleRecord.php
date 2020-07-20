@@ -219,10 +219,7 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     private function queryPayAndGoOrderAPI()
     {
-
-        $order_id = $this->unique_id;
-
-        $data =  Yii::$app->payandgo->checkOrder($order_id);
+        $data =  Yii::$app->payandgo->checkOrder($this->unique_id);
 
         if ($data)
         {
@@ -332,7 +329,7 @@ class SaleRecord extends \yii\db\ActiveRecord
                 $model->init();
                 return $model;
             }
-
+            return false;
         }
 
         return false;
