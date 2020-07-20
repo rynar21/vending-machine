@@ -14,7 +14,7 @@ $this->title = 'Pay & Go';
     <br>
     <?php if ($model->status == SaleRecord::STATUS_PENDING): ?>
         <h3 class="text-danger">
-            Price: RM <span id="price"></span>
+            Price: RM <?= $model->sell_price ?>
         </h3>
     <?php endif ?>
 
@@ -143,12 +143,4 @@ function updateSale(order_id) {
 JS;
 
 $this->registerJs($js, \yii\web\View::POS_HEAD);
-?>
-
-<?php
-$js = <<< JS
-document.getElementById('price').innerHTML = amount;
-JS;
-
-$this->registerJs($js);
 ?>

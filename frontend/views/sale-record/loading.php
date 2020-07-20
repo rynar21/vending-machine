@@ -11,9 +11,9 @@ $this->title = 'Loading';
  //$time = time();
 ?>
 
-<form id="demo" action="<?=  Url::to(['payment/create'])?>">
-    <input name="id" value="<?=$id?>" type="hidden" >
-    
+<form id="demo" action="<?= Yii::getAlias('@urlFrontend/payment/create') ?>">
+    <input name="id" value="<?=$id?>" type="hidden">
+
 </form>
 
 <?php $this->registerJs("
