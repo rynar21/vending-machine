@@ -106,7 +106,7 @@ $this->title = 'Sale Records';
                 'filter' => Html::activeDropDownList(
                     $searchModel,
                     'status', [SaleRecord::STATUS_PENDING => 'Pending', SaleRecord::STATUS_SUCCESS => 'Success',
-                     SaleRecord::STATUS_FAILED => 'Failed',SaleRecord::STATUS_INIT => 'Init'],
+                     SaleRecord::STATUS_FAILED => 'Failed', SaleRecord::STATUS_INIT => 'Init'],
                     ['class'=>'form-control ','prompt' => 'All']),
             ],
             //'unique_id',
