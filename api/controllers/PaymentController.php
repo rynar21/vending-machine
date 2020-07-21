@@ -75,8 +75,19 @@ class PaymentController extends Controller
 
         if ($order)
         {
-            $order->queryOrderStatus();
+            // $order->queryOrderStatus();
+            $order->executeUpdateStatus();
         }
+
+
+
+        // $this->testAPI();
+
+        return [
+            'data' => [
+                'update' => 'ok',
+            ]
+        ];
 
     }
 

@@ -26,7 +26,7 @@ class CronController extends Controller
         ];
     }
 
-    private function queryPendingOrder()
+    public function queryPendingOrder()
     {
         $count_number = 0;
         $data = [];
