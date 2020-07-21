@@ -196,11 +196,9 @@ class SaleRecord extends \yii\db\ActiveRecord
 
     public function executeUpdateStatus()
     {
-        if ($this->getIsFinalStatus())
-        {
+        if ($this->getIsFinalStatus()) {
             return false;
         }
-
         return $this->queryPayAndGoOrderAPI();
     }
 
@@ -225,19 +223,14 @@ class SaleRecord extends \yii\db\ActiveRecord
         {
             $data = json_decode($data,true);
             $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
-
             if (empty($orderStatus))
             {
-                if (time() - $this->created_at > 60)
-                {
+                if (time() - $this->created_at > 60) {
                     return $this->failed();
                 }
-
                 return false;
             }
-
-            if ($this->getIsFinalStatus())
-            {
+            if ($this->getIsFinalStatus()) {
                 return false;
             }
 
@@ -248,22 +241,12 @@ class SaleRecord extends \yii\db\ActiveRecord
                     return $this->success();
                 }
 
-                if (Yii::$app->payandgo->getIsPaymentFailed($orderStatus))
-                {
-                    return $this->failed();
-                }
-
-                if (Yii::$app->payandgo->getIsPaymentPending($orderStatus))
-                {
-                    return $this->pending();
-                }
-
+                return $this->failed();
             }
 
             if (Yii::$app->payandgo->getIsInitStatus($orderStatus))
             {
-                if (time() - $this->created_at > 120)
-                {
+                if (time() - $this->created_at > 120) {
                     return $this->failed();
                 }
 
@@ -282,41 +265,41 @@ class SaleRecord extends \yii\db\ActiveRecord
         $this->save();
     }
 
-    // public function queryOrderStatus()
-    // {
-    //
-    //     if ($this->getIsFinalStatus())
-    //     {
-    //         return false;
-    //     }
-    //
-    //     $data =  Yii::$app->payandgo->checkOrder($this->unique_id);
-    //
-    //     if ($data)
-    //     {
-    //         $data = json_decode($data,true);
-    //         $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
-    //
-    //         if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
-    //         {
-    //             return $this->success();
-    //         }
-    //
-    //         if (Yii::$app->payandgo->getIsPaymentFailed($orderStatus))
-    //         {
-    //             return $this->failed();
-    //         }
-    //
-    //         if (Yii::$app->payandgo->getIsPaymentPending($orderStatus))
-    //         {
-    //             return $this->pending();
-    //         }
-    //
-    //         return false;
-    //
-    //     }
-    //
-    //     return false;
-    //
-    // }
+    public function queryOrderStatus()
+    {
+
+        if ($this->getIsFinalStatus())
+        {
+            return false;
+        }
+
+        $data =  Yii::$app->payandgo->checkOrder($this->unique_id);
+
+        if ($data)
+        {
+            $data = json_decode($data,true);
+            $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
+
+            if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
+            {
+                return $this->success();
+            }
+
+            if (Yii::$app->payandgo->getIsPaymentFailed($orderStatus))
+            {
+                return $this->failed();
+            }
+
+            if (Yii::$app->payandgo->getIsPaymentPending($orderStatus))
+            {
+                return $this->pending();
+            }
+
+            return false;
+
+        }
+
+        return false;
+
+    }
 }
