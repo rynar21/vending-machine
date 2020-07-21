@@ -66,7 +66,7 @@ class PaymentController extends Controller
     {
         $order_id = Yii::$app->request->getBodyParam('order_id');
 
-        $order = SaleRecord::findone(['unique_id' => $order_id]);
+        $order = SaleRecord::findOne(['unique_id' => $order_id]);
 
         if ($order)
         {
