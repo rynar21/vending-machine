@@ -48,7 +48,7 @@ $this->title = 'Vending Machine';
 
 <?php
 $js = <<< JS
-var device_tag = '';
+var device_tag = '1111';
 
 // Do not change the function name, this function will be called by Native APP after payment
 function getDeviceTag(message) {
@@ -132,7 +132,9 @@ store_vue = new Vue({
             }).then(data => {
                 this.makePayment(order_id);
             }).catch(error => {
+
                 alert('createSaleRecord: ' + error);
+
                 console.log(error);
             }).finally(() => {
                 this.isLoading = false;
@@ -156,7 +158,7 @@ store_vue = new Vue({
                 console.log(error);
             }).finally(() => {
                 this.isLoading = false;
-                this.reload();
+                location.reload();
             });
         }
     },
