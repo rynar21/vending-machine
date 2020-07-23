@@ -156,6 +156,7 @@ store_vue = new Vue({
                 console.log(error);
             }).finally(() => {
                 this.isLoading = false;
+                this.reload();
             });
         }
     },
