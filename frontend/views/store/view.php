@@ -132,7 +132,9 @@ store_vue = new Vue({
             }).then(data => {
                 this.makePayment(order_id);
             }).catch(error => {
+
                 alert('createSaleRecord: ' + error);
+
                 console.log(error);
             }).finally(() => {
                 this.isLoading = false;
@@ -149,6 +151,7 @@ store_vue = new Vue({
                 return response.json();
             }).then(data => {
                 // do something here
+                location.reload();
                 alert(data.data.order.status_label);
                 console.log(data);
             }).catch(error => {
@@ -156,6 +159,7 @@ store_vue = new Vue({
                 console.log(error);
             }).finally(() => {
                 this.isLoading = false;
+
             });
         }
     },

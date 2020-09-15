@@ -240,10 +240,10 @@ class BoxController extends Controller
             'id' => $salerecord_model->box_id
         ])->one();
 
-        if ($salerecord_model->status != SaleRecord::STATUS_FAILED)
-        {
-            $salerecord_model->success();
-        }
+        // if ($salerecord_model->status != SaleRecord::STATUS_FAILED)
+        // {
+        //     $salerecord_model->success();
+        // }
 
         Queue::push($model->store_id, $model->hardware_id);
 
