@@ -9,7 +9,6 @@ return [
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
-
         ],
         'db' => [
             'class'     => 'yii\db\Connection',
@@ -17,15 +16,6 @@ return [
             'username'  => getenv('RDS_USERNAME'),
             'password'  => getenv('RDS_PASSWORD'),
             'charset'   => 'utf8mb4',
-        ],
-        'redis' => [
-            'class'    => 'yii\redis\Connection',
-            'hostname' => getenv('REDIS_URL'),
-            'port'     => getenv('REDIS_PORT'),
-            'database' => 0,
-        ],
-        'cache' => [
-            'class' => 'yii\redis\Cache',
         ],
         'formatter' => [
             //'dateFormat' => 'dd.MM.yyyy',

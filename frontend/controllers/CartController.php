@@ -38,7 +38,7 @@ class CartController extends Controller
                 $sum += $item_price;
 
                 $this->redirect(Url::to([
-                    'item/view', 'id' = >$id[$i]
+                    'item/view', 'id' => $id[$i]
                 ]));
             }
         }
@@ -89,7 +89,7 @@ class CartController extends Controller
             }
         }
 
-        Yii::$app->session->setFlash('error','Sorry, You must choose at least one item.')
+        Yii::$app->session->setFlash('error','Sorry, You must choose at least one item.');
 
         return $this->redirect(Url::to([
             'store/view','id' => $store_id],
@@ -97,32 +97,7 @@ class CartController extends Controller
 
 
     }
-    //数组对比取不同值
-    function array_sort($arr1, $arr2)
-    {
-        $reslult = [];
-
-        for ($i = 0; $i < count($arr1) ; $i++)
-        {
-            $hasElement = false;
-
-            for ($i = 0; $i < count($arr2); $i++)
-            {
-                if ($arr1[$i] == $arr2[$i])
-                {
-                    $hasElement = true;
-                }
-            }
-        }
-
-        if ($hasElement == false)
-        {
-            $result[] = $arr[$i];
-        }
-
-        return $result;
-
-    }
+    
     //购物车删减商品
     public function actionDelete()
     {
