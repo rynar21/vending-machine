@@ -23,10 +23,6 @@ return [
                 'httpOnly' => true
             ],
         ],
-        'session' => [
-            'class' => 'yii\redis\Session',
-            'name' => '_session',
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
