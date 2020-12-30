@@ -117,8 +117,7 @@ store_vue = new Vue({
             checkout.postMessage(JSON.stringify(params));
         },
         createSaleRecord(order_id, item_id) {
-            // fetch('http://localhost:21088/payment/create', {
-            fetch('https://vm.payandgo.link/api/create', {
+            fetch('/api/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
