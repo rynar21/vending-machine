@@ -27,31 +27,31 @@ class ProductController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'actions' => ['index', 'view'],
-                        'allow' => Yii::$app->user->can('ac_product_read'),
+                        'allow' => true,
                     ],
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['ac_product_update'],
+                        'roles' => ['allowProduct'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['ac_product_create'],
+                        'roles' => ['allowProduct'],
                     ],
                     [
                         'actions' => ['delete'],
                         'allow' => true,
-                        'roles' => ['ac_delete'],
+                        'roles' => ['allowProduct'],
                     ],
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],

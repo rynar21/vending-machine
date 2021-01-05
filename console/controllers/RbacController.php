@@ -3,12 +3,6 @@ namespace console\controllers;
 
 use Yii;
 use yii\console\Controller;
-use yii\helpers\Console;
-
-use yii\helpers\VarDumper;
-
-use common\models\User;
-use console\models\SignupForm;
 
 class RbacController extends Controller
 {
@@ -18,34 +12,35 @@ class RbacController extends Controller
 
         $auth = Yii::$app->authManager;
 
-        $allowModifyEntry = $auth->createPermission('allowAddProduct');
-        $allowModifyEntry->description = 'Give permission to access product.';
-        $auth->add($allowModifyEntry);
+        $allowAddProduct = $auth->createPermission('allowProduct');
+        $allowAddProduct->description = 'Give permission to access product.';
+        $auth->add($allowAddProduct);
 
-        $allowCash = $auth->createPermission('allowRecord');
-        $allowCash->description = 'Give permission to create bill manually';
-        $auth->add($allowCash);
+        $allowRecord = $auth->createPermission('allowRecord');
+        $allowRecord->description = 'Give permission to view record and manual open unopen purchased box';
+        $auth->add($allowRecord);
 
-        $allowSeasonPass = $auth->createPermission('allowReport');
-        $allowSeasonPass->description = 'Give permission to access report.';
-        $auth->add($allowSeasonPass);
+        $allowReport = $auth->createPermission('allowReport');
+        $allowReport->description = 'Give permission to access report.';
+        $auth->add($allowReport);
 
         $allowAssign = $auth->createPermission('allowAssign');
         $allowAssign->description = 'Give permission to assign role and permission';
         $auth->add($allowAssign);
 
-        $operator = $auth->createRole('operator');
-        $auth->add($operator);
+        $staff = $auth->createRole('staff');
+        $auth->add($staff);
 
-        $cashier = $auth->createRole('cashier');
-        $auth->add($cashier);
+        $supervisor = $auth->createRole('supervisor');
+        $auth->add($supervisor);
+        $auth->addChild($supervisor, $staff);
 
         $admin = $auth->createRole('admin');
         $auth->add($admin);
-        $auth->addChild($admin, $operator);
-        $auth->addChild($admin, $allowModifyEntry);
-        $auth->addChild($admin, $allowSeasonPass);
-        $auth->addChild($admin, $allowCash);
+        $auth->addChild($admin, $supervisor);
+        $auth->addChild($admin, $allowAddProduct);
+        $auth->addChild($admin, $allowRecord);
+        $auth->addChild($admin, $allowReport);
         $auth->addChild($admin, $allowAssign);
     }
 

@@ -23,43 +23,39 @@ class ItemController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'actions' => ['index','view'],
                         'allow' => true,
                     ],
-                    // [
-                    //     'actions' => ['index', 'view'],
-                    //     'allow' => Yii::$app->user->can('supervisor'),
-                    // ],
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['ac_item_update'],
+                        // 'roles' => ['ac_item_update'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['ac_item_create'],
+                        // 'roles' => ['ac_item_create'],
                     ],
                     [
                         'actions' => ['delete'],
                         'allow' => true,
-                        'roles' => ['ac_delete'],
+                        // 'roles' => ['ac_delete'],
                     ],
 
                     [
                         'actions' => ['void'],
                         'allow' => true,
-                        'roles' => ['ac_delete'],
+                        // 'roles' => ['ac_delete'],
                     ],
 
 
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],

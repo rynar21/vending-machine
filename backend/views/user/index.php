@@ -14,92 +14,112 @@ $this->title = 'User';
 
 <div class="User-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="card">
+        <div class="pull-right text-right">
+            <?= Html::a('Create New User', ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
 
-    <p>
-    </p>
+        <div style="max-width:440px">
+            <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+        </div>
+    </div>
 
-    <?php //print_r(array_keys($roles));// echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
-        'tableOptions' => [
-        'class' => 'table   table-bordered  table-hover ',
-        ],
-        'options' => [
-            'class' => 'table-responsive',
-        ],
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            // 'id',
-            //'username',
-            [
-               'attribute' =>'username',
-                   'filterInputOptions' => [
+
+
+    <div class="card">
+        <?= GridView::widget([
+            'tableOptions' => [
+                'class' => 'table   table-bordered  table-hover ',
+            ],
+            'options' => [
+                'class' => 'table-responsive',
+            ],
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                [
+                    'attribute' =>'username',
+                    'filterInputOptions' => [
                        'class'  => 'form-control',
                        'placeholder' => 'Search....'
                     ]
-            ],
-            //'email',
-            [
-               'attribute' =>'email',
-                   'filterInputOptions' => [
-                       'class'  => 'form-control',
-                       'placeholder' => 'Search....'
-                    ]
-            ],
-            [
-                'attribute'=> 'status',
-                'value' => 'statusText'
-            ],
-            [
-                'header' => 'Roles',
-                'format' => 'raw' ,
-                'value' => function($data) {
+                ],
+                [
+                    'header' => 'Roles',
+                    'format' => 'raw' ,
+                    'value' => function($model) {
 
-                    $roles = Yii::$app->authManager->getRolesByUser($data->id);
+                        $roles = Yii::$app->authManager->getRolesByUser($model->id);
 
-                    if ($roles)
-                    {
-                        $array = array_keys($roles);
-
-                        if (count($roles) >= 2)
+                        if ($roles)
                         {
-                            return  ($array[1]);
+                            $array = array_keys($roles);
+                            return $array[0];
                         }
-                    }
 
-                    if (empty($roles))
+                        return "User";
+                    }
+                ],
+                [
+                    'header' => 'Permission',
+                    'format' => 'raw' ,
+                    'value' => function($model) {
+
+                        $roles = Yii::$app->authManager->getPermissionsByUser($model->id);
+
+                        if ($roles)
+                        {
+                            $array = array_keys($roles);
+                            $one = null;
+                            $two = null;
+                            $three = null;
+                            if (count($array) > 1) {
+                                foreach ($array as $key => $value) {
+                                    if ($key == 1) {
+                                        $one =  $value;
+                                    }
+                                    if ($key == 2) {
+                                        $two =  $value;
+                                    }
+                                    if ($key == 3) {
+                                        $three =  $value;
+                                    }
+                                }
+                            }
+
+                            return $array[0]." ".$one." ".$two." ".$three;;
+                        }
+
+                        return '<span class="text-danger">' .'No Permission'.'';
+                    }
+                ],
+                [
+                    'attribute'=>'status',
+                    'format' =>'raw',
+                    'value' => function ($model)
                     {
-                        return 'No roles';
-                    }
+                        if ($model->status == User::STATUS_ACTIVE) {
+                            return '<span class="text-success">' .'Active'.'</span>';
+                        }
 
-                    else
+                        return '<span class="text-danger">' .'Inactive'.'</span>';
+                    }
+                ],
+
+                [
+                    'attribute'=>'',
+                    'format' => 'raw' ,
+                    'headerOptions' =>['class'=>'col-lg-1',],
+                    //'visible' => Yii::$app->user->can('supervisor'),
+                    'value' => function ($model)
                     {
-                        return '<span style="color:#CD0000">' .'no roles'.'';
+                      return Html::a('view', ['/user/view','id'=>$model->id]);
                     }
-                }
+                ],
             ],
-
-            // [   'class' => 'yii\grid\ActionColumn',
-            //     'header' => '' ,
-            //     'visible' => Yii::$app->user->can('supervisor'),
-            //     'template' => '{update}',
-            // ],
-            [
-                'attribute'=>'',
-                'format' => 'raw' ,
-                'headerOptions' =>['class'=>'col-lg-1',],
-                'visible' => Yii::$app->user->can('supervisor'),
-                'value' => function ($model)
-                {
-                  return Html::a('view', ['/user/view','id'=>$model->id]);
-                }
-            ],
-          ],
-    ]); ?>
-
+        ]); ?>
+    </div>
 
 
 </div>

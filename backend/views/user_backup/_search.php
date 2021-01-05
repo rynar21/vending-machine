@@ -13,14 +13,11 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
-        'options' => ['autocomplete' => 'off']
     ]); ?>
 
-    <?= $form->field($model, 'username') ?>
+    <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'status')->dropDownList(
-        ['10' => 'Active', '9' => 'Inactive']
-    ); ?>
+    <?= $form->field($model, 'name') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

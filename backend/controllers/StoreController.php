@@ -34,33 +34,33 @@ class StoreController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'actions' => ['index', 'view','kaiqi','store_detailed','manager_revoke','add_update',
                         'manager_update','user_store','lockup_box','open_box','box_item'],
-                        'allow' => Yii::$app->user->can('ac_read'),
+                        'allow' => true,
                     ],
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['ac_update'],
+                        // 'roles' => ['ac_update'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['ac_create'],
+                        // 'roles' => ['ac_create'],
                     ],
                     [
                         'actions' => ['delete'],
                         'allow' => true,
-                        'roles' => ['ac_delete'],
+                        // 'roles' => ['ac_delete'],
                     ],
 
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],

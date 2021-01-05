@@ -3,98 +3,83 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\models\User;
-
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
 
-// $this->title = $model->id;
-// $this->params['breadcrumbs'][] = ['label' => 'User', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = $this->title;
-// \yii\web\YiiAsset::register($this);
+$this->title = $model->username;
 ?>
 
-<div class="row">
-    <h1 class="col-sm-12">
-        <?= Html::a('Back', ['user/index',], ['class' => 'btn btn-primary']) ?>
-</div>
-
+<?= Html::a('Change Password', ['user/reset-password','id'=>$model->id], ['class' => 'btn btn-sm btn-info pull-right']); ?>
+<br><br>
 <div class="col-sm-12">
      <div class="row">
     <?php echo DetailView::widget([
               'model' => $model,
               'attributes' => [
-                'id',
                 'username',
                 'email',
-                [
-                    'attribute'=>'status',
-                    'format' => 'raw' ,
-                     'visible' => Yii::$app->user->can('admin'),
-                    'value' => function ($model)
-                    {
-                      return $model->statustext;
-                    }
-                ],
+                'created_at:datetime:Registration Time',
                 [
                     'attribute'=>'Roles',
                     'format' => 'raw' ,
-                    'value' => function($data)
-                    {
-                        $roles = Yii::$app->authManager->getRolesByUser($data->id);
+                    'value' => function($model) {
+
+                        $roles = Yii::$app->authManager->getRolesByUser($model->id);
+
                         if ($roles)
                         {
                             $array = array_keys($roles);
+                            return $array[0];
+                        }
 
-                            if (count($roles)>=2)
-                            {
-                                return  ($array[1]);
+                        return "User";
+                    }
+                ],
+                [
+                    'attribute' => 'Permission',
+                    'format' => 'raw' ,
+                    'value' => function($model) {
+
+                        $roles = Yii::$app->authManager->getPermissionsByUser($model->id);
+
+                        if ($roles)
+                        {
+                            $array = array_keys($roles);
+                            $one = null;
+                            $two = null;
+                            $three = null;
+                            if (count($array) > 1) {
+                                foreach ($array as $key => $value) {
+                                    if ($key == 1) {
+                                        $one =  $value;
+                                    }
+                                    if ($key == 2) {
+                                        $two =  $value;
+                                    }
+                                    if ($key == 3) {
+                                        $three =  $value;
+                                    }
+                                }
                             }
+
+                            return $array[0]." ".$one." ".$two." ".$three;;
                         }
 
-                        if (empty($roles))
-                        {
-                            return 'No roles';
-                        }
-
-                        else
-                        {
-                            return '<span style="color:#CD0000">' .'no roles'.'';
-                        }
+                        return '<span class="text-danger">' .'No Permission'.'';
                     }
                 ],
-
                 [
-                    'attribute'=>'Action',
-                    'format' => 'raw' ,
-                    'visible' => Yii::$app->user->can('admin'),
+                    'attribute'=>'status',
+                    'format' =>'raw',
                     'value' => function ($model)
                     {
-                        return ' <div class="btn-group mr-2 pull-left col-lg-6 " role="group" aria-label="Second group"> '.
-                        Html::a('Suspend', ['update-status','status'=> User::STATUS_SUSPEND, 'id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).
-                        Html::a('Unsuspend', ['update-status','status'=> User::STATUS_ACTIVE,'id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
-                        Html::a('Terminate', ['update-status','status'=> User::STATUS_DELETED,'id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).
-                        '</div>';
-                    }
-                ],
-
-                [
-                    'attribute'=>'Role Assign',
-                    'format' => 'raw' ,
-                    'visible' => Yii::$app->user->can('supervisor'),
-                    'value' => function ($model)
-                    {
-                        if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
-                            return ' <div class="btn-group mr-2 pull-left col-lg-6 " role="group" aria-label="Second group"> '.
-                            Html::a('User', ['assign', 'role'=>'user','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
-                            Html::a('Staff', ['assign' ,'role'=>'staff','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
-                            Html::a('Supervisor', ['assign','role'=>'supervisor','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
-                            Html::a('Revoke', ['revoke','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-danger']).'</div>';
+                        if ($model->status == User::STATUS_ACTIVE) {
+                            return '<span class="text-success">' .'Active'.'</span>';
                         }
 
-                        return ' <div class="btn-group mr-2 pull-left col-lg-6 " role="group" aria-label="Second group"> '.
-                        Html::a('User', ['assign', 'role'=>'user','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
-                        Html::a('Staff', ['assign' ,'role'=>'staff','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']).
-                        Html::a('Supervisor', ['assign','role'=>'supervisor','id'=>$model->id], ['class' => 'btn btn-sm  col-lg-3 btn-primary']);
+                        return '<span class="text-danger">' .'Inactive'.'</span>';
                     }
                 ],
             ],
@@ -102,4 +87,38 @@ use common\models\User;
     ]);
     ?>
 
-</div></div>
+<div class="User-form ">
+    <div class="card">
+        <?php $form = ActiveForm::begin(); ?>
+
+        <div>
+            <?= $form->field($model, 'roles')->radioList([
+                'null'=>'User',
+                'staff'=>'Staff',
+                'supervisor'=>'Supervisor',
+            ]) ?>
+        </div>
+        <div>
+            <?= $form->field($model, 'status')->radioList([
+                User::STATUS_INACTIVE => 'Inactive',
+                User::STATUS_ACTIVE => 'Active',
+            ]) ?>
+        </div>
+        <div>
+
+            <label class="control-label">Allow Permission</label>
+            <div>
+                <?= $form->field($model, 'allow_product')->checkbox() ?>
+                <?= $form->field($model, 'allow_record')->checkbox() ?>
+                <?= $form->field($model, 'allow_report')->checkbox() ?>
+                <?= $form->field($model, 'allow_assign')->checkbox() ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <?= Html::a('Cancel', ['user/index',], ['class' => 'btn btn-default']) ?>
+            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+    </div>
+</div>

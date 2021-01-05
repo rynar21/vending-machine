@@ -23,19 +23,6 @@ $this->title = 'Login';
 
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
-                <?php  //$form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                    //'template' => '<div class="row"><div id= "verifyCode" class="col-lg-3  col-xs-3">{image}</div>
-                    //<div class="  col-lg-9  col-xs-9">{input}</div></div>',
-                    // 'imageOptions'=> [
-                    //                     'id'=>'captchaimg',
-                    //                     'title'=>'换一个',
-                    //                     'alt'=>'换一个',
-                    //                     'style'=>'cursor:pointer;margin-left:25px;'],
-                //]) ?>
-
-
-
-
                 <div style="color:#999;margin:1em 0">
                     <?= Html::a('Forgot Password?', ['site/request-password-reset']) ?>
                     <br>
@@ -53,12 +40,3 @@ $this->title = 'Login';
         </div>
     </div>
 </div>
-<?php
-// $c=!Yii::$app->authManager->checkAccess(1,'user');
-// if ($c) {
-//     echo'000';
-// }
-// else {
-//     echo'111';
-// }
-?>

@@ -25,31 +25,31 @@ class SaleRecordController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'actions' => ['index', 'view','one_store_all_salerecord','store_onebox_allsalerecord'],
-                        'allow' => Yii::$app->user->can('ac_read'),
+                        'allow' => true,
                     ],
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        'roles' => ['ac_update'],
+                        // 'roles' => ['ac_update'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
-                        'roles' => ['ac_create'],
+                        // 'roles' => ['ac_create'],
                     ],
                     [
                         'actions' => ['delete'],
                         'allow' => true,
-                        'roles' => ['ac_delete'],
+                        // 'roles' => ['ac_delete'],
                     ],
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],

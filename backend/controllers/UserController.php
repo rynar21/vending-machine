@@ -2,9 +2,8 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\User;
+use backend\models\User;
 use backend\models\UserSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\SignUp;
@@ -17,57 +16,38 @@ use backend\models\ResetPasswordForm;
 use yii\filters\AccessControl;
 use yii\web\MethodNotAllowedHttpException;
 use yii\helpers\Url;
-
-
+use backend\models\ChangePasswordForm;
+use common\models\PmsLog;
+use yii\web\Controller;
 /**
  * userController implements the CRUD actions for user model.
  */
 class UserController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
-                    [  'actions' => ['create'],
-                      'allow' => true,
-                    ],
-                    [  'actions' => ['update-status'],
-                      'allow' => true,
-                      'roles' => ['ac_update'],
+                    [
+                        'actions' => ['index', 'view', 'create', 'update','reset-password'],
+                        'allow' => true,
+                        'roles' => ['allowAssign'],
                     ],
                     [
-                        'actions' => ['index', 'view'],
+                        'actions' => ['change-password'],
                         'allow' => true,
-                        'roles'=> ['ac_user_read'],
-                    ],
-                    [
-                        'actions' => ['assign'],
-                        'allow' => true,
-                        'roles' => ['ac_user_assign'],
-                    ],
-                    [
-                        'actions' => ['revoke'],
-                        'allow' => true,
-                        'roles' => ['ac_user_revoke'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
-
-            'checker' => [
-               'class' => 'backend\libs\CheckerFilter',
-              ],
-
         ];
     }
 
@@ -86,6 +66,53 @@ class UserController extends Controller
         ]);
     }
 
+    protected function assignPermission($user_id, $role_name)
+    {
+        if (Yii::$app->user->identity->id != $user_id){
+            $auth = Yii::$app->authManager;
+            $role = $auth->getPermission($role_name);
+
+            try {
+                $auth->assign($role, $user_id);
+            } catch (\Exception $e) {
+
+            }
+        }
+    }
+
+    protected function revokePermission($user_id, $role_name)
+    {
+        $auth = Yii::$app->authManager;
+        $role = $auth->getPermission($role_name);
+        $auth->revoke($role, $user_id);
+    }
+
+    protected function assignRoles($user_id, $role_name)
+    {
+        if (Yii::$app->user->identity->id != $user_id){
+            $this->revokeRoles($user_id);
+            $auth = Yii::$app->authManager;
+            $role = $auth->getRole($role_name);
+
+            try {
+                $auth->assign($role, $user_id);
+            } catch (\Exception $e) {
+                //
+            }
+        }
+    }
+
+    protected function revokeRoles($user_id)
+    {
+        $auth = Yii::$app->authManager;
+        $role = $auth->getRolesByUser($user_id);
+
+        if ($role) {
+            $array = array_keys($role);
+            $role = $auth->getRole($array[0]);
+            $auth->revoke($role, $user_id);
+        }
+    }
     /**
      * Displays a single user model.
      * @param integer $id
@@ -94,11 +121,55 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
-        $user = $this->findModel($id);
-        // $user = $user->user;
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            $auth = Yii::$app->authManager;
+
+            if ($model->allow_product) {
+                $this->assignPermission($model->id,'allowProduct');
+            }else {
+                $this->revokePermission($model->id,'allowProduct');
+            }
+
+            if ($model->allow_record) {
+                $this->assignPermission($model->id,'allowRecord');
+            }else {
+                $this->revokePermission($model->id,'allowRecord');
+            }
+
+            if ($model->allow_report) {
+                $this->assignPermission($model->id,'allowReport');
+            }else {
+                $this->revokePermission($model->id,'allowReport');
+            }
+
+            if ($model->allow_assign) {
+                $this->assignPermission($model->id,'allowAssign');
+            }else {
+                $this->revokePermission($model->id,'allowAssign');
+            }
+
+            if ($model->roles == 'staff') {
+                $this->assignRoles($model->id,'staff');
+            }
+
+            if ($model->roles == 'supervisor') {
+                $this->assignRoles($model->id,'supervisor');
+            }
+
+            if ($model->roles == 'null' ) {
+                $this->revokeRoles($model->id);
+            }
+
+            $model->save();
+            Yii::$app->session->setFlash('success', 'Success.');
+        }
+
+
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -112,11 +183,16 @@ class UserController extends Controller
     {
         $model = new SignUp();
 
-        if ($model->load(Yii::$app->request->post()) && $model->SignUp())
-        {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+        if ($model->load(Yii::$app->request->post()) && $model->SignUp()) {
+            // PmsLog::push(
+            // Yii::$app->user->identity->id,
+            // 'user ',
+            // 'create_user',
+            // [
+            //     'create_username_is' => Yii::$app->request->getBodyParam('SignUp')['email'],
+            // ]);
 
-            return $this->redirect(Url::to(['site/login']));
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -124,149 +200,47 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing user model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdateStatus($status, $id)
+    public function actionChangePassword()
     {
-        $auth = Yii::$app->authManager;
-        $model = $this->findModel($id);
-        // $dataProvider =$model->search(Yii::$app->request->queryParams);
-        if (!$auth->checkAccess($id, 'admin'))
-        {
-            switch($status)
-            {
-                case User::STATUS_SUSPEND:
-                    $model->status = User::STATUS_SUSPEND;
-                    $model->save();
-                    Yii::$app->session->setFlash('success', "Suspend Success.");
-                    break;
-                case User::STATUS_ACTIVE:
-                    $model->status = User::STATUS_ACTIVE;
-                    $model->save();
-                    Yii::$app->session->setFlash('success', "Unsuspend Success.");
-                    break;
-                case User::STATUS_DELETED:
-                    $model->status = User::STATUS_DELETED;
-                    $model->save();
-                    Yii::$app->session->setFlash('success', "Termimate Success.");
-                    break;
-                default:
-                    Yii::$app->session->setFlash('danger', "User not active!");
-                    break;
+        $model = new ChangePasswordForm();
+
+        if (Yii::$app->user->identity!=null) {
+
+            if( $model->load(Yii::$app->request->post()) && $model->changePassword()) {
+                Yii::$app->user->logout();
+                Yii::$app->session->setFlash('success', 'password has been updated.');
+
+                return $this->redirect(Url::to(['site/login']));
             }
+
+            return $this->render('changePassword',['model'=>$model]);
+
+
         }
 
-        else
-        {
-           Yii::$app->session->setFlash('danger', "Cannot edit admin");
-        }
-        return $this->actionView($id);
+        throw new NotFoundHttpException('The requested page does not exist.');
+
     }
 
-    /**
-     * Deletes an existing user model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-
-    //To assign user Role
-    public function actionAssign($role, $id)
+    public function actionResetPassword($id)
     {
-        if ($id == Yii::$app->user->identity->id)
-        {
-             Yii::$app->session->setFlash('danger', "Can't give yourself permission");
-        }
+        $model = new ChangePasswordForm();
 
-        $auth = Yii::$app->authManager;
-        $user = User::findOne([
-            'id' => $id,
-            'status' => User::STATUS_ACTIVE
-        ]);
+        if (Yii::$app->user->identity!=null) {
 
-        // IF EDITED USER STATUS IS ACTIVE.
-        if($user)
-        {
-            //Current User is admin role.
-            if ($auth->checkAccess(Yii::$app->user->identity->id, 'admin'))
-            {
-                if (!$auth->checkAccess($id, 'admin'))
-                {
-                    $auth->revokeAll($id);
-                    $auth_role = $auth->getRole($role);
-                    $auth->assign($auth_role, $id);
-                    Yii::$app->session->setFlash('success', "Edit Success.");
-                }
-                else
-                {
-                    Yii::$app->session->setFlash('danger', "Cannot Edit Admin!");
-                }
+            if( $model->load(Yii::$app->request->post()) && $model->resetPassword($id)) {
+                Yii::$app->session->setFlash('success', 'password has been updated.');
 
+                return $this->redirect(['view', 'id' => $id]);
             }
 
-            // Check CUrrent user role is supervisor
-            if ($auth->checkAccess(Yii::$app->user->identity->id, 'supervisor'))
-            {
-                // Feature to assign role other than admin and supervisor
-                if (!$auth->checkAccess($id, 'admin') && !$auth->checkAccess($id, 'supervisor'))
-                {
+            return $this->render('resetPassword',['model'=>$model]);
 
-                    if ($role != 'supervisor' && $role != 'admin')
-                    {
-                        $auth->revokeAll($id);
-                        $auth_role = $auth->getRole($role);
-                        $auth->assign($auth_role, $id);
-                        Yii::$app->session->setFlash('success', "Edit Success.");
-                    }
-                    else
-                    {
-                        Yii::$app->session->setFlash('danger', "Authorization Denied: No authority to assign this role.");
-                    }
-
-                }
-
-                // Error message for other role that unable to assign admin.
-                if ($auth->checkAccess($id, 'admin'))
-                {
-                    Yii::$app->session->setFlash('danger', "Authorization Denied: No authority to assign this role.");
-                }
-
-            }
 
         }
-        else
-        {
-          Yii::$app->session->setFlash('danger', "Inactive account cannot assign Role");
-        }
 
-        return $this->actionView($id);
-    }
+        throw new NotFoundHttpException('The requested page does not exist.');
 
-
-    //To revoke user Role
-    public function actionRevoke($id)
-    {
-
-        $auth = Yii::$app->authManager;
-
-        if (!$auth->checkAccess($id, 'admin'))
-        {
-            $auth->revokeAll($id);
-            Yii::$app->session->setFlash('success', "Revoke Success.");
-        }
-        else
-        {
-            Yii::$app->session->setFlash('danger', "Cannot Revoke Admin.");
-        }
-
-        //return $this->redirect(['index']);
-        return $this->actionView($id);
     }
 
     /**
@@ -276,14 +250,6 @@ class UserController extends Controller
      * @return user the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    // protected function findModel($id)
-    // {
-    //     if (($model = User::findOne($id)) !== null) {
-    //         return $model;
-    //     }
-    //
-    //     throw new NotFoundHttpException('The requested page does not exist.');
-    // }
     protected function findModel($id)
     {
         if (($model = User::findOne($id)) !== null) {
@@ -292,4 +258,6 @@ class UserController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
 }

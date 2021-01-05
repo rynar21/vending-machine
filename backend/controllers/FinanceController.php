@@ -36,19 +36,19 @@ class FinanceController extends Controller
     {
         return [
             'access' => [
-                    'class' => AccessControl::className(),
+                    'class' => AccessControl::class,
                 'rules' =>
                 [
                     [
                         'actions' => ['index', 'view','store_all','datecheck','datecheck_store',
                         'export_data_one_store','export_data','export_order','export_order_onestore'
                             ],
-                        'allow' => Yii::$app->user->can('ac_product_read'),
+                        'allow' => true,
                     ],
                     [
                         'actions' => ['update','delete'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['allowReport'],
                     ],
                 ],
             ],
@@ -58,7 +58,7 @@ class FinanceController extends Controller
               ],
 
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],

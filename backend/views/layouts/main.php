@@ -40,31 +40,21 @@ AppAsset::register($this);
             {
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'User', 'url' => ['/user/index'],'visible' => Yii::$app->user->can('supervisor'),],
-                ['label' => 'Finance', 'url' => ['/finance/index'],'visible' => Yii::$app->user->can('supervisor'),],
+                ['label' => 'User', 'url' => ['/user/index']],
+                ['label' => 'Finance', 'url' => ['/finance/index']],
                 ['label' => 'Store', 'url' => ['/store/index']],
                 // ['label' => 'Box', 'url' => ['/box/index?id=1']],
                 // ['label' => 'Item', 'url' => ['/item/index']],
-                ['label' => 'Record', 'url' => ['/sale-record/index'],'visible' => Yii::$app->user->can('supervisor'),],
-                ['label' => 'Product', 'url' => ['/product/index'] ,'visible' => Yii::$app->user->can('admin'),],
+                ['label' => 'Record', 'url' => ['/sale-record/index']],
+                ['label' => 'Product', 'url' => ['/product/index'] ,'visible' => Yii::$app->user->can('admin')],
+                ['label' => 'Change Password', 'url' => ['/site/changepassword'] ],
+                ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
             ];
             }
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login'],
-                // 'items'=>[
-                //             ['label'=>'Home1','url'=>'/site/index'],
-                //             ['label'=>'Home2','url'=>'/site/index']
-                //         ]
             ];
 
-            }
-            else {
-                    $menuItems[] = ['label' => 'username(' . Yii::$app->user->identity->username . ')', 'url' => ['/site/logout'],['class' => 'btn btn-link logout'],
-
-                    'items'=>[
-                                ['label' => 'Change Password', 'url' => ['/site/changepassword'] ],
-                                ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
-                            ]];
             }
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
