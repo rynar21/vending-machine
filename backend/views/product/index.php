@@ -14,8 +14,6 @@ $this->title = 'Products';
 
 <div class="product-index">
 
-    >
-
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
