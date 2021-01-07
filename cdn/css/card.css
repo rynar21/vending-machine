@@ -1,0 +1,19 @@
+.card {
+    border-radius:3px;
+    border:1px solid #ddd;
+    background-color:#fff;
+    padding: 8px;
+    margin-bottom:8px;
+}
+
+.card-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.card-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #c2d6b2;
+}

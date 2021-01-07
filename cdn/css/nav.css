@@ -1,0 +1,32 @@
+[v-cloak] {display:none;}
+.navbar {
+    color: #FFF;
+    border: none;
+}
+.nav > li > a{
+    border:none;
+    color: #FFF;
+    text-decoration: none;
+}
+.nav > li > a:hover, .nav > li > a:active, .nav .open > a:focus {
+    border:none;
+    color:#fff;
+    background-color: #666;
+}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color:  #666;
+    border-color: #337ab7;
+}
+.dropdown-menu > li > a:hover, .nav > .active > a {
+    background-color:  #333333;
+    color: #fff;
+}
+.dropdown-menu > .active > a{
+    background-color:  #fff;
+    color: black;
+}
+.dropdown-menu > .active > a:hover{
+    background-color:  #333333;
+    color:#fff;
+    text-decoration: none;
+}
