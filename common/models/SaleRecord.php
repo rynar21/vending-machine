@@ -35,7 +35,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            TimestampBehavior::class,
         ];
     }
 
@@ -282,41 +282,13 @@ class SaleRecord extends \yii\db\ActiveRecord
         $this->save();
     }
 
-    // public function queryOrderStatus()
-    // {
-    //
-    //     if ($this->getIsFinalStatus())
-    //     {
-    //         return false;
-    //     }
-    //
-    //     $data =  Yii::$app->payandgo->checkOrder($this->unique_id);
-    //
-    //     if ($data)
-    //     {
-    //         $data = json_decode($data,true);
-    //         $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
-    //
-    //         if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
-    //         {
-    //             return $this->success();
-    //         }
-    //
-    //         if (Yii::$app->payandgo->getIsPaymentFailed($orderStatus))
-    //         {
-    //             return $this->failed();
-    //         }
-    //
-    //         if (Yii::$app->payandgo->getIsPaymentPending($orderStatus))
-    //         {
-    //             return $this->pending();
-    //         }
-    //
-    //         return false;
-    //
-    //     }
-    //
-    //     return false;
-    //
-    // }
+    public function getStatus()
+    {
+        return [
+            '10' => 'Success',
+            '9' => 'Pending',
+            '8' => 'Failed',
+            '0' => 'Init'
+        ];
+    }
 }

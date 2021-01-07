@@ -13,6 +13,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'options' => ['autocomplete' => 'off']
     ]); ?>
 
     <?= $form->field($model, 'id') ?>
@@ -21,9 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'item_id') ?>
 
-    <?//=$form->field($model,'transactionNumber') ?>
-
-    <?= $form->field($model, 'status') ?>
+    <?= $form->field($model, 'status')->dropDownList($model->getStatus()) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

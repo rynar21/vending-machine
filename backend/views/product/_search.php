@@ -13,19 +13,14 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'options' => ['autocomplete' => 'off']
     ]); ?>
-
-    <?= $form->field($model, 'id') ?>
 
     <?= $form->field($model, 'sku') ?>
 
     <?= $form->field($model, 'name') ?>
 
     <?= $form->field($model, 'price') ?>
-
-    <?= $form->field($model, 'image') ?>
-
-    <?= $form->field($model, 'status') ?>
 
     <?php // echo $form->field($model, 'created_at') ?>
 

@@ -13,61 +13,64 @@ $this->title = 'Products';
 
 
 <div class="product-index">
+    <div class="card">
+        <div class="pull-right text-right">
+            <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <div style="max-width:440px">
+            <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+        </div>
+    </div>
 
-    <p>
-        <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?= GridView::widget([
-        'tableOptions' => [
-        'class' => 'table   table-bordered  table-hover ',
-        ],
-        'options' => [
-            'class' => 'table-responsive',
-        ],
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            [
-               'attribute' =>'sku',
-                   'filterInputOptions' => [
-                       'class'  => 'form-control',
-                       'placeholder' => 'Type in some characters...'
-                    ]
+    <div class="card">
+        <?= GridView::widget([
+            'tableOptions' => [
+            'class' => 'table   table-bordered  table-hover ',
             ],
-            [
-               'attribute' =>'name',
-                   'filterInputOptions' => [
-                       'class'  => 'form-control',
-                       'placeholder' => 'Type in some characters...'
-                    ]
+            'options' => [
+                'class' => 'table-responsive',
             ],
-            [
-               'attribute' =>'category',
-                   'filterInputOptions' => [
-                       'class'  => 'form-control',
-                       'placeholder' => 'Type in some characters...'
-                    ]
+            'dataProvider' => $dataProvider,
+            // 'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                [
+                'attribute' =>'sku',
+                    'filterInputOptions' => [
+                        'class'  => 'form-control',
+                        'placeholder' => 'Type in some characters...'
+                        ]
+                ],
+                [
+                'attribute' =>'name',
+                    'filterInputOptions' => [
+                        'class'  => 'form-control',
+                        'placeholder' => 'Type in some characters...'
+                        ]
+                ],
+                [
+                'attribute' =>'category',
+                    'filterInputOptions' => [
+                        'class'  => 'form-control',
+                        'placeholder' => 'Type in some characters...'
+                        ]
+                ],
+                //'category',
+                'price:currency',
+                'cost:currency',
+                [
+                    'format' => 'raw' ,
+                    'visible' => Yii::$app->user->can('admin'),
+                    'value' => function ($model)
+                    {
+                    return Html::a('view', ['/product/view','id' => $model->id]).' | '.Html::a('update', ['/product/update','id' => $model->id]);
+                    }
+                ],
             ],
-            //'category',
-            'price:currency',
-            'cost:currency',
-            [
-                'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('admin'),
-                'value' => function ($model)
-                {
-                  return Html::a('view', ['/product/view','id' => $model->id]).' | '.Html::a('update', ['/product/update','id' => $model->id]);
-                }
-            ],
-        ],
 
-    ]); ?>
+        ]); ?>
+    </div>
 
 
 </div>
