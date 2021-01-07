@@ -2,15 +2,8 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\DetailView;
-use common\models\SaleRecord;
-use common\models\Store;
-use common\models\User;
-use common\models\Item;
-use common\models\Product;
-use common\models\Finance;
-use yii\data\ArrayDataProvider;
-use yii\data\ActiveDataProvider;
+use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\FinanceSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -20,121 +13,70 @@ $this->title = 'Financial Records';
 ?>
 <div class="finance-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <div class=" row col-lg-12 " >
-        <div class="   ">
-            <form method="GET" action="<?= Url::to(['finance/datecheck'])?>">
-                <div class=" row col-lg-6 form-group  ">
-                    <label for="disabledTextInput">Start Time</label>
-                    <input  name="date1"  type="date" required min="2000-01-02"  id="disabledTextInput" class="form-control " >
-                </div>
+    <div class="card">
 
-                <div class=" row col-lg-6 form-group ">
-                    <label for="disabledSelect">End Time</label>
-                    <input name="date2"  type="date" required min="2000-01-02" id="disabledSelect" class="form-control">
-                </div>
-                <div class=" form-group ">
-                <input type="submit" class="btn btn-primary"  value="Search">
-                </div>
-            </form>
-        </div>
+    <div class="pull-right text-right">
+        <?= Html::a('Export',
+        [
+            'export-payment',
+            //'car_plate_number' => $searchModel->car_plate_number,
+           // 'username' => $searchModel->username,
+            //'time_start'    => $searchModel->time_start,
+            //'time_end'  => $searchModel->time_end
+        ],
+        [
+            'class' => 'btn btn-success'
+        ]); ?>
     </div>
 
-    <?php  if (empty($dataProvider_all)) {
-        $dataProvider_all = new ArrayDataProvider([
-           'allModels' => array(),
-       ]);
-        }
-        if (empty($dataProvider_date)) {
-            $dataProvider_date = new ArrayDataProvider([
-               'allModels' => array(),
-           ]);
-        }
-   ?>
-   <div class="row"></div>
-    <?= GridView::widget([
-        'tableOptions' => [
-        'class' => 'table table-borderless table-hover',
-        ],
-        'options' => [
-            'class' => 'table-responsive',
-        ],
-        'dataProvider' => $dataProvider_all,
-        //'filterModel' => '',
+    <div class="pms-log-search"style="max-width:440px">
+        <?php $form = ActiveForm::begin([
+            'action' => ['payment'],
+            'method' => 'get',
+            'options' => ['autocomplete' => 'off']
+        ]); ?>
 
-        'columns' => [
+        <?= $form->field($searchModel, 'order_number') ?>
 
-            //'date',
-            [
-                'attribute'=>'date',
-                'headerOptions' =>['class'=>'col-lg-2',],
-            ],
-            [
-                'attribute'=>'quantity_of_order',
-                'label' => 'Order Quantity',
-                'headerOptions' =>['class'=>'col-lg-2',],
-            ],
-            'total_earn:text:Total Earnings',
-            'gross_profit',
-            'net_profit',
-            [
-                'attribute'=>'Export Statement',
-                'format' => 'raw' ,
-                'headerOptions' =>['class'=>'col-lg-1',],
-                'visible' => Yii::$app->user->can('admin'),
-                'value' => function ($model)
-                {
-                  return Html::a('Download', ['finance/export_data','date'=>$model['date']]);
-                }
-            ],
-            [
-                'attribute'=>'export order',
-                'format' => 'raw' ,
-                'headerOptions' =>['class'=>'col-lg-1',],
-                'visible' => Yii::$app->user->can('admin'),
-                'value' => function ($model)
-                {
-                  return Html::a('Download', ['finance/export_order','date'=>$model['date']]);
-                }
-            ],
-        ],
-    ]); ?>
+        <?= $form->field($searchModel, 'store_id') ?>
+
+        <div class="form-inline">
+            <?= $form->field($searchModel, 'time_start')->widget(DatePicker::class, ['options' => ['class' => 'form-control', 'placeholder' => 'Start Date']])->label(false) ?>
+            &nbsp; <i class="fas fa-minus"></i> &nbsp;
+            <?= $form->field($searchModel, 'time_end')->widget(DatePicker::class, ['options' => ['class' => 'form-control', 'placeholder' => 'End Date']])->label(false) ?>
+        </div>
+
+        <div class="form-group">
+            <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+            <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+    </div>
+    </div>
+    <div class=" alert alert-info" style="margin:0 0 12px">
+    Total Amount Received: <b>RM <?= $total_amount ?></b>
+    <br>
+    Total Number of Transaction: <b><?= $total_transaction ?></b>
+    </div>
+    <div class="card">
     <?= GridView::widget([
-        'tableOptions' => [
-        'class' => 'table   table-bordered  table-hover ',
-        ],
-        'options' => [
-            'class' => 'table-responsive ',
-        ],
-        'dataProvider' => $dataProvider_date,
-        'filterModel' => '',
+        'summary' => "Showing {begin} - {end} of {totalCount} items.",
+        'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            'car_plate_number',
+            'amount',
             [
-                'attribute'=>'date',
-                'format' => 'raw',
-                 'headerOptions' =>['class'=>'col-lg-2',],
-                'visible' => Yii::$app->user->can('supervisor'),
-                'value' => function ($model)
-                {
-                   return Yii::t('app', ' {0, date}', $model['date']) ;
-                }
+                'attribute' => 'username',
+                'value' => function ($model) {
+                    return $model->getUserName();
+                },
             ],
-            'quantity_of_order:text:Order Quantity',
-            'total_earn:currency:Total Earnings',
-            'gross_profit:currency',
-            'net_profit:currency',
-            [
-                'attribute'=>'',
-                'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('supervisor'),
-                'value' => function ($model)
-                {
-                  return Html::a('view', ['finance/store_all','date'=>$model['date']]);
-                }
-            ],
+            'updated_at:datetime:Payment Time',
         ],
     ]); ?>
-
+    </div>
+    
 
 </div>

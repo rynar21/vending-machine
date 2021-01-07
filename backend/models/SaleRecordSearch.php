@@ -13,6 +13,8 @@ use yii\helpers\ArrayHelper;
 class SaleRecordSearch extends SaleRecord
 {
     // public $transactionNumber;
+    public $time_start;
+    public $time_end;
 
     /**
      * {@inheritdoc}
