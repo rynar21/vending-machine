@@ -23,17 +23,8 @@ $this->title = 'Login';
 
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
-                <div style="color:#999;margin:1em 0">
-                    <?= Html::a('Forgot Password?', ['site/request-password-reset']) ?>
-                    <br>
-                     <?= Html::a('Activate Account', ['site/resend-verification-email']) ?>
-                    <!-- Need new verification email? -->
-                     <?= "" //Html::a('Resend', ['site/resend-verification-email']) ?>
-                </div>
-
                 <div class="form-group">
                     <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                    <?= Html::a('Sign Up', ['user/create'], ['class' => 'btn btn-primary']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

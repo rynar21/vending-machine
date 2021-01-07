@@ -30,21 +30,22 @@ class SaleRecordController extends Controller
                     [
                         'actions' => ['index', 'view','one_store_all_salerecord','store_onebox_allsalerecord'],
                         'allow' => true,
+                        'roles' => ['allowRecord'],
                     ],
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        // 'roles' => ['ac_update'],
+                        'roles' => ['allowRecord'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
-                        // 'roles' => ['ac_create'],
+                        'roles' => ['allowRecord'],
                     ],
                     [
                         'actions' => ['delete'],
                         'allow' => true,
-                        // 'roles' => ['ac_delete'],
+                        'roles' => ['allowRecord'],
                     ],
                 ],
             ],
@@ -54,9 +55,6 @@ class SaleRecordController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            'checker' => [
-               'class' => 'backend\libs\CheckerFilter',
-              ],
         ];
     }
 

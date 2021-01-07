@@ -12,9 +12,9 @@ class RbacController extends Controller
 
         $auth = Yii::$app->authManager;
 
-        $allowAddProduct = $auth->createPermission('allowProduct');
-        $allowAddProduct->description = 'Give permission to access product.';
-        $auth->add($allowAddProduct);
+        $allowProduct = $auth->createPermission('allowProduct');
+        $allowProduct->description = 'Give permission to access product.';
+        $auth->add($allowProduct);
 
         $allowRecord = $auth->createPermission('allowRecord');
         $allowRecord->description = 'Give permission to view record and manual open unopen purchased box';
@@ -35,10 +35,11 @@ class RbacController extends Controller
         $auth->add($supervisor);
         $auth->addChild($supervisor, $staff);
 
+
         $admin = $auth->createRole('admin');
         $auth->add($admin);
         $auth->addChild($admin, $supervisor);
-        $auth->addChild($admin, $allowAddProduct);
+        $auth->addChild($admin, $allowProduct);
         $auth->addChild($admin, $allowRecord);
         $auth->addChild($admin, $allowReport);
         $auth->addChild($admin, $allowAssign);

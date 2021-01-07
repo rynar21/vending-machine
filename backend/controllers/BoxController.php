@@ -29,21 +29,22 @@ class BoxController extends Controller
                     [
                         'actions'   => ['update','open_all_box','open_box'],
                         'allow'     => true,
-                        // 'roles'     => ['ac_update'],
+                        'roles'     => ['staff'],
                     ],
                     [
                         'actions'   => ['index','view'],
                         'allow'     => true,
+                        'roles'     => ['staff'],
                     ],
                     [
                         'actions'   => ['create'],
                         'allow'     => true,
-                        // 'roles'     => ['ac_create'],
+                        'roles'     => ['supervisor'],
                     ],
                     [
                         'actions'   => ['delete'],
                         'allow'     => true,
-                        // 'roles'     => ['ac_delete'],
+                        'roles'     => ['supervisor'],
                     ],
                 ],
             ],
@@ -55,9 +56,9 @@ class BoxController extends Controller
                 ],
             ],
 
-            'checker' => [
-               'class' => 'backend\libs\CheckerFilter',
-              ],
+            // 'checker' => [
+            //    'class' => 'backend\libs\CheckerFilter',
+            //   ],
         ];
     }
 

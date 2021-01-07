@@ -32,23 +32,24 @@ class ItemController extends Controller
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        // 'roles' => ['ac_item_update'],
+                        'roles' => ['staff'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
-                        // 'roles' => ['ac_item_create'],
+                        'roles' => ['staff'],
                     ],
                     [
                         'actions' => ['delete'],
                         'allow' => true,
                         // 'roles' => ['ac_delete'],
+                        'roles' => ['staff'],
                     ],
 
                     [
                         'actions' => ['void'],
                         'allow' => true,
-                        // 'roles' => ['ac_delete'],
+                        'roles' => ['staff'],
                     ],
 
 
@@ -60,9 +61,9 @@ class ItemController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            'checker' => [
-               'class' => 'backend\libs\CheckerFilter',
-              ],
+            // 'checker' => [
+            //    'class' => 'backend\libs\CheckerFilter',
+            //   ],
         ];
     }
 

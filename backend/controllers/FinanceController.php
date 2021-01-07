@@ -44,6 +44,7 @@ class FinanceController extends Controller
                         'export_data_one_store','export_data','export_order','export_order_onestore'
                             ],
                         'allow' => true,
+                        'roles' => ['allowReport'],
                     ],
                     [
                         'actions' => ['update','delete'],
@@ -53,9 +54,9 @@ class FinanceController extends Controller
                 ],
             ],
 
-            'checker' => [
-               'class' => 'backend\libs\CheckerFilter',
-              ],
+            // 'checker' => [
+            //    'class' => 'backend\libs\CheckerFilter',
+            //   ],
 
             'verbs' => [
                 'class' => VerbFilter::class,

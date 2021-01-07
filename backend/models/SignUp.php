@@ -12,31 +12,27 @@ class SignUp extends User
   public $username;
   public $email;
   public $password;
+  public $confirm_password;
+  public $id;
 
     /**
      * {@inheritdoc}
      */
-    public function rules()//规则
-
+    public function rules()
     {
         return [
-        //     [['id'], 'integer'],
-        //     [['username'], 'safe'],
-        // ];
-        ['username', 'trim'],
-        ['username', 'required'],
-        ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-        ['username', 'string', 'min' => 2, 'max' => 255],
-
-        ['email', 'trim'],
-        ['email', 'required'],
-        ['email', 'email'],
-        ['email', 'string', 'max' => 255],
-        ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
-
-        ['password', 'required'],
-        ['password', 'string', 'min' => 6],
-    ];
+            ['username', 'trim'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['email', 'trim'],
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['password', 'required'],
+            ['password', 'string', 'min' => 6],
+            ['confirm_password', 'string', 'min' => 6],
+        ];
     }
     /**
      * Signs user up.
@@ -48,15 +44,19 @@ class SignUp extends User
         if (!$this->validate()) {
             return null;
         }
-
         $user = new User();
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
 
+        if ($this->password == $this->confirm_password) {
+            $user->email = $this->email;
+            $user->username = $this->email;
+            $user->setPassword($this->password);
+            $user->generateAuthKey();
+            $user->generateEmailVerificationToken();
+            $result = $user->save();
+            $this->id = $user->id;
+            return $result;
+        }
+        return Yii::$app->session->setFlash('danger', 'Incorrect password');
     }
 
     protected function sendEmail($user)

@@ -14,17 +14,17 @@ $this->title = 'Store';
 <!-- 标题 -->
     <h1 ><?= Html::encode($this->title) ?></h1>
     <?php //echo Yii::$app->formatter->asDateTime($model->created_at);
-        $auth = Yii::$app->authManager;
-        if ($auth->checkAccess(Yii::$app->user->identity->id,'user')) {
-            $str =' none';
-        };
-        if ($auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
-            $str =' ';
-        } ;
+        // $auth = Yii::$app->authManager;
+        // if ($auth->checkAccess(Yii::$app->user->identity->id,'user')) {
+        //     $str =' none';
+        // };
+        // if ($auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
+        //     $str =' ';
+        // } ;
     ?>
     <!-- 创建 新商店 -->
     <p>
-        <?= Html::a('Create Store', ['create'], ['class' => 'btn btn-success','style'=>"display:"."$str"]) ?>
+        <?= Html::a('Create Store', ['create'], ['class' => 'btn btn-success','style'=>"display:"]) ?>
     </p>
 
 
@@ -84,10 +84,10 @@ $this->title = 'Store';
                 'visible' => Yii::$app->user->can('staff'),
                 'value' => function ($model)
                 {
-                    if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
+                    // if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
                          return Html::a('Enter Store', ['/store/view','id' => $model->id]).' | '.Html::a('Modify Store Detail', ['/store/update','id' => $model->id]);
-                    }
-                    return Html::a('Enter Store', ['/store/view','id' => $model->id]);
+                    // }
+                    // return Html::a('Enter Store', ['/store/view','id' => $model->id]);
                 }
             ],
 

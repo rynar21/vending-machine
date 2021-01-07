@@ -40,21 +40,22 @@ class StoreController extends Controller
                         'actions' => ['index', 'view','kaiqi','store_detailed','manager_revoke','add_update',
                         'manager_update','user_store','lockup_box','open_box','box_item'],
                         'allow' => true,
+                        'roles' => ['staff'],
                     ],
                     [
                         'actions' => ['update'],
                         'allow' => true,
-                        // 'roles' => ['ac_update'],
+                        'roles' => ['supervisor'],
                     ],
                     [
                         'actions' => ['create'],
                         'allow' => true,
-                        // 'roles' => ['ac_create'],
+                        'roles' => ['admin'],
                     ],
                     [
                         'actions' => ['delete'],
                         'allow' => true,
-                        // 'roles' => ['ac_delete'],
+                        'roles' => ['admin'],
                     ],
 
                 ],
@@ -66,9 +67,6 @@ class StoreController extends Controller
                 ],
 
             ],
-            'checker' => [
-               'class' => 'backend\libs\CheckerFilter',
-              ],
         ];
     }
 
@@ -80,25 +78,12 @@ class StoreController extends Controller
     {
         $searchModel = new StoreSearch();
 
-        if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id, 'admin'))
-        {
-            //当登录的用户权限是admin时，可以看到所有的商店
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
-        }
-
-        else { //当登录的用户权限不是admin时，只能看到自己管理的店
-            $dataProvider = $searchModel->searchUserAllstore(Yii::$app->request->queryParams, Yii::$app->user->identity->id);
-
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        }
     }
 
     /**
@@ -122,8 +107,6 @@ class StoreController extends Controller
 
     public function actionKaiqi($id)//打开盒子
     {
-        //return $this->redirect(['view' ,'id' => '1']);
-        //return $this->redirect(['view', 'id' => $id,'md'=>'1']);
         $boxsearch = new BoxSearch();
         $dataProvider = $boxsearch->search(Yii::$app->request->queryParams, $id);
 

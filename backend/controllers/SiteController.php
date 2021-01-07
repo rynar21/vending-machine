@@ -19,11 +19,8 @@ use backend\models\ChangePasswordForm;
 use yii\web\NotFoundHttpException;
 use common\models\SaleRecord;
 use common\models\Item;
-use common\models\Box;
-use common\models\Product;
-use yii\helpers\BaseJson;
-use yii\helpers\Json;
-
+use yii\base\InvalidArgumentException;
+use yii\web\BadRequestHttpException;
 
 
 /**
@@ -37,11 +34,13 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
-
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'index'],
                 'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
                     [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
@@ -55,9 +54,6 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
-            'checker' => [
-                'class' => 'backend\libs\CheckerFilter',
-            ],
         ];
     }
 
@@ -69,19 +65,6 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-                'backColor' => 0x16589,//背景颜色
-                'maxLength' => 4, //最大显示个数
-                'minLength' => 4,//最少显示个数
-                'padding' => 5,//间距
-                'height' => 34,//高度
-                'width' => 130,  //宽度
-                'foreColor' => 0xffffff,     //字体颜色
-                'offset' => 4,  //设置字符偏移量 有效果
-                // 'controller' => 'login',        //拥有这个动作的controller
             ],
         ];
     }
@@ -199,31 +182,23 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $model = new LoginForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->login())
-        {
-          //使用session和表tbl_admin_session记录登录账号的token:time&id&ip,并进行MD5加密
-          $id = Yii::$app->user->id;     //登录用户的ID
-          $username = Yii::$app->user->identity->username;; //登录账号
-          $ip = Yii::$app->request->userIP; //登录用户主机IP
-          $token = md5(sprintf("%s&%s&%s", time(), $id, $ip));  //将用户登录时的时间、用户ID和IP联合加密成token存入表
-          $session = Yii::$app->session;
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            // PmsLog::push(Yii::$app->user->identity->id,'system ','login');
 
-          $session->set(md5(sprintf("%s&%s", $id, $username)), $token);  //将token存到session变量中
-          $model->insertSession($id,$token);//将token存到tbl_admin_session
+            return  $this->redirect(['index']);
+        } else {
+            $model->password = '';
 
-          return $this->redirect(Url::to(['store/index']));//去到用户所拥有的店
-        }
-     // return $this->render('login', ['model' => $model,]);
-        else
-        {
             return $this->render('login', [
                 'model' => $model,
-               //Yii::$app->session->setFlash('error', 'Your account has already been logged in elsewhere'),
             ]);
         }
-
     }
 
 
@@ -271,26 +246,26 @@ class SiteController extends Controller
 
 
 
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
-    public function actionSignup()
-    {
-        $model = new SignupForm();
+    // /**
+    //  * Signs user up.
+    //  *
+    //  * @return mixed
+    //  */
+    // public function actionSignup()
+    // {
+    //     $model = new SignupForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->signup())
-        {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+    //     if ($model->load(Yii::$app->request->post()) && $model->signup())
+    //     {
+    //         Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
 
-            return $this->actionLogin();
-        }
+    //         return $this->actionLogin();
+    //     }
 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
-    }
+    //     return $this->render('signup', [
+    //         'model' => $model,
+    //     ]);
+    // }
 
     /**
      * Requests password reset.

@@ -32,6 +32,7 @@ class ProductController extends Controller
                     [
                         'actions' => ['index', 'view'],
                         'allow' => true,
+                        'roles' => ['allowProduct'],
                     ],
                     [
                         'actions' => ['update'],
@@ -56,9 +57,6 @@ class ProductController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            'checker' => [
-               'class' => 'backend\libs\CheckerFilter',
-              ],
         ];
     }
 

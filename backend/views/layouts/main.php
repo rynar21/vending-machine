@@ -36,21 +36,19 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-            if (!Yii::$app->user->isGuest)
-            {
+            // if (!Yii::$app->user->isGuest)
+            // {
             $menuItems = [
-                ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'User', 'url' => ['/user/index']],
-                ['label' => 'Finance', 'url' => ['/finance/index']],
-                ['label' => 'Store', 'url' => ['/store/index']],
-                // ['label' => 'Box', 'url' => ['/box/index?id=1']],
-                // ['label' => 'Item', 'url' => ['/item/index']],
-                ['label' => 'Record', 'url' => ['/sale-record/index']],
-                ['label' => 'Product', 'url' => ['/product/index'] ,'visible' => Yii::$app->user->can('admin')],
-                ['label' => 'Change Password', 'url' => ['/site/changepassword'] ],
+                // ['label' => 'Home', 'url' => ['/site/index']],
+                ['label' => 'User Management', 'url' => ['/user/index'], 'visible' => Yii::$app->user->can('allowAssign')],
+                ['label' => 'Finance', 'url' => ['/finance/index'], 'visible' => Yii::$app->user->can('allowReport')],
+                ['label' => 'Vending Machine', 'url' => ['/store/index'], 'visible' => Yii::$app->user->can('staff')],
+                ['label' => 'Record', 'url' => ['/sale-record/index'], 'visible' => Yii::$app->user->can('allowRecord')],
+                ['label' => 'Product', 'url' => ['/product/index'], 'visible' => Yii::$app->user->can('allowProduct')],
+                ['label' => 'Change Password', 'url' => ['/user/change-password']],
                 ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
             ];
-            }
+            // }
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login'],
             ];
