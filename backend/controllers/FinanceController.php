@@ -53,11 +53,6 @@ class FinanceController extends Controller
                     ],
                 ],
             ],
-
-            // 'checker' => [
-            //    'class' => 'backend\libs\CheckerFilter',
-            //   ],
-
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [

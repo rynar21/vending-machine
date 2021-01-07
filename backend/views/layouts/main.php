@@ -36,8 +36,8 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-            // if (!Yii::$app->user->isGuest)
-            // {
+            if (!Yii::$app->user->isGuest)
+            {
             $menuItems = [
                 // ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'User Management', 'url' => ['/user/index'], 'visible' => Yii::$app->user->can('allowAssign')],
@@ -48,7 +48,7 @@ AppAsset::register($this);
                 ['label' => 'Change Password', 'url' => ['/user/change-password']],
                 ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
             ];
-            // }
+            }
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login'],
             ];

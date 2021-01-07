@@ -42,7 +42,6 @@ class ItemController extends Controller
                     [
                         'actions' => ['delete'],
                         'allow' => true,
-                        // 'roles' => ['ac_delete'],
                         'roles' => ['staff'],
                     ],
 
