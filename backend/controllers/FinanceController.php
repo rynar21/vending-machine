@@ -68,8 +68,6 @@ class FinanceController extends Controller
      */
     public function actionIndex()
     {
-        //$searchModel = new FinanceSearch();
-        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index');
     }
     public function actionExport_order($date)
@@ -372,7 +370,6 @@ class FinanceController extends Controller
                 'allModels' => $model_date,
             ]);
 
-            // 如果有记录
             if ($model)
             {
                 $dataProvider_all = new ArrayDataProvider([
@@ -388,7 +385,6 @@ class FinanceController extends Controller
                 ]);
             }
 
-            //如果当天没有记录
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider_date' => $dataProvider_date,
@@ -400,7 +396,7 @@ class FinanceController extends Controller
     }
 
 
-    public function actionDatecheck_store($date1, $date2, $store_id) //根据时间段查询当前商店所有销售情况
+    public function actionDatecheck_store($date1, $date2, $store_id) 
     {
         $searchModel  = new FinanceSearch();
         $dataProvider = $searchModel->searchDate(Yii::$app->request->queryParams, $date1, $date2);
@@ -414,7 +410,6 @@ class FinanceController extends Controller
                 'allModels' => $model_date,
             ]);
 
-            // 如果有记录
             if ($model)
             {
                 $dataProvider_all = new ArrayDataProvider([
@@ -429,7 +424,6 @@ class FinanceController extends Controller
                 ]);
             }
 
-            //如果当天没有记录
             return $this->render('store_one_finance', [
                 'searchModel' => $searchModel,
                 'dataProvider_date' => $dataProvider_date,

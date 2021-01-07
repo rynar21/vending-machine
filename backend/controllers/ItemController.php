@@ -60,9 +60,7 @@ class ItemController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            // 'checker' => [
-            //    'class' => 'backend\libs\CheckerFilter',
-            //   ],
+        
         ];
     }
 
@@ -267,41 +265,5 @@ class ItemController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    // public function testmyfunction()
-    // {
-    //     $this->dosomething(1, 'test', '/hello.jpg', 'hi');
-    //
-    //     $this->dosomething(1, null, null, 'hello');
-    //
-    //     $this->anotherthing([
-    //         'id' => 1,
-    //         'path' => [
-    //             'location' => '/hello/test',
-    //             'file' => 'abc.jpg',
-    //             'extensions' => 'jpeg',
-    //         ]
-    //     ]);
-    //
-    // }
-    //
-    //
-    // public function dosomething($id,  $path, $name)
-    // {
-    //     if ($name == null) {
-    //         $name = '/hello.jpg';
-    //     }
-    //     // execute something with parameter
-    // }
-    //
-    // use yii\helpers\ArrayHelper;
-    //
-    // public function anotherthing($config)
-    // {
-    //     $id = ArrayHelper::getValue($config, 'id', 1);
-    //
-    //     $path = $config['path'];
-    //
-    //     // execute something with parameter
-    // }
-
+    
 }

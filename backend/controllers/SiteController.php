@@ -246,26 +246,7 @@ class SiteController extends Controller
 
 
 
-    // /**
-    //  * Signs user up.
-    //  *
-    //  * @return mixed
-    //  */
-    // public function actionSignup()
-    // {
-    //     $model = new SignupForm();
-
-    //     if ($model->load(Yii::$app->request->post()) && $model->signup())
-    //     {
-    //         Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-
-    //         return $this->actionLogin();
-    //     }
-
-    //     return $this->render('signup', [
-    //         'model' => $model,
-    //     ]);
-    // }
+    
 
     /**
      * Requests password reset.
@@ -382,8 +363,7 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
-        //每间店的销售情况
-        //$ID
+        
 
 
 }

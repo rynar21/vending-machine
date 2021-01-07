@@ -51,9 +51,9 @@ class BoxSearch extends Box
      */
 
 
-    public function search($params,$id)
+    public function search($params)
     {
-        $query = Box::find()->where(['box.store_id'=>$id]);
+        $query = Box::find()->where(['box.store_id'=>$params['id']]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query->orderBy(['id'=>SORT_ASC]),
             'pagination' => [
