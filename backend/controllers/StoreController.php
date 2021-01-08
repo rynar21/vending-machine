@@ -101,7 +101,6 @@ class StoreController extends Controller
             'model' => $this->findModel($id),
             'dataProvider' => $dataProvider,
             'boxSearch' => $boxsearch,
-            // 'modelData'=>$modeldata,
         ]);
     }
 
