@@ -35,7 +35,7 @@ class SaleRecord extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            TimestampBehavior::class,
         ];
     }
 
@@ -67,15 +67,6 @@ class SaleRecord extends \yii\db\ActiveRecord
         ];
     }
 
-   //  public function getStorename()
-   // {
-   //     if (!empty($this->store->id))
-   //     {
-   //         return $this->store->name;
-   //     }
-   // }
-
-
     public function getText()
     {
         return $this->box_code.$this->unique_id;
@@ -84,23 +75,23 @@ class SaleRecord extends \yii\db\ActiveRecord
     // 寻找 Item产品 数据表
     public function getItem()
     {
-        return $this->hasOne(Item::className(), ['id' => 'item_id']);
+        return $this->hasOne(Item::class, ['id' => 'item_id']);
     }
 
     public function getProduct()
     {
-        return $this->hasOne(Product::className(), ['id' => 'product_id'])->via('item');
+        return $this->hasOne(Product::class, ['id' => 'product_id'])->via('item');
     }
 
     // 寻找 Box盒子 数据表
     public function getBox()
     {
-        return $this->hasOne(Box::className(), ['id' => 'box_id']);
+        return $this->hasOne(Box::class, ['id' => 'box_id']);
     }
 
     public function getStore()
     {
-        return $this->hasOne(Store::className(), ['id' => 'store_id'])->via('box');
+        return $this->hasOne(Store::class, ['id' => 'store_id'])->via('box');
     }
 
     public function getPricing()
@@ -133,14 +124,14 @@ class SaleRecord extends \yii\db\ActiveRecord
         return implode(',', $arr);
     }
 
-    public function init()
-    {
-        if ($this->status != self::STATUS_SUCCESS && $this->status != self::STATUS_FAILED && $this->status != self::STATUS_PENDING) {
-            $this->status = SaleRecord::STATUS_INIT;
-            $this->save();
-        }
+    // public function init()
+    // {
+    //     if ($this->status != self::STATUS_SUCCESS && $this->status != self::STATUS_FAILED && $this->status != self::STATUS_PENDING) {
+    //         $this->status = SaleRecord::STATUS_INIT;
+    //         $this->save();
+    //     }
 
-    }
+    // }
 
     // 更新 对应的数据表里的 属性
     // 交易状态： 购买当中
@@ -187,9 +178,6 @@ class SaleRecord extends \yii\db\ActiveRecord
 
             $this->item->status = Item::STATUS_AVAILABLE;
             $this->item->save();
-
-            // $this->box->status = Box::BOX_STATUS_AVAILABLE;
-            // $this->box->save();
         }
     }
 
@@ -282,41 +270,14 @@ class SaleRecord extends \yii\db\ActiveRecord
         $this->save();
     }
 
-    // public function queryOrderStatus()
-    // {
-    //
-    //     if ($this->getIsFinalStatus())
-    //     {
-    //         return false;
-    //     }
-    //
-    //     $data =  Yii::$app->payandgo->checkOrder($this->unique_id);
-    //
-    //     if ($data)
-    //     {
-    //         $data = json_decode($data,true);
-    //         $orderStatus = ArrayHelper::getValue($data, 'data.status', null);
-    //
-    //         if (Yii::$app->payandgo->getIsPaymentSuccess($orderStatus))
-    //         {
-    //             return $this->success();
-    //         }
-    //
-    //         if (Yii::$app->payandgo->getIsPaymentFailed($orderStatus))
-    //         {
-    //             return $this->failed();
-    //         }
-    //
-    //         if (Yii::$app->payandgo->getIsPaymentPending($orderStatus))
-    //         {
-    //             return $this->pending();
-    //         }
-    //
-    //         return false;
-    //
-    //     }
-    //
-    //     return false;
-    //
-    // }
+    public function getStatus()
+    {
+        return [
+            ''  => 'All',
+            '10' => 'Success',
+            '9' => 'Pending',
+            '8' => 'Failed',
+            '0' => 'Init'
+        ];
+    }
 }

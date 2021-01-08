@@ -20,16 +20,15 @@ class SaleRecordSearch extends SaleRecord
      * {@inheritdoc}
      */
      public $text;
-     public $stu;
      public $storename;
      public $itemname;
     public function rules()
     {
         return [
-            [['id', 'box_id', 'item_id','store_id', ], 'integer'],
+            [['id', 'box_id', 'item_id','store_id', 'status'], 'integer'],
             [['storename','itemname'], 'safe'],
             [['order_number','box_code','store_name','item_name','storename','itemname','unique_id'], 'trim'],
-            [['status','box_code','item_name','store_name','unique_id'], 'string'],
+            [['box_code','item_name','store_name','unique_id'], 'string'],
         ];
     }
 
@@ -75,13 +74,6 @@ class SaleRecordSearch extends SaleRecord
             'unique_id' => $this->unique_id
         ]);
 
-        if ($this->status)
-        {
-            $query->andFilterWhere([
-                'sale_record.status' => $this->stu,
-            ]);
-        }
-
         if ($this->itemname)
         {
             $query->joinWith('product');
@@ -91,7 +83,14 @@ class SaleRecordSearch extends SaleRecord
         {
             $query->joinWith('store');
         }
+        
+        if ($this->time_start) {
+            $query->andFilterWhere(['>', 'sale_record.created_at', strtotime($this->time_start)]);
+        }
 
+        if ($this->time_end) {
+            $query->andFilterWhere(['<', 'sale_record.created_at', strtotime($this->time_end) + (60 * 60 * 24 - 1)]);
+        }
          //->andFilterWhere(['between','created_at' ,strtotime('2020-02-11'),(strtotime('2020-02-11')+86399)])
         $query->andFilterWhere(['like','product.name' , $this->itemname])
         ->andFilterWhere(['like', 'store.name', $this->storename])
@@ -101,4 +100,5 @@ class SaleRecordSearch extends SaleRecord
     }
 
 
+    
 }

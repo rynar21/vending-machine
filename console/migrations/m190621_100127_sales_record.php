@@ -23,9 +23,6 @@ class m190621_100127_sales_record extends Migration
           'unique_id' =>$this->string()->notNull()->unique(),
           'created_at' => $this->integer()->notNull(),
           'updated_at' => $this->integer()->notNull(),
-          'store_name'=>$this->string(255)->notNull(),
-          'item_name'=>$this->string()->notNull(),
-          'box_code'=>$this->string(20)->notNull(),
       ]);
 
     }
