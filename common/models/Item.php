@@ -58,7 +58,7 @@ class Item extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            TimestampBehavior::class,
         ];
     }
 
@@ -181,19 +181,19 @@ class Item extends \yii\db\ActiveRecord
     // 搜索 对应产品的 Store商店
     public function getStore()
     {
-        return $this->hasOne(Store::className(), ['id' => 'store_id'])->via('box');
+        return $this->hasOne(Store::class, ['id' => 'store_id'])->via('box');
     }
 
     // 搜索 对应产品的 Box盒子
     public function getBox()
     {
-      return $this->hasOne(Box::className(), ['id' => 'box_id']);
+      return $this->hasOne(Box::class, ['id' => 'box_id']);
     }
 
     // 搜索 对应产品的 Product产品
     public function getProduct()
     {
-      return $this->hasOne(Product::className(), ['id' => 'product_id']);
+      return $this->hasOne(Product::class, ['id' => 'product_id']);
     }
 
     public function getName()

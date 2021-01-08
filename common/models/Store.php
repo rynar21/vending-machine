@@ -40,7 +40,7 @@ class Store extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            TimestampBehavior::class,
         ];
     }
 
@@ -151,13 +151,13 @@ class Store extends \yii\db\ActiveRecord
     // Retrieve Items
     public function getItems()
     {
-        return $this->hasMany(Item::className(), ['store_id'=>'id']);
+        return $this->hasMany(Item::class, ['store_id'=>'id']);
     }
 
     // Retrieve Boxes
     public function getBoxes()
     {
-        return $this->hasMany(Box::className(), ['store_id' => 'id']);
+        return $this->hasMany(Box::class, ['store_id' => 'id']);
     }
 
     // 数据表 Image图片 属性
@@ -205,7 +205,7 @@ class Store extends \yii\db\ActiveRecord
 
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
 }
