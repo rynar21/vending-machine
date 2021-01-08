@@ -128,6 +128,8 @@ class StoreController extends Controller
         // ActiveForm 提交后
         if ($model->load(Yii::$app->request->post()))
         {
+            $model->status = Store::STATUS_IN_OPERATION;
+            
             if ($model->save())
             {
                 return $this->redirect(['view', 'id' => $model->id]);

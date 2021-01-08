@@ -4,6 +4,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Item;
 use common\models\Box;
+use common\models\Queue;
 use common\models\Store;
 use common\models\Product;
 use backend\models\ItemSearch;
@@ -96,10 +97,14 @@ class ItemController extends Controller
      */
     public function actionCreate($id)
     {
+        
         // 创建 新 Item 数据
         $model = new Item();
         $model->box_id = $id;   // 保存 $id为 Box Id
         $model->store_id = $model->box->store_id; // Item Model里， 运行 Box数据表查询 及 获取当中的 store_id
+
+        //Open box for restock.
+        Queue::push($model->store_id, $model->box->hardware_id);
 
         // 获取传送的数据 (点击 Save 按钮)
         if ($model->load(Yii::$app->request->post()))

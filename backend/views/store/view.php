@@ -21,8 +21,7 @@ use yii\helpers\ArrayHelper;
 <div class="store-view">  
     <div class="card">
         <div class="pull-right text-right">
-        <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
-        <?= Html::a('Restock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary']); ?>
+        <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
         <?= Html::a('Open All Boxes', ['box/open_all_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger',
             'data' => [
             'confirm' => 'Make sure to open all boxes?',
@@ -32,6 +31,12 @@ use yii\helpers\ArrayHelper;
         <div style="max-width:440px">
             <?php  echo $this->render('/box/_search', ['model' => $boxSearch]); ?>
         </div>
+    </div>
+
+    <div class=" alert alert-info " style="margin:0 0 12px">
+            <p>
+            Total Empty Box(es): <b><?= 1 ?></b>
+            </p>
     </div>
 
     <div class="card">

@@ -51,7 +51,7 @@ use yii\web\JsExpression;
         ->asArray()
         ->all(); ?>
             <?=
-             $form->field($model, 'sku')->widget(\yii\jui\AutoComplete::classname(), [
+             $form->field($model, 'sku')->widget(\yii\jui\AutoComplete::class, [
                  'options' => [
                      'class' => 'form-control ',
                      'placeholder' => 'Please enter your item name',
