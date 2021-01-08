@@ -29,6 +29,7 @@ $this->title = 'Financial Records';
                     <input  name="date1"  type="date" required min="2000-01-02"  id="disabledTextInput" class="form-control " >
                 </div>
 
+<<<<<<< Updated upstream
                 <div class=" row col-lg-6 form-group ">
                     <label for="disabledSelect">End Time</label>
                     <input name="date2"  type="date" required min="2000-01-02" id="disabledSelect" class="form-control">
@@ -38,6 +39,20 @@ $this->title = 'Financial Records';
                 </div>
             </form>
         </div>
+=======
+    <div class="pull-right text-right">
+        <?= Html::a('Export',
+        [
+            'export',
+            //'car_plate_number' => $searchModel->car_plate_number,
+           // 'username' => $searchModel->username,
+            //'time_start'    => $searchModel->time_start,
+            //'time_end'  => $searchModel->time_end
+        ],
+        [
+            'class' => 'btn btn-success'
+        ]); ?>
+>>>>>>> Stashed changes
     </div>
 
     <?php  if (empty($dataProvider_all)) {
@@ -110,6 +125,7 @@ $this->title = 'Financial Records';
         'filterModel' => '',
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+<<<<<<< Updated upstream
             [
                 'attribute'=>'date',
                 'format' => 'raw',
@@ -133,6 +149,13 @@ $this->title = 'Financial Records';
                   return Html::a('view', ['finance/store_all','date'=>$model['date']]);
                 }
             ],
+=======
+            'order_number',
+            'sell_price:text:Amount',
+            'item.name:text:Item',
+            'store.name:text:Store',
+            'updated_at:datetime:Payment Time',
+>>>>>>> Stashed changes
         ],
     ]); ?>
 

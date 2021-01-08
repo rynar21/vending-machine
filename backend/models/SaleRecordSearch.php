@@ -81,7 +81,18 @@ class SaleRecordSearch extends SaleRecord
         {
             $query->joinWith('store');
         }
+        
+        if ($this->time_start) {
+            $query->andFilterWhere(['>', 'sale_record.created_at', strtotime($this->time_start)]);
+        }
 
+<<<<<<< Updated upstream
+=======
+        if ($this->time_end) {
+            $query->andFilterWhere(['<', 'sale_record.created_at', strtotime($this->time_end) + (60 * 60 * 24 - 1)]);
+        }
+         //->andFilterWhere(['between','created_at' ,strtotime('2020-02-11'),(strtotime('2020-02-11')+86399)])
+>>>>>>> Stashed changes
         $query->andFilterWhere(['like','product.name' , $this->itemname])
         ->andFilterWhere(['like', 'store.name', $this->storename])
         ->orFilterWhere(['like','unique_id',$this->unique_id]);
