@@ -36,31 +36,15 @@ $this->title = 'Sale Records';
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',],
-            [
-                'attribute' =>'order_number',
-                'filterInputOptions' => [
-                   'class'  => 'form-control',
-                   'placeholder' => 'Search....'
-                ]
-            ],
+            'order_number',
             'box_code:text:Box Code',
             [
               'label' => 'Item',
               'attribute' => 'itemname',
               'value' => 'item.name',
-              'filterInputOptions' => [
-                  'class'  => 'form-control',
-                  'placeholder' => 'Search....'
-               ]
             ],
             'sell_price:currency',
-            [
-               'attribute' =>'unique_id',
-                   'filterInputOptions' => [
-                       'class'  => 'form-control',
-                       'placeholder' => 'Search....'
-                    ]
-            ],
+            'unique_id',
             [
                 'attribute'=>'status',
                 'format' => 'raw' ,
@@ -68,34 +52,24 @@ $this->title = 'Sale Records';
                 'value' => function ($model)
                 {
                     if ($model->status == SaleRecord::STATUS_SUCCESS) {
-                        //return 'Success';
                         return '<span style="color:#11ff06">' .'Success'.'';
                     }
                     if ($model->status == SaleRecord::STATUS_FAILED) {
-                        //return 'Failure';
                         return '<span style="color:#CD0000">' .'Failure'.'';
                     }
                     if ($model->status == SaleRecord::STATUS_PENDING) {
-                        //return 'Failure';
                         return '<span style="color:#2a5caa">' .'Pending'.'';
                     }
                     if ($model->status == SaleRecord::STATUS_INIT) {
-                        //return 'Failure';
                         return '<span style="color:	#FFCC00">' .'INIT'.'';
                     }
-
                 },
-                'filter' => Html::activeDropDownList(
-                    $searchModel,
-                    'status', [SaleRecord::STATUS_PENDING => 'Pending', SaleRecord::STATUS_SUCCESS => 'Success',
-                     SaleRecord::STATUS_FAILED => 'Failed', SaleRecord::STATUS_INIT => 'Init'],
-                    ['class'=>'form-control ','prompt' => 'All']),
             ],
             'created_at:datetime:Order Time',
             [
                 'attribute'=>'',
                 'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('supervisor'),
+                // 'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
                   return Html::a('view', ['sale-record/view', 'id' => $model->id]);

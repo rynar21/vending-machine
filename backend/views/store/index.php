@@ -11,24 +11,17 @@ $this->title = 'Store';
 ?>
 
 <div class="store-index">
-<!-- 标题 -->
-    <h1 ><?= Html::encode($this->title) ?></h1>
-    <?php //echo Yii::$app->formatter->asDateTime($model->created_at);
-        // $auth = Yii::$app->authManager;
-        // if ($auth->checkAccess(Yii::$app->user->identity->id,'user')) {
-        //     $str =' none';
-        // };
-        // if ($auth->checkAccess(Yii::$app->user->identity->id,'admin')) {
-        //     $str =' ';
-        // } ;
-    ?>
-    <!-- 创建 新商店 -->
-    <p>
-        <?= Html::a('Create Store', ['create'], ['class' => 'btn btn-success','style'=>"display:"]) ?>
-    </p>
+    <div class="card">
+        <div class="pull-right text-right">
+            <?= Html::a('Create Store', ['create'], ['class' => 'btn btn-success','style'=>"display:"]) ?>
+        </div>
 
+        <div style="max-width:440px">
+            <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+        </div>
+    </div>
 
-    <!-- 商店列表 -->
+    <div class="card">
     <?= GridView::widget([
         'tableOptions' => [
         'class' => 'table   table-bordered  table-hover ',
@@ -37,62 +30,23 @@ $this->title = 'Store';
             'class' => 'table-responsive',
         ],
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            // 'id',
-            //'name',
-            [
-               'attribute' =>'name',
-                   'filterInputOptions' => [
-                       'class'  => 'form-control',
-                       'placeholder' => 'Search....'
-                    ]
-            ],
-            [
-                'attribute'=>'address',
-                'format' => 'raw' ,
-                'value' => function ($model)
-                {
-                  return '<div style="word-wrap: break-word;white-space: normal;word-break: break-all;">'.$model->address.'</div>';
-                },
-                'filterInputOptions' => [
-                    'class'  => 'form-control',
-                    'placeholder' => 'Search....'
-                 ]
-            ],
-            [
-              'label' => 'Manager',
-              'attribute' => 'username',
-              'visible' => Yii::$app->user->can('admin'),
-              'value' => 'user.username',
-              'filterInputOptions' => [
-                  'class'  => 'form-control',
-                  'placeholder' => 'Search....'
-               ]
-            ],
-            //'contact',
-            [
-               'attribute' =>'contact',
-                   'filterInputOptions' => [
-                       'class'  => 'form-control',
-                       'placeholder' => 'Search....'
-                    ]
-            ],
+            'name',
+            'address',
             [
                 'format' => 'raw' ,
                 'visible' => Yii::$app->user->can('staff'),
                 'value' => function ($model)
                 {
-                    // if (Yii::$app->authManager->checkAccess(Yii::$app->user->identity->id,'admin')) {
-                         return Html::a('Enter Store', ['/store/view','id' => $model->id]).' | '.Html::a('Modify Store Detail', ['/store/update','id' => $model->id]);
-                    // }
-                    // return Html::a('Enter Store', ['/store/view','id' => $model->id]);
+                    return Html::a('Enter Store', ['/store/view','id' => $model->id]).' | '.Html::a('Modify Store Detail', ['/store/update','id' => $model->id]);
                 }
             ],
 
         ],
-    ]); ?>
+    ]); 
+    ?>
+    </div>
 
 
 </div>
