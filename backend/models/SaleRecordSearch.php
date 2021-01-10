@@ -13,6 +13,8 @@ use yii\helpers\ArrayHelper;
 class SaleRecordSearch extends SaleRecord
 {
     // public $transactionNumber;
+    public $time_start;
+    public $time_end;
 
     /**
      * {@inheritdoc}
@@ -81,7 +83,15 @@ class SaleRecordSearch extends SaleRecord
         {
             $query->joinWith('store');
         }
+        
+        if ($this->time_start) {
+            $query->andFilterWhere(['>', 'sale_record.created_at', strtotime($this->time_start)]);
+        }
 
+        if ($this->time_end) {
+            $query->andFilterWhere(['<', 'sale_record.created_at', strtotime($this->time_end) + (60 * 60 * 24 - 1)]);
+        }
+         //->andFilterWhere(['between','created_at' ,strtotime('2020-02-11'),(strtotime('2020-02-11')+86399)])
         $query->andFilterWhere(['like','product.name' , $this->itemname])
         ->andFilterWhere(['like', 'store.name', $this->storename])
         ->orFilterWhere(['like','unique_id',$this->unique_id]);
@@ -90,43 +100,5 @@ class SaleRecordSearch extends SaleRecord
     }
 
 
-    //单个商店某一天的所有订单
-    public function searchStoreAllsalerecord($params,$array)//$store_id,$date
-    {
-        $store_id   = ArrayHelper::getValue($array,'store_id',Null);
-        $date       = ArrayHelper::getValue($array,'date',Null);
-        $box_id     = ArrayHelper::getValue($array,'box_id',Null);
-
-        $query      = SaleRecord::find();
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $this->load($params);
-        if (!$this->validate())
-        {
-            return $dataProvider;
-        }
-
-        $query->andFilterWhere([
-            'status' => SaleRecord::STATUS_SUCCESS,
-            'store_id' => $store_id,
-            'box_id' => $box_id,
-            'box_code' => $this->box_code,
-            'order_number' =>$this->order_number,
-            //'store_name' =>$this->store_name,
-            //'item_name' =>$this->item_name,
-        ]);
-
-        //$query->joinWith('product');
-         $query->andFilterWhere(['between', 'created_at', $date, $date + 86399])
-         ->andFilterWhere(['like','item_name', $this->itemname])
-         ->orFilterWhere(['like', 'store_name', $this->store_name])
-         ->orFilterWhere(['like','box_code', $this->text])
-         ->orFilterWhere(['like','unique_id', $this->unique_id]);
-
-        return $dataProvider;
-    }
-
+    
 }
