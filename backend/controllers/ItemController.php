@@ -103,14 +103,10 @@ class ItemController extends Controller
         $model->box_id = $id;   // 保存 $id为 Box Id
         $model->store_id = $model->box->store_id; // Item Model里， 运行 Box数据表查询 及 获取当中的 store_id
 
-        //Open box for restock.
-        Queue::push($model->store_id, $model->box->hardware_id);
-
         // 获取传送的数据 (点击 Save 按钮)
         if ($model->load(Yii::$app->request->post()))
         {
             // 如果没有输入价格
-            //print_r($model->sku);
             $getsku = Product::find()->where(['sku' => $model->sku])->one();
 
             if($getsku)
@@ -149,6 +145,9 @@ class ItemController extends Controller
             }
 
         }
+
+        //Open box for restock.
+        Queue::push($model->store_id, $model->box->hardware_id);
 
         // 查询当前店 所有未成功卖出的产品
         $dataProvider = new ActiveDataProvider([
