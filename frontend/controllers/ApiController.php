@@ -114,9 +114,6 @@ class ApiController extends Controller
                 $model->store_id     = $item->store_id;
                 $model->sell_price   = $item->price;
                 $model->unique_id    = $reference_no;
-                $model->store_name   = $item->store->name;
-                $model->item_name    = $item->name;
-                $model->box_code     = $item->store->prefix . $item->box->code;
                 $model->status       = SaleRecord::STATUS_INIT;
                 $model->save();
 
