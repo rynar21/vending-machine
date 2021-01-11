@@ -9,6 +9,7 @@ use yii\web;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\models\Log;
 
 
 /**
@@ -66,7 +67,7 @@ class FinanceController extends Controller
    
     public function actionExport($time_start=null, $time_end=null, $store_id=null, $status=null ,$item_id=null)
     {
-        //PmsLog::push(Yii::$app->user->identity->id,'report','export_payment');
+        Log::push(Yii::$app->user->identity->id,'report','export_records');
 
         $searchModel = new SaleRecordSearch();
         $searchModel->time_start = $time_start;

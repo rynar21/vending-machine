@@ -54,7 +54,14 @@ $this->title = 'Logs';
                 'type',
                 'action',
                 'updated_at:datetime',
-                ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
+                [
+                    'format' => 'raw' ,
+                    'visible' => Yii::$app->user->can('admin'),
+                    'value' => function ($model)
+                    {
+                        return Html::a('view', ['/log/view','id' => $model->id]);
+                    }
+                ],
             ],
         ]); ?>
     </div>    
