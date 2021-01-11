@@ -24,21 +24,15 @@ return [
             'class' => 'yii\rbac\DbManager',
         ],
         'user' => [
-            'class'=>'yii\web\User',
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => false,
-            'authTimeout'     => 6000,
-            'identityCookie' => ['name' => '_identity-backend','httpOnly' => true],
+            'enableAutoLogin' => true,
+            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
-            'timeout' => 600,
+            'name' => 'png-backend',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
-            'maxSourceLines' => 80,
-
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

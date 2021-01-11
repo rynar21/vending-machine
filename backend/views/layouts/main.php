@@ -38,6 +38,7 @@ AppAsset::register($this);
                     ['label' => 'Product Management', 'url' => ['/product/index'], 'visible' => Yii::$app->user->can('allowProduct')],
                     ['label' => 'User Management', 'url' => ['/user/index'], 'visible' => Yii::$app->user->can('allowAssign')],
                     ['label' => 'Financial Report', 'url' => ['/finance/index'], 'visible' => Yii::$app->user->can('allowReport')],
+                    ['label' => 'Log Management', 'url' => ['/log/index'], 'visible' => Yii::$app->user->can('admin')],
                     ['label' => 'Change Password', 'url' => ['/user/change-password']],
                     ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
                 ];
