@@ -19,13 +19,12 @@ class StoreController extends Controller
 {
     public $layout = 'main_mobile';
 
-    // 显示 Store表 其中一个数据 详情
-    // 采用 ItemSeearch表 来寻找 未购买成功的产品
+
     public function actionView($id)
     {
         $item_searchModel = new ItemSearch();
         $data = $item_searchModel->searchAvailableItem(Yii::$app->request->queryParams, $id);
-        // $count = $data->query->count(); //数据总条数
+
         $model = $this->findModel($id);
 
         $articles = $data->query->all();
@@ -56,10 +55,6 @@ class StoreController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionTry()
-    {
-        //$model = SaleRecord::findOne(13);
-        //$model->success();
-    }
+   
 
 }

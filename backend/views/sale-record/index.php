@@ -3,13 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\SaleRecord;
-use common\models\User;
-use common\models\Box;
-use yii\filters\AccessControl;
-
-/* @var $this yii\web\View */
-/* @var $searchModel backend\models\SaleRecordSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Sale Records';
 ?>
@@ -37,7 +30,14 @@ $this->title = 'Sale Records';
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',],
             'order_number',
-            'box_code:text:Box Code',
+            [
+                'attribute'=>'Box Code',
+                'format' => 'raw' ,
+                'value' => function ($model)
+                {
+                  return $model->getBoxCode();
+                }
+            ],
             [
               'label' => 'Item',
               'attribute' => 'itemname',
@@ -52,16 +52,16 @@ $this->title = 'Sale Records';
                 'value' => function ($model)
                 {
                     if ($model->status == SaleRecord::STATUS_SUCCESS) {
-                        return '<span style="color:#11ff06">' .'Success'.'';
+                        return '<span class="text-success">' .'Success'.'</span>';
                     }
                     if ($model->status == SaleRecord::STATUS_FAILED) {
-                        return '<span style="color:#CD0000">' .'Failure'.'';
+                        return '<span class="text-danger">' .'Failure'.'</span>';
                     }
                     if ($model->status == SaleRecord::STATUS_PENDING) {
-                        return '<span style="color:#2a5caa">' .'Pending'.'';
+                        return '<span class="text-primary">' .'Pending'.'</span>';
                     }
                     if ($model->status == SaleRecord::STATUS_INIT) {
-                        return '<span style="color:	#FFCC00">' .'INIT'.'';
+                        return '<span class="text-warning">' .'INIT'.'</span>';
                     }
                 },
             ],
@@ -69,10 +69,9 @@ $this->title = 'Sale Records';
             [
                 'attribute'=>'',
                 'format' => 'raw' ,
-                // 'visible' => Yii::$app->user->can('supervisor'),
                 'value' => function ($model)
                 {
-                  return Html::a('view', ['sale-record/view', 'id' => $model->id]);
+                    return Html::a('view', ['sale-record/view', 'id' => $model->id]);
                 }
             ],
         ],
