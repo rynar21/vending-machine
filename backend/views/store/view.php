@@ -22,7 +22,7 @@ use yii\helpers\ArrayHelper;
     <div class="card">
         <div class="pull-right text-right">
         <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
-        <?= Html::a('Open All Boxes', ['box/open_all_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger',
+        <?= Html::a('Open All Boxes', ['box/open-all-box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger',
             'data' => [
             'confirm' => 'Make sure to open all boxes?',
             'method' => 'post']]); ?>

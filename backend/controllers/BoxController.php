@@ -243,7 +243,7 @@ class BoxController extends Controller
     }
 
 
-    public function actionOpen_all_box($id)
+    public function actionOpenAllBox($id)
     {
         Queue::push($id, '00OK');
 

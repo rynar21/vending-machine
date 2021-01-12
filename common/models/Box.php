@@ -138,16 +138,10 @@ class Box extends \yii\db\ActiveRecord
         return $this->hasOne(Store::class, ['id' => 'store_id']);
     }
 
-
-    // 寻找 Item产品 数据表
     public function getItem()
     {
         return $this->hasOne(Item::class, ['box_id' => 'id'])
             ->where(['item.status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]); //用户体验
-
-        // ->orderBy(['item.id' => SORT_DESC])
-        // ->where(['item.status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])//用户体验
-        // ->limit(1);
     }
 
     // 寻找 Item 产品 数据表

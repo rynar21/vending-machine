@@ -37,8 +37,7 @@ class StoreController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'view','kaiqi','store_detailed','manager_revoke','add_update',
-                        'manager_update','user_store','lockup_box','open_box','box_item'],
+                        'actions' => ['index', 'view','lockup_box','open_box','box_item'],
                         'allow' => true,
                         'roles' => ['staff'],
                     ],
@@ -101,19 +100,6 @@ class StoreController extends Controller
             'model' => $this->findModel($id),
             'dataProvider' => $dataProvider,
             'boxSearch' => $boxsearch,
-        ]);
-    }
-
-    public function actionKaiqi($id)//打开盒子
-    {
-        $boxsearch = new BoxSearch();
-        $dataProvider = $boxsearch->search(Yii::$app->request->queryParams, $id);
-
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'dataProvider' => $dataProvider,
-            'boxSearch' => $boxsearch,
-            'md'    => '4564651',
         ]);
     }
 
@@ -196,7 +182,6 @@ class StoreController extends Controller
         }
 
         return $this->redirect(['index']);
-        // return $this->redirect(['index']);
     }
 
     /**
@@ -216,50 +201,12 @@ class StoreController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionStore_detailed($id)
-    {
-        return $this->render('detailed', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    public function actionManager_revoke($id)
-    {
-        Store::updateAll(['user_id' => ''], ['id' => $id]);
-
-        return $this->actionView($id);
-    }
-    //add/update mannager
-    public function actionAdd_update($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()))
-        {
-            $getuser = User::find()->where(['username' => $model->username])->one();
-
-            if($getuser)
-            {
-                $model->user_id = $getuser->id;
-
-                if($model->save())
-                {
-                    return $this->actionView($id);
-                }
-
-            }
-
-            if (empty($getuser))
-            {
-                Yii::$app->session->setFlash('error', 'Non exist username.');
-            }
-
-        }
-
-        return $this->render('store_manager', [
-        'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionStore_detailed($id)
+    // {
+    //     return $this->render('detailed', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     public function actionLockup_box($id)  //锁盒子
     {
@@ -290,6 +237,5 @@ class StoreController extends Controller
             'dataProvider' => $dataProvider,    // 搜索Item数据
         ]);
     }
-
 
 }
