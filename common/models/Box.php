@@ -194,7 +194,7 @@ class Box extends \yii\db\ActiveRecord
         return null;
     }
 
-    public static function last_item($store_id,$box_id)
+    public static function previousItem($store_id,$box_id)
     {
         $item = Item::find()->where([
             'store_id' => $store_id,
@@ -206,7 +206,11 @@ class Box extends \yii\db\ActiveRecord
 
         if ($item)
         {
-            return $item->name;
+            return
+            [
+                'item_name' => $item->name,
+                'sku'   => $item->sku
+            ];
         }
         return  false;
     }

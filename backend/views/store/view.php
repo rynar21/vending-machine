@@ -29,13 +29,17 @@ use yii\helpers\ArrayHelper;
         </div>
 
         <div style="max-width:440px">
-            <?php  echo $this->render('/box/_search', ['model' => $boxSearch]); ?>
+            <?php   
+                echo $model->name . "<br>";
+                echo $model->address . PHP_EOL;
+                //echo $this->render('/box/_search', ['model' => $boxSearch]); 
+            ?>
         </div>
     </div>
 
     <div class=" alert alert-info " style="margin:0 0 12px">
             <p>
-            Total Empty Box(es): <b><?= 1 ?></b>
+            Total Number of Empty Box(es): <b><?= $boxSearch->getEmptyBoxQuantity($model->id) ?></b>
             </p>
     </div>
 
@@ -52,20 +56,12 @@ use yii\helpers\ArrayHelper;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'label'=>'Action',
-                'format' => 'raw',
-                'value' => function ($model)
-                    {
-                        return $model->action;
-                    }
-            ],
-            [
                 'attribute'=> 'code',
-                'label'=> 'Box Code',
+                'label'=> 'Box',
                 'format' => 'raw',
                 'value' => function ($model)
                     {
-                        return $model->boxcode;
+                        return $model->boxcode . "<br>". $model->statusText;
                     }
             ],
             [
@@ -81,21 +77,29 @@ use yii\helpers\ArrayHelper;
             //             return Box::last_item($model->store_id,$model->id);
             //         }
             // ],
-            [
-                'attribute'=> 'status',
-                'label' =>'Status',
-                'value' => 'statusText',
-            ],
+            // [
+            //     'attribute'=> 'status',
+            //     'label' =>'Status',
+            //     'value' => 'statusText',
+            // ],
             'item.price:currency',
+            // [
+            //     // 'attribute'=>'Item History',
+            //     'format' => 'raw' ,
+            //     'visible' => Yii::$app->user->can('staff'),
+            //     'value' => function ($model)
+            //         {
+            //             return Html::a('Edit Hardware ID', ['/box/update','id' => $model->id]).
+            //             ' | '. Html::a('Item History', ['/store/box_item','box_id' => $model->id,'store_id' => $model->store_id]).
+            //             ' | '. Html::a('Order History', ['/sale-record/store_onebox_allsalerecord','box_id' => $model->id,'store_id' => $model->store_id]);
+            //         }
+            // ],
             [
-                // 'attribute'=>'Item History',
-                'format' => 'raw' ,
-                'visible' => Yii::$app->user->can('staff'),
+                'label'=>'Action',
+                'format' => 'raw',
                 'value' => function ($model)
                     {
-                        return Html::a('Edit Hardware ID', ['/box/update','id' => $model->id]).
-                        ' | '. Html::a('Item History', ['/store/box_item','box_id' => $model->id,'store_id' => $model->store_id]).
-                        ' | '. Html::a('Order History', ['/sale-record/store_onebox_allsalerecord','box_id' => $model->id,'store_id' => $model->store_id]);
+                        return $model->action;
                     }
             ],
             ],
