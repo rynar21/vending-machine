@@ -61,7 +61,7 @@ use yii\web\JsExpression;
 
         <div class="form-group">
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-            <?= Html::a('Next', ['/item/create', 'id'=> $model->id ], ['class' => 'btn btn-primary']) ?>
+            <?php // Html::a('Next', ['/item/create', 'id'=> $model->id], ['class' => 'btn btn-primary']) ?>
             <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
          
         </div>

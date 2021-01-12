@@ -203,7 +203,7 @@ class Box extends \yii\db\ActiveRecord
             return
             [
                 'item_name' => $item->name,
-                'sku'   => $item->sku
+                'sku'   => $item->product->sku
             ];
         }
         return  false;
