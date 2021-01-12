@@ -30,22 +30,7 @@ class ProductController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'view'],
-                        'allow' => true,
-                        'roles' => ['allowProduct'],
-                    ],
-                    [
-                        'actions' => ['update'],
-                        'allow' => true,
-                        'roles' => ['allowProduct'],
-                    ],
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['allowProduct'],
-                    ],
-                    [
-                        'actions' => ['delete'],
+                        'actions' => ['index', 'view', 'update', 'create'],
                         'allow' => true,
                         'roles' => ['allowProduct'],
                     ],
@@ -102,12 +87,9 @@ class ProductController extends Controller
      */
     public function actionCreate()
     {
-        // 加载 Product 产品 数据表
         $model = new Product();
 
-        // ActiveForm 提交后
-        if ($model->load(Yii::$app->request->post())&&$model->save())
-        {
+        if ($model->load(Yii::$app->request->post())&&$model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -127,8 +109,7 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())&&$model->save())
-        {
+        if ($model->load(Yii::$app->request->post())&&$model->save()) {
            return $this->redirect([
                'view',
                'id' => $model->id
@@ -151,28 +132,15 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        // 判断产品是否存在 在于Item表单中
-        //如果存在，Product不可被删除
-        if($model->items)
-        {
+        if($model->items) {
             Yii::$app->session->setFlash('error', 'Product cannot be deleted');
-        }
-
-        else
-        {
-            if($model->delete())
-            {
-
-                if ($model->image)
-                {
-
-                    if (file_exists(Yii::getAlias('@upload') . '/' . $model->image))
-                    {
+        } else {
+            if($model->delete()) {
+                if ($model->image) {
+                    if (file_exists(Yii::getAlias('@upload') . '/' . $model->image)) {
                         unlink(Yii::getAlias('@upload') . '/' . $model->image);
-                    }
-                    
+                    }  
                 }
-
             }
 
             Yii::$app->session->setFlash('success', 'successfully deleted.');
@@ -190,8 +158,7 @@ class ProductController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Product::findOne($id)) !== null)
-        {
+        if (($model = Product::findOne($id)) !== null) {
             return $model;
         }
 

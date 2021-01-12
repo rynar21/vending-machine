@@ -27,7 +27,7 @@ $this->title = $model->order_number;
         }
     ?>
     <p>
-        <?= Html::a('Open Box', ['box/open_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-info' ,'style'=>"display:"."$str"]) ?>
+        <?= Html::a('Open Box', ['box/open-box', 'id' => $model->id], ['class' => 'btn btn-sm btn-info' ,'style'=>"display:"."$str"]) ?>
     </p>
 
     <?= DetailView::widget([

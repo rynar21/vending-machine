@@ -4,11 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Store;
-use common\models\Box;
-use common\models\User;
 use backend\models\StoreSearch;
 use backend\models\BoxSearch;
-use backend\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -37,7 +34,7 @@ class StoreController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'view','lockup_box','open_box','box_item'],
+                        'actions' => ['index', 'view'],
                         'allow' => true,
                         'roles' => ['staff'],
                     ],
@@ -111,13 +108,11 @@ class StoreController extends Controller
     public function actionCreate()
     {
         $model = new Store();
-        // ActiveForm 提交后
-        if ($model->load(Yii::$app->request->post()))
-        {
+        
+        if ($model->load(Yii::$app->request->post())) {
             $model->status = Store::STATUS_IN_OPERATION;
             
-            if ($model->save())
-            {
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -137,18 +132,13 @@ class StoreController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        // ActiveForm 提交后
-        if ($model->load(Yii::$app->request->post()))
-        {
-            // 保存所有数据 在于Store数据表
-            if ($model->save())
-            {
-                // 返回 View 页面
+        
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
 
-        // 显示 Update更新页面
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -166,19 +156,12 @@ class StoreController extends Controller
         $model = $this->findModel($id);
         $oldimage = Yii::getAlias('@upload') . '/' . $model->image;
 
-        if ($model->delete())
-        {
-
-            if ($model->image)
-            {
-
-                if (file_exists($oldimage))
-                {
+        if ($model->delete()) {
+            if ($model->image) {
+                if (file_exists($oldimage)) {
                     unlink($oldimage);
                 }
-
             }
-
         }
 
         return $this->redirect(['index']);
@@ -193,49 +176,10 @@ class StoreController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Store::findOne($id)) !== null)
-        {
+        if (($model = Store::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    // public function actionStore_detailed($id)
-    // {
-    //     return $this->render('detailed', [
-    //         'model' => $this->findModel($id),
-    //     ]);
-    // }
-
-    public function actionLockup_box($id)  //锁盒子
-    {
-        Box::updateAll(['status' => Box::BOX_STATUS_LOCK], ['store_id' => $id]);
-        Store::updateAll(['status' => Store::STATUS_IN_MAINTENANCE], ['id' => $id]);
-
-        return $this->redirect(['store/view', 'id' => $id]);
-    }
-
-    public function actionOpen_box($id)  //开放盒子
-    {
-        Box::updateAll(['status' => Box::BOX_STATUS_NOT_AVAILABLE], ['store_id' => $id]);
-        Store::updateAll(['status' => Store::STATUS_IN_OPERATION], ['id' => $id]);
-
-        return $this->redirect(['store/view', 'id' => $id]) && Yii::$app->session->setFlash('success', "Store is published successful.");;
-    }
-
-    public function actionBox_item($box_id, $store_id)
-    {
-        // 获取 ItemSearch 数据表
-        $searchModel = new ItemSearch();
-        // 使用输入字段 进行搜索功能
-        $dataProvider = $searchModel->searchBoxItem(Yii::$app->request->queryParams, $box_id, $store_id);
-
-        // 当前 显示 index 页面 及 带入相关数据
-        return $this->render('itemdata', [
-            'searchModel' => $searchModel,      // ItemSearch Model
-            'dataProvider' => $dataProvider,    // 搜索Item数据
-        ]);
-    }
-
 }
