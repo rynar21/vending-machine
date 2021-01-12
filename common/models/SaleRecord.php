@@ -68,6 +68,11 @@ class SaleRecord extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getBoxCode()
+    {
+        return $this->store->prefix.$this->box->code;
+    }
+
     public function getStores()
     {   
         $models = self::find()->all();
