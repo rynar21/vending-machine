@@ -64,7 +64,7 @@ $this->title = 'Products';
                     'visible' => Yii::$app->user->can('admin'),
                     'value' => function ($model)
                     {
-                    return Html::a('view', ['/product/view','id' => $model->id]).' | '.Html::a('update', ['/product/update','id' => $model->id]);
+                        return Html::a('view', ['/product/view','id' => $model->id]).' | '.Html::a('update', ['/product/update','id' => $model->id]);
                     }
                 ],
             ],

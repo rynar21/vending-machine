@@ -3,11 +3,7 @@
 namespace common\models;
 
 use Yii;
-use common\models\SaleRecord;
-use common\models\Store;
-use common\models\Item;
-use common\models\Product;
-use common\models\User;
+
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 

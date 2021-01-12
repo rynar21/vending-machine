@@ -27,8 +27,8 @@ class SaleRecordSearch extends SaleRecord
         return [
             [['id', 'box_id', 'item_id','store_id', 'status'], 'integer'],
             [['storename','itemname'], 'safe'],
-            [['order_number','box_code','store_name','item_name','storename','itemname','unique_id'], 'trim'],
-            [['box_code','item_name','store_name','unique_id'], 'string'],
+            [['order_number','storename','itemname','unique_id'], 'trim'],
+            [['time_start', 'time_end'], 'safe'],
         ];
     }
 
@@ -69,7 +69,6 @@ class SaleRecordSearch extends SaleRecord
             'item_id' => $this->item_id,
             'status' => $this->status,
             'sell_price' => $this->sell_price,
-            'box_code' => $this->box_code,
             'order_number' =>$this->order_number,
             'unique_id' => $this->unique_id
         ]);
@@ -99,6 +98,24 @@ class SaleRecordSearch extends SaleRecord
         return $dataProvider;
     }
 
+    public function actualAmount()
+    {   
+       
+        $query = SaleRecord::find();
+        $query->andWhere(['status' => 10]);
+        if ($this->time_start) {
+            $query->andFilterWhere(['>', 'sale_record.created_at', strtotime($this->time_start)]);
+        }
 
+        if ($this->time_end) {
+            $query->andFilterWhere(['<', 'sale_record.created_at', strtotime($this->time_end) + (60 * 60 * 24 - 1)]);
+        }   
+        $query->andFilterWhere([
+            'status' => $this->status,
+            'store_id' => $this->store_id,
+            'item_id'  => $this->item_id,
+        ]);
+        return $query->sum('sell_price');
+    }
     
 }

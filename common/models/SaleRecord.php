@@ -6,6 +6,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
+use common\models\Product;
 
 /**
  * This is the model class for table "sale_record".
@@ -67,9 +68,46 @@ class SaleRecord extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getStores()
+    {   
+        $models = self::find()->all();
+
+        $data[''] = 'All';
+        foreach ($models as $model) {
+            $data[$model->store_id] = $model->store->name;
+              
+        }
+
+        return $data;
+    }
+
+    public function getItems()
+    {   
+        $models = Product::find()->all();
+
+        $data[''] = 'All';
+        foreach ($models as $model) {
+            $data[$model->id] = $model->name;
+              
+        }
+
+        return $data;
+    }
+
+    public function getStatuses()
+    {
+        return [
+            ''  => 'All',
+            self::STATUS_INIT => 'Init',
+            self::STATUS_PENDING => 'Pending',
+            self::STATUS_FAILED => 'Falide',
+            self::STATUS_SUCCESS => 'Success',
+        ];
+    }
+
     public function getText()
     {
-        return $this->box_code.$this->unique_id;
+        return $this->box->code.$this->unique_id;
     }
 
     // 寻找 Item产品 数据表
