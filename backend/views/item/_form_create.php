@@ -17,18 +17,21 @@ use yii\web\JsExpression;
     <?php $form = ActiveForm::begin(); ?>
         <div class="card">
             <div class="row f_label">
-                <div class="col-sm-1">
-                    Box Code:
-                </div>
-                <?= $model->box->code ?>
+                    <b>Box Code:</b>
+                <?= $model->store->prefix . $model->box->code ?>
             </div>
 
             <div class="row f_label">
-                <div class="col-sm-1">
-                    Last Item:
-                </div>
+                    <b>Last Item:</b>
                 <?php $previous_item =  Box::PreviousItem($model->box_id);
                     echo $previous_item['item_name'];
+                ?>
+            </div>
+
+            <div class="row f_label">
+                    <b>Stock Keeping Unit(SKU):</b>  
+                <?php $previous_item =  Box::PreviousItem($model->box_id);
+                    echo $previous_item['sku'];
                 ?>
             </div>
         </div>

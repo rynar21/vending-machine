@@ -9,30 +9,33 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-<!-- 更改产品： 只可应许更改产品出售价格 -->
 <div class="item-form">
 
-        <!--运行 Yii ActiveForm 框架 -->
+        
         <?php $form = ActiveForm::begin(); ?>
+        <!-- <div class="card">
+            
+        </div> -->
 
-        <!-- 盒子 ID -->
-        <div class="row f_label">
-            <div class="col-sm-1">
-                Box Code:
-            </div>
-            <?= $model->box->code ?>
-        </div>
-
-        <!-- 商店 ID -->
-        <div class="row f_label">
-            <div class="col-sm-1">
-                Store ID:
-            </div>
-            <?= $model->store_id ?>
-
-            <!-- 强行下架产品 为不可出售 -->
-            <div class="row">
+        <div class="card">
+            <div class="pull-right text-right">
                 <?= Html::a('Void Item', ['void', 'id'=> $model->id], ['class' => 'btn btn-danger pull-right']) ?>
+            </div>
+
+            <div style="max-width:440px">
+                <div class="row f_label">
+                    <b>
+                        Box Code:
+                    </b>
+                    <?= $model->store->prefix . $model->box->code ?>
+                </div>
+
+                <div class="row f_label">
+                    <b>
+                        Store:
+                    </b>
+                    <?= $model->store->name ?>
+                </div>
             </div>
         </div>
 
@@ -57,16 +60,9 @@ use yii\widgets\ActiveForm;
         </div>
 
         <!-- 提交表格按钮 -->
-        <div class="row form-group">
-              <div class="col-sm-1 col-xs-3">
-                  <!-- 保存按钮 -->
+        <div class="form-group">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-              </div>
-
-              <div class="col-sm-1 col-xs-3">
-                  <!-- 取消按钮 -->
-                  <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
-              </div>
+                <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
         </div>
 
     <?php ActiveForm::end(); ?>
