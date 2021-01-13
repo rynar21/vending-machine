@@ -7,17 +7,13 @@ use backend\models\UserSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\models\SignUp;
-use backend\models\ResendVerificationEmailForm;
-use backend\models\VerifyEmailForm;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
-use backend\models\PasswordResetRequestForm;
-use backend\models\ResetPasswordForm;
 use yii\filters\AccessControl;
 use yii\web\MethodNotAllowedHttpException;
 use yii\helpers\Url;
 use backend\models\ChangePasswordForm;
-use common\models\PmsLog;
+use common\models\Log;
 use yii\web\Controller;
 /**
  * userController implements the CRUD actions for user model.
@@ -184,13 +180,13 @@ class UserController extends Controller
         $model = new SignUp();
 
         if ($model->load(Yii::$app->request->post()) && $model->SignUp()) {
-            // PmsLog::push(
-            // Yii::$app->user->identity->id,
-            // 'user ',
-            // 'create_user',
-            // [
-            //     'create_username_is' => Yii::$app->request->getBodyParam('SignUp')['email'],
-            // ]);
+            Log::push(
+            Yii::$app->user->identity->id,
+            'user',
+            'create_user',
+            [
+                'create_username_is' => Yii::$app->request->getBodyParam('SignUp')['email'],
+            ]);
 
             return $this->redirect(['view', 'id' => $model->id]);
         }

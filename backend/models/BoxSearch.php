@@ -83,6 +83,22 @@ class BoxSearch extends Box
         return $dataProvider;
     }
 
+    public function getEmptyBoxQuantity($store_id)
+    {
+        $query = Box::find()
+        ->where(['store_id' => $store_id])
+        ->andWhere(['status' => Box::BOX_STATUS_NOT_AVAILABLE]);
 
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC
+                ]
+            ],
+        ]);
+
+        return $dataProvider->getTotalCount();
+    }
 
 }

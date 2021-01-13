@@ -11,6 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\models\Log;
 use yii\data\BaseDataProvider;
 use yii\web\MethodNotAllowedHttpException;
 
@@ -27,22 +28,12 @@ class BoxController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions'   => ['update','open_all_box','open_box'],
+                        'actions'   => ['index','view','update','open-all-box','open-box'],
                         'allow'     => true,
                         'roles'     => ['staff'],
                     ],
                     [
-                        'actions'   => ['index','view'],
-                        'allow'     => true,
-                        'roles'     => ['staff'],
-                    ],
-                    [
-                        'actions'   => ['create'],
-                        'allow'     => true,
-                        'roles'     => ['supervisor'],
-                    ],
-                    [
-                        'actions'   => ['delete'],
+                        'actions'   => ['create', 'delete'],
                         'allow'     => true,
                         'roles'     => ['supervisor'],
                     ],
@@ -56,6 +47,61 @@ class BoxController extends Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * Function for manual open box
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionOpenBox($id)
+    {
+        $salerecord_model = SaleRecord::find()->where(['id' => $id])->one();
+        $model  = Box::find()->where([
+            'id' => $salerecord_model->box_id
+        ])->one();
+
+        Queue::push($model->store_id, $model->hardware_id);
+
+        Log::push(
+            Yii::$app->user->identity->id,
+            'box',
+            'open',
+            [
+                'store_id' => $model->store_id,
+                'store_name' => $model->store->name,
+                'box_code'=> $model->code,
+            ]);
+
+        Yii::$app->session->setFlash('success', 'Please wait.');
+
+        return $this->redirect([
+            'sale-record/view', 'id' => $id
+        ]);
+    }
+
+    /**
+     * Function for Open All box
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionOpenAllBox($id)
+    {
+        Queue::push($id, '00OK');
+
+        Log::push(
+            Yii::$app->user->identity->id,
+            'box',
+            'open_all',
+            [
+                'store_id' => $id
+            ]);
+
+        Yii::$app->session->setFlash('success', 'Please wait.');
+
+        return $this->redirect([
+            'store/view', 'id' => $id]
+        );
     }
 
     /**
@@ -96,24 +142,19 @@ class BoxController extends Controller
         $model->store_id = $id;
         $model->code = (Box::find()->where(['store_id'=> $id])->count()) + 1;
 
-        if($model->store->prefix)
-        {
+        if($model->store->prefix) {
             $model->prefix = $model->store->prefix;
-        }
-        else
-        {
+        } else {
             $model->prefix = '(prefix_not_set)';
         }
 
-        if ($model->load(Yii::$app->request->post()))
-        {
+        if ($model->load(Yii::$app->request->post())) {
             $box_model = Box::find()->where([
                 'hardware_id' => $model->hardware_id,
                 'store_id' => $model->store_id
             ])->one();
 
-            if ($box_model || $model->hardware_id == '00OK')
-            {
+            if ($box_model || $model->hardware_id == '00OK') {
                 Yii::$app->session->setFlash('danger', 'hardware_id existed.');
 
                 return $this->render('create', [
@@ -121,16 +162,14 @@ class BoxController extends Controller
                 ]);
             }
 
-            if($model->save())
-            {
+            if($model->save()) {
                 return $this->redirect([
                     'store/view',
                     'id' => $model->store_id
                 ]);
             }
-
-
         }
+
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -150,41 +189,31 @@ class BoxController extends Controller
             'id' => $id
         ])->one()->code;
 
-        if($model->store->prefix)
-        {
+        if($model->store->prefix) {
             $model->prefix = $model->store->prefix;
-        }
-
-        else
-        {
+        } else {
             $model->prefix = '(prefix_not_set)';
         }
 
-        if ($model->load(Yii::$app->request->post()))
-        {
+        if ($model->load(Yii::$app->request->post())) {
             $box_model = Box::find()->where([
                 'hardware_id' => $model->hardware_id,
                 'store_id' => $model->store_id
             ])->one();
 
-            if ($box_model || $model->hardware_id == '00OK')
-            {
+            if ($box_model || $model->hardware_id == '00OK') {
                 Yii::$app->session->setFlash('danger', 'hardware_id existed.');
 
                 return $this->render('update', [
                     'model' => $model,
                 ]);
-            }
-            else
-            {
-                if($model->save())
-                {
+            } else {
+                if($model->save()) {
                     return $this->redirect(['store/view',
                         'id' => $model->store_id
                     ]);
                 }
             }
-
         }
 
         return $this->render('update', [
@@ -217,40 +246,10 @@ class BoxController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Box::findOne($id)) !== null)
-        {
+        if (($model = Box::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-
-    public function actionOpen_box($id)
-    {
-        $salerecord_model = SaleRecord::find()->where(['id' => $id])->one();
-        $model  = Box::find()->where([
-            'id' => $salerecord_model->box_id
-        ])->one();
-
-        Queue::push($model->store_id, $model->hardware_id);
-
-        Yii::$app->session->setFlash('success', 'Please wait.');
-
-        return $this->redirect([
-            'sale-record/view', 'id' => $id
-        ]);
-    }
-
-
-    public function actionOpen_all_box($id)
-    {
-        Queue::push($id, '00OK');
-
-        Yii::$app->session->setFlash('success', 'Please wait.');
-
-        return $this->redirect([
-            'store/view', 'id' => $id]
-        );
     }
 }

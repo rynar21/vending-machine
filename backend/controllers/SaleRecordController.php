@@ -4,7 +4,6 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\SaleRecord;
-use common\models\Box;
 use backend\models\SaleRecordSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -28,22 +27,7 @@ class SaleRecordController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'view','one_store_all_salerecord','store_onebox_allsalerecord'],
-                        'allow' => true,
-                        'roles' => ['allowRecord'],
-                    ],
-                    [
-                        'actions' => ['update'],
-                        'allow' => true,
-                        'roles' => ['allowRecord'],
-                    ],
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['allowRecord'],
-                    ],
-                    [
-                        'actions' => ['delete'],
+                        'actions' => ['index', 'view', 'update', 'create'],
                         'allow' => true,
                         'roles' => ['allowRecord'],
                     ],
@@ -73,37 +57,6 @@ class SaleRecordController extends Controller
         ]);
     }
 
-
-    public function actionOne_store_all_salerecord($store_id,$date)
-    {
-        $searchModel = new SaleRecordSearch();
-        $dataProvider = $searchModel->searchStoreAllsalerecord(Yii::$app->request->queryParams,[
-            'store_id'=> $store_id,
-            'date'=> $date,
-        ]);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-
-    public function actionStore_onebox_allsalerecord($store_id,$box_id)
-    {
-        $searchModel = new SaleRecordSearch();
-        $dataProvider = $searchModel->searchStoreAllsalerecord(Yii::$app->request->queryParams,[
-            'store_id'=> $store_id,
-            'box_id'=> $box_id,
-        ]);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-
     /**
      * Displays a single SaleRecord model.
      * @param integer $id
@@ -127,8 +80,7 @@ class SaleRecordController extends Controller
     {
         $model = new SaleRecord();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save())
-        {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -149,8 +101,7 @@ class SaleRecordController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save())
-        {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

@@ -70,7 +70,7 @@ class Item extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 255],
             [['price'], 'number'],
             [['sku'], 'safe'],
-            [['store_id', 'product_id'], 'integer'],
+            [['product_id'], 'integer'],
             [['status'], 'default', 'value' => self::STATUS_AVAILABLE],
 
         ];
@@ -86,17 +86,9 @@ class Item extends \yii\db\ActiveRecord
             'created_at' => 'Created Time',
             'updated_at' => 'Updated Time',
             'box_id' => 'Box ID',
-            'store_id'=> 'Store ID',
             'product_id'=> 'Product ID'
         ];
     }
-
-    // public String quoteApostrophe(String input) {
-    // if (input != null)
-    //     return input.replaceAll("[\']", "&rsquo;");
-    // else
-    //     return null;
-    // }
 
     public function getImageUrl()
     {
@@ -157,18 +149,6 @@ class Item extends \yii\db\ActiveRecord
 
         return 'RM '.$num;
     }
-
-    // public function beforeSave($insert)
-    // {
-    //     if ($this->box->status == Box::BOX_STATUS_AVAILABLE)
-    //     {
-    //         Yii::$app->session->setFlash('danger', 'This product has been added.');
-    //
-    //         return false;
-    //     }
-    //
-    //     return parent::beforeSave($insert);
-    // }
 
     // 搜索 对应产品的 Store商店
     public function getStore()

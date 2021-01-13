@@ -46,30 +46,28 @@ class Log extends \yii\db\ActiveRecord
 
     public function getTypes()
     {
-        return [
-            ''  => 'All',
-            'system' => 'System',
-            'user' => 'User',
-            'entry' => 'Entry	',
-            'payment' => 'Payment',
-            'exit' => 'Exit',
-            'record' => 'Entry & Exit',
-            'open_barrier' => 'Open Barrier',
-        ];
+        $models = self::find()->all();
 
+        $data[''] = 'All';
+        foreach ($models as $model) {
+            $data[$model->type] = $model->type;
+              
+        }
+
+        return $data;
     }
 
     public function getActions()
     {
-        return [
-            ''  => 'All',
-            'login' => 'Login',
-            'logout' => 'Logout',
-            'create' => 'Create',
-            'update' => 'Update',
-            'manual_open' =>'Manual Open',
-        ];
+        $models = self::find()->all();
 
+        $data[''] = 'All';
+        foreach ($models as $model) {
+            $data[$model->action] = $model->action;
+              
+        }
+
+        return $data;
     }
 
     public function behaviors()

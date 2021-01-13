@@ -13,70 +13,53 @@ use yii\web\JsExpression;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<!-- 添加产品： 只需要选择 Product Name 产品名称 -->
 <div class="item-form">
-
-        <!-- 运行 Yii ActiveForm 框架 -->
-        <?php $form = ActiveForm::begin(); ?>
-
-        <!-- 盒子 ID -->
-        <div class="row f_label">
-            <div class="col-sm-1">
-                Box Code:
+    <?php $form = ActiveForm::begin(); ?>
+        <div class="card">
+            <div class="row f_label">
+                    <b>Box Code:</b>
+                <?= $model->store->prefix . $model->box->code ?>
             </div>
-            <?= $model->box->code ?>
-        </div>
 
-        <!-- 商店 ID -->
-        <div class="row f_label">
-            <div class="col-sm-1">
-                Store ID:
+            <div class="row f_label">
+                    <b>Last Item:</b>
+                <?php $previous_item =  Box::PreviousItem($model->box_id);
+                    echo $previous_item['item_name'];
+                ?>
             </div>
-            <?= $model->store_id ?>
-        </div>
 
-        <!-- 上一次添加的产品 -->
-        <div class="row f_label">
-            <div class="col-sm-1">
-                Last Item:
-            </div>
-            <?= Box::last_item($model->store_id,$model->box_id);?>
-        </div>
-        <!-- 产品名称 -->
-
-
-
-    <?php    $str = Product::find()
-        ->select(['sku as value', 'CONCAT_WS(" - ",name,sku) as  label' ,'id as id'])
-        ->asArray()
-        ->all(); ?>
-            <?=
-             $form->field($model, 'sku')->widget(\yii\jui\AutoComplete::classname(), [
-                 'options' => [
-                     'class' => 'form-control ',
-                     'placeholder' => 'Please enter your item name',
-                 ],
-                 'clientOptions' => [
-                        'name'   => '2',
-                       'source'  => $str,
-                      // 'minLength'=>'2',
-                      'autoFill'=>true,
-                               ],
-                             ]); ?>
+            <div class="row f_label">
+                    <b>Stock Keeping Unit(SKU):</b>  
+                <?php $previous_item =  Box::PreviousItem($model->box_id);
+                    echo $previous_item['sku'];
+                ?>
             </div>
         </div>
 
-        <!-- 提交表格按钮 -->
-        <div class="row form-group">
-              <div class="col-sm-1 col-xs-3">
-                <!-- 保存按钮 -->
-                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-              </div>
+            <?php $str = Product::find()
+            ->select(['sku as value', 'CONCAT_WS(" - ",name,sku) as  label' ,'id as id'])
+            ->asArray()
+            ->all(); ?>
+                <?=
+                $form->field($model, 'sku')->widget(\yii\jui\AutoComplete::class, [
+                    'options' => [
+                        'class' => 'form-control ',
+                        'placeholder' => 'Please enter your item name',
+                         'value' => $previous_item['sku'],
+                    ],
+                    'clientOptions' => [
+                            'name'   => '2',
+                        'source'  => $str,
+                        // 'minLength'=>'2',
+                        'autoFill'=>true,
+                                ],
+                                ]); ?>
 
-              <div class="col-sm-1 col-xs-3">
-                  <!-- 取消按钮 -->
-                  <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
-              </div>
+        <div class="form-group">
+            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+            <?php // Html::a('Next', ['/item/create', 'id'=> $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Cancel', ['/store/view', 'id'=> $model->box->store_id], ['class' => 'btn btn-danger']) ?>
+         
         </div>
 
     <?php ActiveForm::end(); ?>

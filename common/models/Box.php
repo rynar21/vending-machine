@@ -79,19 +79,13 @@ class Box extends \yii\db\ActiveRecord
 
     public function getAction()
    {
-       // 如果 Box盒子 包含 Item产品
-       if ($this->item)
-       {
-           // 修改 产品 信息
-           return Html::a('Modify Item', ['/item/update', 'id' => $this->item->id], ['class' => 'btn btn-success']);
-       }
-       // 相反：Box盒子 没有包含 Item产品
-       else
-       {
-           // 添加新Item产品
-           return Html::a('Add Item', ['item/create', 'id' => $this->id], ['class' => 'btn btn-primary']);
+       if ($this->item) {
+           return Html::a('Modify', ['/item/update', 'id' => $this->item->id], ['class' => 'btn btn-success']);
+       } else {
+           return Html::a('Restock', ['item/create', 'id' => $this->id], ['class' => 'btn btn-primary']);
        }
    }
+
     // 状态属性 以文字 展示
     public function getStatusText()
     {
@@ -144,16 +138,10 @@ class Box extends \yii\db\ActiveRecord
         return $this->hasOne(Store::class, ['id' => 'store_id']);
     }
 
-
-    // 寻找 Item产品 数据表
     public function getItem()
     {
         return $this->hasOne(Item::class, ['box_id' => 'id'])
             ->where(['item.status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]]); //用户体验
-
-        // ->orderBy(['item.id' => SORT_DESC])
-        // ->where(['item.status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED]])//用户体验
-        // ->limit(1);
     }
 
     // 寻找 Item 产品 数据表
@@ -217,11 +205,10 @@ class Box extends \yii\db\ActiveRecord
 
         return null;
     }
-
-    public static function last_item($store_id,$box_id)
+    
+    public static function previousItem($box_id)
     {
         $item = Item::find()->where([
-            'store_id' => $store_id,
             'box_id' => $box_id,
             'status' => Item::STATUS_SOLD,
         ])->orderBy([
@@ -230,7 +217,11 @@ class Box extends \yii\db\ActiveRecord
 
         if ($item)
         {
-            return $item->name;
+            return
+            [
+                'item_name' => $item->name,
+                'sku'   => $item->product->sku
+            ];
         }
         return  false;
     }

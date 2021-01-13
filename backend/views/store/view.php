@@ -18,121 +18,93 @@ use yii\helpers\ArrayHelper;
 
 ?>
 
-<div class="store-view">
-    <!-- 显示 店名为标题 -->
-    <div class="row">
-        <h1 class="col-sm-12">
-            <?= Html::encode($this->title);
-            //echo $md;
+<div class="store-view">  
+    <div class="card">
+        <div class="pull-right text-right">
+        <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
+        <?= Html::a('Open All Boxes', ['box/open-all-box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger',
+            'data' => [
+            'confirm' => 'Make sure to open all boxes?',
+            'method' => 'post']]); ?>
+        </div>
+
+        <div style="max-width:440px">
+            <?php   
+                echo $model->name . "<br>";
+                echo $model->address . PHP_EOL;
+                //echo $this->render('/box/_search', ['model' => $boxSearch]); 
             ?>
+        </div>
     </div>
 
-    <!-- 显示商店拥有的盒子 -->
-<div class="btn-group" role="group" aria-label="Second group">
+    <div class=" alert alert-info " style="margin:0 0 12px">
+            <p>
+            Total Number of Empty Box(es): <b><?= $boxSearch->getEmptyBoxQuantity($model->id) ?></b>
+            </p>
+    </div>
 
-    <?= Html::a('Create Box', ['box/create', 'id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
-    <?php
-
-
-    if ($model->status != Store::STATUS_IN_MAINTENANCE) {
-        echo Html::a('Restock ', ['store/lockup_box','id' => $model->id ], ['class' => 'btn btn-sm btn-primary']);
-    }
-     ?>
-
-    <?= Html::a('Open All Boxes', ['box/open_all_box', 'id' => $model->id], ['class' => 'btn btn-sm btn-danger',
-    'data' => [
-        'confirm' => 'Make sure to open all boxes?',
-        'method' => 'post']]) ?>
-</div>
-
-    <div class="col-sm-12">
-        <div class="row">
-
-                <?= GridView::widget([
-                    'tableOptions' => [
-                    'class' => 'table   table-bordered  table-hover ',
-                    ],
-                    'options' => [
-                        'class' => 'table-responsive',
-                    ],
-                    'dataProvider' => $dataProvider,
-                    'filterModel' => $boxSearch,
-                    'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
-                        [
-                            'label'=>'Action',
-                            'format' => 'raw',
-                            'value' => function ($model)
-                                {
-                                    return $model->action;
-                                }
-                        ],
-                        [
-                            'attribute'=> 'code',
-                            'label'=> 'Box Code',
-                            'format' => 'raw',
-                            'headerOptions' =>['class'=>'col-lg-2',],
-                            'value' => function ($model)
-                                {
-                                    return $model->boxcode;
-                                }
-                        ],
-                        [
-                            'attribute' => 'name',
-                            'label'=> 'Item',
-                            'value' => 'product.name',
-                        ],
-                        [
-                            'attribute' => 'name',
-                            'label'=> 'Last Item',
-                            'value' => function ($model)
-                                {
-                                    return Box::last_item($model->store_id,$model->id);
-                                }
-                        ],
-                        [
-                            'attribute'=> 'status',
-                            'label' =>'Status',
-                            'value' => 'statusText',
-                        ],
-                        'item.price:currency',
-                        [
-                            // 'attribute'=>'Item History',
-                            'format' => 'raw' ,
-                            'headerOptions' =>['class'=>'col-lg-2',],
-                            'visible' => Yii::$app->user->can('staff'),
-                            'value' => function ($model)
-                                {
-                                    return Html::a('Edit Hardware ID', ['/box/update','id' => $model->id]).
-                                    ' | '. Html::a('Item History', ['/store/box_item','box_id' => $model->id,'store_id' => $model->store_id]).
-                                    ' | '. Html::a('Order History', ['/sale-record/store_onebox_allsalerecord','box_id' => $model->id,'store_id' => $model->store_id]);
-                                }
-                        ],
-                        ],
-                    ]); ?>
-        </div>
-
-        <div class="row">
-
-            <div class="container-fluid">
-                <div class="col-lg-12">
-                    <?php
-                    if ($model->status == Store::STATUS_IN_MAINTENANCE)
+    <div class="card">
+    <?= GridView::widget([
+        'tableOptions' => [
+        'class' => 'table   table-bordered  table-hover ',
+        ],
+        'options' => [
+            'class' => 'table-responsive',
+        ],
+        'dataProvider' => $dataProvider,
+        // 'filterModel' => $boxSearch,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute'=> 'code',
+                'label'=> 'Box',
+                'format' => 'raw',
+                'value' => function ($model)
                     {
-                        echo Html::a('Confirm', ['store/open_box', 'id' => $model->id], ['class' => 'pull-right col-lg-3  btn btn-lg btn-success ','style'=>"display:"."$str"]) ;
+                        return $model->boxcode . "<br>". $model->statusText;
                     }
-                    ?>
-                </div>
-            </div>
-
+            ],
+            [
+                'attribute' => 'name',
+                'label'=> 'Item',
+                'value' => 'product.name',
+            ],
+            // [
+            //     'attribute' => 'name',
+            //     'label'=> 'Last Item',
+            //     'value' => function ($model)
+            //         {
+            //             return Box::last_item($model->store_id,$model->id);
+            //         }
+            // ],
+            // [
+            //     'attribute'=> 'status',
+            //     'label' =>'Status',
+            //     'value' => 'statusText',
+            // ],
+            'item.price:currency',
+            // [
+            //     // 'attribute'=>'Item History',
+            //     'format' => 'raw' ,
+            //     'visible' => Yii::$app->user->can('staff'),
+            //     'value' => function ($model)
+            //         {
+            //             return Html::a('Edit Hardware ID', ['/box/update','id' => $model->id]).
+            //             ' | '. Html::a('Item History', ['/store/box_item','box_id' => $model->id,'store_id' => $model->store_id]).
+            //             ' | '. Html::a('Order History', ['/sale-record/store_onebox_allsalerecord','box_id' => $model->id,'store_id' => $model->store_id]);
+            //         }
+            // ],
+            [
+                'label'=>'Action',
+                'format' => 'raw',
+                'value' => function ($model)
+                    {
+                        return $model->action;
+                    }
+            ],
+            ],
+        ]); ?>
         </div>
 
-    </div>
-
-    <div class="container-fluid">
-
-
-
-    </div>
 
 </div>

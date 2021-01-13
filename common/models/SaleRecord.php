@@ -145,35 +145,26 @@ class SaleRecord extends \yii\db\ActiveRecord
     }
 
     //Change Array to String
-    public function _toString()
-    {
-        $arr = [
-            'Store Name' => $this->store->name,
-            'Address'=> $this->store->address,
-            'Transaction ID' => $this->id,
-            'Purchased Time' => $this->updated_at,
-            'Box' => $this->box->code,
-            'Item' => $this->item->name,
-        ];
-
-        //对数组中的每个元素应用用户自定义函数
-        array_walk($arr,
-            function (&$v, $k)
-            {
-                $v = $k.':'.$v;
-            }
-        );
-
-        return implode(',', $arr);
-    }
-
-    // public function init()
+    // public function _toString()
     // {
-    //     if ($this->status != self::STATUS_SUCCESS && $this->status != self::STATUS_FAILED && $this->status != self::STATUS_PENDING) {
-    //         $this->status = SaleRecord::STATUS_INIT;
-    //         $this->save();
-    //     }
+    //     $arr = [
+    //         'Store Name' => $this->store->name,
+    //         'Address'=> $this->store->address,
+    //         'Transaction ID' => $this->id,
+    //         'Purchased Time' => $this->updated_at,
+    //         'Box' => $this->box->code,
+    //         'Item' => $this->item->name,
+    //     ];
 
+    //     //对数组中的每个元素应用用户自定义函数
+    //     array_walk($arr,
+    //         function (&$v, $k)
+    //         {
+    //             $v = $k.':'.$v;
+    //         }
+    //     );
+
+    //     return implode(',', $arr);
     // }
 
     // 更新 对应的数据表里的 属性

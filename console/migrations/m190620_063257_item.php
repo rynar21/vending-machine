@@ -20,7 +20,6 @@ class m190620_063257_item extends Migration
             'updated_at' =>$this->integer()->notNull(),
             'product_id'=>$this->integer()->notNull(),
             'box_id'=>$this->integer()->notNull(),
-            'store_id'=>$this->integer()->notNull(),
           ]);
     }
 
