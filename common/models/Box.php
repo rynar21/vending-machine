@@ -188,10 +188,9 @@ class Box extends \yii\db\ActiveRecord
         return null;
     }
 
-    public static function previousItem($store_id,$box_id)
+    public static function previousItem($box_id)
     {
         $item = Item::find()->where([
-            'store_id' => $store_id,
             'box_id' => $box_id,
             'status' => Item::STATUS_SOLD,
         ])->orderBy([

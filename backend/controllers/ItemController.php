@@ -74,7 +74,6 @@ class ItemController extends Controller
     { 
         $model = new Item();
         $model->box_id = $id; 
-        $model->store_id = $model->box->store_id; // Item Model里， 运行 Box数据表查询 及 获取当中的 store_id
 
         if ($model->load(Yii::$app->request->post())) {
             $getsku = Product::find()->where(['sku' => $model->sku])->one();
@@ -86,7 +85,6 @@ class ItemController extends Controller
                     'item',
                     'restock',
                     [
-                        'store_id' => $model->store_id,
                         'store_name' => $model->store->name,
                         'box_code'=> $model->box->code,
                         'item'  => $getsku->name
@@ -102,14 +100,14 @@ class ItemController extends Controller
                     Yii::$app->session->setFlash('danger', 'This product has been added.');
                     return $this->redirect([
                         'store/view',
-                        'id' => $model->store_id
+                        'id' => $model->box->store_id
                     ]);
                 }
                 
                 if($model->save()) {
                     return $this->redirect([
                         'store/view',
-                        'id' => $model->store_id
+                        'id' => $model->box->store_id
                     ]);
                 }
             } else {
@@ -118,12 +116,12 @@ class ItemController extends Controller
         }
 
         //Open box for restock.
-        Queue::push($model->store_id, $model->box->hardware_id);
+        Queue::push($model->box->store_id, $model->box->hardware_id);
 
         $dataProvider = new ActiveDataProvider([
             'query' => Item::find()->where([
                 'status' => [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],
-                'store_id' => ($model->box->store_id)
+                // 'store_id' => ($model->box->store_id)
             ]),
         ]);
 
@@ -154,7 +152,6 @@ class ItemController extends Controller
                 'item',
                 'update',
                 [
-                    'store_id' => $model->store_id,
                     'store_name' => $model->store->name,
                     'box_code'=> $model->box->code,
                     'amount'    =>$model->price
@@ -163,7 +160,7 @@ class ItemController extends Controller
             if($model->save()) {
                 return $this->redirect([
                     'store/view',
-                    'id' => $model->store_id
+                    'id' => $model->box->store_id
                 ]);
             }
         }
@@ -172,7 +169,7 @@ class ItemController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query'=> Item::find()->where([
                 'status'=> [Item::STATUS_AVAILABLE, Item::STATUS_LOCKED],
-                'store_id'=> ($model->box->store_id)
+                // 'store_id'=> ($model->box->store_id)
             ]),
         ]);
 
@@ -198,7 +195,6 @@ class ItemController extends Controller
             'item',
             'void',
             [
-                'store_id' => $model->store_id,
                 'store_name' => $model->store->name,
                 'box_code'=> $box_model->code,
                 'item'  => $model->name,
@@ -209,7 +205,7 @@ class ItemController extends Controller
         if($model->save() && $box_model->save()) {
             return $this->redirect([
                 'store/view',
-                'id' => $model->store_id
+                'id' => $model->box->store_id
             ]);
         } else {
             Yii::$app->session->setFlash('error', 'Error in removing item.');

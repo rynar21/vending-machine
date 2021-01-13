@@ -22,7 +22,6 @@ class m999999_999999_item extends Migration
                 'updated_at'  => "1584595153",
                 'product_id'  => $i,
                 'box_id'      => $i,
-                'store_id'    => 1,
             ]);
         }
 

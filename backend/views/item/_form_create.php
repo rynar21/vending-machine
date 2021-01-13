@@ -25,16 +25,9 @@ use yii\web\JsExpression;
 
             <div class="row f_label">
                 <div class="col-sm-1">
-                    Store ID:
-                </div>
-                <?= $model->store_id ?>
-            </div>
-
-            <div class="row f_label">
-                <div class="col-sm-1">
                     Last Item:
                 </div>
-                <?php $previous_item =  Box::PreviousItem($model->store_id,$model->box_id);
+                <?php $previous_item =  Box::PreviousItem($model->box_id);
                     echo $previous_item['item_name'];
                 ?>
             </div>
@@ -62,7 +55,7 @@ use yii\web\JsExpression;
         <div class="form-group">
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
             <?php // Html::a('Next', ['/item/create', 'id'=> $model->id], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('Cancel', ['/store/view', 'id'=> $model->store_id], ['class' => 'btn btn-danger']) ?>
+            <?= Html::a('Cancel', ['/store/view', 'id'=> $model->box->store_id], ['class' => 'btn btn-danger']) ?>
          
         </div>
 
