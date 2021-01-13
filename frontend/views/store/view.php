@@ -11,26 +11,45 @@ use backend\models\ItemSearch;
 $this->title = 'Vending Machine';
 ?>
 <div id="store-vue" class="store-view">
+   
+    <template v-for="item in items">
+        <div class="col-sm-3 col-xs-6 box_row " >
+             <!-- 产品 显示框 -->
+    
+            <div class=" box_item "  >
 
-    <?php /*
-    <div class="row">
-        <?php
-            $item_searchModel = new ItemSearch();
-            echo $this->render('/item/_search', [
-                'id' => $id,
-                'item_searchModel' => $item_searchModel,
-            ]);
-        ?>
-    </div>
-    */ ?>
+                <a @click="createPayment(item.id,item.amount)" >
 
-    <div class="row">
-        <?= $this->render('/box/list', [
-            'model' => $model,
-            'item_dataProvider' => $item_dataProvider,
-            'store_id'=>$id,
-        ]); ?>
-    </div>
+                <div class="box-code-id text-center b-color">
+                    <div class="box-number">{{item.code}}</div>
+                </div>
+
+                <!-- 产品：图片 显示框 -->
+                <div class="row item_image" >
+                    <img :src="item.image" class="img-responsive center-block"  />
+                </div>
+
+                <!-- 产品：名字 显示框 -->
+                <div class="row item_name text-center">
+                    {{item.name}}
+                </div>
+
+                <!-- 产品：购买的按钮 -->
+                <div class="row text-center item-price  " >
+                    <span class="item_price font-color" >
+                    RM {{item.amount}} 
+                    </span>
+                </div>
+
+                <div class="box-buy text-center b-color">
+                    BUY
+                </div>
+
+                </a>
+            </div>
+
+        </div>
+    </template>
 
     <div v-if="isLoading" style="position:fixed;top:0;bottom:0;left:0;right:0;background-color:rgba(0,0,0,0.7);">
         <div class="text-center" style="color:white;padding-top:20vh">
@@ -73,14 +92,40 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
 
 <?php
 $vue_js = <<< JS
+
+var store_id = '$store_id';
 store_vue = new Vue({
     el: '#store-vue',
     data: {
         isLoading: false,
+        items:[],
+    },
+    created() {
+        this.fetchData()
     },
     methods: {
-        createPayment(item_id, amount)
+        fetchData()
         {
+            fetch('/api/get-item', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: store_id,
+                })
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                //console.log("Item: ",data);
+                this.items = data;
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        createPayment(item_id, amount)
+        {   
+           
             if (this.isLoading)
             {
                 // prevent creating multiple transaction request
@@ -113,7 +158,7 @@ store_vue = new Vue({
                 order_id: order_id,
                 method: 'showCheckout'
             };
-            console.log('Native API: ', params)
+            //console.log('Native API: ', params)
             checkout.postMessage(JSON.stringify(params));
         },
         createSaleRecord(order_id, item_id) {
@@ -132,7 +177,7 @@ store_vue = new Vue({
                 this.makePayment(order_id);
             }).catch(error => {
 
-                alert('createSaleRecord: ' + error);
+                //alert('createSaleRecord: ' + error);
 
                 console.log(error);
             }).finally(() => {
@@ -151,10 +196,10 @@ store_vue = new Vue({
             }).then(data => {
                 // do something here
                 location.reload();
-                alert(data.data.order.status_label);
-                console.log(data);
+                //alert(data.data.order.status_label);
+                //console.log(data);
             }).catch(error => {
-                alert('updateInfo: ' + error);
+                //alert('updateInfo: ' + error);
                 console.log(error);
             }).finally(() => {
                 this.isLoading = false;

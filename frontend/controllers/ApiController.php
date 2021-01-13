@@ -3,19 +3,12 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\Box;
+use frontend\models\Box;
 use common\models\Store;
-use backend\models\BoxSearch;
 use common\models\SaleRecord;
-use common\models\Product;
-// use yii\web\Controller;
 use frontend\components\Controller;
 use common\models\Queue;
 use common\models\Item;
-use yii\data\Pagination;
-use yii\helpers\Url;
-use yii\helpers\ArrayHelper;
-use yii\web\UploadedFile;
 
 // BoxController implements the CRUD actions for Box model.
 class ApiController extends Controller
@@ -127,6 +120,27 @@ class ApiController extends Controller
 
         return [
             'error' => 'Item not found',
+        ];
+    }
+
+    public function actionGetItem()
+    {   
+        $store_id        = Yii::$app->request->getBodyParam('id');
+
+        
+
+        $box_model = Box::find()->where(['store_id' => $store_id, 'status' => Box::BOX_STATUS_AVAILABLE])->all();
+
+        if($box_model) {
+            foreach ($box_model as $model) {
+                $data[] = $model;
+            }
+
+            return $data;
+        }
+
+        return [
+            'error' => 'item not find ',
         ];
     }
 

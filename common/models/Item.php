@@ -100,15 +100,7 @@ class Item extends \yii\db\ActiveRecord
 
     public function getImageUrl()
     {
-        $image = $this->product->image;
-        $upload_image = Yii::getAlias('@upload') . '/' . $this->product->image;
-
-        if ($image && file_exists($upload_image))
-        {
-            return Url::to('@imagePath'). '/' . $this->product->image;
-        }
-
-        return Url::to('@imagePath'). '/product.jpg';
+        return $this->product->getImageUrl();
     }
 
     public function getPrice()

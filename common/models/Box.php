@@ -190,11 +190,29 @@ class Box extends \yii\db\ActiveRecord
         return $text;
     }
 
-    public function getPrice()
+    public function getItemPrice()
     {
         if($this->item)
         {
             return $this->item->price;
+        }
+
+        return null;
+    }
+
+    public function getItemImageUrl()
+    {
+        if($this->item) {
+            return $this->item->getImageUrl();
+        }
+
+        return null;
+    }
+
+    public function getItemId()
+    {
+        if($this->item) {
+            return $this->item->id;
         }
 
         return null;
