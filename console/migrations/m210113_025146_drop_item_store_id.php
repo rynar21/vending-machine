@@ -13,6 +13,9 @@ class m210113_025146_drop_item_store_id extends Migration
     public function safeUp()
     {
         $this->dropColumn('item', 'store_id');
+        $this->dropColumn('sale_record', 'store_name');
+        $this->dropColumn('sale_record', 'item_name');
+        $this->dropColumn('sale_record', 'box_code');
     }
 
     /**
