@@ -45,6 +45,9 @@ return [
                 'common\assets\AppAsset' => [
                     'css' => [
                         '//s3-ap-southeast-1.amazonaws.com/cdn.payandgo.link/css/site.css',
+                        '//s3-ap-southeast-1.amazonaws.com/cdn.payandgo.link/css/card.css',
+                        '//s3-ap-southeast-1.amazonaws.com/cdn.payandgo.link/css/grid.css',
+                        '//s3-ap-southeast-1.amazonaws.com/cdn.payandgo.link/css/nav.css',
                     ],
                 ],
             ],
