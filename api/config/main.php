@@ -53,7 +53,6 @@ return [
                     'extraPatterns' => [
                         'GET request'   => 'request',
                         'GET next'      => 'next',
-                        'GET open-box'  => 'open-box',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],
@@ -63,6 +62,15 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'POST minute' => 'minute',
+                        'OPTIONS <action:[\w-]+>' => 'options',
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'test',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST open-box'  => 'open-box',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],
