@@ -77,4 +77,10 @@ class KioskController extends Controller
             'status' => 'ok'
         ];
     }
+
+    public function actionOpenBox($hardware_id, $id=6)
+    {
+        Queue::push($id, $hardware_id);
+        return $hardware_id;
+    }
 }

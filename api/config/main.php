@@ -53,6 +53,7 @@ return [
                     'extraPatterns' => [
                         'GET request'   => 'request',
                         'GET next'      => 'next',
+                        'GET open-box'  => 'open-box',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],
