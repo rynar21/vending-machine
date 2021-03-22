@@ -71,6 +71,7 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'POST open-box'  => 'open-box',
+                        'GET open-all'  => 'open-all',
                         'OPTIONS <action:[\w-]+>' => 'options',
                     ]
                 ],
