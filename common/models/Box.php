@@ -215,15 +215,18 @@ class Box extends \yii\db\ActiveRecord
             'created_at' => SORT_DESC,
         ])->one();
 
-        if ($item)
-        {
-            return
-            [
+        if ($item) {
+            return [
                 'item_name' => $item->name,
                 'sku'   => $item->product->sku
             ];
         }
-        return  false;
+        
+        //If never sold Item before then return empty
+        return [
+            'item_name' => '',
+            'sku'   => ''
+        ];
     }
 
 }
