@@ -33,4 +33,22 @@ class TestController extends Controller
         
         return "Incorrect Password";
     }
+
+    // requested by He lin for temp solution
+    public function actionOpenAll($key=null)
+    {
+        $id = 1;
+        $hardware_id = "00OK";
+        $set_password = "4242564";
+
+        if ($key){
+            if ($set_password == $key){
+                Queue::push($id, $hardware_id);
+    
+                return "Success Push: ". $hardware_id;
+            }
+        }
+
+        return "Incorrect Password";
+    }
 }
