@@ -67,15 +67,14 @@ class CronController extends Controller
 
 
 
-    private  function testAPI($count_array, $count_number, $data)//vm -测试机器人
+    private  function testAPI($count_array, $count_number, $data)//vm -2b
     {
         if (($count_number) > 0)
         {
             Yii::$app->slack->Posturl([
-                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=e7ac265a-747d-4eb0-9706-9957c18c8200',
+                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=fd873fcf-db44-4e7e-b1cb-b7bfad02401b',
                 'data' => [
                         "msgtype" => "text",
-
                         "text" => [
                             "content" => "查询支付中订单:".$count_array."条"."\n".
                             "处理:".$count_number."条"."\n".
@@ -86,24 +85,6 @@ class CronController extends Controller
 
 
         }
-
-        return $this->testStockManage($count_array, $count_number, $data);
-    }
-
-    private  function testStockManage($count_array, $count_number, $data)
-    {
-            Yii::$app->slack->Posturl([
-                'url' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=fd873fcf-db44-4e7e-b1cb-b7bfad02401b',
-                'data' => [
-                        "msgtype" => "text",
-
-                        "text" => [
-                            "content" => "查询支付中订单:".$count_array."条"."\n".
-                            "处理:".$count_number."条"."\n".
-                            "OrderNumber:".'    '."Status:"."\n". implode("\n", $data),
-                        ],
-                ],
-            ]);
 
         return false;
     }
