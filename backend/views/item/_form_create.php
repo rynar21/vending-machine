@@ -36,7 +36,7 @@ use yii\web\JsExpression;
             </div>
         </div>
 
-            <?php $str = Product::find()
+            <?php $product_model = Product::find()
             ->select(['sku as value', 'CONCAT_WS(" - ",name,sku) as  label' ,'id as id'])
             ->asArray()
             ->all(); ?>
@@ -49,7 +49,7 @@ use yii\web\JsExpression;
                     ],
                     'clientOptions' => [
                             'name'   => '2',
-                        'source'  => $str,
+                        'source'  => $product_model,
                         // 'minLength'=>'2',
                         'autoFill'=>true,
                                 ],
